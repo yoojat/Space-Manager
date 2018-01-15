@@ -15,6 +15,9 @@ class Branch(models.Model):
     lat = models.FloatField()
     lng = models.FloatField()
 
+    def __str__(self):
+        return self.branch_name
+
 
 @python_2_unicode_compatible
 class BranchConfig(models.Model):
@@ -27,3 +30,6 @@ class BranchConfig(models.Model):
     girl_usable = models.BooleanField(default=True)
     boy_usable = models.BooleanField(default=True)
     other_usable = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.branch.branch_name

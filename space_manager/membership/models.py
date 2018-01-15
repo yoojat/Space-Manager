@@ -26,6 +26,9 @@ class Membership(TimeStampedModel):
     is_usable = models.BooleanField(default=True)
     creator = models.ForeignKey(user_models.User, null=True, related_name='memberships')
 
+    def __str__(self):
+        return '{} : {} - {}'.format(self.user, self.start_date, self.end_date)
+
 
 @python_2_unicode_compatible
 class Action(models.Model):
@@ -33,6 +36,9 @@ class Action(models.Model):
     """ Action Model """
 
     substance = models.CharField(max_length=45, null=True)
+
+    def __str__(self):
+        return self.substance
 
 
 @python_2_unicode_compatible
@@ -46,4 +52,6 @@ class MembershipHistory(TimeStampedModel):
     branch = models.ForeignKey(branch_models.Branch, null=True)
     action = models.ForeignKey(Action, null=True)
 
+    def __str__(self):
+        return '{} - {} - {}'.format(self.user, self.action, self.created_at)
 

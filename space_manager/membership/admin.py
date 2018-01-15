@@ -3,7 +3,30 @@ from . import models
 
 @admin.register(models.Membership)
 class MembershipAdmin(admin.ModelAdmin):
-    pass
+    list_display_links =(
+       'user',
+    )
+
+    search_fields = (
+        'created_at',
+
+    )
+
+    # list_filter = (
+    #     'branch',
+    #     'user'
+    # )
+
+    list_display = (
+        'created_at',
+        'updated_at',
+        'user',
+        'branch',
+        'start_date',
+        'end_date',
+        'is_usable',
+        'creator'
+    )
 
 @admin.register(models.Action)
 class ActionAdmin(admin.ModelAdmin):
@@ -11,4 +34,12 @@ class ActionAdmin(admin.ModelAdmin):
 
 @admin.register(models.MembershipHistory)
 class MembershipHistoryAdmin(admin.ModelAdmin):
-    pass
+    list_display = (
+        'created_at',
+        'updated_at',
+        'user',
+        'start_date',
+        'end_date',
+        'branch',
+        'action'
+    )
