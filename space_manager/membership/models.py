@@ -23,7 +23,7 @@ class Membership(TimeStampedModel):
     branch = models.ForeignKey(branch_models.Branch)
     start_date= models.DateTimeField()
     end_date = models.DateTimeField()
-    is_usable = models.BooleanField()
+    is_usable = models.BooleanField(default=True)
     creator = models.ForeignKey(user_models.User, null=True, related_name='memberships')
 
 
