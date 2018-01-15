@@ -55,7 +55,8 @@ LOCAL_APPS = [
     # custom users app
     'space_manager.users.apps.UsersConfig',
     # Your stuff: custom apps go here
-    'space_manager.membership.apps.MembershipConfig'
+    'space_manager.membership.apps.MembershipConfig',
+    'space_manager.branches.apps.BranchesConfig'
 ]
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
