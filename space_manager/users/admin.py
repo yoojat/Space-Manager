@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as AuthUserAdmin
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from .models import User
+from . import models
 
 
 class MyUserChangeForm(UserChangeForm):
@@ -35,5 +36,16 @@ class MyUserAdmin(AuthUserAdmin):
     fieldsets = (
             ('User Profile', {'fields': ('name',)}),
     ) + AuthUserAdmin.fieldsets
-    list_display = ('username', 'name', 'is_superuser')
-    search_fields = ['name']
+    list_display = ('username', 'name', 'is_superuser', 'phone')
+    search_fields = ['name', 'username', 'phone']
+
+
+
+@admin.register(models.InflowRoute)
+class InflowRouteAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(models.Purpose)
+class Purpose(admin.ModelAdmin):
+    pass

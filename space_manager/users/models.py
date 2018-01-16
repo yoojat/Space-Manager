@@ -5,6 +5,30 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
 
+
+
+@python_2_unicode_compatible
+class InflowRoute(models.Model):
+    
+    """ InfolowRoute Model """
+
+    substance = models.CharField(max_length=45, null=True)
+
+    def __str__(self):
+        return self.substance
+
+
+@python_2_unicode_compatible
+class Purpose(models.Model):
+    
+    """ Purpose Model """
+
+    substance = models.CharField(max_length=45, null=True)
+
+    def __str__(self):
+        return self.substance
+
+
 @python_2_unicode_compatible
 class User(AbstractUser):
     
@@ -23,10 +47,18 @@ class User(AbstractUser):
     bio = models.TextField(null=True)
     phone = models.CharField(max_length=140, null=True)
     gender = models.CharField(max_length=80, choices=GENDER_CHOICES, null=True)
-    is_admin = models.BooleanField(default=False)
+    birth = models.DateTimeField(null=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
+    infolow_route = models.ForeignKey(InflowRoute, null=True)
+    purpose = models.ForeignKey(Purpose, null=True)
+
 
     def __str__(self):
-        return self.username
+        return '{}({})'.format(self.name, self.username)
 
     def get_absolute_url(self):
         return reverse('users:detail', kwargs={'username': self.username})
+
+
+

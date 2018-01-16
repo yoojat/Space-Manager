@@ -7,7 +7,7 @@ class Branch(models.Model):
     
     """ Branch Model """
 
-    branchnum = models.IntegerField()
+    branch_num = models.IntegerField()
     region = models.CharField(max_length=140, null=True)
     branch_name = models.CharField(max_length=140, null=True)
     address = models.CharField(max_length=140, null=True)
@@ -16,7 +16,7 @@ class Branch(models.Model):
     lng = models.FloatField()
 
     def __str__(self):
-        return self.branch_name
+        return ('{}호점 - {}').format(self.branch_num, self.branch_name)
 
 
 @python_2_unicode_compatible
@@ -32,4 +32,4 @@ class BranchConfig(models.Model):
     other_usable = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.branch.branch_name
+        return '{}호점 - {}'.format(self.branch.branch_num, self.branch.branch_name)
