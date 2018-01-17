@@ -48,6 +48,7 @@ THIRD_PARTY_APPS = [
     'allauth',  # registration
     'allauth.account',  # registration
     'allauth.socialaccount',  # registration
+    'rest_framework', # REST framework
 ]
 
 # Apps specific for this project go here.
@@ -56,7 +57,8 @@ LOCAL_APPS = [
     'space_manager.users.apps.UsersConfig',
     # Your stuff: custom apps go here
     'space_manager.membership.apps.MembershipConfig',
-    'space_manager.branches.apps.BranchesConfig'
+    'space_manager.branches.apps.BranchesConfig',
+    'space_manager.payment.apps.PaymentConfig'
 ]
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

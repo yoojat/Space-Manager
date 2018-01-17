@@ -49,5 +49,6 @@ class MembershipHistoryAdmin(admin.ModelAdmin):
         'start_date',
         'end_date',
         'branch',
-        'action'
+        'action',
+        'membership'
     )

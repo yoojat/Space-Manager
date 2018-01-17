@@ -51,6 +51,7 @@ class MembershipHistory(TimeStampedModel):
     end_date = models.DateTimeField()
     branch = models.ForeignKey(branch_models.Branch, null=True)
     action = models.ForeignKey(Action, null=True)
+    membership = models.ForeignKey(Membership, null=True)
 
     def __str__(self):
         return '{} - {} - {}'.format(self.user, self.action, self.created_at)

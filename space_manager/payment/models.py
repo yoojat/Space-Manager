@@ -29,7 +29,7 @@ class PaymentMethod(models.Model):
 @python_2_unicode_compatible
 class PaymentHistory(membership_models.TimeStampedModel):
     
-    """ Pay History Model """
+    """ Payment History Model """
 
     user = models.ForeignKey(user_models.User)
     cost_type = models.ForeignKey(CostType, null=True)
