@@ -3,8 +3,8 @@ from . import models
 from space_manager.users import serializers as user_serializers
 from space_manager.branches import serializers as branch_serializers
 
+
 class MembershipSerializer(serializers.ModelSerializer):
-    
     user = user_serializers.UserSerializer()
     branch = branch_serializers.BranchSerializer()
     creator = user_serializers.UserSerializer()
@@ -24,7 +24,7 @@ class ActionSerializer(serializers.ModelSerializer):
 class MembershipHistorySerializer(serializers.ModelSerializer):
     
     user = user_serializers.UserSerializer()
-    branch = branch_serializers.BranchSerializer()
+    # branch = branch_serializers.BranchSerializer()
     action = ActionSerializer()
 
     class Meta:

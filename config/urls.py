@@ -15,6 +15,7 @@ urlpatterns = [
     # User management
     url(r'^users/', include('space_manager.users.urls', namespace='users')),
     url(r'^membership/', include('space_manager.membership.urls', namespace='membership')),
+    url(r'^branch/', include('space_manager.branches.urls', namespace='branches')),
     url(r'^accounts/', include('allauth.urls')),
 
     # Your stuff: custom urls includes go here

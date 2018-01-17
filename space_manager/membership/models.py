@@ -20,7 +20,7 @@ class Membership(TimeStampedModel):
     """ Membership Model """
 
     user = models.ForeignKey(user_models.User)
-    branch = models.ForeignKey(branch_models.Branch)
+    branch = models.ForeignKey(branch_models.Branch, null=True, related_name='memberships')
     start_date= models.DateTimeField()
     end_date = models.DateTimeField()
     is_usable = models.BooleanField(default=True)
