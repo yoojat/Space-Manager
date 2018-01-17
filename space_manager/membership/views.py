@@ -8,6 +8,6 @@ class ListAllMemberships(APIView):
 
         all_memberships = models.Membership.objects.all()
 
-        serializer = serializers.MembershipSerializer(all_images, many=True)
+        serializer = serializers.MembershipSerializer(all_memberships, many=True)
 
         return Response(data=serializer.data)

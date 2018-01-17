@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from . import models
 
-class MembershipSerializer(serializers.Serializer):
+class MembershipSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Membership
@@ -9,14 +9,14 @@ class MembershipSerializer(serializers.Serializer):
 
     
 
-class ActionSerializer(serailizers.Serializer):
+class ActionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Action
         fields = '__all__'
 
 
-class MembershipHistorySerializer(serializers.Serializer):
+class MembershipHistorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.MembershipHistory
