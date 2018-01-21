@@ -16,7 +16,7 @@ class Branch(models.Model):
     lng = models.FloatField()
 
     def __str__(self):
-        return ('{}호점 - {}').format(self.branch_num, self.branch_name)
+        return ('{}({}호점)').format(self.branch_name, self.branch_num)
 
 
 @python_2_unicode_compatible

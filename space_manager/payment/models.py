@@ -38,3 +38,6 @@ class PaymentHistory(membership_models.TimeStampedModel):
 
     def __str__(self):
         return '{} : {} - {}'.format(self.cost_value, self.user, self.cost_type)
+
+    class Meta:
+        ordering = ['-created_at']

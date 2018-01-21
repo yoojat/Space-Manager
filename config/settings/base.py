@@ -58,7 +58,8 @@ LOCAL_APPS = [
     # Your stuff: custom apps go here
     'space_manager.membership.apps.MembershipConfig',
     'space_manager.branches.apps.BranchesConfig',
-    'space_manager.payment.apps.PaymentConfig'
+    'space_manager.payment.apps.PaymentConfig',
+    'space_manager.cabinet.apps.CabinetConfig'
 ]
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

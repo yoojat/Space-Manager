@@ -29,6 +29,9 @@ class Membership(TimeStampedModel):
     def __str__(self):
         return '{} : {} - {}'.format(self.user, self.start_date, self.end_date)
 
+    class Meta:
+        ordering = ['-created_at']
+
 
 @python_2_unicode_compatible
 class Action(models.Model):
@@ -55,4 +58,7 @@ class MembershipHistory(TimeStampedModel):
 
     def __str__(self):
         return '{} - {} - {}'.format(self.user, self.action, self.created_at)
+
+    class Meta:
+        ordering = ['-created_at']
 

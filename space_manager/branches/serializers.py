@@ -4,7 +4,6 @@ from space_manager.membership import serializers as membership_serializers
 
 class BranchSerializer(serializers.ModelSerializer):
 
-    memberships = membership_serializers.MembershipSerializer() #error occur 
     class Meta:
         model = models.Branch
         fields = (
