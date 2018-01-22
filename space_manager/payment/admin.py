@@ -16,7 +16,7 @@ class PaymentHistoryAdmin(admin.ModelAdmin):
         'user',
         'cost_type',
         'cost_value',
-        'payment_method'
+        'payment_method',
     )
 
 
@@ -24,6 +24,12 @@ class PaymentHistoryAdmin(admin.ModelAdmin):
 class PaymentMethodAdmin(admin.ModelAdmin):
     pass
 
+
 @admin.register(models.CostType)
 class CostTypeAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(models.EnrollType)
+class EnrollTypeAdmin(admin.ModelAdmin):
     pass
