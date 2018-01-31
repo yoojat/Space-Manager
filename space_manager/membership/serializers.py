@@ -7,7 +7,7 @@ from space_manager.branches import serializers as branch_serializers
 class MembershipSerializer(serializers.ModelSerializer):
 
     # user = user_serializers.UserSerializer()
-    # branch = branch_serializers.BranchSerializer()
+    branch = branch_serializers.BranchForMembershipSerializer()
     # creator = user_serializers.UserSerializer(read_only=True)
 
     class Meta:
@@ -17,6 +17,7 @@ class MembershipSerializer(serializers.ModelSerializer):
             'branch',
             'start_date',
             'end_date',
+            'is_usable',
         )
 
 

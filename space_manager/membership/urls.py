@@ -8,13 +8,13 @@ urlpatterns = [
         name = 'Enroll_Membership',
     ),
     url(
+        regex=r'^(?P<user_id>[0-9]+)/$',
+        view = views.GetMemberships.as_view(),
+        name = 'Get_Membership_By_User',
+    ),
+    url(
         regex= r'^actions/$',
         view = views.GetActions.as_view(),
         name = 'Actions',
-    ),
-    url(
-        regex= r'^test/$',
-        view = views.Test.as_view(),
-        name = 'Test',
     ),
 ]

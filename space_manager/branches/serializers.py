@@ -22,3 +22,14 @@ class BranchConfigSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.BranchConfig
         fields =  '__all__'
+
+class BranchForMembershipSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.Branch
+        fields = (
+            'id',
+            'branch_name',
+            'branch_num',
+            'address',
+        )

@@ -7,15 +7,6 @@ from space_manager.payment import serializers as payment_serializers
 from space_manager.branches import models as branch_models
 from rest_framework import status
 import datetime
-
-class Test(APIView):
-    
-    def post(self, request, format=None):
-        now = datetime.datetime.now()
-        print(now) 
-        
-        return Response(status=status.HTTP_200_OK)
-
     
 class GetActions(APIView):
     
@@ -26,6 +17,18 @@ class GetActions(APIView):
         serializer = serializers.ActionSerializer(all_actions, many=True)
 
         return Response(data=serializer.data)
+
+
+class GetMemberships(APIView):
+        
+    def get(self, request, user_id, format=None):
+    
+        all_memberships = models.Membership.objects.filter(user__id=user_id)
+
+        serializer = serializers.MembershipSerializer(all_memberships, many=True)
+
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
 
 
 class EnrollMembership(APIView):
@@ -171,3 +174,6 @@ class EnrollMembership(APIView):
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
  
+
+
+
