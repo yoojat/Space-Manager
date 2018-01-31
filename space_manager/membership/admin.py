@@ -23,7 +23,6 @@ class MembershipAdmin(admin.ModelAdmin):
         'start_date',
         'end_date',
         'is_usable',
-        'creator',
         'updated_at',
     )
 
@@ -33,22 +32,19 @@ class ActionAdmin(admin.ModelAdmin):
 
 @admin.register(models.MembershipHistory)
 class MembershipHistoryAdmin(admin.ModelAdmin):
+
     list_display_links =(
        'created_at',
     )
 
     list_filter = (
-        'branch__branch_name',
-        'branch__branch_num',
+        'creator',
+        'action',
     )
 
     list_display = (
         'created_at',
-        'updated_at',
-        'user',
-        'start_date',
-        'end_date',
-        'branch',
         'action',
-        'membership'
+        'membership',
+        'creator',
     )

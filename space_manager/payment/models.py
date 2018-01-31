@@ -19,9 +19,10 @@ class CostType(models.Model):
     
     """ Cost Type Model """
 
-    days = models.IntegerField(null=True)
-    cost = models.IntegerField(null=True)
-    enroll_type = models.ForeignKey(EnrollType, null=True)    
+    days = models.IntegerField(null=True, blank=True)
+    cost = models.IntegerField(null=True, blank=True)
+    enroll_type = models.ForeignKey(EnrollType, null=True)
+    cost_type = models.CharField(max_length = 45, null=True)
 
     def __str__(self):
         return '{} : {}일 - {}원'.format(self.enroll_type, self.days, self.cost)
@@ -45,12 +46,15 @@ class PaymentHistory(membership_models.TimeStampedModel):
     """ Payment History Model """
 
     user = models.ForeignKey(user_models.User, null=True)
-    cost_type = models.ForeignKey(CostType, null=True, blank=True)
-    cost_value = models.IntegerField(null=True, blank=True)
+    cost_type = models.ForeignKey(CostType, null=True)
+    cost_value = models.IntegerField(null=True)
     payment_method = models.ForeignKey(PaymentMethod, null=True)
+    is_usable = models.BooleanField(default=True)
+    creator = models.ForeignKey(user_models.User, related_name='creator', null=True)
+
 
     def __str__(self):
-        return '{} : {} - {}'.format(self.cost_value, self.user, self.cost_type)
+        return '{}_{}_{}_{} by {}'.format(self.user, self.cost_type, self.cost_value, self.payment_method, self.creator)
 
     class Meta:
         ordering = ['-created_at']

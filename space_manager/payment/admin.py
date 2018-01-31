@@ -17,6 +17,7 @@ class PaymentHistoryAdmin(admin.ModelAdmin):
         'cost_type',
         'cost_value',
         'payment_method',
+        'is_usable'
     )
 
 

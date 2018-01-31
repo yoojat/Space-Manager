@@ -24,7 +24,6 @@ class Membership(TimeStampedModel):
     start_date= models.DateTimeField()
     end_date = models.DateTimeField()
     is_usable = models.BooleanField(default=True)
-    creator = models.ForeignKey(user_models.User, null=True, related_name='memberships')
 
     def __str__(self):
         return '{} : {} - {}'.format(self.user, self.start_date, self.end_date)
@@ -49,16 +48,12 @@ class MembershipHistory(TimeStampedModel):
     
     """ Membership History Model """
 
-    user = models.ForeignKey(user_models.User, null=True)
-    start_date= models.DateTimeField()
-    end_date = models.DateTimeField()
-    branch = models.ForeignKey(branch_models.Branch, null=True)
     action = models.ForeignKey(Action, null=True)
+    creator = models.ForeignKey(user_models.User, null=True)
     membership = models.ForeignKey(Membership, null=True)
 
     def __str__(self):
-        return '{} - {} - {}'.format(self.user, self.action, self.created_at)
+        return '{} : {} - {}'.format(self.created_at, self.membership, self.action)
 
     class Meta:
         ordering = ['-created_at']
-

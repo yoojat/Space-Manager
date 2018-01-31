@@ -5,13 +5,19 @@ from space_manager.branches import serializers as branch_serializers
 
 
 class MembershipSerializer(serializers.ModelSerializer):
-    user = user_serializers.UserSerializer()
-    branch = branch_serializers.BranchSerializer()
-    creator = user_serializers.UserSerializer()
+
+    # user = user_serializers.UserSerializer()
+    # branch = branch_serializers.BranchSerializer()
+    # creator = user_serializers.UserSerializer(read_only=True)
 
     class Meta:
         model = models.Membership
-        fields =  '__all__'
+        fields =  (
+            'user',
+            'branch',
+            'start_date',
+            'end_date',
+        )
 
 
 class ActionSerializer(serializers.ModelSerializer):
@@ -23,10 +29,41 @@ class ActionSerializer(serializers.ModelSerializer):
 
 class MembershipHistorySerializer(serializers.ModelSerializer):
     
-    user = user_serializers.UserSerializer()
-    # branch = branch_serializers.BranchSerializer()
-    action = ActionSerializer()
+    creator = user_serializers.UserSerializer(read_only=True)
+    action = ActionSerializer(read_only=True)
+    membership = MembershipSerializer(read_only=True)
 
     class Meta:
         model = models.MembershipHistory
-        fields = '__all__'
+        fields = (
+            'action',
+            'membership',
+            'creator',
+        )
+
+
+class InputMembershipSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = models.Membership
+        fields = (
+            'start_date',
+            'end_date',
+            'branch',
+        )
+
+
+class InputMembershipHistorySerializer(serializers.ModelSerializer):
+    
+    membership = MembershipSerializer(read_only=True)
+    creator = user_serializers.UserSerializer()
+    action = ActionSerializer(read_only=True)
+
+    class Meta:
+        model = models.MembershipHistory
+        fields = (
+            'membership',
+            'creator',
+            'action'
+        )
+        

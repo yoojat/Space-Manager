@@ -23,6 +23,7 @@ class CostTypeSerializer(serializers.ModelSerializer):
             'days',
             'cost',
             'enroll_type',
+            'cost_type',
         )
 
 class PaymentMethodSerializer(serializers.ModelSerializer):
@@ -38,12 +39,21 @@ class PaymentMethodSerializer(serializers.ModelSerializer):
 
 class PaymentHistorySerializer(serializers.ModelSerializer):
     
-    user = user_serializers.UserSerializer(read_only=True)
     class Meta:
         model = models.PaymentHistory
         fields = (
-            'user',
             'cost_type',
             'cost_value',
             'payment_method',
+            'is_usable',
+        )
+
+        read_only_fields = ('created_at',)
+
+class InputPaymentSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = models.PaymentHistory
+        fields = (
+            'is_usable',
         )
