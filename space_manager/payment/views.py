@@ -19,7 +19,7 @@ class Payment(APIView):
         # 관리자일 경우 계속 진행
         if creator is not enrolled_user :
             if creator.is_superuser == False :
-                return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                return Response(data=serializer.errors, status=status.HTTP_401_UNAUTHORIZED)
 
 
         serializer = serializers.PaymentHistorySerializer(data=request.data)

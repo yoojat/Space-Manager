@@ -90,7 +90,7 @@ class EnrollMembership(APIView):
         return True
 
     def post(self, request, user_id, payment_id, format=None):
-        
+        # request -> {"start_date":"2018-10-10 12:22:12", "days":"30", "branch_id":"1"}
         # 맴버쉽 등록
         creator = request.user
         action = models.Action.objects.get(substance='regist')
@@ -168,7 +168,7 @@ class EnrollMembership(APIView):
         )
         if(self.enroll_membership(new_membership)):
             if self.enroll_membership_history(new_membership, creator, action):
-                return Response(status=status.HTTP_201_CREATED)
+                return Response(data = new_membership, status=status.HTTP_201_CREATED)
             else:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
         else:
