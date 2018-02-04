@@ -7,12 +7,12 @@ from space_manager.branches import serializers as branch_serializers
 class MembershipSerializer(serializers.ModelSerializer):
 
     # user = user_serializers.UserSerializer()
-    branch = branch_serializers.BranchForMembershipSerializer()
+    # branch = branch_serializers.BranchForMembershipSerializer()
     # creator = user_serializers.UserSerializer(read_only=True)
 
     class Meta:
         model = models.Membership
-        fields =  (
+        fields = (
             'user',
             'branch',
             'start_date',
@@ -29,7 +29,7 @@ class ActionSerializer(serializers.ModelSerializer):
 
 
 class MembershipHistorySerializer(serializers.ModelSerializer):
-    
+
     creator = user_serializers.UserSerializer(read_only=True)
     action = ActionSerializer(read_only=True)
     membership = MembershipSerializer(read_only=True)
@@ -44,7 +44,7 @@ class MembershipHistorySerializer(serializers.ModelSerializer):
 
 
 class InputMembershipSerializer(serializers.ModelSerializer):
-    
+
     class Meta:
         model = models.Membership
         fields = (
@@ -55,7 +55,7 @@ class InputMembershipSerializer(serializers.ModelSerializer):
 
 
 class InputMembershipHistorySerializer(serializers.ModelSerializer):
-    
+
     membership = MembershipSerializer(read_only=True)
     creator = user_serializers.UserSerializer()
     action = ActionSerializer(read_only=True)
@@ -67,4 +67,3 @@ class InputMembershipHistorySerializer(serializers.ModelSerializer):
             'creator',
             'action'
         )
-        

@@ -4,29 +4,6 @@ from . import models, serializers
 from rest_framework import status
 
 
-class ListAllBranches(APIView):
-
-    def get(self, request, format=None):
-
-        all_branches = models.Branch.objects.all()
-
-        serializer = serializers.BranchSerializer(all_branches, many=True)
-
-        return Response(data=serializer.data)
-
-
-class ListAllBranchConfigs(APIView):
-
-    def get(self, request, format=None):
-
-        all_branch_configs = models.BranchConfig.objects.all()
-
-        serializer = serializers.BranchSerializer(
-            all_branch_configs, many=True)
-
-        return Response(data=serializer.data)
-
-
 class Branches(APIView):
 
     def post(self, request, format=None):
@@ -76,6 +53,8 @@ class BranchDetail(APIView):
         serializer = serializers.BranchSerializer(branch)
 
         return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+    """ edit branch info """
 
     def put(self, request, branch_id, format=None):
 

@@ -9,7 +9,8 @@ https://docs.djangoproject.com/en/dev/ref/settings/
 """
 import environ
 
-ROOT_DIR = environ.Path(__file__) - 3  # (space_manager/config/settings/base.py - 3 = space_manager/)
+# (space_manager/config/settings/base.py - 3 = space_manager/)
+ROOT_DIR = environ.Path(__file__) - 3
 APPS_DIR = ROOT_DIR.path('space_manager')
 
 # Load operating system environment variables and then prepare to use them
@@ -48,7 +49,7 @@ THIRD_PARTY_APPS = [
     'allauth',  # registration
     'allauth.account',  # registration
     'allauth.socialaccount',  # registration
-    'rest_framework', # REST framework
+    'rest_framework',  # REST framework
 ]
 
 # Apps specific for this project go here.
@@ -59,7 +60,8 @@ LOCAL_APPS = [
     'space_manager.membership.apps.MembershipConfig',
     'space_manager.branches.apps.BranchesConfig',
     'space_manager.payment.apps.PaymentConfig',
-    'space_manager.cabinet.apps.CabinetConfig'
+    'space_manager.cabinet.apps.CabinetConfig',
+    'space_manager.rooms.apps.RoomsConfig'
 ]
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -97,7 +99,8 @@ FIXTURE_DIRS = (
 
 # EMAIL CONFIGURATION
 # ------------------------------------------------------------------------------
-EMAIL_BACKEND = env('DJANGO_EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')
+EMAIL_BACKEND = env('DJANGO_EMAIL_BACKEND',
+                    default='django.core.mail.backends.smtp.EmailBackend')
 
 # MANAGER CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -258,7 +261,8 @@ ACCOUNT_AUTHENTICATION_METHOD = 'username'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 
-ACCOUNT_ALLOW_REGISTRATION = env.bool('DJANGO_ACCOUNT_ALLOW_REGISTRATION', True)
+ACCOUNT_ALLOW_REGISTRATION = env.bool(
+    'DJANGO_ACCOUNT_ALLOW_REGISTRATION', True)
 ACCOUNT_ADAPTER = 'space_manager.users.adapters.AccountAdapter'
 SOCIALACCOUNT_ADAPTER = 'space_manager.users.adapters.SocialAccountAdapter'
 

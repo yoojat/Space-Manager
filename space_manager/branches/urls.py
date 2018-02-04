@@ -3,11 +3,6 @@ from . import views
 
 urlpatterns = [
     url(
-        regex=r'^configs/$',
-        view=views.ListAllBranchConfigs.as_view(),
-        name='all_branch_configs'
-    ),
-    url(
         regex=r'^$',
         view=views.Branches.as_view(),
         name='branches'

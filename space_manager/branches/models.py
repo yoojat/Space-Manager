@@ -24,6 +24,7 @@ class Branch(models.Model):
     lat = models.FloatField()
     lng = models.FloatField()
     lounge_img = models.ImageField(null=True, validators=[validate_image])
+    usable = models.BooleanField(default=True)
 
     def __str__(self):
         return ('{}({}호점)').format(self.branch_name, self.branch_num)
