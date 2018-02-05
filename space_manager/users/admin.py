@@ -14,7 +14,8 @@ class MyUserChangeForm(UserChangeForm):
 class MyUserCreationForm(UserCreationForm):
 
     error_message = UserCreationForm.error_messages.update({
-        'duplicate_username': 'This username has already been taken.'
+        'duplicate_username':
+        'This username has already been taken.'
     })
 
     class Meta(UserCreationForm.Meta):
@@ -33,12 +34,14 @@ class MyUserCreationForm(UserCreationForm):
 class MyUserAdmin(AuthUserAdmin):
     form = MyUserChangeForm
     add_form = MyUserCreationForm
-    fieldsets = (
-            ('User Profile', {'fields': ('name',)}),
-    ) + AuthUserAdmin.fieldsets
+    fieldsets = (('User Profile', {
+        'fields': (
+            'name',
+            'gender',
+        )
+    }), ) + AuthUserAdmin.fieldsets
     list_display = ('username', 'name', 'is_superuser', 'phone')
     search_fields = ['name', 'username', 'phone']
-
 
 
 @admin.register(models.InflowRoute)

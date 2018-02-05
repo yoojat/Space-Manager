@@ -61,7 +61,9 @@ LOCAL_APPS = [
     'space_manager.branches.apps.BranchesConfig',
     'space_manager.payment.apps.PaymentConfig',
     'space_manager.cabinet.apps.CabinetConfig',
-    'space_manager.rooms.apps.RoomsConfig'
+    'space_manager.rooms.apps.RoomsConfig',
+    'space_manager.seats.apps.SeatsConfig',
+
 ]
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

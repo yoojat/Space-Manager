@@ -10,9 +10,9 @@ class Branch(models.Model):
         filesize = fieldfile_obj.file.size
         # megabyte_limit = 2.0
         kilobyte_limit = 100.0
-        if filesize > kilobyte_limit*1024:
-            raise ValidationError("Max file size is %sKB" %
-                                  str(kilobyte_limit))
+        if filesize > kilobyte_limit * 1024:
+            raise ValidationError(
+                "Max file size is %sKB" % str(kilobyte_limit))
 
     """ Branch Model """
 
@@ -24,7 +24,7 @@ class Branch(models.Model):
     lat = models.FloatField()
     lng = models.FloatField()
     lounge_img = models.ImageField(null=True, validators=[validate_image])
-    usable = models.BooleanField(default=True)
+    usable = models.BooleanField(default=False)
 
     def __str__(self):
         return ('{}({}호점)').format(self.branch_name, self.branch_num)
@@ -35,7 +35,6 @@ class Branch(models.Model):
 
 @python_2_unicode_compatible
 class BranchConfig(models.Model):
-
     """ Branch Config Model """
 
     branch = models.ForeignKey(branch_models.Branch, null=True)
@@ -46,4 +45,5 @@ class BranchConfig(models.Model):
     other_usable = models.BooleanField(default=True)
 
     def __str__(self):
-        return '{}호점 - {}'.format(self.branch.branch_num, self.branch.branch_name)
+        return '{}호점 - {}'.format(self.branch.branch_num,
+                                  self.branch.branch_name)

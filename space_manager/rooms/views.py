@@ -8,28 +8,33 @@ from rest_framework import status
 
 
 class Rooms(APIView):
-
     def post(self, request, branch_id, format=None):
 
         user = request.user
+
+        # 슈퍼 유저인지 검사
+        if (user.is_superuser == False):
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
         try:
             branch = branch_model.Branch.objects.get(id=branch_id)
         except branch_model.Branch.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
-        # 슈퍼 유저인지 검사
-        if(user.is_superuser == False):
-            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        data = request.data
+        data['branch'] = branch_id
 
-        serializer = serializers.InputRoomSerializer(data=request.data)
+        serializer = serializers.InputRoomSerializer(data=data)
 
         if serializer.is_valid():
             serializer.save()
 
-            return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+            return Response(
+                data=serializer.data, status=status.HTTP_201_CREATED)
 
         else:
-            return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def get(self, request, branch_id, format=None):
 
@@ -46,7 +51,6 @@ class Rooms(APIView):
 
 
 class RoomTypes(APIView):
-
     def get(self, request, format=None):
 
         room_types = models.RoomType.objects.all()
@@ -57,7 +61,6 @@ class RoomTypes(APIView):
 
 
 class Room(APIView):
-
     def find_room(self, room_id):
         try:
             room = models.Room.objects.get(id=room_id)
@@ -81,7 +84,7 @@ class Room(APIView):
         user = request.user
 
         # 슈퍼 유저인지 검사
-        if(user.is_superuser == False):
+        if (user.is_superuser == False):
             return Response(status=status.HTTP_401_UNAUTHORIZED)
 
         room = self.find_room(room_id)
@@ -90,22 +93,23 @@ class Room(APIView):
             return Response(status=status.HTTP_404_NOT_FOUND)
 
         serializer = serializers.RoomSerializer(
-            room, data=request.data, partial=True
-        )
+            room, data=request.data, partial=True)
 
         if serializer.is_valid():
             serializer.save()
-            return Response(data=serializer.data, status=status.HTTP_202_ACCEPTED)
+            return Response(
+                data=serializer.data, status=status.HTTP_202_ACCEPTED)
 
         else:
-            return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, room_id, format=None):
 
         user = request.user
 
         # 슈퍼 유저인지 검사
-        if(user.is_superuser == False):
+        if (user.is_superuser == False):
             return Response(status=status.HTTP_401_UNAUTHORIZED)
 
         room = self.find_room(room_id)

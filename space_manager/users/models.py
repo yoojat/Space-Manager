@@ -5,11 +5,8 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
 
-
-
 @python_2_unicode_compatible
 class InflowRoute(models.Model):
-    
     """ InfolowRoute Model """
 
     substance = models.CharField(max_length=45, null=True)
@@ -20,7 +17,6 @@ class InflowRoute(models.Model):
 
 @python_2_unicode_compatible
 class Purpose(models.Model):
-    
     """ Purpose Model """
 
     substance = models.CharField(max_length=45, null=True)
@@ -31,14 +27,10 @@ class Purpose(models.Model):
 
 @python_2_unicode_compatible
 class User(AbstractUser):
-    
     """ User Model """
 
-    GENDER_CHOICES = (
-        ('male', 'Male'),
-        ('female', 'Female'),
-        ('not-specified', 'Not sepcified')
-    )
+    GENDER_CHOICES = (('male', 'Male'), ('female', 'Female'),
+                      ('not-specified', 'Not sepcified'))
 
     # First Name and Last Name do not cover name patterns
     # around the globe.
@@ -53,12 +45,8 @@ class User(AbstractUser):
     infolow_route = models.ForeignKey(InflowRoute, null=True)
     purpose = models.ForeignKey(Purpose, null=True)
 
-
     def __str__(self):
         return '{}({})'.format(self.name, self.username)
 
     def get_absolute_url(self):
         return reverse('users:detail', kwargs={'username': self.username})
-
-
-

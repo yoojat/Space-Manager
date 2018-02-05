@@ -9,16 +9,13 @@ class RoomTypeAdmin(admin.ModelAdmin):
 
 @admin.register(models.Room)
 class RoomAdmin(admin.ModelAdmin):
-    list_display_links = (
-        'room_number',
-    )
+    list_display_links = ('room_number', )
+
+    list_filter = ('branch', )
 
     search_fields = (
-        'branch',
-    )
-
-    list_filter = (
-        'branch',
+        'branch__branch_name',
+        'room_number',
     )
 
     list_display = (

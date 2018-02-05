@@ -1,0 +1,288 @@
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from . import models, serializers
+from space_manager.rooms import models as rooms_models
+from space_manager.membership import models as membership_models
+from space_manager.branches import models as branch_models
+from rest_framework import status
+from datetime import datetime
+from random import *
+from operator import eq
+
+
+class Seats(APIView):
+    def post(self, request, room_id, format=None):
+
+        user = request.user
+
+        # 슈퍼 유저인지 검사
+        if (user.is_superuser == False):
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+        try:
+            room = rooms_models.Room.objects.get(id=room_id)
+        except rooms_models.Room.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        data = request.data
+        data['room'] = room_id
+        data['branch'] = room.branch.id
+
+        serializer = serializers.InputSeatSerializer(data=data)
+        if serializer.is_valid():
+
+            serializer.save()
+
+            return Response(
+                data=serializer.data, status=status.HTTP_201_CREATED)
+
+        else:
+
+            return Response(
+                data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def get(self, request, room_id, format=None):
+
+        try:
+            seats = models.Seat.objects.filter(room__id=room_id)
+        except models.Seat.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        serializer = serializers.ShowSeatSerializer(seats, many=True)
+
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+
+class Seat(APIView):
+    def find_seat(self, seat_id):
+        try:
+            seat = models.Seat.objects.get(id=seat_id)
+            return seat
+        except models.Seat.DoesNotExist:
+            return None
+
+    def get(self, request, seat_id, format=None):
+
+        try:
+            seat = models.Seat.objects.get(id=seat_id)
+        except mdoels.Seat.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        serializer = serializers.SeatSerializer(seat)
+
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+    def put(self, request, seat_id, format=None):
+
+        user = request.user
+        # 슈퍼 유저인지 검사
+        if (user.is_superuser == False):
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+        seat = self.find_seat(seat_id)
+
+        if seat is None:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        serializer = serializers.SeatSerializer(
+            seat, data=request.data, partial=True)
+
+        if serializer.is_valid():
+            serializer.save()
+
+            return Response(
+                data=serializer.data, status=status.HTTP_202_ACCEPTED)
+        else:
+            return Reponse(
+                data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class Allocation(APIView):
+    def is_adult(self, birth):
+        now = datetime.today()
+        delta = birth - now
+        if delta / 365 >= 19:
+            return True
+        else:
+            return False
+
+    def get_membership(self, user):
+
+        now = datetime.today()
+        try:
+            membership = membership_models.Membership.objects.get(
+                end_date__gte=now,
+                start_date__lte=now,
+                is_usable=True,
+                user=user)
+
+            return membership
+
+        except membership_models.Membership.DoesNotExist:
+            return None
+
+    def check_branch_config(self, seat, user):
+
+        membership = self.get_membership(user)
+
+        if membership is None:
+            return False
+
+        try:
+            branch_config = branch_models.BranchConfig.objects.get(
+                branch=seat.branch)
+        except branch_models.BranchConfig.DoesNotExist:
+            return False
+
+        if branch_config.man_usable is False:
+            if user.gender is 'male' and self.is_adult(user.birth):
+                return False
+
+        if branch_config.woman_usable is False:
+            if user.gender is 'female' and self.is_adult(user.birth):
+                return False
+
+        if branch_config.boy_usable is False:
+            if user.gender is 'male' and self.is_adult(user.birth) is False:
+                return False
+
+        if branch_config.girl_usable is False:
+            if user.gender is 'female' and self.is_adult(user.birth) is False:
+                return False
+
+        if branch_config.other_usable is False:
+            if membership.branch is not seat.branch:
+                return False
+
+        return True
+
+    def is_usable_seat(self, seat):
+        usable = seat.usable
+        discard = seat.discard
+
+        if usable is True and discard is False:
+            return True
+        else:
+            return False
+
+    def is_empty_seat(self, seat):
+
+        logs = models.Log.objects.filter(seat=seat)[:1]
+        # 아무정보가 없는 좌석 즉 처음만들어진 좌석일 경우
+        if not logs:
+            return True
+
+        log = logs[0]
+        action = log.action.en_substance
+
+        if eq(action, 'stand_by'):
+            return True
+        elif eq(action, 'return'):
+            return True
+        elif eq(action, 'allocation'):
+            return False
+        else:
+            return True
+
+    def seat_before_return(self, user):
+
+        try:
+            user_recent_logs = models.Log.objects.filter(user=user)[:1]
+            user_recent_log = user_recent_logs[0]
+        except models.Log.DoesNotExist:
+            return True
+
+        try:
+            return_action = models.Action.objects.get(en_substance='return')
+        except models.Action.DoesNotExist:
+            return False
+
+        if user_recent_log.action is return_action:
+            return True
+
+        try:
+            seat_return_image = models.SeatImage.objects.get(
+                substance='return')
+        except models.SeatImage.DoesNotExist:
+            return False
+
+        new_log = models.Log.objects.create(
+            action=return_action,
+            user=user,
+            seat=user_recent_log.seat,
+            seat_image=seat_return_image)
+
+        new_log.save()
+
+        return True
+
+    def allocate(self, user, seat):
+        try:
+            allocate_action = models.Action.objects.get(
+                en_substance='allocation')
+        except models.Action.DoesNotExist:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        seat_images = models.SeatImage.objects.filter(gender=user.gender)
+
+        count_images = len(seat_images)
+        print(count_images)
+        random_image_number = randint(0, count_images - 1)
+        data = {
+            'user': user.id,
+            'action': allocate_action.id,
+            'seat': seat.id,
+            'seat_image': seat_images[random_image_number].id
+        }
+
+        serializer = serializers.LogSerializer(data=data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(
+                data=serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(
+                data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def post(self, request, seat_id, format=None):
+
+        user = request.user
+        try:
+            seat = models.Seat.objects.get(
+                id=seat_id, usable=True, discard=False)
+        except models.Seat.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        # 멤버쉽에 등록되어있는지 확인
+        now = datetime.today()
+
+        membership = self.get_membership(user)
+
+        if membership is None:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+        # 지점 옵션에 걸리는지 확인
+        config_check = self.check_branch_config(seat, user)
+
+        if config_check is False:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+        # 현재 좌석이 이용불가 상태가 아닌지 확인
+        if self.is_usable_seat(seat) is False:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+        # 현재 좌석에 누가 이용중인지 확인
+        is_empty = self.is_empty_seat(seat)
+        if is_empty is False:
+            print('!')
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+        elif is_empty is None:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        # 사용자가 사용하고 있는 좌석이 있는지 확인하고 있으면 반납처리하고 다시 잡을 것
+        if self.seat_before_return(user):
+            return self.allocate(user, seat)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)

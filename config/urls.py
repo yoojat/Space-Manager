@@ -13,6 +13,7 @@ urlpatterns = [
     url(settings.ADMIN_URL, admin.site.urls),
 
     # User management
+    url(r'^seats/', include('space_manager.seats.urls', namespace='seats')),
     url(r'^rooms/', include('space_manager.rooms.urls', namespace='rooms')),
     url(r'^users/', include('space_manager.users.urls', namespace='users')),
     url(r'^membership/', include('space_manager.membership.urls', namespace='membership')),
