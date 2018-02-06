@@ -187,8 +187,8 @@ class Allocation(APIView):
     def seat_before_return(self, user):
 
         try:
-            user_recent_logs = models.Log.objects.filter(user=user)[:1]
-            user_recent_log = user_recent_logs[0]
+            user_recent_log = models.Log.objects.filter(
+                user=user).latest('created_at')
         except models.Log.DoesNotExist:
             return True
 
@@ -197,12 +197,13 @@ class Allocation(APIView):
         except models.Action.DoesNotExist:
             return False
 
-        if user_recent_log.action is return_action:
+        if user_recent_log.action == return_action:
             return True
 
         try:
+            return_action = models.Action.objects.get(en_substance='return')
             seat_return_image = models.SeatImage.objects.get(
-                substance='return')
+                action=return_action)
         except models.SeatImage.DoesNotExist:
             return False
 
@@ -226,7 +227,6 @@ class Allocation(APIView):
         seat_images = models.SeatImage.objects.filter(gender=user.gender)
 
         count_images = len(seat_images)
-        print(count_images)
         random_image_number = randint(0, count_images - 1)
         data = {
             'user': user.id,
@@ -275,7 +275,6 @@ class Allocation(APIView):
         # 현재 좌석에 누가 이용중인지 확인
         is_empty = self.is_empty_seat(seat)
         if is_empty is False:
-            print('!')
             return Response(status=status.HTTP_403_FORBIDDEN)
 
         elif is_empty is None:
@@ -286,3 +285,38 @@ class Allocation(APIView):
             return self.allocate(user, seat)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+class ReturnSeat(APIView):
+    def post(self, request, user_id, format=None):
+
+        user = request.user
+
+        if user.id != int(user_id):
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+        # 잡혀져 있는 좌석이 있는지 확인
+
+        try:
+            user_recent_logs = models.Log.objects.filter(user=user)[:1]
+        except models.Log.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        user_recent_log = user_recent_logs[0]
+
+        allocate_action = models.Action.objects.get(en_substance='allocation')
+        return_action = models.Action.objects.get(en_substance='return')
+        return_seat_image = models.SeatImage.objects.get(action=return_action)
+
+        if allocate_action != user_recent_log.action:
+            return Response(status=status.HTTP_406_NOT_ACCEPTABLE)
+
+        new_return = models.Log.objects.create(
+            action=return_action,
+            user=user,
+            seat=user_recent_log.seat,
+            seat_image=return_seat_image)
+
+        new_return.save()
+
+        return Response(status=status.HTTP_201_CREATED)

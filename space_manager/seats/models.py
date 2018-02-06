@@ -49,16 +49,13 @@ class SeatImage(models.Model):
 
     GENDER_CHOICES = (('male', 'Male'), ('female', 'Female'),
                       ('not-specified', 'Not-specified'))
-    STATE_CHOICES = (('allocate', 'Allocate'), ('return', 'Return'),
-                     ('stand-by', 'Stand-by'))
 
     file = models.ImageField()
     gender = models.CharField(max_length=80, choices=GENDER_CHOICES, null=True)
-    substance = models.CharField(
-        max_length=140, choices=STATE_CHOICES, null=True)
+    action = models.ForeignKey(Action, null=True)
 
     def __str__(self):
-        return '{} : {}'.format(self.gender, self.substance)
+        return '{} : {}'.format(self.gender, self.action)
 
 
 class Log(TimeStampModel):
