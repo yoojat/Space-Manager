@@ -1,45 +1,46 @@
-from django.core.urlresolvers import reverse
-from django.views.generic import DetailView, ListView, RedirectView, UpdateView
-
-from django.contrib.auth.mixins import LoginRequiredMixin
-
-from .models import User
+from . import models, serializers
+from rest_framework import status
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
 
-class UserDetailView(LoginRequiredMixin, DetailView):
-    model = User
-    # These next two lines tell the view to index lookups by username
-    slug_field = 'username'
-    slug_url_kwarg = 'username'
+class ChangePassword(APIView):
+    def put(self, request, username, format=None):
 
+        user = request.user
 
-class UserRedirectView(LoginRequiredMixin, RedirectView):
-    permanent = False
+        if user.username == username:
 
-    def get_redirect_url(self):
-        return reverse('users:detail',
-                       kwargs={'username': self.request.user.username})
+            current_password = request.data.get('current_password', None)
 
+            if current_password is not None:
 
-class UserUpdateView(LoginRequiredMixin, UpdateView):
+                passwords_match = user.check_password(current_password)
 
-    fields = ['name', ]
+                if passwords_match:
 
-    # we already imported User in the view code above, remember?
-    model = User
+                    new_password = request.data.get('new_password', None)
 
-    # send the user back to their own page after a successful update
-    def get_success_url(self):
-        return reverse('users:detail',
-                       kwargs={'username': self.request.user.username})
+                    if new_password is not None:
 
-    def get_object(self):
-        # Only get the User record for the user making the request
-        return User.objects.get(username=self.request.user.username)
+                        user.set_password(new_password)
 
+                        user.save()
 
-class UserListView(LoginRequiredMixin, ListView):
-    model = User
-    # These next two lines tell the view to index lookups by username
-    slug_field = 'username'
-    slug_url_kwarg = 'username'
+                        return Response(status=status.HTTP_200_OK)
+
+                    else:
+
+                        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+                else:
+
+                    return Response(status=status.HTTP_400_BAD_REQUEST)
+
+            else:
+
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        else:
+
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
