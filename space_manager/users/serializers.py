@@ -3,7 +3,12 @@ from . import models
 
 
 class UserSerializer(serializers.ModelSerializer):
-    
     class Meta:
         model = models.User
         fields = '__all__'
+
+
+class SimpleUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.User
+        fields = ('name', 'username')

@@ -38,6 +38,8 @@ djangorestframework = "*"
 yapf = "*"
 djangorestframework-jwt = "*"
 pylint = "*"
+django-rest-auth = "*"
+pyqrcode = "*"
 
 
 [requires]

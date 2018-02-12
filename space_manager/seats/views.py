@@ -4,6 +4,7 @@ from . import models, serializers
 from space_manager.rooms import models as rooms_models
 from space_manager.membership import models as membership_models
 from space_manager.branches import models as branch_models
+from space_manager.users import models as user_models
 from rest_framework import status
 from datetime import datetime
 from random import *
@@ -11,6 +12,8 @@ from operator import eq
 
 
 class Seats(APIView):
+    #  해당열람실에 좌석 추가하기
+    #  data :seat_number,left,top,rotate
     def post(self, request, room_id, format=None):
 
         user = request.user
@@ -42,7 +45,8 @@ class Seats(APIView):
                 data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def get(self, request, room_id, format=None):
-
+        # 해당 열람실에 해당되는 좌석 가져오기
+        # data : seat_number,left,top,rotate,usable,discard
         try:
             seats = models.Seat.objects.filter(room__id=room_id)
         except models.Seat.DoesNotExist:
@@ -62,7 +66,8 @@ class Seat(APIView):
             return None
 
     def get(self, request, seat_id, format=None):
-
+        # 해당 좌석 정보 가져오기
+        # data : seat_number,left,top,rotate,usable,discard,room,branch,
         try:
             seat = models.Seat.objects.get(id=seat_id)
         except mdoels.Seat.DoesNotExist:
@@ -73,6 +78,8 @@ class Seat(APIView):
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
     def put(self, request, seat_id, format=None):
+        # 해당 좌석 수정하기
+        # data : seat_number,left,top,rotate,usable,discard,room,branch
 
         user = request.user
         # 슈퍼 유저인지 검사
@@ -184,6 +191,13 @@ class Allocation(APIView):
         else:
             return True
 
+    def is_usable_room(self, seat):
+        room = seat.room
+        if room.usable is False:
+            return False
+        else:
+            return True
+
     def seat_before_return(self, user):
 
         try:
@@ -224,35 +238,45 @@ class Allocation(APIView):
         except models.Action.DoesNotExist:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-        seat_images = models.SeatImage.objects.filter(gender=user.gender)
+        if user.gender is None:
+            seat_images = models.SeatImage.objects.exclude(
+                gender='Not-specified')
+        else:
+            seat_images = models.SeatImage.objects.filter(gender=user.gender)
 
         count_images = len(seat_images)
-        random_image_number = randint(0, count_images - 1)
-        data = {
-            'user': user.id,
-            'action': allocate_action.id,
-            'seat': seat.id,
-            'seat_image': seat_images[random_image_number].id
-        }
+        rand_limit = count_images - 1
+        random_image_number = randint(0, rand_limit)
 
-        serializer = serializers.LogSerializer(data=data)
+        new_log = models.Log.objects.create(
+            action=allocate_action,
+            user=user,
+            seat=seat,
+            seat_image=seat_images[random_image_number])
 
-        if serializer.is_valid():
-            serializer.save()
-            return Response(
-                data=serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response(
-                data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        new_log.save()
+        return Response(status=status.HTTP_201_CREATED)
 
-    def post(self, request, seat_id, format=None):
+    def post(self, request, seat_id, user_id, format=None):
+        # 자리 배정, 슈퍼 유저 기능 포함
+        # 데이터 없음
+        creator = request.user
 
-        user = request.user
+        try:
+            user = user_models.User.objects.get(id=user_id)
+        except user_models.User.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
         try:
             seat = models.Seat.objects.get(
                 id=seat_id, usable=True, discard=False)
         except models.Seat.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
+
+        # 슈퍼유저 확인
+        if creator.is_superuser is False:
+            if creator != user:
+                return Response(status=status.HTTP_401_UNAUTHORIZED)
 
         # 멤버쉽에 등록되어있는지 확인
         now = datetime.today()
@@ -267,6 +291,10 @@ class Allocation(APIView):
 
         if config_check is False:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+        # 사용가능한 열람실인지 확인
+        if self.is_usable_room(seat) is False:
+            return Response(status=status.HTTP_403_FORBIDDEN)
 
         # 현재 좌석이 이용불가 상태가 아닌지 확인
         if self.is_usable_seat(seat) is False:
@@ -288,12 +316,20 @@ class Allocation(APIView):
 
 
 class ReturnSeat(APIView):
+    # 좌석 반납, 슈퍼유저기능 포함
     def post(self, request, user_id, format=None):
 
-        user = request.user
+        creator = request.user
 
-        if user.id != int(user_id):
-            return Response(status=status.HTTP_403_FORBIDDEN)
+        try:
+            user = user_models.User.objects.get(id=user_id)
+        except user_models.User.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        if creator != user:
+            if request.user.is_superuser is False:
+                if request.user.is_staff is False:
+                    return Response(status=status.HTTP_403_FORBIDDEN)
 
         # 잡혀져 있는 좌석이 있는지 확인
 

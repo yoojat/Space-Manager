@@ -1,35 +1,28 @@
 from django.contrib import admin
 from . import models
 
+
 @admin.register(models.Cabinet)
 class CabinetAdmin(admin.ModelAdmin):
-    
-    list_display_links =(
-       'cabinet_number',
-    )
 
-    search_fields = (
-        'cabinet_number',
-    )
+    list_display_links = ('cabinet_number', )
 
-    list_filter = (
-        'branch__branch_name',
-        'branch__branch_num',
-    )
+    search_fields = ('cabinet_number', )
+
+    list_filter = ('cabinet_set__branch', )
 
     list_display = (
         'cabinet_number',
-        'branch',
+        'cabinet_set',
         'xpos',
         'ypos',
     )
 
+
 @admin.register(models.CabinetSet)
 class CabinetSetAdmin(admin.ModelAdmin):
-    
-    list_display_links =(
-       'desc',
-    )
+
+    list_display_links = ('desc', )
 
     list_filter = (
         'branch__branch_name',
@@ -37,28 +30,22 @@ class CabinetSetAdmin(admin.ModelAdmin):
     )
 
     list_display = (
-        'branch',
         'desc',
-        'order',
-        'width',
-        'height',
+        'branch',
     )
+
 
 @admin.register(models.UseCabinet)
 class UseCabinetAdmin(admin.ModelAdmin):
-    
-    list_display_links =(
-       'cabinet',
-    )
+
+    list_display_links = ('cabinet', )
 
     search_fields = (
         'user_name',
         'user_username',
     )
 
-    list_filter = (
-        'cabinet__branch',
-    )
+    list_filter = ('cabinet__cabinet_set__branch', )
 
     list_display = (
         'cabinet',
@@ -71,31 +58,23 @@ class UseCabinetAdmin(admin.ModelAdmin):
 
 @admin.register(models.CabinetAction)
 class CabinetActionAdmin(admin.ModelAdmin):
-    
-    list_display_links =(
-       'substance',
-    )
 
-    list_display = (
-        'substance',
-    )
+    list_display_links = ('substance', )
+
+    list_display = ('substance', )
 
 
 @admin.register(models.CabinetHistory)
 class CabinetHistoryAdmin(admin.ModelAdmin):
-    
-    list_display_links =(
-       'cabinet',
-    )
+
+    list_display_links = ('cabinet', )
 
     search_fields = (
         'user_name',
         'user_username',
     )
 
-    list_filter = (
-        'cabinet__branch',
-    )
+    list_filter = ('cabinet__cabinet_set__branch', )
 
     list_display = (
         'cabinet',
@@ -108,19 +87,15 @@ class CabinetHistoryAdmin(admin.ModelAdmin):
 
 @admin.register(models.CabinetLock)
 class CabinetLockAdmin(admin.ModelAdmin):
-    
-    list_display_links =(
-       'lock_number',
-    )
+
+    list_display_links = ('lock_number', )
 
     search_fields = (
         'lock_number',
         'cabinet__cabinet_number',
     )
 
-    list_filter = (
-        'branch',
-    )
+    list_filter = ('branch', )
 
     list_display = (
         'branch',
@@ -128,4 +103,3 @@ class CabinetLockAdmin(admin.ModelAdmin):
         'lock_number',
         'lock_password',
     )
-

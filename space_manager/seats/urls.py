@@ -13,7 +13,7 @@ urlpatterns = [
         name='Seat',
     ),
     url(
-        regex=r'^(?P<seat_id>[0-9]+)/allocation/$',
+        regex=r'^allocation/(?P<seat_id>[0-9]+)/(?P<user_id>[0-9]+)/$',
         view=views.Allocation.as_view(),
         name='Allocation',
     ),
@@ -21,5 +21,5 @@ urlpatterns = [
         regex=r'^user/(?P<user_id>[0-9]+)/return/$',
         view=views.ReturnSeat.as_view(),
         name='Return',
-    )
+    ),
 ]

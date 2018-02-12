@@ -22,7 +22,6 @@ class MembershipSerializer(serializers.ModelSerializer):
 
 
 class ActionSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = models.Action
         fields = '__all__'
@@ -44,13 +43,23 @@ class MembershipHistorySerializer(serializers.ModelSerializer):
 
 
 class InputMembershipSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = models.Membership
         fields = (
             'start_date',
             'end_date',
             'branch',
+        )
+
+
+class ModMembershipSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Membership
+        fields = (
+            'start_date',
+            'end_date',
+            'branch',
+            'is_usable',
         )
 
 
@@ -62,8 +71,4 @@ class InputMembershipHistorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.MembershipHistory
-        fields = (
-            'membership',
-            'creator',
-            'action'
-        )
+        fields = ('membership', 'creator', 'action')

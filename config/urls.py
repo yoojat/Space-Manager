@@ -11,16 +11,21 @@ urlpatterns = [
     url(settings.ADMIN_URL, admin.site.urls),
 
     # User management
-    url(r'^api-token-auth/', obtain_jwt_token),
+    url(r'^rest-auth/', include('rest_auth.urls')),
+    url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
     url(r'^seats/', include('space_manager.seats.urls', namespace='seats')),
     url(r'^rooms/', include('space_manager.rooms.urls', namespace='rooms')),
     url(r'^users/', include('space_manager.users.urls', namespace='users')),
+    url(r'^cabinets/',
+        include('space_manager.cabinets.urls', namespace='cabinets')),
     url(r'^membership/',
         include('space_manager.membership.urls', namespace='membership')),
     url(r'^branch/',
         include('space_manager.branches.urls', namespace='branches')),
     url(r'^payment/',
         include('space_manager.payment.urls', namespace='payments')),
+    url(r'^qrcodes/', include(
+        'space_manager.qrcodes.urls', namespace='qrcodes')),
     url(r'^accounts/', include('allauth.urls')),
 
     # Your stuff: custom urls includes go here

@@ -9,6 +9,10 @@ from rest_framework import status
 
 class Rooms(APIView):
     def post(self, request, branch_id, format=None):
+        # 제목 : 열람실 추가하기
+        # 설명 : 해당 지점에 열람실을 추가
+        # 데이터
+        # branch,room_number,room_type,width,height,left,top
 
         user = request.user
 
@@ -37,6 +41,10 @@ class Rooms(APIView):
                 data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def get(self, request, branch_id, format=None):
+        # 제목 : 해당지점 열람실 모두 가지고 오기
+        # 설명 : 해당 지점에 있는 열람실 모두 가지고 오기
+        # 데이터
+        # branch,room_number,room_type,width,height,left,top, usable, seats
 
         try:
             branch = branch_model.Branch.objects.get(id=branch_id)
@@ -52,6 +60,10 @@ class Rooms(APIView):
 
 class RoomTypes(APIView):
     def get(self, request, format=None):
+        # 제목 : 열람실 타입 가지고 오기
+        # 설명 : 열람실 타입 가지고 오기, 열람실 추가할 때 이용
+        # 데이터
+        # id, en_substance, kr_substance
 
         room_types = models.RoomType.objects.all()
 
@@ -69,6 +81,9 @@ class Room(APIView):
             return None
 
     def get(self, request, room_id, format=None):
+        # 제목 : 특정 열람실 가지고 오기
+        # 데이터
+        # branch,room_number,room_type,width,height,left,top, usable, seats
 
         room = self.find_room(room_id)
 
@@ -80,7 +95,9 @@ class Room(APIView):
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
     def put(self, request, room_id, format=None):
-
+        # 제목 : 특정 열람실 수정하기
+        # 데이터
+        # branch,room_number,room_type,width,height,left,top, usable, seats
         user = request.user
 
         # 슈퍼 유저인지 검사
@@ -105,6 +122,9 @@ class Room(APIView):
                 data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, room_id, format=None):
+        # 제목 : 특정 열람실 삭제하기
+        # 데이터
+        # 없음
 
         user = request.user
 
