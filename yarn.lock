@@ -195,6 +195,10 @@ redux-i18n@^1.5.12:
     prop-types "^15.5.8"
     react-deep-force-update "^2.0.1"
 
+reset-css@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/reset-css/-/reset-css-2.2.1.tgz#fe3204c0c4831979fbb4967c90a992f0164635ed"
+
 safe-buffer@^5.1.1:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.1.1.tgz#893312af69b2123def71f57889001671eeb2c853"

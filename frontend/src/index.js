@@ -1,13 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
+import I18n from 'redux-i18n';
 import {ConnectedRouter} from 'react-router-redux';
 import store, {history} from 'redux/configureStore';
-import 'index.css';
-import App from 'App';
-import I18n from 'redux-i18n';
+import App from 'components/App';
 import {translations} from 'translations';
-// import 'ReactotronConfig';
 
 ReactDOM.render(
   <Provider store={store}>
