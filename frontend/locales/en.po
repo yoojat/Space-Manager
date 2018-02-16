@@ -1,0 +1,102 @@
+#: src/components/Auth/presenter.js
+msgid "앱을 다운받아보세요!"
+msgstr "Get the app"
+
+#: src/components/Auth/presenter.js
+msgid "로고"
+msgstr "logo"
+
+#: src/components/Auth/presenter.js
+msgid "계정이 없으신가요?  "
+msgstr "Don't have an account?"
+
+#: src/components/Auth/presenter.js
+#: src/components/AuthForms/index.js
+msgid "가입하기"
+msgstr "Sign up"
+
+#: src/components/Auth/presenter.js
+msgid "계정이 있으신가요? "
+msgstr "Have an account?"
+
+#: src/components/Auth/presenter.js
+#: src/components/AuthForms/index.js
+msgid "로그인"
+msgstr "Log in"
+
+#: src/components/Auth/presenter.js
+msgid "앱을 이용해보세요"
+msgstr "Get the app"
+
+#: src/components/Auth/presenter.js
+msgid "앱스토어에서 다운 받으세요"
+msgstr "Download it on the Apple Appstore"
+
+#: src/components/Auth/presenter.js
+msgid "구글 플레이 스토어에서 다운 받으세요"
+msgstr "Download it on the Google Play Store"
+
+#: src/components/AuthForms/index.js
+msgid "아이디"
+msgstr "username"
+
+#: src/components/AuthForms/index.js
+msgid "비밀번호"
+msgstr "password"
+
+#: src/components/AuthForms/index.js
+msgid "또는"
+msgstr "or"
+
+#: src/components/AuthForms/index.js
+msgid "페이스북으로"
+msgstr ""
+
+#: src/components/AuthForms/index.js
+msgid "Forgot password?"
+msgstr ""
+
+#: src/components/AuthForms/index.js
+msgid "Sign up to see photos and videos from your friends."
+msgstr ""
+
+#: src/components/AuthForms/index.js
+msgid "이메일"
+msgstr ""
+
+#: src/components/AuthForms/index.js
+msgid "이름"
+msgstr ""
+
+#: src/components/AuthForms/index.js
+msgid "가입함으로써"
+msgstr ""
+
+#: src/components/AuthForms/index.js
+msgid "약관 및 개인정보정책"
+msgstr ""
+
+#: src/components/AuthForms/index.js
+msgid "에 동의하게 됩니다"
+msgstr ""
+
+#: src/components/Footer/index.js
+msgid "소개"
+msgstr ""
+
+#: src/components/Footer/index.js
+msgid "고객지원"
+msgstr ""
+
+#: src/components/Footer/index.js
+msgid "블로그"
+msgstr ""
+
+#: src/components/Footer/index.js
+msgid "약관"
+msgstr ""
+
+#: src/components/Footer/index.js
+msgid "개인정보처리방침"
+msgstr ""
+

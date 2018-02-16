@@ -23,6 +23,7 @@ const PrivateRoutes = props => (
   </Switch>
 );
 
+//로그인을 하지 않았을때 보여지는 컴포넌트
 const PublicRoutes = props => (
   <Switch>
     <Route exact path="/" component={Auth} />
