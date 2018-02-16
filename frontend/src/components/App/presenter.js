@@ -15,6 +15,7 @@ App.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
 };
 
+// 로그인했을 때 보여지는 컴포넌트
 const PrivateRoutes = props => (
   <Switch>
     <Route exact path="/" render={() => 'feed'} />
