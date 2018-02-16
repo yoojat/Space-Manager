@@ -302,3 +302,7 @@ ACCOUNT_LOGOUT_ON_GET = True
 CORS_ORIGIN_ALLOW_ALL = True
 
 JWT_AUTH = {'JWT_VERIFY_EXPIRATION': False}
+
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'REGISTER_SERIALIZER': 'space_manager.users.serializers.SignUpSerializer'
+}
