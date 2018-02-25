@@ -7,14 +7,15 @@ import {i18nState} from 'redux-i18n';
 import user from 'redux/modules/user';
 
 const env = process.env.NODE_ENV;
-// process.evn.NODE_ENV를 통하여 dev 혹은 prod환경을 확인 가능
+// process.env.NODE_ENV를 통하여 dev 혹은 prod환경을 확인 가능
 
 const history = createHistory();
 // module(history.createBrowserHistory)를 통해 history생성
 // history는 웹에서 일어나는 일을 기록해 놓은 것으로 뒤로가기 같은 기능을 할때 유용할게 활용됨
 
 const middlewares = [thunk, routerMiddleware(history)];
-// 미들웨어는 현재 thunk, history를 인자로가지고 있는 routerMiddleware
+// 미들웨어는 현재 thunk, history를 인자로 가지고 있는 routerMiddleware
+// 마들웨어는 액션이 리듀서로 흘러가기전에 동작을 조절함
 
 // 개발환경이라면
 if (env === 'development') {
@@ -29,6 +30,7 @@ const reducer = combineReducers({
   i18nState,
 });
 // combineReducer(redux 모듈)을 통해 리듀서를 모두 통합
+//combineReducers는 각 리듀서들을 합쳐주어 global state로 만들어줌
 
 export {history};
 // 히스토리는 라우터에 연결되기 위해서 사용되는 듯
