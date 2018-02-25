@@ -3,9 +3,10 @@ import Container from './container';
 
 //이름 그대로 해석하면됨, State를 Props로 만들어줌
 const mapStateToProps = (state, ownProps) => {
-  const {user} = state;
+  const {user, routing: {location}} = state;
   return {
     isLoggedIn: user.isLoggedIn,
+    pathname: location.pathname,
   };
 };
 

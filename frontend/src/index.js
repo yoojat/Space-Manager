@@ -9,12 +9,12 @@ import {translations} from 'translations';
 
 ReactDOM.render(
   <Provider store={store}>
-    <ConnectedRouter history={history}>
-      {/*I18n을 위한 translations 파일은 미리 정의 해놓았음 */}
-      <I18n translations={translations} initialLang="kr" fallbackLang="kr">
+    <I18n translations={translations} initialLang="kr" fallbackLang="kr">
+      <ConnectedRouter history={history}>
+        {/*I18n을 위한 translations 파일은 미리 정의 해놓았음 */}
         <App />
-      </I18n>
-    </ConnectedRouter>
+      </ConnectedRouter>
+    </I18n>
   </Provider>,
   document.getElementById('root')
 );
