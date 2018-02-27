@@ -29,7 +29,8 @@ function facebookLogin(access_token) {
       .then(json => {
         if (json.token) {
           localStorage.setItem('jwt', json.token);
-          dispatch(saveToken(json.token));
+          dispatch(saveToken(json.token)); //state를 변경하는 saveToken 실행시킴(action creator)
+          // dispatch는 액션을 리듀서에게 전달하는 함수
         }
       })
       .catch(err => console.log(err));
@@ -85,6 +86,8 @@ function createAccount(username, password1, password2, email, name) {
 // iniital state
 const initialState = {
   isLoggedIn: localStorage.getItem('jwt') ? true : false,
+  //localStorage는 브라우저에 저장하는 쿠키같은 것
+  token: localStorage.getItem('jwt'),
 };
 
 //reducer

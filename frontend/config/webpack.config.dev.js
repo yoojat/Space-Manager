@@ -164,6 +164,7 @@ module.exports = {
                   modules: true,
                   localIdentName: '[path][name]__[local]--[hash:base64:5]',
                   camelCase: 'dashes',
+                  // camelCase로 쓴 className을 dash로 바꾸어줌
                 },
               },
               {
@@ -192,6 +193,7 @@ module.exports = {
                 options: {
                   sourceMap: true,
                   data: `@import "${paths.appSrc}/config/_variables.scss";`,
+                  // 모든 scss파일 앞에 삽입
                 },
               },
             ],

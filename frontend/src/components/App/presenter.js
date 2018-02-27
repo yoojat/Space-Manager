@@ -7,6 +7,8 @@ import Auth from 'components/Auth';
 import Navigation from 'components/Navigation';
 import Feed from 'components/Feed';
 
+//app에서 모든 route를 관리
+//리액트에서는 하나의 컴포터넌트를 리턴하는 것이 아니라, array를 리턴할수도 있음
 const App = props => [
   props.isLoggedIn ? <Navigation key={1} /> : null,
   props.isLoggedIn ? <PrivateRoutes key={2} /> : <PublicRoutes key={2} />,

@@ -12,7 +12,9 @@ class Container extends Component {
 
   _changeAction = () => {
     this.setState(prevState => {
+      // setState는 object처럼 관리하는 것외에도 function으로도 관리할수 있음(1개의 argument)
       const {action} = prevState;
+      // const action = prevState.action;
       if (action === 'login') {
         return {
           action: 'signup',

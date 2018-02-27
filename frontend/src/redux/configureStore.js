@@ -1,13 +1,16 @@
 import {createStore, combineReducers, applyMiddleware} from 'redux';
-import thunk from 'redux-thunk';
+import thunk from 'redux-thunk'; //redux-thunk는 리덕스 스토어로 원할때마다 액션을 보낼수 있게 해줌
 import {routerReducer, routerMiddleware} from 'react-router-redux';
 import createHistory from 'history/createBrowserHistory';
 import {composeWithDevTools} from 'redux-devtools-extension';
-import {i18nState} from 'redux-i18n';
+import {i18nState} from 'redux-i18n'; //번역을 위한 툴
 import user from 'redux/modules/user';
+
+// 스토어는 여러개의 리듀서를 합칠수 있음
 
 const env = process.env.NODE_ENV;
 // process.env.NODE_ENV를 통하여 dev 혹은 prod환경을 확인 가능
+// process는 node js의 전체 정보를 가지고 있는 variable
 
 const history = createHistory();
 // module(history.createBrowserHistory)를 통해 history생성
@@ -16,12 +19,15 @@ const history = createHistory();
 const middlewares = [thunk, routerMiddleware(history)];
 // 미들웨어는 현재 thunk, history를 인자로 가지고 있는 routerMiddleware
 // 마들웨어는 액션이 리듀서로 흘러가기전에 동작을 조절함
+// router middleware는 리액트 라우터 리덕스인데 히스토리랑 싱크가 되어야함
+// 히스토리는 미들웨어, 그리고 라우터랑 연결되어 있음
 
 // 개발환경이라면
 if (env === 'development') {
   const {logger} = require('redux-logger');
   middlewares.push(logger);
   //logger라는 미들웨어 추가
+  //logger는 before after같이 console창에서 state의 변화를 볼 수 있고, 액션도 볼 수 있다.
 }
 
 const reducer = combineReducers({
@@ -33,16 +39,19 @@ const reducer = combineReducers({
 //combineReducers는 각 리듀서들을 합쳐주어 global state로 만들어줌
 
 export {history};
-// 히스토리는 라우터에 연결되기 위해서 사용되는 듯
+// 히스토리는 export하는 이유는 생성할 라우터(ConnectedRouter)에서 히스토리 오브젝젝트가 필요하기 때문
 
 let store;
 if (env === 'development') {
   store = initialState =>
-    createStore(reducer, composeWithDevTools(applyMiddleware(...middlewares)));
-  // 개발환경일경우 composeWithDevTool로 한번더 작업?
+    createStore(reducer, composeWithDevTools(applyMiddleware(...middlewares))); //...의 역할은 배열을 unpack해주는 역할, [thunk, router]를 thunk, router로 변경
+  // 개발환경일경우 composeWithDevTool로 미들웨어 싱크(redux-devtool-extension에서 온것)
 } else {
   store = initialState => createStore(reducer, applyMiddleware(...middlewares));
 }
+
+//store는 initialState를 인자를 가지고 createStore를 통해 만들어진 함수
+// createStore의 두번째인자는 미들웨어
 
 // ...middlewares 는 배열을 쪼개서 인자로 만들어줌
 
