@@ -1,3 +1,7 @@
+msgid ""
+msgstr ""
+"Language: en"
+
 #: src/components/Auth/presenter.js
 msgid "앱을 다운받아보세요!"
 msgstr "Get the app"
