@@ -3,26 +3,27 @@
 //actions
 const SAVE_TOKEN = 'SAVE_TOKEN';
 
-//action creators
+//action creators : 리덕스 state를 변경
 
 function saveToken(token) {
   return {
     type: SAVE_TOKEN,
-    token,
+    token, //token:token,
   };
 }
 
-// API actions
+// API actions: api를 부를 때 사용
 
 function facebookLogin(access_token) {
   return function(dispatch) {
+    //thunk를 사용할 때 이렇게 사용하면 조건이 맞아떨어질때 디스패치하도록 조정
     fetch('/users/login/facebook/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        access_token,
+        access_token, //  access_token:access_token
       }),
     })
       .then(response => response.json())
@@ -114,7 +115,7 @@ function applySetToken(state, action) {
 //exports
 
 const actionCreators = {
-  facebookLogin,
+  facebookLogin, //facebookLogin : facebookLogin
   usernameLogin,
   createAccount,
 };
