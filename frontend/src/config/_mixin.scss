@@ -22,6 +22,10 @@ $iphone6plus-width: 450px;
     @media (min-width: #{$phone-width}) and (max-width: #{$iphone6plus-width}) {
       @content;
     }
+  } @else if $breakpoint == 'iphone5' {
+    @media (max-width: #{$phone-width}) {
+      @content;
+    }
   } @else if $breakpoint == 'phone-landscape' {
     @media (min-width: #{$phone-width}) and (max-width: #{$tablet-width}) and (orientation: landscape) {
       @content;
@@ -48,7 +52,8 @@ $iphone6plus-width: 450px;
 @mixin blueButton() {
   -webkit-appearance: none;
   border-radius: 3px;
-  background-color: $light-blue;
+  // background-color: $light-blue;
+  background: linear-gradient(to right, #09acfe, #374bab);
   color: white;
   font-weight: 600;
   border: 0;
@@ -65,4 +70,16 @@ $iphone6plus-width: 450px;
   &:active {
     opacity: 0.9;
   }
+}
+
+@mixin normalFontM() {
+  font-size: 15px;
+  color: #898989;
+  font-family: 'YiSunShinDotumM';
+}
+
+@mixin normalFontL() {
+  font-size: 15px;
+  color: #898989;
+  font-family: 'YiSunShinDotumL';
 }

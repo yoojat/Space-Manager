@@ -23,14 +23,14 @@
       }
     }
     &:last-child {
-      width: 38%;
+      width: 40%;
       margin-left: 35px;
       @include breakpoint('phone') {
         width: 100%;
         margin: 0;
       }
       @include breakpoint('tablet') {
-        width: 70%;
+        width: 100%;
         max-width: 350px;
         margin: 0;
       }
@@ -49,6 +49,9 @@
           }
         }
       }
+      span {
+        @include normalFontL();
+      }
     }
     .white-box {
       text-align: center;
@@ -58,12 +61,37 @@
         background-color: transparent;
         border: 0;
       }
+      .logo-box {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        .logo-title {
+          font-size: $big-font-size;
+          font-family: 'YiSunShinDotumL';
+          @include breakpoint('iphone5') {
+            font-size: 34px;
+          }
+        }
+        .logo-subtitle {
+          font-size: $normal-font-size;
+          letter-spacing: 5.2px;
+          font-family: 'YiSunShinDotumL';
+          @include breakpoint('iphone5') {
+            font-size: 11px;
+          }
+        }
+        .logo-text {
+          margin-left: 1rem;
+        }
+      }
+
       .change-link {
         color: $light-blue;
         cursor: pointer;
       }
       .text {
         margin: 15px;
+        @include normalFontL();
       }
     }
     .form-box {
@@ -71,7 +99,7 @@
       padding: 0 40px;
       padding-top: 30px;
       img {
-        height: 60px;
+        width: 50px;
       }
     }
   }

@@ -4,7 +4,9 @@ import FacebookLogin from 'react-facebook-login';
 import formStyles from 'shared/formStyles.scss';
 
 const LoginForm = (props, context) => (
-  <div className={formStyles.formComponent}>
+  <div
+    className={`${formStyles.formComponent} ${formStyles.loginFormComponent}`}
+  >
     <form className={formStyles.form} onSubmit={props.handleSubmit}>
       <input
         type="text"

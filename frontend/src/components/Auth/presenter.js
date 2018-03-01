@@ -14,7 +14,18 @@ const Auth = (props, context) => (
     </div>
     <div className={styles.column}>
       <div className={`${styles.whiteBox} ${styles.formBox}`}>
-        <img src={require('images/logo.png')} alt={context.t('로고')} />
+        <div className={styles.logoBox}>
+          <img
+            src={require('images/logo_bluedotlounge.png')}
+            alt={context.t('로고')}
+          />
+          <div className={styles.logoText}>
+            <div className={styles.logoTitle}>{context.t('블루닷라운지')}</div>
+            <div className={styles.logoSubtitle}>
+              {context.t('BLUEDOT LOUNGE')}
+            </div>
+          </div>
+        </div>
         {props.action === 'login' && <LoginForm />}
         {props.action === 'signup' && <SignupForm />}
       </div>
@@ -38,7 +49,7 @@ const Auth = (props, context) => (
         )}
       </div>
       <div className={styles.appBox}>
-        <span>{context.t('앱을 이용해보세요')}</span>
+        <span>{context.t('앱을 다운로드하세요')}</span>
         <div className={styles.appstores}>
           <img
             src={require('images/ios.png')}

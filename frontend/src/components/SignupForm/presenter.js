@@ -6,7 +6,7 @@ import FacebookLogin from 'react-facebook-login';
 const SignupForm = (props, context) => (
   <div className={formStyles.formComponent}>
     <h3 className={formStyles.signupHeader}>
-      {context.t('친구들의 사진과 동영상을 보고 싶다면 가입하세요!')}
+      {context.t('24시 오픈형 독서실 블루닷라운지입니다.')}
     </h3>
     <FacebookLogin
       appId="146333736050975"
@@ -17,7 +17,7 @@ const SignupForm = (props, context) => (
       icon="fa fa-facebook-official"
       textButton={context.t('Facebook으로 로그인')}
     />
-    <span className={formStyles.divider}>or</span>
+    <span className={formStyles.divider}>또는</span>
     <form className={formStyles.form} onSubmit={props.handleSubmit}>
       <input
         type="email"
@@ -53,7 +53,7 @@ const SignupForm = (props, context) => (
       />
       <input
         type="password"
-        placeholder={context.t('비밀번호 확인')}
+        placeholder={context.t('비밀번호 재입력')}
         className={formStyles.textInput}
         value={props.password2Value}
         onChange={props.handleInputChange}
@@ -61,14 +61,14 @@ const SignupForm = (props, context) => (
       />
       <input
         type="submit"
-        value={context.t('가입하기')}
+        value={context.t('블루닷라운지 가입하기')}
         className={formStyles.button}
       />
     </form>
     <p className={formStyles.terms}>
-      {context.t('가입함으로써')}{' '}
-      <span> {context.t('약관 및 개인정보정책')}</span>.
-      {context.t('에 동의하게 됩니다')}{' '}
+      {context.t(
+        '가입하면 블루닷라운지의 약관 및 개인정보처리 방침에 동의하게 됩니다.'
+      )}
     </p>
   </div>
 );
