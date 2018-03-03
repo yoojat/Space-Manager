@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styles from './styles.scss';
 import Loading from 'components/Loading';
 
-const Feed = props => {
+const Branches = props => {
   if (props.loading) {
     return <LoadingFeed />;
   }
@@ -15,8 +15,8 @@ const LoadingFeed = props => (
   </div>
 );
 
-Feed.propTypes = {
+Branches.propTypes = {
   loading: PropTypes.bool.isRequired,
 };
 
-export default Feed;
+export default Branches;

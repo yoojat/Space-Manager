@@ -95,7 +95,7 @@ class BranchDetail(APIView):
 
         else:
             return Response(
-                data=seraialize.errors, status=status.HTTP_400_BAD_REQUEST)
+                data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class Search(APIView):

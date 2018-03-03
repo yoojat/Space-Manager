@@ -5,7 +5,7 @@ import './styles.scss';
 import Footer from 'components/Footer';
 import Auth from 'components/Auth';
 import Navigation from 'components/Navigation';
-import Feed from 'components/Feed';
+import Branches from 'components/Branches';
 
 //app에서 모든 route를 관리
 //리액트에서는 하나의 컴포터넌트를 리턴하는 것이 아니라, array를 리턴할수도 있음
@@ -22,7 +22,7 @@ App.propTypes = {
 // 로그인했을 때 보여지는 컴포넌트
 const PrivateRoutes = props => (
   <Switch>
-    <Route exact path="/" component={Feed} />
+    <Route exact path="/" component={Branches} />
     <Route exact path="/explore" render={() => 'explore'} />
   </Switch>
 );

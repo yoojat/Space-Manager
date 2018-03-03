@@ -2,6 +2,7 @@
 
 //actions
 const SAVE_TOKEN = 'SAVE_TOKEN';
+const LOGOUT = 'LOGOUT';
 
 //action creators : 리덕스 state를 변경
 
@@ -9,6 +10,12 @@ function saveToken(token) {
   return {
     type: SAVE_TOKEN,
     token, //token:token,
+  };
+}
+
+function logout() {
+  return {
+    type: LOGOUT,
   };
 }
 
@@ -96,6 +103,8 @@ function reducer(state = initialState, action) {
   switch (action.type) {
     case SAVE_TOKEN:
       return applySetToken(state, action);
+    case LOGOUT:
+      return applyLogout(state, action);
     default:
       return state;
   }
@@ -112,12 +121,20 @@ function applySetToken(state, action) {
   };
 }
 
+function applyLogout(state, action) {
+  localStorage.removeItem('jwt');
+  return {
+    isLoggedIn: false,
+  };
+}
+
 //exports
 
 const actionCreators = {
   facebookLogin, //facebookLogin : facebookLogin
   usernameLogin,
   createAccount,
+  logout,
 };
 
 export {actionCreators};

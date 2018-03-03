@@ -305,6 +305,38 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 JWT_AUTH = {'JWT_VERIFY_EXPIRATION': False}
 
+SOCIALACCOUNT_PROVIDERS = {  
+    'facebook': {  
+        'SCOPE': [  
+            'email',  
+            'public_profile',  
+            'user_friends',
+            'user_birthday'
+        ],  
+        'FIELDS': [  
+            'id',  
+            'email',  
+            'name',  
+            'first_name',  
+            'last_name',  
+            'verified',
+            'locale',  
+            'timezone',  
+            'link',  
+            'gender',  
+            'updated_time',
+            'picture' 
+        ],  
+        'AUTH_PARAMS': {  
+            #'auth_type': 'reauthenticate'  
+        },  
+        'METHOD': 'oauth2',  
+        #'LOCALE_FUNC': 'path.to.callable',  
+        'VERIFIED_EMAIL': True,  
+        'VERSION': 'v2.5'  
+    }
+}  
+
 REST_AUTH_REGISTER_SERIALIZERS = {
     'REGISTER_SERIALIZER': 'space_manager.users.serializers.SignUpSerializer'
 }
