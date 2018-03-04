@@ -6,12 +6,20 @@ import Loading from 'components/Loading';
 const Branches = props => {
   if (props.loading) {
     return <LoadingFeed />;
+  } else if (props.branches) {
+    return <RenderBranches {...props} />;
   }
 };
 
 const LoadingFeed = props => (
   <div className={styles.feed}>
     <Loading />
+  </div>
+);
+
+const RenderBranches = props => (
+  <div className={styles.branches}>
+    {props.branches.map(branch => branch.branch_name)}
   </div>
 );
 

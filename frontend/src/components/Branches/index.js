@@ -2,6 +2,12 @@ import {connect} from 'react-redux';
 import {actionCreators as branchActions} from 'redux/modules/branch';
 import Container from './container';
 
+const mapStateToProps = (state, ownProps) => {
+  const {branch: {branches}} = state;
+  return {
+    branches,
+  };
+};
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getBranches: () => {
@@ -9,4 +15,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
   };
 };
-export default connect(null, mapDispatchToProps)(Container);
+export default connect(mapStateToProps, mapDispatchToProps)(Container);

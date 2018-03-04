@@ -5,6 +5,7 @@ import createHistory from 'history/createBrowserHistory';
 import {composeWithDevTools} from 'redux-devtools-extension';
 import {i18nState} from 'redux-i18n'; //번역을 위한 툴
 import user from 'redux/modules/user';
+import branch from 'redux/modules/branch';
 
 // 스토어는 여러개의 리듀서를 합칠수 있음
 
@@ -31,6 +32,7 @@ if (env === 'development') {
 }
 
 const reducer = combineReducers({
+  branch,
   user,
   routing: routerReducer,
   i18nState,
