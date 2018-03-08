@@ -15,10 +15,7 @@ const Auth = (props, context) => (
     <div className={styles.column}>
       <div className={`${styles.whiteBox} ${styles.formBox}`}>
         <div className={styles.logoBox}>
-          <img
-            src={require('images/logo_bluedotlounge.png')}
-            alt={context.t('로고')}
-          />
+          <img src={require('images/4-iloveimg-cropped.png')} alt={context.t('로고')} />
           <div className={styles.logoText}>
             <div className={styles.logoTitle}>{context.t('블루닷라운지')}</div>
             <div className={styles.logoSubtitle}>

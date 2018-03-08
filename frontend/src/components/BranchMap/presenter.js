@@ -17,8 +17,8 @@ const BranchMap = withScriptjs(
     console.log(props.branches);
     return (
       <GoogleMap
-        defaultZoom={11}
-        defaultCenter={{lat: 35.2411079, lng: 129.0058942}}
+        defaultZoom={12}
+        defaultCenter={{lat: 35.22280305, lng: 129.02808175}}
       >
         {props.isMarkerShown &&
           props.branches.map(branch => (
