@@ -5,6 +5,13 @@ from allauth.account.utils import setup_user_email
 from . import models
 
 
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.User
+        fields = ('username', 'name', 'gender', 'is_staff', 'birth',
+                  'is_superuser')
+
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.User

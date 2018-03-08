@@ -3,6 +3,7 @@
 //actions
 const SAVE_TOKEN = 'SAVE_TOKEN';
 const LOGOUT = 'LOGOUT';
+const SAVE_AUTHORITY = 'SAVE_AUTHORITY';
 
 //action creators : 리덕스 state를 변경
 
@@ -19,7 +20,30 @@ function logout() {
   };
 }
 
+function saveAuthority(user) {
+  const {is_staff, is_superuser} = user;
+  return {
+    type: SAVE_AUTHORITY,
+    is_staff,
+    is_superuser,
+  };
+}
+
 // API actions: api를 부를 때 사용
+function checkAuthority(user) {
+  const userId = user.pk;
+  return function(dispatch, getState) {
+    const {user: {token}} = getState();
+    fetch(`/users/id/${userId}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `JWT ${token}`,
+      },
+    })
+      .then(response => response.json())
+      .then(json => dispatch(saveAuthority(json)));
+  };
+}
 
 function facebookLogin(access_token) {
   return function(dispatch) {
@@ -35,10 +59,12 @@ function facebookLogin(access_token) {
     })
       .then(response => response.json())
       .then(json => {
+        console.log('json:', json);
         if (json.token) {
           localStorage.setItem('jwt', json.token);
           dispatch(saveToken(json.token)); //state를 변경하는 saveToken 실행시킴(action creator)
           // dispatch는 액션을 리듀서에게 전달하는 함수
+          dispatch(checkAuthority(json.user));
         }
       })
       .catch(err => console.log(err));
@@ -105,6 +131,8 @@ function reducer(state = initialState, action) {
       return applySetToken(state, action);
     case LOGOUT:
       return applyLogout(state, action);
+    case SAVE_AUTHORITY:
+      return applyAuthority(state, action);
     default:
       return state;
   }
@@ -125,6 +153,15 @@ function applyLogout(state, action) {
   localStorage.removeItem('jwt');
   return {
     isLoggedIn: false,
+  };
+}
+
+function applyAuthority(state, action) {
+  const {is_staff, is_superuser} = action;
+  return {
+    ...state,
+    is_staff,
+    is_superuser,
   };
 }
 
