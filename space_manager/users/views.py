@@ -7,6 +7,21 @@ from rest_auth.registration.views import SocialLoginView
 
 
 class UserStatus(APIView):
+    # def get_user(self, id):
+    #     try:
+    #         found_user = models.User.objects.get(id=id)
+    #         return found_user
+    #     except models.User.DoesNotExist:
+    #         return None
+
+    def get(self, request, format=None):
+
+        serializer = serializers.UserProfileSerializer(request.user)
+
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+
+class UserByID(APIView):
     def get_user(self, id):
         try:
             found_user = models.User.objects.get(id=id)
@@ -15,10 +30,8 @@ class UserStatus(APIView):
             return None
 
     def get(self, request, userid, format=None):
-        found_user = self.get_user(userid)
-        if found_user is None:
 
-            return Response(status=status.HTTP_404_NOT_FOUND)
+        found_user = self.get_user(userid)
 
         serializer = serializers.UserProfileSerializer(found_user)
 

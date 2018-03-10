@@ -10,7 +10,6 @@ import Branches from 'components/Branches';
 //app에서 모든 route를 관리
 //리액트에서는 하나의 컴포터넌트를 리턴하는 것이 아니라, array를 리턴할수도 있음
 const App = props => {
-  console.log(props);
   return [
     props.isLoggedIn ? <Navigation key={1} /> : null,
     props.isLoggedIn ? <PrivateRoutes key={2} /> : <PublicRoutes key={2} />,
@@ -20,6 +19,8 @@ const App = props => {
 
 App.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
+  // is_staff: PropTypes.bool,
+  // is_superuser: PropTypes.bool,
 };
 
 // 로그인했을 때 보여지는 컴포넌트

@@ -1,5 +1,7 @@
 //imports
 
+import {actionCreators as userActions} from 'redux/modules/user';
+
 //actions
 
 const SET_BRANCHES = 'SET_BRANCH'; // 가져온 지점들을 스테이트에 저장하는 액션
@@ -24,8 +26,15 @@ function getBranches() {
         Authorization: `JWT ${token}`,
       },
     })
-      .then(response => response.json())
-      .then(json => dispatch(setBranches(json)));
+      .then(response => {
+        if (response.status === 401) {
+          dispatch(userActions.logout());
+        }
+        return response.json();
+      })
+      .then(json => {
+        dispatch(setBranches(json));
+      });
   };
 }
 

@@ -8,7 +8,6 @@ const Branches = props => {
   if (props.loading) {
     return <LoadingFeed />;
   } else if (props.branches) {
-    console.log(props.branches);
     return <RenderBranches {...props} key={1} />;
   }
 };

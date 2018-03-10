@@ -14,7 +14,6 @@ import {
 
 const BranchMap = withScriptjs(
   withGoogleMap((props, context) => {
-    console.log(props.branches);
     return (
       <GoogleMap
         defaultZoom={12}

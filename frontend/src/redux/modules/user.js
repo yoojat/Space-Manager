@@ -7,16 +7,16 @@ const SAVE_AUTHORITY = 'SAVE_AUTHORITY';
 
 //action creators : 리덕스 state를 변경
 
+function logout() {
+  return {
+    type: LOGOUT,
+  };
+}
+
 function saveToken(token) {
   return {
     type: SAVE_TOKEN,
     token, //token:token,
-  };
-}
-
-function logout() {
-  return {
-    type: LOGOUT,
   };
 }
 
@@ -30,18 +30,44 @@ function saveAuthority(user) {
 }
 
 // API actions: api를 부를 때 사용
+
+function setUser() {
+  return function(dispatch, getState) {
+    const {user: {token, isLoggedIn}} = getState();
+    if (isLoggedIn) {
+      fetch(`/users/`, {
+        method: 'GET',
+        headers: {
+          Authorization: `JWT ${token}`,
+        },
+      })
+        .then(response => response.json())
+        .then(json => {
+          dispatch(checkAuthority(json));
+        });
+    }
+  };
+}
+
 function checkAuthority(user) {
-  const userId = user.pk;
+  let userId;
+  if (user.pk) {
+    userId = user.pk;
+  } else if (user.id) {
+    userId = user.id;
+  }
   return function(dispatch, getState) {
     const {user: {token}} = getState();
-    fetch(`/users/id/${userId}`, {
+    fetch(`/users/id/${userId}/`, {
       method: 'GET',
       headers: {
         Authorization: `JWT ${token}`,
       },
     })
       .then(response => response.json())
-      .then(json => dispatch(saveAuthority(json)));
+      .then(json => {
+        dispatch(saveAuthority(json));
+      });
   };
 }
 
@@ -173,6 +199,7 @@ const actionCreators = {
   usernameLogin,
   createAccount,
   logout,
+  setUser,
 };
 
 export {actionCreators};
