@@ -28,7 +28,6 @@ urlpatterns = [
     url(r'^qrcodes/', include(
         'space_manager.qrcodes.urls', namespace='qrcodes')),
     url(r'^accounts/', include('allauth.urls')),
-    url(r'^users/', include('space_manager.users.urls', namespace='users')),
 
     # Your stuff: custom urls includes go here
 ] + static(

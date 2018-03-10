@@ -59,7 +59,6 @@ function facebookLogin(access_token) {
     })
       .then(response => response.json())
       .then(json => {
-        console.log('json:', json);
         if (json.token) {
           localStorage.setItem('jwt', json.token);
           dispatch(saveToken(json.token)); //state를 변경하는 saveToken 실행시킴(action creator)
@@ -87,6 +86,7 @@ function usernameLogin(username, password) {
       .then(json => {
         if (json.token) {
           dispatch(saveToken(json.token));
+          dispatch(checkAuthority(json.user));
         }
       })
       .catch(err => console.log(err));
@@ -112,6 +112,7 @@ function createAccount(username, password1, password2, email, name) {
       .then(json => {
         if (json.token) {
           dispatch(saveToken(json.token));
+          dispatch(checkAuthority(json.user));
         }
       });
   };
