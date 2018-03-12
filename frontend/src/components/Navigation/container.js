@@ -13,6 +13,7 @@ class Container extends Component {
         {...this.props}
         show={show}
         handleMenuClick={this._handleMenuClick}
+        handleBackClick={this._handleBackClick}
       />
     );
   }
@@ -32,6 +33,16 @@ class Container extends Component {
         };
       }
     });
+  };
+
+  _handleBackClick = event => {
+    const is_back = event.target.getAttribute('data_back');
+    if (is_back) {
+      this.setState({
+        ...this.state,
+        show: false,
+      });
+    }
   };
 }
 

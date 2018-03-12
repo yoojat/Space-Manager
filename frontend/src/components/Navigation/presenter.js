@@ -3,6 +3,7 @@ import Ionicon from 'react-ionicons';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import styles from './styles.scss';
+import Menu from 'components/Menu';
 
 const Navigation = (props, context) => (
   <div className={styles.navigation}>
@@ -19,11 +20,15 @@ const Navigation = (props, context) => (
 
       <div className={styles.column}>
         <div className={styles.navIcon} onClick={props.handleMenuClick}>
-          <Ionicon icon="md-menu" fontSize="32px" color="black" />
+          <Ionicon
+            icon="md-menu"
+            fontSize="32px"
+            color={props.show ? 'white' : 'black'}
+          />
         </div>
       </div>
     </div>
-    {props.show ? 'show' : null}
+    {props.show ? <Menu handleBackClick={props.handleBackClick} /> : null}
   </div>
 );
 
@@ -34,6 +39,7 @@ Navigation.contextTypes = {
 Navigation.propTypes = {
   show: PropTypes.bool.isRequired,
   handleMenuClick: PropTypes.func.isRequired,
+  handleBackClick: PropTypes.func.isRequired,
 };
 
 export default Navigation;

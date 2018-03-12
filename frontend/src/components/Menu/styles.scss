@@ -1,0 +1,68 @@
+.container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+
+  z-index: 2;
+  animation: dark 1s;
+  background-color: rgba(0, 0, 0, 0.5);
+
+  .column {
+    position: fixed;
+    animation: show 1s;
+    background: #1b1c1d;
+    height: 100%;
+    right: 0;
+    width: 260px;
+    .nav {
+      .list {
+        .list-item {
+          padding-top: 10px;
+          padding-bottom: 10px;
+          color: rgba(255, 255, 255, 0.9);
+          font-size: 1em;
+          font-weight: 700;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+          &:hover {
+            background-color: #2d2e2f;
+            transition: all 0.5s;
+          }
+          .menuLogo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            img {
+              width: 60px;
+              height: 39px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@keyframes dark {
+  from {
+    background-color: white;
+  }
+  to {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+}
+
+@keyframes show {
+  from {
+    right: -260px;
+  }
+  to {
+    right: 0;
+  }
+}
