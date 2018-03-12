@@ -5,7 +5,6 @@ import './styles.scss';
 import Footer from 'components/Footer';
 import Auth from 'components/Auth';
 import Navigation from 'components/Navigation';
-import SuperuserNavigation from 'components/SuperuserNavigation';
 import Branches from 'components/Branches';
 
 //app에서 모든 route를 관리

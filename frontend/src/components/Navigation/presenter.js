@@ -16,34 +16,24 @@ const Navigation = (props, context) => (
           />
         </Link>
       </div>
+
       <div className={styles.column}>
-        <input
-          type="text"
-          placeholder={context.t('Search')}
-          className={styles.searchInput}
-        />
-      </div>
-      <div className={styles.column}>
-        <div className={styles.navIcon}>
-          <Link to="/explore">
-            <Ionicon icon="ios-compass-outline" fontSize="28px" color="black" />
-          </Link>
-        </div>
-        <div className={styles.navIcon}>
-          <Ionicon icon="ios-heart-outline" fontSize="28px" color="black" />
-        </div>
-        <div className={styles.navIcon}>
-          <Link to="/profile">
-            <Ionicon icon="ios-person-outline" fontSize="32px" color="black" />
-          </Link>
+        <div className={styles.navIcon} onClick={props.handleMenuClick}>
+          <Ionicon icon="md-menu" fontSize="32px" color="black" />
         </div>
       </div>
     </div>
+    {props.show ? 'show' : null}
   </div>
 );
 
 Navigation.contextTypes = {
   t: PropTypes.func.isRequired,
+};
+
+Navigation.propTypes = {
+  show: PropTypes.bool.isRequired,
+  handleMenuClick: PropTypes.func.isRequired,
 };
 
 export default Navigation;
