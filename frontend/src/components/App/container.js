@@ -10,19 +10,22 @@ class Container extends Component {
   };
   componentDidMount() {
     const {setUser} = this.props;
-    if (!this.props.is_staff && !this.props.is_superuser) {
+    if (
+      this.props.is_staff === undefined &&
+      !this.props.is_superuser === undefined
+    ) {
       setUser();
     }
   }
 
   render() {
-    const {isLoggedIn, pathname} = this.props;
+    const {isLoggedIn, pathname, is_staff, is_superuser} = this.props;
     return (
       <App
         isLoggedIn={isLoggedIn}
         pathname={pathname}
-        // is_staff={is_staff}
-        // is_superuser={is_superuser}
+        is_staff={is_staff}
+        is_superuser={is_superuser}
       />
     );
   }

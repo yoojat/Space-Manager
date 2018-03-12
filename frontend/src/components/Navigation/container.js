@@ -2,8 +2,12 @@ import React, {Component} from 'react';
 import Navigation from './presenter';
 
 class Container extends Component {
+  state = {
+    show: false,
+  };
+
   render() {
-    return <Navigation />;
+    return <Navigation {...this.state} show={this.state.show} />;
   }
 }
 

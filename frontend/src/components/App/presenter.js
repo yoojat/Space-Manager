@@ -5,13 +5,20 @@ import './styles.scss';
 import Footer from 'components/Footer';
 import Auth from 'components/Auth';
 import Navigation from 'components/Navigation';
+import SuperuserNavigation from 'components/SuperuserNavigation';
 import Branches from 'components/Branches';
 
 //app에서 모든 route를 관리
 //리액트에서는 하나의 컴포터넌트를 리턴하는 것이 아니라, array를 리턴할수도 있음
 const App = props => {
   return [
-    props.isLoggedIn ? <Navigation key={1} /> : null,
+    props.isLoggedIn ? (
+      props.is_superuser ? (
+        <SuperuserNavigation key={1} />
+      ) : (
+        <Navigation key={1} />
+      )
+    ) : null,
     props.isLoggedIn ? <PrivateRoutes key={2} /> : <PublicRoutes key={2} />,
     <Footer key={3} />,
   ];
@@ -19,8 +26,8 @@ const App = props => {
 
 App.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
-  // is_staff: PropTypes.bool,
-  // is_superuser: PropTypes.bool,
+  // is_staff: PropTypes.bool.isRequired,
+  // is_superuser: PropTypes.bool.isRequired,
 };
 
 // 로그인했을 때 보여지는 컴포넌트

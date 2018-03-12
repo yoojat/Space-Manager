@@ -6,7 +6,6 @@ import {actionCreators as userActions} from 'redux/modules/user';
 //컴포넌트의 현재 state를 불러옴, 이는 provider store에서 불러옴
 const mapStateToProps = (state, ownProps) => {
   const {user, routing: {location}} = state;
-  console.log(user);
 
   return {
     isLoggedIn: user.isLoggedIn,
