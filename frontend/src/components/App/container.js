@@ -12,7 +12,7 @@ class Container extends Component {
     const {setUser} = this.props;
     if (
       this.props.is_staff === undefined &&
-      !this.props.is_superuser === undefined
+      this.props.is_superuser === undefined
     ) {
       setUser();
     }
