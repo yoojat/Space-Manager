@@ -61,7 +61,11 @@ class BranchDetail(APIView):
 
         branch = models.Branch.objects.get(id=branch_id)
 
-        serializer = serializers.BranchSerializer(branch)
+        serializer = serializers.BranchSerializer(
+            branch, context={
+                'reqeust': request
+            })
+        #serializer가 request를 받을 수 있음
 
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
