@@ -120,3 +120,29 @@ class Search(APIView):
         serializer = serializers.BranchSerializer(branches, many=True)
 
         return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+
+class BracnhDetailByIp(APIView):
+    def find_branchIpObj(self, branch_ip):
+        try:
+            branchIpObj = models.BranchIp.objects.get(ip=branch_ip)
+            return branchIpObj
+        except models.BranchIp.DoesNotExist:
+            return None
+
+    def get(self, request, branch_ip, format=None):
+        # 제목 : 지점이름으로 검색하기
+        # 설명 : 아이피를 통해 하나의 지점을 리턴
+        # 데이터
+        # 해당 지점에 해당되는 id,branch_num,region, branch_name,address,detail_address,lat,lng,lounge_img
+        #
+
+        branchIpObj = self.find_branchIpObj(branch_ip)
+
+        if branchIpObj is None:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        serializer = serializers.BranchIpSerializer(branchIpObj)
+        print(branch_ip)
+
+        return Response(data=serializer.data, status=status.HTTP_200_OK)

@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from space_manager.branches import models as branch_models
 from django.core.exceptions import ValidationError
+from pprint import pprint
 
 
 @python_2_unicode_compatible
@@ -9,7 +10,7 @@ class Branch(models.Model):
     def validate_image(fieldfile_obj):
         filesize = fieldfile_obj.file.size
         # megabyte_limit = 2.0
-        kilobyte_limit = 100.0
+        kilobyte_limit = 1000.0
         if filesize > kilobyte_limit * 1024:
             raise ValidationError(
                 "Max file size is %sKB" % str(kilobyte_limit))
@@ -47,3 +48,15 @@ class BranchConfig(models.Model):
     def __str__(self):
         return '{}호점 - {}'.format(self.branch.branch_num,
                                   self.branch.branch_name)
+
+
+@python_2_unicode_compatible
+class BranchIp(models.Model):
+    """ Branch IP Model """
+
+    branch = models.ForeignKey(
+        branch_models.Branch, null=True, related_name='ips')
+    ip = models.CharField(max_length=140, null=True)
+
+    def __str__(self):
+        return '{}호점 - {}'.format(self.branch, self.ip)
