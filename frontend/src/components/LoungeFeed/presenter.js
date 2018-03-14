@@ -17,4 +17,8 @@ LoungeFeed.contextTypes = {
   t: PropTypes.func.isRequired,
 };
 
+LoungeFeed.propTypes = {
+  loading: PropTypes.bool.isRequired,
+};
+
 export default LoungeFeed;

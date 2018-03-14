@@ -13,7 +13,7 @@ urlpatterns = [
     # url(regex=r'^ip/(?P<branch_ip>[.a-z0-9]+)/$',
     #     view=views.BracnhDetailByIp.as_view(),
     #     name='branch_by_ip'),
-    url(regex=r'^ip/$',
+    url(regex=r'^here/$',
         view=views.BranchIpAddress.as_view(),
         name='branch_ip'),
 ]

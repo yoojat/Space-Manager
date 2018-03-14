@@ -38,6 +38,28 @@ function getBranches() {
   };
 }
 
+function getBranch() {
+  return (dispatch, getState) => {
+    const {user: {token}} = getState();
+
+    fetch(`/branch/here/`, {
+      method: 'GET',
+      headers: {
+        Authorization: `JWT ${token}`,
+      },
+    })
+      .then(response => {
+        if (response.status === 401) {
+          dispatch(userActions.logout());
+        }
+        return response.json();
+      })
+      .then(json => {
+        console.log(json);
+      });
+  };
+}
+
 // iniital state
 const initialState = {};
 
@@ -63,6 +85,7 @@ function applySetBranch(state, action) {
 
 const actionCreators = {
   getBranches,
+  getBranch,
 };
 
 export {actionCreators};

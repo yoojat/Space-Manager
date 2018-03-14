@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from . import models
-from space_manager.branches import serializers as branch_serializers
 from space_manager.seats import serializers as seat_serailizers
 
 
