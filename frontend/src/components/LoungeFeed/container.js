@@ -6,3 +6,5 @@ class Container extends Component {
     return <LoungeFeed {...this.props} />;
   }
 }
+
+export default Container;

@@ -8,7 +8,13 @@ const LoungeFeed = (props, context) => {
       <header className={styles.header}>
         <span className={styles.headerTitle}>지금 계신 라운지는 ~입니다.</span>
       </header>
-      <img src={require('images/test2.png')} />
+      <img src={require('images/test2.jpg')} alt={context.t('도면')} />
     </div>
   );
 };
+
+LoungeFeed.contextTypes = {
+  t: PropTypes.func.isRequired,
+};
+
+export default LoungeFeed;

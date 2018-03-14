@@ -59,7 +59,10 @@ class BranchDetail(APIView):
         # 가지고 오는 데이터
         # 해당 지점에 해당되는 id,branch_num,region, branch_name,address,detail_address,lat,lng,lounge_img
 
-        branch = models.Branch.objects.get(id=branch_id)
+        try:
+            branch = models.Branch.objects.get(id=branch_id)
+        except models.Branch.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
         serializer = serializers.BranchSerializer(
             branch, context={
@@ -122,7 +125,41 @@ class Search(APIView):
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
 
-class BracnhDetailByIp(APIView):
+# class BracnhDetailByIp(APIView):
+#     def find_branchIpObj(self, branch_ip):
+#         try:
+#             branchIpObj = models.BranchIp.objects.get(ip=branch_ip)
+#             return branchIpObj
+#         except models.BranchIp.DoesNotExist:
+#             return None
+
+#     def get(self, request, branch_ip, format=None):
+#         # 제목 : 지점이름으로 검색하기
+#         # 설명 : 아이피를 통해 하나의 지점을 리턴
+#         # 데이터
+#         # 해당 지점에 해당되는 id,branch_num,region, branch_name,address,detail_address,lat,lng,lounge_img
+#         #
+
+#         branchIpObj = self.find_branchIpObj(branch_ip)
+
+#         if branchIpObj is None:
+#             return Response(status=status.HTTP_404_NOT_FOUND)
+
+#         serializer = serializers.BranchIpSerializer(branchIpObj)
+#         print(branch_ip)
+
+#         return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+
+class BranchIpAddress(APIView):
+    def get_client_ip(self, req):
+        x_forwarded_for = req.META.get('HTTP_X_FORWARDED_FOR')
+        if x_forwarded_for:
+            ip = x_forwarded_for.split(',')[0]
+        else:
+            ip = req.META.get('REMOTE_ADDR')
+        return ip
+
     def find_branchIpObj(self, branch_ip):
         try:
             branchIpObj = models.BranchIp.objects.get(ip=branch_ip)
@@ -130,19 +167,13 @@ class BracnhDetailByIp(APIView):
         except models.BranchIp.DoesNotExist:
             return None
 
-    def get(self, request, branch_ip, format=None):
-        # 제목 : 지점이름으로 검색하기
-        # 설명 : 아이피를 통해 하나의 지점을 리턴
-        # 데이터
-        # 해당 지점에 해당되는 id,branch_num,region, branch_name,address,detail_address,lat,lng,lounge_img
-        #
-
-        branchIpObj = self.find_branchIpObj(branch_ip)
+    def get(self, request, format=None):
+        ip = self.get_client_ip(request)
+        branchIpObj = self.find_branchIpObj(ip)
 
         if branchIpObj is None:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
         serializer = serializers.BranchIpSerializer(branchIpObj)
-        print(branch_ip)
 
         return Response(data=serializer.data, status=status.HTTP_200_OK)
