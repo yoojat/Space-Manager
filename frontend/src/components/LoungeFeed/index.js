@@ -3,9 +3,9 @@ import Container from './container';
 import {actionCreators as branchActions} from 'redux/modules/branch';
 
 const mapStateToProp = (state, ownProps) => {
-  const {branch: {here}} = state;
+  const {branch: {now_branch}} = state;
   return {
-    here,
+    now_branch,
   };
 };
 

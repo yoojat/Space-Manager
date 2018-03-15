@@ -7,7 +7,7 @@ class Container extends Component {
   };
   componentDidMount() {
     const {getBranch} = this.props;
-    if (!this.props.here) {
+    if (!this.props.now_branch) {
       getBranch();
     } else {
       this.setState({
@@ -16,7 +16,7 @@ class Container extends Component {
     }
   }
   componentWillReceiveProps = nextProps => {
-    if (nextProps.here) {
+    if (nextProps.now_branch) {
       this.setState({
         loading: false,
       });
@@ -24,8 +24,8 @@ class Container extends Component {
   };
 
   render() {
-    const {here} = this.props;
-    return <LoungeFeed {...this.state} here={here} />;
+    const {now_branch} = this.props;
+    return <LoungeFeed {...this.state} now_branch={now_branch} />;
   }
 }
 

@@ -1,16 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './styles.scss';
+import Loading from 'components/Loading';
+import Lounge from 'components/Lounge';
 
-const LoungeFeed = (props, context) => {
-  return (
-    <div className={styles.loungeFeed}>
-      <header className={styles.header}>
-        <span className={styles.headerTitle}>지금 계신 라운지는 ~입니다.</span>
-      </header>
-      <img src={require('images/test2.jpg')} alt={context.t('도면')} />
-    </div>
-  );
+const LoungeFeed = props => {
+  if (props.loading) {
+    return <LoadingFeed />;
+  } else if (props.now_branch) {
+    return <RenderLoungeFeed {...props} />;
+  }
+};
+
+const LoadingFeed = props => (
+  <div className={styles.loungeFeed}>
+    <Loading />
+  </div>
+);
+
+const RenderLoungeFeed = props => {
+  return <Lounge {...props} />;
 };
 
 LoungeFeed.contextTypes = {
@@ -19,6 +28,27 @@ LoungeFeed.contextTypes = {
 
 LoungeFeed.propTypes = {
   loading: PropTypes.bool.isRequired,
+  now_branch: PropTypes.shape({
+    address: PropTypes.string,
+    branch_name: PropTypes.string,
+    branch_num: PropTypes.number,
+    detail_address: PropTypes.string,
+    id: PropTypes.number,
+    is_enrolled: PropTypes.bool,
+    lat: PropTypes.number,
+    lng: PropTypes.number,
+    lounge_img: PropTypes.string,
+    region: PropTypes.strinㅎ,
+  }),
+  rooms: PropTypes.arrayOf(
+    PropTypes.shape({
+      branch: PropTypes.number,
+      desk_size: PropTypes.number,
+      height: PropTypes.number,
+      left: PropTypes.number,
+      room_number: PropTypes.number,
+    })
+  ),
 };
 
 export default LoungeFeed;

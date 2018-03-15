@@ -1,9 +1,11 @@
 .lounge-feed {
-  width: 75vw;
+  margin-top: 10px;
+  min-height: 500px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: $max-page-width;
   margin-left: auto;
   margin-right: auto;
-  .header {
-  }
-  .header-title {
-  }
+  align-items: center;
 }
