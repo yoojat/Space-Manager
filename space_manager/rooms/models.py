@@ -32,4 +32,4 @@ class Room(models.Model):
         return '{}열람실({})'.format(self.room_number, self.room_type)
 
     class Meta:
-        ordering = ['room_number']
+        ordering = ['branch', 'room_number']
