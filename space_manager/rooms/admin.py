@@ -27,4 +27,5 @@ class RoomAdmin(admin.ModelAdmin):
         'left',
         'top',
         'usable',
+        'desk_size',
     )

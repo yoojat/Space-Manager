@@ -33,7 +33,7 @@ class Seat(models.Model):
         return ('{} - {}').format(self.branch, self.seat_number)
 
     class Meta:
-        ordering = ['branch__branch_num', 'seat_number']
+        ordering = ['branch', 'room__room_number', 'seat_number']
 
 
 class Action(models.Model):

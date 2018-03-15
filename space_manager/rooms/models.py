@@ -27,6 +27,7 @@ class Room(models.Model):
     left = models.FloatField(null=True)
     top = models.FloatField(null=True)
     usable = models.BooleanField(default=True)
+    desk_size = models.FloatField(null=True)
 
     def __str__(self):
         return '{}열람실({})'.format(self.room_number, self.room_type)

@@ -27,6 +27,7 @@ class RoomSerializer(serializers.ModelSerializer):
             'top',
             'usable',
             'seats',
+            'desk_size',
         )
 
 
