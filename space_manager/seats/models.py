@@ -62,8 +62,8 @@ class Log(TimeStampModel):
     """ Log Model """
     action = models.ForeignKey(Action)
     user = models.ForeignKey(user_models.User, null=True, blank=True)
-    seat = models.ForeignKey(Seat)
-    seat_image = models.ForeignKey(SeatImage, related_name='Logs', null=True)
+    seat = models.ForeignKey(Seat, related_name='logs')
+    seat_image = models.ForeignKey(SeatImage, null=True)
 
     def __str__(self):
         return '{} - {}:{}'.format(self.action, self.seat, self.user)

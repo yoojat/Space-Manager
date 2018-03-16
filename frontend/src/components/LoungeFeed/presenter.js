@@ -19,7 +19,7 @@ const LoadingFeed = props => (
 );
 
 const RenderLoungeFeed = props => {
-  return <Lounge {...props} />;
+  return [<Lounge {...props} key={1} />, 'minimap'];
 };
 
 LoungeFeed.contextTypes = {
@@ -47,6 +47,7 @@ LoungeFeed.propTypes = {
       height: PropTypes.number,
       left: PropTypes.number,
       room_number: PropTypes.number,
+      logs: PropTypes,
     })
   ),
 };
