@@ -23,7 +23,7 @@ const Lounge = (props, context) => {
           className={styles.wholeLounge}
           alt={props.now_branch.branch.branch_name}
         />
-        {rooms.map(room => <ClickableArea {...room} key={room.id} />)};
+        {rooms.map(room => <ClickableArea {...room} key={room.id} />)}
       </div>
     </div>
   );
