@@ -4,14 +4,17 @@ import Navigation from './presenter';
 class Container extends Component {
   state = {
     show: false,
+    first: true,
   };
 
   render() {
     const show = this.state.show;
+    const first = this.state.first;
     return (
       <Navigation
         {...this.props}
         show={show}
+        first={first}
         handleMenuClick={this._handleMenuClick}
         handleBackClick={this._handleBackClick}
       />
@@ -26,10 +29,12 @@ class Container extends Component {
       if (show === true) {
         return {
           show: false,
+          first: false,
         };
       } else if (show === false) {
         return {
           show: true,
+          first: false,
         };
       }
     });
@@ -41,6 +46,7 @@ class Container extends Component {
       this.setState({
         ...this.state,
         show: false,
+        first: false,
       });
     }
   };

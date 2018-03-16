@@ -1,6 +1,10 @@
-import React from 'react';
+import React, {Component} from 'react';
 import Menu from './presenter';
 
-const Container = props => <Menu {...props} />;
+class Container extends Component {
+  render() {
+    return <Menu {...this.props} />;
+  }
+}
 
 export default Container;

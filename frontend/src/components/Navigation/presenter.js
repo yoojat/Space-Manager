@@ -28,7 +28,12 @@ const Navigation = (props, context) => (
         </div>
       </div>
     </div>
-    {props.show ? <Menu handleBackClick={props.handleBackClick} /> : null}
+    {/* {props.show ? <Menu handleBackClick={props.handleBackClick} /> : null} */}
+    <Menu
+      handleBackClick={props.handleBackClick}
+      show={props.show}
+      first={props.first}
+    />
   </div>
 );
 
@@ -38,6 +43,7 @@ Navigation.contextTypes = {
 
 Navigation.propTypes = {
   show: PropTypes.bool.isRequired,
+  first: PropTypes.bool.isRequired,
   handleMenuClick: PropTypes.func.isRequired,
   handleBackClick: PropTypes.func.isRequired,
 };
