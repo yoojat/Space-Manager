@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styles from './styles.scss';
 import Loading from 'components/Loading';
 import Lounge from 'components/Lounge';
+import MiniMap from 'components/MiniMap';
 
 const LoungeFeed = props => {
   if (props.loading) {
@@ -19,7 +20,7 @@ const LoadingFeed = props => (
 );
 
 const RenderLoungeFeed = props => {
-  return [<Lounge {...props} key={1} />, 'minimap'];
+  return [<Lounge {...props} key={1} />, <MiniMap key={2} />];
 };
 
 LoungeFeed.contextTypes = {
@@ -38,7 +39,7 @@ LoungeFeed.propTypes = {
     lat: PropTypes.number,
     lng: PropTypes.number,
     lounge_img: PropTypes.string,
-    region: PropTypes.strinㅎ,
+    region: PropTypes.string,
   }),
   rooms: PropTypes.arrayOf(
     PropTypes.shape({

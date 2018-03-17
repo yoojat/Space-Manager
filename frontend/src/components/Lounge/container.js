@@ -3,7 +3,6 @@ import Lounge from './presenter';
 
 class Container extends Component {
   render() {
-    console.log(this.props);
     return <Lounge {...this.props} />;
   }
 }
