@@ -1,18 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import MiniMap from 'components/MiniMap';
 import styles from './styles.scss';
 
-const ClickableArea = props => {
-  const width = `${props.width}%`;
-  const height = `${props.height}%`;
-  const left = `${props.left}%`;
-  const top = `${props.top}%`;
-
-  return <div className={styles.room} style={{width, height, left, top}} />;
-};
-
 const Lounge = (props, context) => {
-  const rooms = props.now_branch.branch.rooms;
+  const {rooms} = props.now_branch.branch;
+  const {branch} = props.now_branch;
 
   return (
     <div className={styles.lounge}>
@@ -25,8 +18,18 @@ const Lounge = (props, context) => {
         />
         {rooms.map(room => <ClickableArea {...room} key={room.id} />)}
       </div>
+      <MiniMap branch={branch} />
     </div>
   );
+};
+
+const ClickableArea = props => {
+  const width = `${props.width}%`;
+  const height = `${props.height}%`;
+  const left = `${props.left}%`;
+  const top = `${props.top}%`;
+
+  return <div className={styles.room} style={{width, height, left, top}} />;
 };
 
 Lounge.contextTypes = {

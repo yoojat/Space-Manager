@@ -1,0 +1,11 @@
+.branch-area {
+  position: relative;
+  .room {
+    position: absolute;
+    .seat {
+      width: 4px;
+      height: 4px;
+      position: absolute;
+    }
+  }
+}

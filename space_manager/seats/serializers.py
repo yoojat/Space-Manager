@@ -71,9 +71,6 @@ class ShowSeatSerializer(serializers.ModelSerializer):
                 seat=obj).order_by('-created_at')[:1]
             if latest_log:
                 if latest_log[0].action == assign_action:
-                    print(obj)
-                    print(obj.id)
-                    print(latest_log[0].action == assign_action)
                     return True
                 else:
                     return False
