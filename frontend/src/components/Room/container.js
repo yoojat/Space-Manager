@@ -6,6 +6,21 @@ class Container extends Component {
     loading: true,
   };
 
+  componetDidMount() {
+    const {room} = this.props;
+    if (room) {
+      this.setState({loading: false});
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.room) {
+      this.setState({
+        loading: false,
+      });
+    }
+  }
+
   render() {
     return <Room {...this.props} {...this.state} />;
   }
