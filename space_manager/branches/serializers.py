@@ -9,13 +9,12 @@ from datetime import datetime, timedelta
 
 class BranchSerializerForIp(serializers.ModelSerializer):
     is_enrolled = serializers.SerializerMethodField()
-    rooms = rooms_serializers.RoomSerializer(many=True)
+    rooms = rooms_serializers.RoomBriefSerializer(many=True)
 
     class Meta:
         model = models.Branch
-        fields = ('id', 'branch_num', 'region', 'branch_name', 'address',
-                  'detail_address', 'lat', 'lng', 'lounge_img', 'is_enrolled',
-                  'rooms', 'height', 'width')
+        fields = ('id', 'branch_name', 'lounge_img', 'is_enrolled', 'rooms',
+                  'height', 'width')
 
     def get_is_enrolled(self, obj):
         now = datetime.today()

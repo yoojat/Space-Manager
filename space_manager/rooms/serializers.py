@@ -45,3 +45,11 @@ class InputRoomSerializer(serializers.ModelSerializer):
             'left',
             'top',
         )
+
+
+class RoomBriefSerializer(serializers.ModelSerializer):
+    seats = seat_serailizers.SeatBriefSerializer(many=True)
+
+    class Meta:
+        model = models.Room
+        fields = ('id', 'width', 'height', 'left', 'top', 'seats')

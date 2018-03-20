@@ -19,37 +19,43 @@ const LoadingFeed = props => (
 );
 
 const RenderLoungeFeed = props => {
-  return [<Lounge {...props} key={1} />];
+  return <Lounge branch={props.now_branch.branch} key={1} />;
 };
 
 LoungeFeed.contextTypes = {
   t: PropTypes.func.isRequired,
 };
 
-LoungeFeed.propTypes = {
+RenderLoungeFeed.propTypes = {
   loading: PropTypes.bool.isRequired,
   now_branch: PropTypes.shape({
-    address: PropTypes.string,
-    branch_name: PropTypes.string,
-    branch_num: PropTypes.number,
-    detail_address: PropTypes.string,
-    id: PropTypes.number,
-    is_enrolled: PropTypes.bool,
-    lat: PropTypes.number,
-    lng: PropTypes.number,
-    lounge_img: PropTypes.string,
-    region: PropTypes.string,
-  }),
-  rooms: PropTypes.arrayOf(
-    PropTypes.shape({
-      branch: PropTypes.number,
-      desk_size: PropTypes.number,
-      height: PropTypes.number,
-      left: PropTypes.number,
-      room_number: PropTypes.number,
-      logs: PropTypes,
-    })
-  ),
+    branch: PropTypes.shape({
+      branch_name: PropTypes.string.isRequired,
+      id: PropTypes.number.isRequired,
+      is_enrolled: PropTypes.bool.isRequired,
+      lounge_img: PropTypes.string.isRequired,
+      width: PropTypes.number.isRequired,
+      height: PropTypes.number.isRequired,
+      rooms: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.number.isRequired,
+          width: PropTypes.number.isRequired,
+          height: PropTypes.number.isRequired,
+          left: PropTypes.number.isRequired,
+          top: PropTypes.number.isRequired,
+          seats: PropTypes.arrayOf(
+            PropTypes.shape({
+              id: PropTypes.number.isRequired,
+              left: PropTypes.number.isRequired,
+              now_using: PropTypes.bool.isRequired,
+              usable: PropTypes.bool.isRequired,
+              discard: PropTypes.bool.isRequired,
+            }).isRequired
+          ).isRequired,
+        })
+      ).isRequired,
+    }).isRequired,
+  }).isRequired,
 };
 
 export default LoungeFeed;

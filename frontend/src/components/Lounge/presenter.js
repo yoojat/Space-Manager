@@ -1,65 +1,67 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import MiniMap from 'components/MiniMap';
+import Room from 'components/Room';
+import ClickableArea from 'components/ClickableArea';
 import styles from './styles.scss';
 
 const Lounge = (props, context) => {
-  const {rooms} = props.now_branch.branch;
-  const {branch} = props.now_branch;
+  const {rooms} = props.branch;
+  const {branch} = props;
 
   return (
     <div className={styles.lounge}>
       <header className={styles.header} />
       <div className={styles.container}>
         <img
-          src={props.now_branch.branch.lounge_img}
+          src={branch.lounge_img}
           className={styles.wholeLounge}
-          alt={props.now_branch.branch.branch_name}
+          alt={branch.branch_name}
         />
-        {rooms.map(room => <ClickableArea {...room} key={room.id} />)}
+        {rooms.map(room => (
+          <ClickableArea {...room} openRoom={props.openRoom} key={room.id} />
+        ))}
       </div>
       <MiniMap branch={branch} />
+      {props.seeingRoom && (
+        <Room room={this.room} closeRoom={props.closeRoom} />
+      )}
     </div>
   );
-};
-
-const ClickableArea = props => {
-  const width = `${props.width}%`;
-  const height = `${props.height}%`;
-  const left = `${props.left}%`;
-  const top = `${props.top}%`;
-
-  return <div className={styles.room} style={{width, height, left, top}} />;
 };
 
 Lounge.contextTypes = {
   t: PropTypes.func.isRequired,
 };
 Lounge.propTypes = {
-  now_branch: PropTypes.shape({
-    branch: PropTypes.shape({
-      address: PropTypes.string.isRequired,
-      branch_name: PropTypes.string.isRequired,
-      branch_num: PropTypes.number.isRequired,
-      detail_address: PropTypes.string.isRequired,
-      id: PropTypes.number.isRequired,
-      is_enrolled: PropTypes.bool.isRequired,
-      lat: PropTypes.number.isRequired,
-      lng: PropTypes.number.isRequired,
-      lounge_img: PropTypes.string.isRequired,
-      region: PropTypes.string.isRequired,
-      rooms: PropTypes.arrayOf(
-        PropTypes.shape({
-          branch: PropTypes.number.isRequired,
-          desk_size: PropTypes.number.isRequired,
-          height: PropTypes.number.isRequired,
-          left: PropTypes.number.isRequired,
-          room_number: PropTypes.number.isRequired,
-          id: PropTypes.number.isRequired,
-        }).isRequired
-      ).isRequired,
-    }),
+  branch: PropTypes.shape({
+    branch_name: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
+    is_enrolled: PropTypes.bool.isRequired,
+    lounge_img: PropTypes.string.isRequired,
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
+    rooms: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        width: PropTypes.number.isRequired,
+        height: PropTypes.number.isRequired,
+        left: PropTypes.number.isRequired,
+        top: PropTypes.number.isRequired,
+        seats: PropTypes.arrayOf(
+          PropTypes.shape({
+            id: PropTypes.number.isRequired,
+            left: PropTypes.number.isRequired,
+            now_using: PropTypes.bool.isRequired,
+            usable: PropTypes.bool.isRequired,
+            discard: PropTypes.bool.isRequired,
+          }).isRequired
+        ).isRequired,
+      })
+    ).isRequired,
   }).isRequired,
+  closeRoom: PropTypes.func.isRequired,
+  openRoom: PropTypes.func.isRequired,
 };
 
 export default Lounge;

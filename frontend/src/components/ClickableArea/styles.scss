@@ -1,0 +1,10 @@
+.room {
+  position: absolute;
+  opacity: 0.5;
+  cursor: pointer;
+  //   background-color: powderblue;
+
+  &:hover {
+    background-color: white;
+  }
+}

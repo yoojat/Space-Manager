@@ -31,11 +31,12 @@ const RoomArea = props => (
       width: props.width + '%',
       height: props.height + '%',
     }}
+    key={props.id}
   >
     {props.seats.map(seat => {
-      if (seat.usable && seat.seat_number !== 0)
+      if (seat.usable && seat.seat_number !== 0) {
         return <Seat {...seat} key={seat.id} />;
-      else return null;
+      } else return null;
     })}
   </div>
 );
@@ -57,26 +58,29 @@ const Seat = props => {
 
 MiniMap.propTypes = {
   branch: PropTypes.shape({
-    address: PropTypes.string.isRequired,
     branch_name: PropTypes.string.isRequired,
-    branch_num: PropTypes.number.isRequired,
-    detail_address: PropTypes.string.isRequired,
+    height: PropTypes.number.isRequired,
     id: PropTypes.number.isRequired,
     is_enrolled: PropTypes.bool.isRequired,
-    lat: PropTypes.number.isRequired,
-    lng: PropTypes.number.isRequired,
     lounge_img: PropTypes.string.isRequired,
-    region: PropTypes.string.isRequired,
     width: PropTypes.number.isRequired,
-    height: PropTypes.number.isRequired,
     rooms: PropTypes.arrayOf(
       PropTypes.shape({
-        branch: PropTypes.number.isRequired,
-        desk_size: PropTypes.number.isRequired,
         height: PropTypes.number.isRequired,
-        left: PropTypes.number.isRequired,
-        room_number: PropTypes.number.isRequired,
         id: PropTypes.number.isRequired,
+        left: PropTypes.number.isRequired,
+        top: PropTypes.number.isRequired,
+        width: PropTypes.number.isRequired,
+        seats: PropTypes.arrayOf(
+          PropTypes.shape({
+            left: PropTypes.number.isRequired,
+            top: PropTypes.number.isRequired,
+            usable: PropTypes.bool.isRequired,
+            discard: PropTypes.bool.isRequired,
+            now_using: PropTypes.bool.isRequired,
+            id: PropTypes.number.isRequired,
+          })
+        ).isRequired,
       }).isRequired
     ).isRequired,
   }),
