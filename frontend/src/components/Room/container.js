@@ -6,7 +6,7 @@ class Container extends Component {
     loading: true,
   };
 
-  componetDidMount() {
+  componentDidMount() {
     const {room} = this.props;
     if (room) {
       this.setState({loading: false});

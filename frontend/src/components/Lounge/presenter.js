@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import MiniMap from 'components/MiniMap';
-import Room from 'components/Room';
+import Seats from 'components/Seats';
 import ClickableArea from 'components/ClickableArea';
 import styles from './styles.scss';
 
@@ -24,7 +24,7 @@ const Lounge = (props, context) => {
       </div>
       <MiniMap branch={branch} />
       {props.seeingRoom && (
-        <Room room={this.room} closeRoom={props.closeRoom} />
+        <Seats closeRoom={props.closeRoom} seeingRoom={props.seeingRoom} />
       )}
     </div>
   );

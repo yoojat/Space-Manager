@@ -40,9 +40,26 @@
       }
       .content {
         min-height: 300px;
+        max-height: 600px;
         display: flex;
         justify-content: center;
         align-items: center;
+        height: 40vw;
+        .top-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100%;
+          .seat-container {
+            width: 90vw;
+            max-width: 600px;
+            position: relative;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            background-color: tomato;
+            height: 100%;
+          }
+        }
       }
     }
   }

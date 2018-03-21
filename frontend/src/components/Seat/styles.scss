@@ -1,0 +1,16 @@
+.seat {
+  position: absolute;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  .name {
+    position: absolute;
+    top: 12%;
+  }
+  img {
+    width: 100%;
+  }
+  &:hover {
+    background-color: yellow;
+  }
+}

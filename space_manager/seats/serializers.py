@@ -15,6 +15,7 @@ class SeatBriefSerializer(serializers.ModelSerializer):
             'usable',
             'discard',
             'now_using',
+            'seat_number',
         )
 
     def get_now_using(self, obj):
@@ -81,6 +82,7 @@ class InputSeatSerializer(serializers.ModelSerializer):
 class ShowSeatSerializer(serializers.ModelSerializer):
 
     now_using = serializers.SerializerMethodField()
+    image_url = serializers.SerializerMethodField()
 
     class Meta:
         model = models.Seat
@@ -93,6 +95,7 @@ class ShowSeatSerializer(serializers.ModelSerializer):
             'usable',
             'discard',
             'now_using',
+            'image_url',
         )
 
     def get_now_using(self, obj):
@@ -112,6 +115,26 @@ class ShowSeatSerializer(serializers.ModelSerializer):
 
         except models.Log.DoesNotExist:
             return False
+
+    def get_image_url(self, obj):
+
+        assign_action = models.Action.objects.get(en_substance='allocation')
+
+        try:
+            latest_log = models.Log.objects.filter(
+                seat=obj).order_by('-created_at')[:1]
+
+            if latest_log:
+                if latest_log[0].action == assign_action:
+                    return latest_log[0].seat_image.file.url
+
+                else:
+                    return None
+            else:
+                return None
+
+        except models.Log.DoesNotExist:
+            return None
 
 
 class ChangeLogSerializer(serializers.ModelSerializer):
