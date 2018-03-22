@@ -6,6 +6,9 @@
   .name {
     position: absolute;
     top: 12%;
+    @include breakpoint('phone') {
+      font-size: 10px;
+    }
   }
   img {
     width: 100%;

@@ -1,6 +1,9 @@
 .lounge {
   display: flex;
   justify-content: center;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 15px;
   .container {
     max-width: 300px;
     position: relative;

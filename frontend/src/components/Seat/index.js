@@ -30,7 +30,7 @@ const Seat = props => {
           alt={image_url ? '배정된 좌석' : '배정되지 않은 좌석'}
         />
       </div>
-      <div className={styles.name}>{seat_number}</div>
+      <div className={styles.name} style={{transform:`rotate(-${rotate}deg)`}}>{seat_number}</div>
     </div>
   );
 };

@@ -25,34 +25,38 @@ const Seats = props => {
             </span>
           </header>
           <div className={styles.content}>
-            <div className={styles.topContainer}>
-              {props.loading ? (
-                <Loading />
-              ) : (
-                <div
-                  className={styles.seatContainer}
-                  style={{
-                    height: `90vw/${props.room.height}*${props.room.width}`,
-                    maxHeight: `600px/${props.room.height}*${props.room.width}`,
-                  }}
-                >
-                  {props.room.seats.map(seat => (
-                    <Seat
-                      id={seat.id}
-                      left={seat.left}
-                      top={seat.top}
-                      rotate={seat.rotate}
-                      seat_number={seat.seat_number}
-                      usable={seat.usable}
-                      image_url={seat.image_url}
-                      discard={seat.discard}
-                      now_using={seat.now_using}
-                      desk_size={props.room.desk_size}
-                    />
-                  ))}
-                </div>
-              )}
-            </div>
+            {props.loading ? (
+              <Loading />
+            ) : (
+              <div
+                className={styles.seatContainer}
+                style={{
+                  height: `${90 / props.room.width * props.room.height}vw`,
+                  maxHeight: `${600 / 36 * 20}px`,
+                  // width: `${100 *
+                  //   props.room.width /
+                  //   (props.room.width + props.room.height)}%`,
+                  // maxHeight: `${400 / props.room.width * props.room.height}px`,
+                  // maxWidth: `${400 / props.room.height * props.room.width}px`,
+                }}
+              >
+                {props.room.seats.map(seat => (
+                  <Seat
+                    id={seat.id}
+                    left={seat.left}
+                    top={seat.top}
+                    rotate={seat.rotate}
+                    seat_number={seat.seat_number}
+                    usable={seat.usable}
+                    image_url={seat.image_url}
+                    discard={seat.discard}
+                    now_using={seat.now_using}
+                    desk_size={props.room.desk_size}
+                    key={seat.id}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>
