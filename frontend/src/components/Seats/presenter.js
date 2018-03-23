@@ -6,7 +6,6 @@ import Ionicon from 'react-ionicons';
 import Seat from 'components/Seat';
 
 const Seats = props => {
-  console.log(props);
   return (
     <div className={styles.container}>
       <div className={styles.overlay}>
