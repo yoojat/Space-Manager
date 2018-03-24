@@ -21,11 +21,12 @@ function saveToken(token) {
 }
 
 function saveAuthority(user) {
-  const {is_staff, is_superuser} = user;
+  const {is_staff, is_superuser, id} = user;
   return {
     type: SAVE_AUTHORITY,
     is_staff,
     is_superuser,
+    id,
   };
 }
 
@@ -184,11 +185,12 @@ function applyLogout(state, action) {
 }
 
 function applyAuthority(state, action) {
-  const {is_staff, is_superuser} = action;
+  const {is_staff, is_superuser, id} = action;
   return {
     ...state,
     is_staff,
     is_superuser,
+    id,
   };
 }
 

@@ -6,18 +6,26 @@ import Ionicon from 'react-ionicons';
 import Seat from 'components/Seat';
 
 const Seats = props => {
+  let headline;
+
+  if (props.loading) {
+    headline = '열람실 정보를 불러오는 중입니다...';
+  } else if (props.onAssignment) {
+    headline = '좌석을 배정중입니다';
+  } else {
+    headline = <RenderTitle title={props.room.room_type.kr_substance} />;
+  }
   return (
-    <div className={styles.container}>
+    <div
+      className={styles.container}
+      data-isback={true}
+      onClick={props.BackClickHandle}
+    >
       <div className={styles.overlay}>
+        {props.onAssignment ? <div className={styles.loadingSeat} /> : null}
         <div className={styles.box}>
           <header className={styles.header}>
-            <h4>
-              {props.loading ? (
-                '열람실 정보를 불러오는 중입니다...'
-              ) : (
-                <RenderTitle title={props.room.room_type.kr_substance} />
-              )}
-            </h4>
+            <h4>{headline}</h4>
 
             <span className={styles.closeRoom} onClick={props.closeRoom}>
               <Ionicon icon="md-close" fontSize="20px" color="black" />
@@ -52,6 +60,8 @@ const Seats = props => {
                     now_using={seat.now_using}
                     desk_size={props.room.desk_size}
                     key={seat.id}
+                    roomId={props.room.id}
+                    closeRoom={props.closeRoom}
                   />
                 ))}
               </div>

@@ -11,6 +11,16 @@
   text-align: center;
   .overlay {
     min-width: 300px;
+    position: relative;
+    .loading-seat {
+      height: 100%;
+      width: 100%;
+      background-color: rgba(222, 0, 0, 0.5);
+      position: absolute;
+      left: 0;
+      top: 0;
+      z-index: 100;
+    }
     .box {
       @include boxBorder(no);
       // width: 100%;

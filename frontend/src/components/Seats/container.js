@@ -21,15 +21,17 @@ class Container extends Component {
       this.setState({
         loading: false,
       });
-      console.log('componentWillReceiveProps:true');
-    } else {
-      console.log('componentWillReceiveProps:false');
     }
   }
 
   render() {
     return (
-      <Seats {...this.props} {...this.state} closeRoom={this._closeRoom} />
+      <Seats
+        {...this.props}
+        {...this.state}
+        closeRoom={this._closeRoom}
+        BackClickHandle={this._BackClickHandle}
+      />
     );
   }
 
@@ -38,6 +40,16 @@ class Container extends Component {
       loading: true,
     });
     this.props.closeRoom();
+  };
+  _BackClickHandle = event => {
+    const is_back = event.target.getAttribute('data-isback');
+
+    if (is_back) {
+      this.setState({
+        loading: true,
+      });
+      this.props.closeRoom();
+    }
   };
 }
 

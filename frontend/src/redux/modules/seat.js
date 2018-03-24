@@ -1,12 +1,13 @@
 //imports
 
 import {actionCreators as userActions} from 'redux/modules/user';
+import {actionCreators as branchActions} from 'redux/modules/branch';
 
 //actions
 
 const SET_ROOM_SEATS = 'SET_ROOM_SEATS';
 const ALLOCATE_SEAT = 'ALLOCATE_SEAT';
-const RETURN_SEAT = 'RETURN_SEAT';
+const CANCEL_ALLOCATE_SEAT = 'CANCEL_ALLOCATE_SEAT';
 
 //action creators : 리덕스 state를 변경
 
@@ -24,9 +25,9 @@ function doAllocateSeat(seatId) {
   };
 }
 
-function doReturnSeat(seatId) {
+function doCancelAllocateSeat(seatId) {
   return {
-    type: RETURN_SEAT,
+    type: CANCEL_ALLOCATE_SEAT,
     seatId,
   };
 }
@@ -53,12 +54,51 @@ function getRoomSeats(roomId) {
   };
 }
 
-function allocateSeat(seatId) {
+function allocateSeat(seatId, roomId) {
   return (dispatch, getState) => {
+    const {user: {id, token}} = getState();
+    const allocateFunc = async roomId => {
+      dispatch(getRoomSeats(roomId));
+      dispatch(branchActions.getBranch());
+    };
+
     dispatch(doAllocateSeat(seatId));
-    fetch(`/`);
+    fetch(`/seats/allocation/${seatId}/${id}/`, {
+      method: 'POST',
+      headers: {
+        Authorization: `JWT ${token}`,
+      },
+    }).then(response => {
+      if (response.status === 401) {
+        dispatch(userActions.logout());
+      } else if (!response.ok) {
+        dispatch(doCancelAllocateSeat(seatId));
+      } else {
+        allocateFunc(roomId);
+      }
+    });
   };
 }
+
+// function returnSeat(userId) {
+//   return (dispatch, getState) => {
+//     const {user: {token}} = getState();
+
+//     dispatch(doReturnSeat(userId));
+//     fetch(`/seats/${seatId}/${id}/`, {
+//       method: 'POST',
+//       headers: {
+//         Authorization: `JWT ${token}`,
+//       },
+//     }).then(response => {
+//       if (response.status === 401) {
+//         dispatch(userActions.logout());
+//       } else if (!response.ok) {
+//         dispatch(doAllocateSeat(seatId));
+//       }
+//     });
+//   };
+// }
 
 // function assignSeat(seatId) {
 //   return (dispatch, getState) => {
@@ -76,8 +116,8 @@ function reducer(state = initialState, action) {
       return applySetRoomSeats(state, action);
     case ALLOCATE_SEAT:
       return applyAllocateSeat(state, action);
-    case RETURN_SEAT:
-      return applyReturnSeat(state, action);
+    case CANCEL_ALLOCATE_SEAT:
+      return applyCancelAllocateSeat(state, action);
     default:
       return state;
   }
@@ -90,6 +130,7 @@ function applySetRoomSeats(state, action) {
   return {
     ...state,
     room,
+    onAssignment: false,
   };
 }
 
@@ -106,10 +147,14 @@ function applyAllocateSeat(state, action) {
     }
     return seat;
   });
-  return {...state, room: {...state.room, seats: updatedSeats}};
+  return {
+    ...state,
+    onAssignment: true,
+    room: {...state.room, seats: updatedSeats},
+  };
 }
 
-function applyReturnSeat(state, action) {
+function applyCancelAllocateSeat(state, action) {
   const {seatId} = action;
   const {room: {seats}} = state;
   const updatedSeats = seats.map(seat => {
@@ -128,6 +173,7 @@ function applyReturnSeat(state, action) {
 
 const actionCreators = {
   getRoomSeats,
+  allocateSeat,
 };
 
 export {actionCreators};
