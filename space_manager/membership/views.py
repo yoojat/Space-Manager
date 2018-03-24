@@ -143,7 +143,7 @@ class EnrollMembershipBySuper(APIView):
         #start_date, end_date, branch, is_usable
 
         if request.user.is_superuser is False:
-            return Resonse(status=status.HTTP_401_UNAUTHORIZED)
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
 
         membership = models.Membership.objects.get(id=membership_id)
 

@@ -3,38 +3,10 @@ from . import models
 import json
 
 
-class SeatBriefSerializer(serializers.ModelSerializer):
-    now_using = serializers.SerializerMethodField()
-
+class SeatImageSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Seat
-        fields = (
-            'id',
-            'left',
-            'top',
-            'usable',
-            'discard',
-            'now_using',
-            'seat_number',
-        )
-
-    def get_now_using(self, obj):
-
-        assign_action = models.Action.objects.get(en_substance='allocation')
-
-        try:
-            latest_log = models.Log.objects.filter(
-                seat=obj).order_by('-created_at')[:1]
-            if latest_log:
-                if latest_log[0].action == assign_action:
-                    return True
-                else:
-                    return False
-            else:
-                return False
-
-        except models.Log.DoesNotExist:
-            return False
+        model = models.SeatImage()
+        fields = ('file', 'gender')
 
 
 class LogSerializer(serializers.ModelSerializer):
@@ -46,6 +18,34 @@ class LogSerializer(serializers.ModelSerializer):
             'seat',
             'seat_image',
         )
+
+
+class SeatBriefSerializer(serializers.ModelSerializer):
+    # logs = LogSerializer(many=True)
+    seat_image = SeatImageSerializer()
+
+    class Meta:
+        model = models.Seat
+        fields = ('id', 'left', 'top', 'usable', 'discard', 'now_using',
+                  'seat_number', 'seat_image')
+
+    # def get_now_using(self, obj):
+
+    #     assign_action = models.Action.objects.get(en_substance='allocation')
+
+    #     try:
+    #         latest_log = models.Log.objects.filter(
+    #             seat=obj).order_by('-created_at')[:1]
+    #         if latest_log:
+    #             if latest_log[0].action == assign_action:
+    #                 return True
+    #             else:
+    #                 return False
+    #         else:
+    #             return False
+
+    #     except models.Log.DoesNotExist:
+    #         return False
 
 
 class SeatSerializer(serializers.ModelSerializer):

@@ -10,6 +10,8 @@ class SeatAdmin(admin.ModelAdmin):
         'room',
     )
 
+    list_per_page = 10
+
     search_fields = (
         'branch__branch_name',
         'seat_number',
@@ -35,6 +37,8 @@ class LogAdmin(admin.ModelAdmin):
         'user',
         'seat',
     )
+
+    list_per_page = 10
 
     search_fields = ('user', )
 

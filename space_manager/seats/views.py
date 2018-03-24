@@ -100,7 +100,7 @@ class Seat(APIView):
             return Response(
                 data=serializer.data, status=status.HTTP_202_ACCEPTED)
         else:
-            return Reponse(
+            return Response(
                 data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -198,11 +198,18 @@ class Allocation(APIView):
         else:
             return True
 
+    def set_seat_state(self, seat, sel_image, state):
+
+        seat.now_using = state
+        seat.seat_image = sel_image
+        seat.save()
+
     def seat_before_return(self, user):
 
         try:
             user_recent_log = models.Log.objects.filter(
                 user=user).latest('created_at')
+
         except models.Log.DoesNotExist:
             return True
 
@@ -227,7 +234,8 @@ class Allocation(APIView):
             seat=user_recent_log.seat,
             seat_image=seat_return_image)
 
-        new_log.save()
+        result = new_log.save()
+        self.set_seat_state(user_recent_log.seat, seat_return_image, False)
 
         return True
 
@@ -247,14 +255,15 @@ class Allocation(APIView):
         count_images = len(seat_images)
         rand_limit = count_images - 1
         random_image_number = randint(0, rand_limit)
+        sel_image = seat_images[random_image_number]
 
         new_log = models.Log.objects.create(
-            action=allocate_action,
-            user=user,
-            seat=seat,
-            seat_image=seat_images[random_image_number])
+            action=allocate_action, user=user, seat=seat, seat_image=sel_image)
 
         new_log.save()
+
+        self.set_seat_state(seat, sel_image, True)
+
         return Response(status=status.HTTP_201_CREATED)
 
     def post(self, request, seat_id, user_id, format=None):

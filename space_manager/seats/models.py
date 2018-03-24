@@ -15,27 +15,6 @@ class TimeStampModel(models.Model):
         abstract = True
 
 
-@python_2_unicode_compatible
-class Seat(models.Model):
-    """ Seat Model """
-
-    seat_number = models.IntegerField()
-    left = models.FloatField()
-    top = models.FloatField()
-    rotate = models.FloatField()
-    usable = models.BooleanField(default=True)
-    discard = models.BooleanField(default=False)
-    room = models.ForeignKey(room_models.Room, null=True, related_name='seats')
-    branch = models.ForeignKey(
-        branch_models.Branch, null=True, related_name='seats')
-
-    def __str__(self):
-        return ('{} - {}').format(self.branch, self.seat_number)
-
-    class Meta:
-        ordering = ['branch', 'room__room_number', 'seat_number']
-
-
 class Action(models.Model):
     """ Action Model """
     en_substance = models.CharField(max_length=45, null=True)
@@ -56,6 +35,29 @@ class SeatImage(models.Model):
 
     def __str__(self):
         return '{} : {}'.format(self.gender, self.action)
+
+
+@python_2_unicode_compatible
+class Seat(models.Model):
+    """ Seat Model """
+
+    seat_number = models.IntegerField()
+    left = models.FloatField()
+    top = models.FloatField()
+    rotate = models.FloatField()
+    usable = models.BooleanField(default=True)
+    discard = models.BooleanField(default=False)
+    room = models.ForeignKey(room_models.Room, null=True, related_name='seats')
+    branch = models.ForeignKey(
+        branch_models.Branch, null=True, related_name='seats')
+    now_using = models.BooleanField(default=False)
+    seat_image = models.ForeignKey(SeatImage, null=True)
+
+    def __str__(self):
+        return ('{} - {}').format(self.branch, self.seat_number)
+
+    class Meta:
+        ordering = ['branch', 'room__room_number', 'seat_number']
 
 
 class Log(TimeStampModel):

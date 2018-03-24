@@ -6,7 +6,6 @@ class Container extends Component {
     loading: true,
   };
   componentDidMount() {
-    // console.log('componentDidMount');
     const {getBranch} = this.props;
     if (!this.props.now_branch) {
       getBranch();
