@@ -31,6 +31,7 @@ const Navigation = (props, context) => (
     {/* {props.show ? <Menu handleBackClick={props.handleBackClick} /> : null} */}
     <Menu
       handleBackClick={props.handleBackClick}
+      closeMenu={props.closeMenu}
       show={props.show}
       first={props.first}
     />
@@ -46,6 +47,7 @@ Navigation.propTypes = {
   first: PropTypes.bool.isRequired,
   handleMenuClick: PropTypes.func.isRequired,
   handleBackClick: PropTypes.func.isRequired,
+  closeMenu: PropTypes.func.isRequired,
 };
 
 export default Navigation;

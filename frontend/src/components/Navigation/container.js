@@ -17,6 +17,7 @@ class Container extends Component {
         first={first}
         handleMenuClick={this._handleMenuClick}
         handleBackClick={this._handleBackClick}
+        closeMenu={this._closeMenu}
       />
     );
   }
@@ -49,6 +50,14 @@ class Container extends Component {
         first: false,
       });
     }
+  };
+
+  _closeMenu = event => {
+    this.setState({
+      ...this.state,
+      show: false,
+      first: false,
+    });
   };
 }
 

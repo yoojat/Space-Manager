@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './styles.scss';
 import classNames from 'classnames';
+import {Link} from 'react-router-dom';
 
 const Menu = (props, context) => {
   const containerClass = classNames({
@@ -36,8 +37,16 @@ const Menu = (props, context) => {
                 <div>BlueDot Lounge</div>
               </div>
             </li>
-            <li className={styles.listItem}>{context.t('배정/반납')}</li>
-            <li className={styles.listItem}>{context.t('등록정보')}</li>
+            <li className={styles.listItem}>
+              <Link to="/allocation" onClick={props.closeMenu}>
+                {context.t('배정/반납')}
+              </Link>
+            </li>
+            <li className={styles.listItem}>
+              <Link to="/membership" onClick={props.closeMenu}>
+                {context.t('멤버쉽')}
+              </Link>
+            </li>
           </ul>
         </nav>
       </div>

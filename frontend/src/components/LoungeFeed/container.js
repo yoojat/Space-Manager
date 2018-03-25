@@ -24,18 +24,6 @@ class Container extends Component {
     }
   };
 
-  shouldComponentUpdate(nextProps, nextState) {
-    // console.log(
-    //   'shouldComponentUpdate',
-    //   nextProps.now_branch !== this.props.now_branch
-    // );
-    return nextProps.now_branch !== this.props.now_branch;
-  }
-
-  componentDidUpdate(preProps, prevState) {
-    // console.log('componentDidUpdate');
-  }
-
   render() {
     const {now_branch} = this.props;
     return <LoungeFeed {...this.state} now_branch={now_branch} />;

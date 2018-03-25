@@ -40,8 +40,6 @@
       .list {
         margin-top: 60px;
         .list-item {
-          padding-top: 10px;
-          padding-bottom: 10px;
           color: rgba(255, 255, 255, 0.9);
           font-size: 1em;
           font-weight: 700;
@@ -53,6 +51,25 @@
             background-color: #2d2e2f;
             transition: all 0.5s;
           }
+
+          a {
+            color: #fff;
+            text-decoration: none;
+            outline: none;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            padding-top: 10px;
+            padding-bottom: 10px;
+          }
+
+          a:hover,
+          a:active {
+            text-decoration: none;
+            color: #fff;
+            background-color: inherit;
+          }
+
           .menuLogo {
             display: flex;
             justify-content: center;
@@ -87,11 +104,11 @@
   30% {
     background-color: rgba(0, 0, 0, 0);
   }
-  50% {
-    left: -300px;
+  95% {
+    width: 0;
   }
   100% {
-    left: -300px;
+    width: 0;
   }
 }
 
