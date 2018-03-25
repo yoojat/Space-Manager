@@ -80,9 +80,7 @@ class InputSeatSerializer(serializers.ModelSerializer):
 
 
 class ShowSeatSerializer(serializers.ModelSerializer):
-
-    now_using = serializers.SerializerMethodField()
-    image_url = serializers.SerializerMethodField()
+    seat_image = SeatImageSerializer()
 
     class Meta:
         model = models.Seat
@@ -95,46 +93,46 @@ class ShowSeatSerializer(serializers.ModelSerializer):
             'usable',
             'discard',
             'now_using',
-            'image_url',
+            'seat_image',
         )
 
-    def get_now_using(self, obj):
+    # def get_now_using(self, obj):
 
-        assign_action = models.Action.objects.get(en_substance='allocation')
+    #     assign_action = models.Action.objects.get(en_substance='allocation')
 
-        try:
-            latest_log = models.Log.objects.filter(
-                seat=obj).order_by('-created_at')[:1]
-            if latest_log:
-                if latest_log[0].action == assign_action:
-                    return True
-                else:
-                    return False
-            else:
-                return False
+    #     try:
+    #         latest_log = models.Log.objects.filter(
+    #             seat=obj).order_by('-created_at')[:1]
+    #         if latest_log:
+    #             if latest_log[0].action == assign_action:
+    #                 return True
+    #             else:
+    #                 return False
+    #         else:
+    #             return False
 
-        except models.Log.DoesNotExist:
-            return False
+    #     except models.Log.DoesNotExist:
+    #         return False
 
-    def get_image_url(self, obj):
+    # def get_image_url(self, obj):
 
-        assign_action = models.Action.objects.get(en_substance='allocation')
+    #     assign_action = models.Action.objects.get(en_substance='allocation')
 
-        try:
-            latest_log = models.Log.objects.filter(
-                seat=obj).order_by('-created_at')[:1]
+    #     try:
+    #         latest_log = models.Log.objects.filter(
+    #             seat=obj).order_by('-created_at')[:1]
 
-            if latest_log:
-                if latest_log[0].action == assign_action:
-                    return latest_log[0].seat_image.file.url
+    #         if latest_log:
+    #             if latest_log[0].action == assign_action:
+    #                 return latest_log[0].seat_image.file.url
 
-                else:
-                    return None
-            else:
-                return None
+    #             else:
+    #                 return None
+    #         else:
+    #             return None
 
-        except models.Log.DoesNotExist:
-            return None
+    #     except models.Log.DoesNotExist:
+    #         return None
 
 
 class ChangeLogSerializer(serializers.ModelSerializer):

@@ -55,7 +55,7 @@ const Seats = props => {
                     rotate={seat.rotate}
                     seat_number={seat.seat_number}
                     usable={seat.usable}
-                    image_url={seat.image_url}
+                    seat_image={seat.seat_image}
                     discard={seat.discard}
                     now_using={seat.now_using}
                     desk_size={props.room.desk_size}

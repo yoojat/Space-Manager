@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './styles.scss';
+import MiniMapSeat from 'components/MiniMapSeat';
 
+//props = {now_branch.branch}
 const MiniMap = (props, context) => {
-  return [<BranchArea branch={props.branch} key={1} />];
+  return <BranchArea branch={props.branch} />;
 };
 
 const BranchArea = props => {
@@ -35,26 +37,18 @@ const RoomArea = props => (
   >
     {props.seats.map(seat => {
       if (seat.usable && seat.seat_number !== 0) {
-        return <Seat {...seat} key={seat.id} />;
+        return (
+          <MiniMapSeat
+            now_using={seat.now_using}
+            left={seat.left}
+            top={seat.top}
+            key={seat.id}
+          />
+        );
       } else return null;
     })}
   </div>
 );
-
-const Seat = props => {
-  const bgColor = props.now_using ? 'red' : '#CBEEFB';
-  return (
-    <div
-      className={styles.seat}
-      style={{
-        left: props.left + '%',
-        top: props.top + '%',
-        transform: `rotate(${props.rotate}+deg)`,
-        backgroundColor: bgColor,
-      }}
-    />
-  );
-};
 
 MiniMap.propTypes = {
   branch: PropTypes.shape({

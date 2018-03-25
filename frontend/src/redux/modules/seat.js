@@ -57,12 +57,14 @@ function getRoomSeats(roomId) {
 function allocateSeat(seatId, roomId) {
   return (dispatch, getState) => {
     const {user: {id, token}} = getState();
-    const allocateFunc = async roomId => {
+    const allocateFunc = roomId => {
       dispatch(getRoomSeats(roomId));
       dispatch(branchActions.getBranch());
     };
 
+    //optimistic response
     dispatch(doAllocateSeat(seatId));
+
     fetch(`/seats/allocation/${seatId}/${id}/`, {
       method: 'POST',
       headers: {
@@ -141,7 +143,7 @@ function applyAllocateSeat(state, action) {
     if (seat.id === seatId) {
       return {
         ...seat,
-        image_url: require('images/loading_seat.png'),
+        seat_image: {file: require('images/loading_seat.png')},
         now_using: true,
       };
     }

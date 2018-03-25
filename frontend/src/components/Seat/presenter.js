@@ -7,28 +7,28 @@ const Seat = props => {
   const {left} = props;
   const {top} = props;
   const {rotate} = props;
-  const {seat_number} = props;
   const {usable} = props;
-  const {image_url} = props;
+  const {seat_image} = props;
   const {discard} = props;
   const {now_using} = props;
   const {desk_size} = props;
+  const {seat_number} = props;
 
-  let seat_image;
+  let seat_state_image;
   let display_number;
   let clickEv;
 
   if (seat_number === 0) {
-    seat_image = require('images/entrance.png');
+    seat_state_image = require('images/entrance.png');
     clickEv = props.closeRoom;
   } else if (discard || usable === false) {
-    seat_image = require('images/prohibited_seat.png');
+    seat_state_image = require('images/prohibited_seat.png');
     clickEv = null;
   } else if (now_using) {
-    seat_image = image_url;
+    seat_state_image = seat_image.file;
     clickEv = null;
   } else {
-    seat_image = require('images/empty_seat.png');
+    seat_state_image = require('images/empty_seat.png');
     clickEv = props.handleSeatClick;
   }
 
@@ -51,8 +51,8 @@ const Seat = props => {
     >
       <div className={styles.seatImg}>
         <img
-          src={seat_image}
-          alt={image_url ? '배정된 좌석' : '배정되지 않은 좌석'}
+          src={seat_state_image}
+          alt={now_using ? '배정된 좌석' : '배정되지 않은 좌석'}
         />
       </div>
       <div className={styles.name} style={{transform: `rotate(-${rotate}deg)`}}>
