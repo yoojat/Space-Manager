@@ -4,6 +4,7 @@
 const SAVE_TOKEN = 'SAVE_TOKEN';
 const LOGOUT = 'LOGOUT';
 const SAVE_AUTHORITY = 'SAVE_AUTHORITY';
+const SAVE_MEMBERSHIP = 'SAVE_MEMBERSHIP';
 
 //action creators : 리덕스 state를 변경
 
@@ -21,12 +22,22 @@ function saveToken(token) {
 }
 
 function saveAuthority(user) {
-  const {is_staff, is_superuser, id} = user;
+  const {is_staff, is_superuser, id, name, username, profile_image} = user;
   return {
     type: SAVE_AUTHORITY,
     is_staff,
     is_superuser,
     id,
+    name,
+    username,
+    profile_image,
+  };
+}
+
+function saveMembership(memberships) {
+  return {
+    type: SAVE_MEMBERSHIP,
+    memberships,
   };
 }
 
@@ -45,6 +56,24 @@ function setUser() {
         .then(response => response.json())
         .then(json => {
           dispatch(checkAuthority(json));
+        });
+    }
+  };
+}
+
+function setMembership() {
+  return function(dispatch, getState) {
+    const {user: {token, id, isLoggedIn}} = getState();
+    if (isLoggedIn) {
+      fetch(`/membership/${id}/`, {
+        method: 'GET',
+        headers: {
+          Authorization: `JWT ${token}`,
+        },
+      })
+        .then(response => response.json())
+        .then(json => {
+          dispatch(saveMembership(json));
         });
     }
   };
@@ -161,6 +190,8 @@ function reducer(state = initialState, action) {
       return applyLogout(state, action);
     case SAVE_AUTHORITY:
       return applyAuthority(state, action);
+    case SAVE_MEMBERSHIP:
+      return applySaveMembership(state, action);
     default:
       return state;
   }
@@ -185,12 +216,23 @@ function applyLogout(state, action) {
 }
 
 function applyAuthority(state, action) {
-  const {is_staff, is_superuser, id} = action;
+  const {is_staff, is_superuser, id, username, name, profile_image} = action;
   return {
     ...state,
     is_staff,
     is_superuser,
     id,
+    username,
+    name,
+    profile_image,
+  };
+}
+
+function applySaveMembership(state, action) {
+  const {memberships} = action;
+  return {
+    ...state,
+    memberships,
   };
 }
 
@@ -202,6 +244,7 @@ const actionCreators = {
   createAccount,
   logout,
   setUser,
+  setMembership,
 };
 
 export {actionCreators};

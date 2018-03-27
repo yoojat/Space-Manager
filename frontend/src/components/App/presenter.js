@@ -6,6 +6,7 @@ import Footer from 'components/Footer';
 import Auth from 'components/Auth';
 import Navigation from 'components/Navigation';
 import LoungeFeed from 'components/LoungeFeed';
+import Membership from 'components/Membership';
 
 //app에서 모든 route를 관리
 //리액트에서는 하나의 컴포터넌트를 리턴하는 것이 아니라, array를 리턴할수도 있음
@@ -28,7 +29,7 @@ const PrivateRoutes = props => (
   <Switch>
     <Route exact path="/allocation" component={LoungeFeed} />
     {/* <Route exact path="/" component={Branches} /> */}
-    <Route exact path="/membership" render={() => 'membership'} />
+    <Route exact path="/membership" component={Membership} />
   </Switch>
 );
 

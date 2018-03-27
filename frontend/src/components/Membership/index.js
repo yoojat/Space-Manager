@@ -1,21 +1,19 @@
 import {connect} from 'react-redux';
 import Container from './container';
-import {actionCreators as branchActions} from 'redux/modules/branch';
+import {actionCreators as userActions} from 'redux/modules/user';
 
 const mapStateToProps = (state, ownProps) => {
-  const {branch: {now_branch}} = state;
+  const {user} = state;
   return {
-    now_branch,
+    user,
   };
 };
 
-// dispatch는 액션을 리듀서로 보내는 function
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    getBranch: () => {
-      dispatch(branchActions.getBranch());
+    setMembership: userid => {
+      dispatch(userActions.setMembership(userid));
     },
   };
 };
-
 export default connect(mapStateToProps, mapDispatchToProps)(Container);

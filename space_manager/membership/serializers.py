@@ -7,12 +7,16 @@ from space_manager.branches import serializers as branch_serializers
 class MembershipSerializer(serializers.ModelSerializer):
 
     # user = user_serializers.UserSerializer()
-    # branch = branch_serializers.BranchForMembershipSerializer()
+    branch = branch_serializers.BranchForMembershipSerializer()
+    start_date = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
+    end_date = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
+
     # creator = user_serializers.UserSerializer(read_only=True)
 
     class Meta:
         model = models.Membership
         fields = (
+            'id',
             'user',
             'branch',
             'start_date',

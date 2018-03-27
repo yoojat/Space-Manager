@@ -114,5 +114,4 @@ class BranchForMembershipSerializer(serializers.ModelSerializer):
             'id',
             'branch_name',
             'branch_num',
-            'address',
         )
