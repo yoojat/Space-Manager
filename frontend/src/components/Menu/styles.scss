@@ -74,11 +74,15 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            cursor: pointer;
-            img {
-              width: 60px;
-              height: 39px;
+            a {
+              display: flex;
+              align-items: center;
+              img {
+                width: 60px;
+                height: 39px;
+              }
             }
+            cursor: pointer;
           }
         }
       }
@@ -101,12 +105,13 @@
     display: flex;
     left: 0;
   }
-  30% {
+  20% {
     background-color: rgba(0, 0, 0, 0);
   }
-  95% {
+  99% {
     width: 0;
   }
+
   100% {
     width: 0;
   }

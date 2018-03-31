@@ -29,12 +29,14 @@ const Menu = (props, context) => {
           <ul className={styles.list}>
             <li className={styles.listItem}>
               <div className={styles.menuLogo}>
-                <img
-                  src={require('images/4.png')}
-                  className={styles.logo}
-                  alt={context.t('Logo')}
-                />
-                <div>BlueDot Lounge</div>
+                <Link to="/" onClick={props.closeMenu}>
+                  <img
+                    src={require('images/4.png')}
+                    className={styles.logo}
+                    alt={context.t('Logo')}
+                  />
+                  <div>BlueDot Lounge</div>
+                </Link>
               </div>
             </li>
             <li className={styles.listItem}>
