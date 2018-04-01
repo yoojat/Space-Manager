@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from . import models
-from space_manager.membership import serializers as membership_serializers
 from space_manager.seats import serializers as seat_serializers
 from space_manager.rooms import serializers as rooms_serializers
 from space_manager.membership import models as membership_models

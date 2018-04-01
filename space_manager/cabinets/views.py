@@ -10,6 +10,32 @@ from django.utils.datastructures import MultiValueDictKeyError
 from datetime import datetime, timedelta
 
 
+class CabinetByUser(APIView):
+    def find_using_cabinets(self, user):
+
+        now = datetime.today()
+
+        try:
+            cabinets = models.UseCabinet.objects.filter(
+                user=user, end_date__gte=now, is_usable=True)
+            return cabinets
+        except models.UseCabinet.DoesNotExist:
+            return None
+
+    def get(self, request, format=None):
+        """ get by user """
+        user = request.user
+
+        using_cabinets = self.find_using_cabinets(user)
+
+        if using_cabinets is None:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        serializer = serializers.UsecabSerializer(using_cabinets, many=True)
+
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+
 class CabinetSets(APIView):
     def find_branch(self, branch_id):
 
@@ -57,7 +83,6 @@ class CabinetSets(APIView):
             return Response(status=status.HTTP_404_NOT_FOUND)
 
         cabinet_sets = models.CabinetSet.objects.filter(branch=branch)
-        print(cabinet_sets)
 
         serializer = serializers.CabinetSetSerializer(cabinet_sets, many=True)
 

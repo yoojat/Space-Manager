@@ -7,6 +7,7 @@ import {i18nState} from 'redux-i18n'; //번역을 위한 툴
 import user from 'redux/modules/user';
 import branch from 'redux/modules/branch';
 import seat from 'redux/modules/seat';
+import cabinet from 'redux/modules/cabinet';
 
 // 스토어는 여러개의 리듀서를 합칠수 있음
 
@@ -38,6 +39,7 @@ const reducer = combineReducers({
   routing: routerReducer,
   i18nState,
   seat,
+  cabinet,
 });
 // combineReducer(redux 모듈)을 통해 리듀서를 모두 통합
 //combineReducers는 각 리듀서들을 합쳐주어 global state로 만들어줌

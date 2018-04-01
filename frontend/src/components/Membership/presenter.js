@@ -6,7 +6,6 @@ import Ionicon from 'react-ionicons';
 import {Link} from 'react-router-dom';
 
 const Membership = props => {
-  console.log(props);
   if (props.loading) {
     return <Loading />;
   } else {
@@ -14,10 +13,13 @@ const Membership = props => {
   }
 };
 
-const RenderMembership = ({user, setMembership}, context) => {
+const RenderMembership = (
+  {user, setMembership, cabinet: {using_cabinets}},
+  context
+) => {
   return (
-    <main>
-      <div>
+    <main className={styles.container}>
+      <div className={styles.logoContainer}>
         <Link to="/">
           <img
             src={require('images/logo.png')}
@@ -26,20 +28,23 @@ const RenderMembership = ({user, setMembership}, context) => {
           />
         </Link>
       </div>
-      <div>
-        <div>
+      <div className={styles.contentContainer}>
+        <div className={styles.profile}>
           {user.profile_image ? (
             user.profile_image
           ) : (
-            <Ionicon icon="md-person" fontSize="32px" />
+            <Ionicon icon="md-person" fontSize="85px" />
           )}
 
-          <div>
-            <span>{user.username}</span>/<span>{user.name}님</span>
+          <div className={styles.name}>
+            <span className={styles.username}>{user.username}</span> /{' '}
+            <span className={styles.userid}>{user.name}님</span>
           </div>
         </div>
-        <div>
-          <div>이용중인 멤버쉽</div>
+        <div className={styles.membershipContainer}>
+          <div className={styles.membershipTitle}>
+            {context.t('이용중인 멤버쉽')}
+          </div>
           {user.memberships.map(membership => (
             <MembershipList
               branch={membership.branch}
@@ -48,11 +53,11 @@ const RenderMembership = ({user, setMembership}, context) => {
               key={membership.id}
             />
           ))}
-          {/* <div>2018.06.10 21:23:33 - 2018.07.10 21:23:33</div>
-          <div>2018.04.10 21:23:33 - 2018.05.10 21:23:33</div> */}
         </div>
-        <div>
-          <div>이용중인 사물함</div>
+        <div className={styles.membershipContainer}>
+          <div className={styles.membershipTitle}>
+            {context.t('이용중인 사물함')}
+          </div>
           <div>
             <div>화명역점 28번 사물함</div>
             <div>2018.06.10 21:23:33 - 2018.07.10 21:23:33</div>
@@ -74,9 +79,9 @@ const RenderMembership = ({user, setMembership}, context) => {
 };
 
 const MembershipList = ({id, start_date, end_date, branch}) => (
-  <div>
-    <div>{branch.name}</div>
-    <div>
+  <div className={styles.listContainer}>
+    <div className={styles.branch}>{branch.name}</div>
+    <div className={styles.period}>
       {start_date} - {end_date}
     </div>
   </div>
@@ -84,6 +89,33 @@ const MembershipList = ({id, start_date, end_date, branch}) => (
 
 export default Membership;
 
+Membership.propTypes = {
+  user: PropTypes.shape({
+    isLoggedIn: PropTypes.bool.isRequired,
+    token: PropTypes.string.isRequired,
+    is_staff: PropTypes.bool,
+    is_superuser: PropTypes.bool,
+    name: PropTypes.string,
+    profile_image: PropTypes.string,
+    username: PropTypes.string,
+    memberships: PropTypes.arrayOf(
+      PropTypes.shape({
+        branch: PropTypes.shape({
+          branch_name: PropTypes.string.isRequired,
+          branch_num: PropTypes.number.isRequired,
+          id: PropTypes.number.isRequired,
+        }).isRequired,
+        end_date: PropTypes.string.isRequired,
+        is_usable: PropTypes.bool.isRequired,
+        start_date: PropTypes.string.isRequired,
+        user: PropTypes.number.isRequired,
+        id: PropTypes.number.isRequired,
+      })
+    ),
+  }).isRequired,
+  setMembership: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+};
 RenderMembership.contextTypes = {
   t: PropTypes.func.isRequired,
 };

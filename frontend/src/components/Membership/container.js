@@ -7,11 +7,18 @@ class Container extends Component {
   };
 
   componentDidMount() {
-    const {user: {memberships, id}, setMembership} = this.props;
+    const {
+      user: {memberships, id},
+      setMembership,
+      cabinet,
+      setUsingCabinet,
+    } = this.props;
     if (!memberships) {
       if (id) {
         setMembership(id);
       }
+    } else if (!cabinet.using_cabinets) {
+      setUsingCabinet();
     } else {
       this.setState({
         loading: false,
@@ -20,11 +27,15 @@ class Container extends Component {
   }
 
   componentWillReceiveProps = nextProps => {
-    const {setMembership} = this.props;
+    const {setMembership, setUsingCabinet} = this.props;
     if (nextProps.user.memberships) {
-      this.setState({
-        loading: false,
-      });
+      if (nextProps.cabinet.using_cabinets) {
+        this.setState({
+          loading: false,
+        });
+      } else {
+        setUsingCabinet();
+      }
     } else if (nextProps.user.id) {
       setMembership(nextProps.user.id);
     }
@@ -34,6 +45,7 @@ class Container extends Component {
     return (
       <Membership
         user={this.props.user}
+        cabinet={this.props.cabinet}
         setMembership={this.props.setMembership}
         {...this.state}
       />

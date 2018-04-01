@@ -1,0 +1,64 @@
+.container {
+  margin-top: 20px;
+  .logo-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+
+    a {
+      img {
+        width: 55vw;
+        max-width: 200px;
+      }
+    }
+  }
+  .content-container {
+    background-color: white;
+    border: 1.4px solid rgb(228, 228, 228);
+    width: 80vw;
+    max-width: 300px;
+
+    @include breakpoint('iphone5') {
+      width: 95vw;
+    }
+    min-width: 250px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 15px;
+
+    .profile {
+      text-align: center;
+      border-bottom: 1.2px solid rgb(228, 228, 228);
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+      .name {
+        .username {
+        }
+        .userid {
+        }
+      }
+    }
+    .membership-container {
+      margin-bottom: 10px;
+      .membership-title {
+        text-align: center;
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+      .list-container {
+        font-size: 12px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        text-align: center;
+        border: 1px solid #374bab;
+        border-radius: 5px;
+        color: #374bab;
+        margin-bottom: 2px;
+        .branch {
+        }
+        .period {
+        }
+      }
+    }
+  }
+}

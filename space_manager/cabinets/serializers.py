@@ -1,5 +1,23 @@
 from rest_framework import serializers
+from space_manager.branches import serializers as branch_serializers
 from . import models
+
+
+class BriefCabinetSetSerializer(serializers.ModelSerializer):
+    branch = branch_serializers.BranchForMembershipSerializer()
+
+    class Meta:
+        model = models.CabinetSet
+        fields = ('branch', )
+
+
+class CabinetMembershipSerializer(serializers.ModelSerializer):
+
+    cabinet_set = BriefCabinetSetSerializer()
+
+    class Meta:
+        model = models.Cabinet
+        fields = ('cabinet_number', 'cabinet_set')
 
 
 class InputCabinetSetSerializer(serializers.ModelSerializer):
@@ -38,6 +56,11 @@ class InputCabinetSerializer(serializers.ModelSerializer):
 
 
 class UsecabSerializer(serializers.ModelSerializer):
+    start_date = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
+    end_date = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
+
+    cabinet = CabinetMembershipSerializer()
+
     class Meta:
         model = models.UseCabinet
         fields = (

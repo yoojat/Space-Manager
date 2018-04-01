@@ -27,6 +27,7 @@ App.propTypes = {
 // 로그인했을 때 보여지는 컴포넌트
 const PrivateRoutes = props => (
   <Switch>
+    <Route exact path="/" render={() => '메인페이지'} />
     <Route exact path="/allocation" component={LoungeFeed} />
     {/* <Route exact path="/" component={Branches} /> */}
     <Route exact path="/membership" component={Membership} />

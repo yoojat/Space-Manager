@@ -23,4 +23,7 @@ urlpatterns = [
     url(regex=r'^lock/(?P<cablock_id>[0-9]+)/$',
         view=views.CabinetLockDetail.as_view(),
         name='cabinet_lock'),
+    url(regex=r'^using/$',
+        view=views.CabinetByUser.as_view(),
+        name='cabinet_by_user'),
 ]
