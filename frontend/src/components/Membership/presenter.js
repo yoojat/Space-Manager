@@ -17,6 +17,7 @@ const RenderMembership = (
   {user, setMembership, cabinet: {using_cabinets}},
   context
 ) => {
+  console.log(using_cabinets);
   return (
     <main className={styles.container}>
       <div className={styles.logoContainer}>
@@ -38,7 +39,10 @@ const RenderMembership = (
 
           <div className={styles.name}>
             <span className={styles.username}>{user.username}</span> /{' '}
-            <span className={styles.userid}>{user.name}님</span>
+            <span className={styles.userid}>
+              {user.name}
+              {context.t('님')}
+            </span>
           </div>
         </div>
         <div className={styles.membershipContainer}>
@@ -58,20 +62,27 @@ const RenderMembership = (
           <div className={styles.membershipTitle}>
             {context.t('이용중인 사물함')}
           </div>
-          <div>
-            <div>화명역점 28번 사물함</div>
-            <div>2018.06.10 21:23:33 - 2018.07.10 21:23:33</div>
-          </div>
-          <div>
-            <div>화명역점 28번 사물함</div>
-            <div>2018.06.10 21:23:33 - 2018.07.10 21:23:33</div>
-          </div>
+
+          {using_cabinets.map(using_cabinet => (
+            <CabinetList
+              branch={using_cabinet.cabinet.cabinet_set.branch}
+              cabinet_number={using_cabinet.cabinet.cabinet_number}
+              start_date={using_cabinet.start_date}
+              end_date={using_cabinet.end_date}
+            />
+          ))}
         </div>
 
-        <div>
-          <div>멤버쉽 (재)등록하기</div>
-          <div>사물함 (추가)등록하기</div>
-          <div>비밀번호 변경하기</div>
+        <div className={styles.buttonContainer}>
+          <div className={styles.button}>
+            멤버쉽<br />(재)등록하기
+          </div>
+          <div className={styles.button}>
+            사물함<br />(추가)등록하기
+          </div>
+          <div className={styles.button}>
+            비밀번호<br />변경하기
+          </div>
         </div>
       </div>
     </main>
@@ -80,7 +91,18 @@ const RenderMembership = (
 
 const MembershipList = ({id, start_date, end_date, branch}) => (
   <div className={styles.listContainer}>
-    <div className={styles.branch}>{branch.name}</div>
+    <div className={styles.branch}>{branch.branch_name}</div>
+    <div className={styles.period}>
+      {start_date} - {end_date}
+    </div>
+  </div>
+);
+
+const CabinetList = ({branch, cabinet_number, start_date, end_date}) => (
+  <div className={styles.listContainer}>
+    <div className={styles.branch}>
+      {branch.branch_name} {cabinet_number}번 사물함
+    </div>
     <div className={styles.period}>
       {start_date} - {end_date}
     </div>

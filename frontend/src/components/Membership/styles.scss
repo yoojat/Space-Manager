@@ -55,9 +55,33 @@
         color: #374bab;
         margin-bottom: 2px;
         .branch {
+          padding-top: 2px;
+          padding-bottom: 3px;
         }
         .period {
         }
+      }
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: space-between;
+      border-top: 1.4px solid rgb(228, 228, 228);
+      padding-top: 20px;
+      margin-top: 20px;
+      .button {
+        text-align: center;
+        border: 1.4px solid rgb(228, 228, 228);
+        width: 32%;
+        font-size: 13px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        transition: all 0.5s;
+        &:hover {
+          background-color: #374bab;
+          color: white;
+        }
+        cursor: pointer;
       }
     }
   }
