@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "classnames": "^2.2.5",
+    "react-google-maps": "^9.4.5",
     "redux-i18n": "^1.5.12",
     "reset-css": "^2.2.1"
   }

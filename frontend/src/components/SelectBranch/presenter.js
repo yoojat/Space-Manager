@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styles from './styles.scss';
 
 const SelectBranch = (props, context) => {
+  console.log(props);
   if (props.loading) {
     return null;
   } else {
@@ -42,7 +43,24 @@ const BranchSelectButton = (props, context) => {
 
 export default SelectBranch;
 
-SelectBranch.propTypes = {};
+SelectBranch.propTypes = {
+  branches: PropTypes.arrayOf(
+    PropTypes.shape({
+      address: PropTypes.string.isRequired,
+      branch_name: PropTypes.string.isRequired,
+      branch_num: PropTypes.number.isRequired,
+      detail_address: PropTypes.string.isRequired,
+      id: PropTypes.number.isRequired,
+      lat: PropTypes.number.isRequired,
+      lng: PropTypes.number.isRequired,
+      lounge_img: PropTypes.string.isRequired,
+      region: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  handleBranchClick: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  selBranchId: PropTypes.string.isRequired,
+};
 SelectBranch.contextTypes = {
   t: PropTypes.func.isRequired,
 };
