@@ -13,12 +13,12 @@ const SelectBranch = (props, context) => {
   if (props.loading) {
     return null;
   } else {
-    return <RenderSelectBranch {...props} key={1} />;
+    return <RenderSelectBranch {...props} />;
   }
 };
 
 const RenderSelectBranch = (props, context) => {
-  const selBranchId = Number(props.selBranchId);
+  const selBranchId = Number(props.sel_branch);
   const {showMap} = props;
   const showMapButtonClasses = showMap
     ? `${styles.mapButtonContainer} ${styles.selected}`
@@ -39,6 +39,7 @@ const RenderSelectBranch = (props, context) => {
     <Fragment>
       <div className={styles.buttonContainer}>
         {props.branches.map(branch => {
+          console.log('selbranch ID', selBranchId, 'branch.id', branch.id);
           const isSelected = selBranchId === branch.id ? true : false;
           return (
             <BranchSelectButton
@@ -80,7 +81,7 @@ const RenderSelectBranch = (props, context) => {
 
 const BranchSelectButton = (props, context) => {
   const {isSelected} = props;
-  const classes = `${styles.button} ${isSelected ? styles.selected : null}`;
+  const classes = `${styles.button} ${isSelected ? styles.selected : ''}`;
   return (
     <div className={classes} id={props.id} onClick={props.handleBranchClick}>
       {props.branch_num}호점<br />

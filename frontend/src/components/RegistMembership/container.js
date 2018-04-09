@@ -14,6 +14,7 @@ class Container extends Component {
       }
     } else {
       this.setState({
+        ...this.state,
         loading: false,
       });
     }
@@ -23,6 +24,7 @@ class Container extends Component {
     const {setMembership} = this.props;
     if (nextProps.user.memberships) {
       this.setState({
+        ...this.state,
         loading: false,
       });
     } else if (nextProps.user.id) {
@@ -31,7 +33,13 @@ class Container extends Component {
   };
 
   render() {
-    return <RegistMembership user={this.props.user} {...this.state} />;
+    return (
+      <RegistMembership
+        user={this.props.user}
+        {...this.state}
+        sel_branch={this.props.sel_branch}
+      />
+    );
   }
 }
 

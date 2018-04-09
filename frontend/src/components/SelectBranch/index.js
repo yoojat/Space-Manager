@@ -5,8 +5,10 @@ import {actionCreators as registActions} from 'redux/modules/regist';
 
 const mapStateToProps = (state, ownProps) => {
   const {branch: {branches}} = state;
+  const {regist: {sel_branch}} = state;
   return {
     branches,
+    sel_branch,
   };
 };
 

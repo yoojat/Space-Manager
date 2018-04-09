@@ -10,7 +10,14 @@ const RegistMembership = props => {
   if (props.loading) {
     return <Loading />;
   } else {
-    return <RenderRegistMembership user={props.user} />;
+    return (
+      <RenderRegistMembership
+        user={props.user}
+        setTrueBranchSel={props.setTrueBranchSel}
+        branchSel={props.branchSel}
+        sel_branch={props.sel_branch}
+      />
+    );
   }
 };
 
@@ -44,19 +51,8 @@ const RenderRegistMembership = (props, context) => {
           </div>
         </div>
 
-        <SelectBranch />
-
-        {/* <div>
-          <span>{context.t('등록하실 지점을 선택해 주세요.')}</span>
-          <br />
-          <span>{context.t('등록한 지점 외 다른 지점도 이용가능합니다.')}</span>
-          <br />
-          <span>
-            {context.t(
-              '(단, 좌석에 여유가 없을 때는 지정하신 지점만 이용 가능합니다.)'
-            )}
-          </span>
-        </div> */}
+        <SelectBranch branchSel={props.sel_branch} />
+        {props.sel_branch ? '날짜 선택' : ''}
       </div>
     </main>
   );
@@ -64,7 +60,32 @@ const RenderRegistMembership = (props, context) => {
 
 export default RegistMembership;
 
-RegistMembership.propTypes = {};
+RegistMembership.propTypes = {
+  sel_branch: PropTypes.string,
+  user: PropTypes.shape({
+    isLoggedIn: PropTypes.bool.isRequired,
+    token: PropTypes.string.isRequired,
+    is_staff: PropTypes.bool,
+    is_superuser: PropTypes.bool,
+    name: PropTypes.string,
+    profile_image: PropTypes.string,
+    username: PropTypes.string,
+    memberships: PropTypes.arrayOf(
+      PropTypes.shape({
+        branch: PropTypes.shape({
+          branch_name: PropTypes.string.isRequired,
+          branch_num: PropTypes.number.isRequired,
+          id: PropTypes.number.isRequired,
+        }).isRequired,
+        end_date: PropTypes.string.isRequired,
+        is_usable: PropTypes.bool.isRequired,
+        start_date: PropTypes.string.isRequired,
+        user: PropTypes.number.isRequired,
+        id: PropTypes.number.isRequired,
+      })
+    ),
+  }).isRequired,
+};
 RenderRegistMembership.contextTypes = {
   t: PropTypes.func.isRequired,
 };

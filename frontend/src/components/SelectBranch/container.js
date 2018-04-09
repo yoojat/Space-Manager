@@ -17,13 +17,6 @@ class Container extends Component {
     this.props.setSelBranchId(event.target.id);
   };
 
-  _handleShowMapButtonClick = event => {
-    this.setState({
-      ...this.state,
-      showMap: !this.state.showMap,
-    });
-  };
-
   _handleMarkerClick = id => {
     const branchId = id.toString();
     this.setState({
@@ -32,6 +25,13 @@ class Container extends Component {
     });
 
     this.props.setSelBranchId(branchId);
+  };
+
+  _handleShowMapButtonClick = event => {
+    this.setState({
+      ...this.state,
+      showMap: !this.state.showMap,
+    });
   };
 
   componentWillMount() {
@@ -61,6 +61,7 @@ class Container extends Component {
         handleBranchClick={this._handleBranchClick}
         handleShowMapButtonClick={this._handleShowMapButtonClick}
         handleMarkerClick={this._handleMarkerClick}
+        sel_branch={this.props.sel_branch}
         {...this.state}
       />
     );
