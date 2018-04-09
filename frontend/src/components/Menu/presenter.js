@@ -45,7 +45,7 @@ const Menu = (props, context) => {
               </Link>
             </li>
             <li className={styles.listItem}>
-              <Link to="/membership" onClick={props.closeMenu}>
+              <Link to="/myinfo" onClick={props.closeMenu}>
                 {context.t('멤버쉽')}
               </Link>
             </li>

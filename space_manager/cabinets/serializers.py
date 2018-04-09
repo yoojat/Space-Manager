@@ -71,6 +71,7 @@ class UsecabSerializer(serializers.ModelSerializer):
             'end_date',
             'is_usable',
             'is_clean',
+            'id',
         )
 
 

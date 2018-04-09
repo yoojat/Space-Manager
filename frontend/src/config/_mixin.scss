@@ -83,3 +83,20 @@ $iphone6plus-width: 450px;
   color: #898989;
   font-family: 'YiSunShinDotumL';
 }
+
+@mixin whiteButton() {
+  -webkit-appearance: none;
+  text-align: center;
+  border: 1.4px solid rgb(228, 228, 228);
+  width: 32%;
+  font-size: 13px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  transition: all 0.5s;
+  border-radius: 3px;
+  &:hover {
+    background-color: #374bab;
+    color: white;
+  }
+  cursor: pointer;
+}

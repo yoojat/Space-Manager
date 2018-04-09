@@ -17,7 +17,6 @@ const RenderMembership = (
   {user, setMembership, cabinet: {using_cabinets}},
   context
 ) => {
-  console.log(using_cabinets);
   return (
     <main className={styles.container}>
       <div className={styles.logoContainer}>
@@ -69,14 +68,15 @@ const RenderMembership = (
               cabinet_number={using_cabinet.cabinet.cabinet_number}
               start_date={using_cabinet.start_date}
               end_date={using_cabinet.end_date}
+              key={using_cabinet.id}
             />
           ))}
         </div>
 
         <div className={styles.buttonContainer}>
-          <div className={styles.button}>
+          <Link to="/membership" className={styles.button}>
             멤버쉽<br />(재)등록하기
-          </div>
+          </Link>
           <div className={styles.button}>
             사물함<br />(추가)등록하기
           </div>
@@ -137,6 +137,30 @@ Membership.propTypes = {
   }).isRequired,
   setMembership: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
+
+  cabinet: PropTypes.shape({
+    using_cabinets: PropTypes.arrayOf(
+      PropTypes.shape({
+        cabinet: PropTypes.shape({
+          cabinet_number: PropTypes.number.isRequired,
+          cabinet_set: PropTypes.shape({
+            branch: PropTypes.shape({
+              branch_name: PropTypes.string.isRequired,
+              branch_num: PropTypes.number.isRequired,
+              id: PropTypes.number.isRequired,
+            }).isRequired,
+          }).isRequired,
+        }).isRequired,
+        end_date: PropTypes.string.isRequired,
+        id: PropTypes.number.isRequired,
+        is_clean: PropTypes.bool.isRequired,
+        is_usable: PropTypes.bool.isRequired,
+        payment: PropTypes.number,
+        start_date: PropTypes.string.isRequired,
+        user: PropTypes.number.isRequired,
+      }).isRequired
+    ),
+  }),
 };
 RenderMembership.contextTypes = {
   t: PropTypes.func.isRequired,

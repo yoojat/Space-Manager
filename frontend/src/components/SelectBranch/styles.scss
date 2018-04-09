@@ -1,0 +1,13 @@
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  .button {
+    text-align: center;
+    width: 32%;
+    @include whiteButton();
+    &.selected {
+      background-color: #374bab;
+      color: white;
+    }
+  }
+}
