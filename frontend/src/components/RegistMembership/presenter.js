@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styles from './styles.scss';
 import Loading from 'components/Loading';
 import SelectBranch from 'components/SelectBranch';
+import SelectWhen from 'components/SelectWhen';
 import Ionicon from 'react-ionicons';
 import {Link} from 'react-router-dom';
 
@@ -52,7 +53,7 @@ const RenderRegistMembership = (props, context) => {
         </div>
 
         <SelectBranch branchSel={props.sel_branch} />
-        {props.sel_branch ? '날짜 선택' : ''}
+        {props.sel_branch ? <SelectWhen /> : ''}
       </div>
     </main>
   );
