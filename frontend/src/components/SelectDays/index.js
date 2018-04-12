@@ -12,8 +12,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    setSelDays: days => {
-      dispatch(registActions.setSelDays(days));
+    setSelCostType: cost_type => {
+      dispatch(registActions.setSelCostType(cost_type));
     },
     getMembershipCostTypes: () => {
       dispatch(registActions.getMembershipCostTypes());

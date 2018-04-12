@@ -7,13 +7,17 @@ const SelectDays = (props, context) => {
     return null;
   } else {
     return (
-      <RenderSelectDays membership_cost_types={props.membership_cost_types} />
+      <RenderSelectDays
+        membership_cost_types={props.membership_cost_types}
+        onDaysClick={props.onDaysClick}
+      />
     );
   }
 };
 
 const RenderSelectDays = (props, context) => {
   const {membership_cost_types} = props;
+  const {onDaysClick} = props;
   return (
     <Fragment>
       <div className={styles.message}>이용일수를 선택해주세요</div>
@@ -25,6 +29,7 @@ const RenderSelectDays = (props, context) => {
             cost={cost_type.cost}
             key={cost_type.id}
             title={cost_type.title}
+            onDaysClick={onDaysClick}
           />
         ))}
       </div>
@@ -33,8 +38,12 @@ const RenderSelectDays = (props, context) => {
 };
 
 const DaysButton = (props, context) => {
+  const onDaysClick = () => {
+    props.onDaysClick(props.id);
+  };
+
   return (
-    <div className={styles.button}>
+    <div className={styles.button} onClick={onDaysClick}>
       <div className={styles.title}>{props.title} 등록</div>
       <div className={styles.money}>{numberWithCommas(props.cost)}원</div>
       {props.days >= 90 && props.days <= 180 ? (

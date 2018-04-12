@@ -6,7 +6,7 @@ import {actionCreators as userActions} from 'redux/modules/user';
 // const SEL_BRANCH = 'SEL_BRANCH';
 const SET_SEL_BRANCH_ID = 'SET_SEL_BRANCH_ID';
 const SET_SEL_WHEN_START = 'SET_SEL_WHEN_START';
-const SET_SEL_DAYS = 'SET_SEL_DAYS';
+const SET_SEL_COSTTYPE = 'SET_SEL_COSTTYPE';
 const SET_MEMBERSHIP_COST_TYPES = 'SET_MEMBERSHIP_COST_TYPES';
 //action creators : 리덕스 state를 변경
 
@@ -24,10 +24,10 @@ function setSelWhenStart(start_date) {
   };
 }
 
-function setSelDays(days) {
+function setSelCostType(cost_type) {
   return {
-    type: SET_SEL_DAYS,
-    days,
+    type: SET_SEL_COSTTYPE,
+    cost_type,
   };
 }
 
@@ -87,7 +87,7 @@ const initialState = {
   sel_branch: null, //id
   sel_cabinet: null, //id
   sel_membership: null, // boolean
-  days: null, //days
+  cost_type: null, //days
   start_date: null, //string, datetime
   membership_cost_types: null,
 };
@@ -99,8 +99,8 @@ function reducer(state = initialState, action) {
       return applySetSelBranchId(state, action);
     case SET_SEL_WHEN_START:
       return applySetSelWhenStart(state, action);
-    case SET_SEL_DAYS:
-      return applySetSelDays(state, action);
+    case SET_SEL_COSTTYPE:
+      return applySetSelCostType(state, action);
     case SET_MEMBERSHIP_COST_TYPES:
       return applySetMembershipCostTypes(state, action);
     default:
@@ -125,11 +125,11 @@ function applySetSelWhenStart(state, action) {
   };
 }
 
-function applySetSelDays(state, action) {
-  const {days} = action;
+function applySetSelCostType(state, action) {
+  const {cost_type} = action;
   return {
     ...state,
-    days,
+    cost_type,
   };
 }
 
@@ -147,7 +147,7 @@ const actionCreators = {
   getBranch,
   setSelBranchId,
   setSelWhenStart,
-  setSelDays,
+  setSelCostType,
   getMembershipCostTypes,
 };
 

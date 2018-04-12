@@ -25,8 +25,19 @@ class Container extends Component {
     }
   }
 
+  _onDaysClick = cost_type => {
+    // console.log(daysId);
+    this.props.setSelCostType(cost_type);
+  };
+
   render() {
-    return <SelectDays {...this.state} {...this.props} />;
+    return (
+      <SelectDays
+        {...this.state}
+        {...this.props}
+        onDaysClick={this._onDaysClick}
+      />
+    );
   }
 }
 
