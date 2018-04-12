@@ -28,7 +28,7 @@ class EnrollType(models.Model):
 @python_2_unicode_compatible
 class CostType(models.Model):
     """ Cost Type Model """
-
+    title = models.CharField(max_length=45, null=True)
     days = models.IntegerField(null=True, blank=True)
     cost = models.IntegerField(null=True, blank=True)
     enroll_type = models.ForeignKey(EnrollType, null=True)

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import PropTypes from 'prop-types';
 import styles from './styles.scss';
 import Datetime from 'react-datetime';
@@ -6,7 +6,7 @@ import 'react-datetime/css/react-datetime.css';
 import moment from 'moment';
 
 const SelectWhen = (props, context) => {
-  moment.locale('kr', {
+  moment.updateLocale('kr', {
     months: '1월_2월_3월_4월_5월_6월_7월_8월_9월_10월_11월_12월'.split('_'),
     monthsShort: '1월_2월_3월_4월_5월_6월_7월_8월_9월_10월_11월_12월'.split(
       '_'
@@ -70,19 +70,19 @@ const SelectWhen = (props, context) => {
     },
   });
   return (
-    <div>
+    <Fragment>
       <div className={styles.selWhenTitle}>
         {context.t('이용시작 일시를 선택해 주세요')}
       </div>
       <Datetime
-        dateFormat="YYYY-MM-DD"
+        dateFormat="YYYY년 MM월 DD일"
         timeFormat="a hh:mm"
         onChange={props.onChangeHandler}
         className={styles.datetime}
         defaultValue={new Date()}
         closeOnTab={true}
       />
-    </div>
+    </Fragment>
   );
 };
 

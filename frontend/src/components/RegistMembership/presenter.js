@@ -4,6 +4,7 @@ import styles from './styles.scss';
 import Loading from 'components/Loading';
 import SelectBranch from 'components/SelectBranch';
 import SelectWhen from 'components/SelectWhen';
+import SelectDays from 'components/SelectDays';
 import Ionicon from 'react-ionicons';
 import {Link} from 'react-router-dom';
 
@@ -11,14 +12,7 @@ const RegistMembership = props => {
   if (props.loading) {
     return <Loading />;
   } else {
-    return (
-      <RenderRegistMembership
-        user={props.user}
-        setTrueBranchSel={props.setTrueBranchSel}
-        branchSel={props.branchSel}
-        sel_branch={props.sel_branch}
-      />
-    );
+    return <RenderRegistMembership {...props} />;
   }
 };
 
@@ -54,6 +48,7 @@ const RenderRegistMembership = (props, context) => {
 
         <SelectBranch branchSel={props.sel_branch} />
         {props.sel_branch ? <SelectWhen /> : ''}
+        {props.start_date ? <SelectDays /> : ''}
       </div>
     </main>
   );

@@ -8,9 +8,9 @@ urlpatterns = [
         name='Payment',
     ),
     url(
-        regex=r'^costtype/$',
-        view=views.CostType.as_view(),
-        name='CostType',
+        regex=r'^costtype/membership/$',
+        view=views.MembershipCostType.as_view(),
+        name='MembershipCostType',
     ),
     url(
         regex=r'^onlyyou/(?P<user_id>[0-9]+)/$',

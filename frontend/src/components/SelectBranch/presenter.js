@@ -37,6 +37,7 @@ const RenderSelectBranch = (props, context) => {
 
   return (
     <Fragment>
+      <div className={styles.message}>원하시는 지점을 선택해주세요</div>
       <div className={styles.buttonContainer}>
         {props.branches.map(branch => {
           const isSelected = selBranchId === branch.id ? true : false;

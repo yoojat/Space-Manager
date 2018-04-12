@@ -9,6 +9,7 @@ class EnrollTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.EnrollType
         fields = (
+            'id',
             'en_substance',
             'kr_substance',
         )
@@ -21,10 +22,12 @@ class CostTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.CostType
         fields = (
+            'id',
             'days',
             'cost',
             'enroll_type',
             'cost_type',
+            'title',
         )
 
 

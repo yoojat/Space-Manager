@@ -33,13 +33,7 @@ class Container extends Component {
   };
 
   render() {
-    return (
-      <RegistMembership
-        user={this.props.user}
-        {...this.state}
-        sel_branch={this.props.sel_branch}
-      />
-    );
+    return <RegistMembership {...this.state} {...this.props} />;
   }
 }
 
