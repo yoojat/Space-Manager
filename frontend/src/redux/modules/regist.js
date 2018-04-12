@@ -3,14 +3,22 @@
 import {actionCreators as userActions} from 'redux/modules/user';
 
 //actions
-const SEL_BRANCH = 'SEL_BRANCH';
+// const SEL_BRANCH = 'SEL_BRANCH';
 const SET_SEL_BRANCH_ID = 'SET_SEL_BRANCH_ID';
+const SET_SEL_WHEN_START = 'SET_SEL_WHEN_START';
 //action creators : 리덕스 state를 변경
 
 function setSelBranchId(branchId) {
   return {
     type: SET_SEL_BRANCH_ID,
     branchId,
+  };
+}
+
+function setSelWhenStart(start_date) {
+  return {
+    type: SET_SEL_WHEN_START,
+    start_date,
   };
 }
 
@@ -50,6 +58,8 @@ function reducer(state = initialState, action) {
   switch (action.type) {
     case SET_SEL_BRANCH_ID:
       return applySetSelBranchId(state, action);
+    case SET_SEL_WHEN_START:
+      return applySetSelWhenStart(state, action);
     default:
       return state;
   }
@@ -64,11 +74,20 @@ function applySetSelBranchId(state, action) {
   };
 }
 
+function applySetSelWhenStart(state, action) {
+  const {start_date} = action;
+  return {
+    ...state,
+    start_date: start_date,
+  };
+}
+
 //exports
 
 const actionCreators = {
   getBranch,
   setSelBranchId,
+  setSelWhenStart,
 };
 
 export {actionCreators};

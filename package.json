@@ -1,7 +1,8 @@
 {
   "dependencies": {
     "classnames": "^2.2.5",
-    "react-google-maps": "^9.4.5",
+    "input-moment": "^0.4.0",
+    "moment": "^2.22.0",
     "redux-i18n": "^1.5.12",
     "reset-css": "^2.2.1"
   }

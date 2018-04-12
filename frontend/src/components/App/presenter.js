@@ -8,7 +8,7 @@ import Navigation from 'components/Navigation';
 import LoungeFeed from 'components/LoungeFeed';
 import Membership from 'components/Membership';
 import RegistMembership from 'components/RegistMembership';
-
+import SelectWhen from 'components/SelectWhen';
 //app에서 모든 route를 관리
 //리액트에서는 하나의 컴포터넌트를 리턴하는 것이 아니라, array를 리턴할수도 있음
 const App = props => {

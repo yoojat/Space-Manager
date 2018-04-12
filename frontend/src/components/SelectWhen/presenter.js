@@ -1,5 +1,4 @@
-import React, {Component, Fragment} from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './styles.scss';
 import Datetime from 'react-datetime';
@@ -70,21 +69,28 @@ const SelectWhen = (props, context) => {
       doy: 4, // The week that contains Jan 4th is the first week of the year.
     },
   });
-
   return (
-    <Fragment>
-      <div>이용일수를 선택해 주세요</div>
+    <div>
+      <div className={styles.selWhenTitle}>
+        {context.t('이용시작 일시를 선택해 주세요')}
+      </div>
       <Datetime
         dateFormat="YYYY-MM-DD"
         timeFormat="a hh:mm"
-        onChange={props.onChange}
+        onChange={props.onChangeHandler}
         className={styles.datetime}
         defaultValue={new Date()}
+        closeOnTab={true}
       />
-    </Fragment>
+    </div>
   );
 };
 
-SelectWhen.propTypes = {};
+SelectWhen.propTypes = {
+  onChangeHandler: PropTypes.func.isRequired,
+};
+SelectWhen.contextTypes = {
+  t: PropTypes.func.isRequired,
+};
 
 export default SelectWhen;

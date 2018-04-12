@@ -39,7 +39,6 @@ const RenderSelectBranch = (props, context) => {
     <Fragment>
       <div className={styles.buttonContainer}>
         {props.branches.map(branch => {
-          console.log('selbranch ID', selBranchId, 'branch.id', branch.id);
           const isSelected = selBranchId === branch.id ? true : false;
           return (
             <BranchSelectButton
