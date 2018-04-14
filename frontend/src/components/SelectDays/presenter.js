@@ -37,6 +37,7 @@ const RenderSelectDays = (props, context) => {
             cost_type={cost_type}
             onDaysClick={onDaysClick}
             id={cost_type.id}
+            key={cost_type.id}
           />
         ))}
       </div>
