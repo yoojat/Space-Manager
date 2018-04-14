@@ -12,6 +12,7 @@ const SelectDays = (props, context) => {
         membership_cost_types={props.membership_cost_types}
         onDaysClick={props.onDaysClick}
         cost_type={props.cost_type}
+        start_date={props.start_date}
       />
     );
   }
@@ -23,7 +24,7 @@ const RenderSelectDays = (props, context) => {
   if (cost_type) {
     end = moment(start_date)
       .add('hour', Number(cost_type.days) * 24)
-      .format('YYYY년 MM월 DD일 h:mm:ss a');
+      .format('YYYY-MM-DD HH:mm');
   } else {
     end = moment();
   }
@@ -35,11 +36,16 @@ const RenderSelectDays = (props, context) => {
           <DaysButton cost_type={cost_type} onDaysClick={onDaysClick} />
         ))}
       </div>
-      <div>
-        {cost_type
-          ? `${cost_type.title} 등록시, ${end}까지 사용 가능`
-          : '노선택'}
-      </div>
+
+      {cost_type ? (
+        <div className={styles.showPeriod}>
+          {' '}
+          <span className={styles.blue}>{cost_type.title}</span> 등록시,{' '}
+          <span className={styles.blue}>{end}</span>까지 사용 가능
+        </div>
+      ) : (
+        ''
+      )}
     </Fragment>
   );
 };
