@@ -80,9 +80,9 @@ const RenderMembership = (
           <div className={styles.button}>
             사물함<br />(추가)등록하기
           </div>
-          <div className={styles.button}>
+          {/* <Link to="/membership/changePassword" className={styles.button}>
             비밀번호<br />변경하기
-          </div>
+          </Link> */}
         </div>
       </div>
     </main>

@@ -33,7 +33,11 @@ const RenderSelectDays = (props, context) => {
       <div className={styles.message}>이용일수를 선택해주세요</div>
       <div className={styles.container}>
         {membership_cost_types.map(cost_type => (
-          <DaysButton cost_type={cost_type} onDaysClick={onDaysClick} />
+          <DaysButton
+            cost_type={cost_type}
+            onDaysClick={onDaysClick}
+            id={cost_type.id}
+          />
         ))}
       </div>
 
