@@ -1,6 +1,6 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import {BrowserRouter, Route, Switch, Link} from 'react-router-dom';
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import './styles.scss';
 import Footer from 'components/Footer';
 import Auth from 'components/Auth';
@@ -16,11 +16,7 @@ const App = props => {
     <BrowserRouter>
       <div>
         {props.isLoggedIn ? <Navigation /> : null}
-        {props.isLoggedIn ? (
-          <PrivateRoutes pathname={props.pathname} />
-        ) : (
-          <PublicRoutes />
-        )}
+        {props.isLoggedIn ? <PrivateRoutes /> : <PublicRoutes />}
 
         <Footer />
       </div>

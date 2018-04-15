@@ -4,6 +4,7 @@ import styles from './styles.scss';
 import Datetime from 'react-datetime';
 import 'react-datetime/css/react-datetime.css';
 import moment from 'moment';
+import {Element} from 'react-scroll';
 
 const SelectWhen = (props, context) => {
   moment.updateLocale('kr', {
@@ -74,20 +75,33 @@ const SelectWhen = (props, context) => {
       <div className={styles.selWhenTitle}>
         {context.t('이용시작 일시를 선택해 주세요')}
       </div>
+      <Element name="select_when" />
       <Datetime
         dateFormat="YYYY년 MM월 DD일"
-        timeFormat="a hh:mm"
-        onChange={props.onChangeHandler}
+        timeFormat={false}
+        onChange={props.onChangeDateHandler}
         className={styles.datetime}
         defaultValue={new Date()}
         closeOnTab={true}
+        closeOnSelect={true}
+      />
+
+      <Datetime
+        dateFormat={false}
+        timeFormat="hh:mm a"
+        onChange={props.onChangeTimeHandler}
+        className={styles.datetime}
+        defaultValue={new Date()}
+        closeOnTab={true}
+        closeOnSelect={true}
       />
     </Fragment>
   );
 };
 
 SelectWhen.propTypes = {
-  onChangeHandler: PropTypes.func.isRequired,
+  onChangeDateHandler: PropTypes.func.isRequired,
+  onChangeTimeHandler: PropTypes.func.isRequired,
 };
 SelectWhen.contextTypes = {
   t: PropTypes.func.isRequired,

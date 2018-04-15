@@ -3,7 +3,9 @@ import {actionCreators as registActions} from 'redux/modules/regist';
 import Container from './container';
 
 const mapStateToProps = (state, ownProps) => {
-  const {regist: {start_date}} = state;
+  const {
+    regist: {start_date},
+  } = state;
   return {
     start_date,
   };
@@ -11,8 +13,12 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    setSelWhenStart: start_date => {
-      dispatch(registActions.setSelWhenStart(start_date));
+    setSelDateStart: start_date => {
+      dispatch(registActions.setSelDateStart(start_date));
+    },
+
+    setSelTimeStart: start_time => {
+      dispatch(registActions.setSelTimeStart(start_time));
     },
   };
 };

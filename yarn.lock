@@ -135,6 +135,10 @@ js-tokens@^3.0.0:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-3.0.2.tgz#9866df395102130e38f7f996bceb65443209c25b"
 
+lodash.throttle@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/lodash.throttle/-/lodash.throttle-4.1.1.tgz#c23e91b710242ac70c37f1e1cda9274cc39bf2f4"
+
 lodash@^4.17.4:
   version "4.17.5"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.5.tgz#99a92d65c0272debe8c96b6057bc8fbfa3bed511"
@@ -220,6 +224,13 @@ react-input-slider@^4.0.0:
     blacklist "^1.1.2"
     classnames "^2.2.0"
     prop-types "^15.5.10"
+
+react-scroll@^1.7.8:
+  version "1.7.8"
+  resolved "https://registry.yarnpkg.com/react-scroll/-/react-scroll-1.7.8.tgz#45d8bd0f3fb104a7a1c3adb358e3a742a7091409"
+  dependencies:
+    lodash.throttle "^4.1.1"
+    prop-types "^15.5.8"
 
 redux-i18n@^1.5.12:
   version "1.5.12"

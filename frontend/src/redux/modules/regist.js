@@ -5,7 +5,8 @@ import {actionCreators as userActions} from 'redux/modules/user';
 //actions
 // const SEL_BRANCH = 'SEL_BRANCH';
 const SET_SEL_BRANCH_ID = 'SET_SEL_BRANCH_ID';
-const SET_SEL_WHEN_START = 'SET_SEL_WHEN_START';
+const SET_SEL_DATE_START = 'SET_SEL_DATE_START';
+const SET_SEL_TIME_START = 'SET_SEL_TIME_START';
 const SET_SEL_COSTTYPE = 'SET_SEL_COSTTYPE';
 const SET_MEMBERSHIP_COST_TYPES = 'SET_MEMBERSHIP_COST_TYPES';
 //action creators : 리덕스 state를 변경
@@ -17,10 +18,17 @@ function setSelBranchId(branchId) {
   };
 }
 
-function setSelWhenStart(start_date) {
+function setSelDateStart(start_date) {
   return {
-    type: SET_SEL_WHEN_START,
+    type: SET_SEL_DATE_START,
     start_date,
+  };
+}
+
+function setSelTimeStart(start_time) {
+  return {
+    type: SET_SEL_TIME_START,
+    start_time,
   };
 }
 
@@ -41,7 +49,9 @@ function setMembershipCostTypes(cost_types) {
 // API actions: api를 부를 때 사용
 function getBranch(branchId) {
   return (dispatch, getState) => {
-    const {user: {token}} = getState();
+    const {
+      user: {token},
+    } = getState();
 
     fetch(`/branch/${branchId}/`, {
       method: 'GET',
@@ -63,7 +73,9 @@ function getBranch(branchId) {
 
 function getMembershipCostTypes() {
   return (dispatch, getState) => {
-    const {user: {token}} = getState();
+    const {
+      user: {token},
+    } = getState();
 
     fetch(`/payment/costtype/membership/`, {
       method: 'GET',
@@ -89,6 +101,7 @@ const initialState = {
   sel_membership: null, // boolean
   cost_type: null, //days
   start_date: null, //string, datetime
+  start_time: null,
   membership_cost_types: null,
 };
 
@@ -97,8 +110,12 @@ function reducer(state = initialState, action) {
   switch (action.type) {
     case SET_SEL_BRANCH_ID:
       return applySetSelBranchId(state, action);
-    case SET_SEL_WHEN_START:
-      return applySetSelWhenStart(state, action);
+    case SET_SEL_DATE_START:
+      return applySetSelDateStart(state, action);
+
+    case SET_SEL_TIME_START:
+      return applySetSelTimeStart(state, action);
+
     case SET_SEL_COSTTYPE:
       return applySetSelCostType(state, action);
     case SET_MEMBERSHIP_COST_TYPES:
@@ -117,11 +134,19 @@ function applySetSelBranchId(state, action) {
   };
 }
 
-function applySetSelWhenStart(state, action) {
+function applySetSelDateStart(state, action) {
   const {start_date} = action;
   return {
     ...state,
     start_date,
+  };
+}
+
+function applySetSelTimeStart(state, action) {
+  const {start_time} = action;
+  return {
+    ...state,
+    start_time,
   };
 }
 
@@ -146,7 +171,8 @@ function applySetMembershipCostTypes(state, action) {
 const actionCreators = {
   getBranch,
   setSelBranchId,
-  setSelWhenStart,
+  setSelDateStart,
+  setSelTimeStart,
   setSelCostType,
   getMembershipCostTypes,
 };
