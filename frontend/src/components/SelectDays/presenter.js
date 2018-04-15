@@ -4,6 +4,7 @@ import styles from './styles.scss';
 import moment from 'moment';
 
 const SelectDays = (props, context) => {
+  console.log(props);
   if (props.loading) {
     return null;
   } else {

@@ -6,6 +6,7 @@ import SelectBranch from 'components/SelectBranch';
 import SelectWhen from 'components/SelectWhen';
 import SelectDays from 'components/SelectDays';
 import Ionicon from 'react-ionicons';
+import SelectCabinet from 'components/SelectCabinet';
 import {Link} from 'react-router-dom';
 
 const RegistMembership = props => {
@@ -49,6 +50,7 @@ const RenderRegistMembership = (props, context) => {
         <SelectBranch branchSel={props.sel_branch} />
         {props.sel_branch ? <SelectWhen /> : ''}
         {props.start_date ? <SelectDays /> : ''}
+        {props.cost_type ? <SelectCabinet /> : ''}
       </div>
     </main>
   );
