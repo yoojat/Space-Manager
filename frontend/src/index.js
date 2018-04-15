@@ -6,6 +6,8 @@ import {ConnectedRouter} from 'react-router-redux'; //연결된 라우터를 불
 import store, {history} from 'redux/configureStore'; //생성한 store를 불러들임, 히스토리도 불러옴(라우터를 위해))
 import App from 'components/App';
 import {translations} from 'translations';
+import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
+
 // .env파일에 NODE_PATH=src 를 추가함으로써 베이스 폴더를 src로 인식
 
 ReactDOM.render(
