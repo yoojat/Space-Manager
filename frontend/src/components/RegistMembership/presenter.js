@@ -50,7 +50,7 @@ const RenderRegistMembership = (props, context) => {
         <SelectBranch branchSel={props.sel_branch} />
         {props.sel_branch ? <SelectWhen /> : ''}
         {props.start_date ? <SelectDays /> : ''}
-        {/* {props.cost_type ? <SelectCabinet /> : ''} */}
+        {props.cost_type ? '사물함 선택' : ''}
       </div>
     </main>
   );

@@ -19,9 +19,12 @@ class Container extends Component {
         ...this.state,
         loading: false,
       });
+      console.log(1);
     } else {
       this.props.getMembershipCostTypes();
+      console.log(2);
     }
+    console.log(this.state);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -30,7 +33,11 @@ class Container extends Component {
     }
 
     if (nextProps.cost_type) {
-      this.setState({...this.state, selected_button: nextProps.cost_type.id});
+      this.setState({
+        ...this.state,
+        loading: false,
+        selected_button: nextProps.cost_type.id,
+      });
     }
   }
 
@@ -41,6 +48,8 @@ class Container extends Component {
   };
 
   render() {
+    console.log(this.state);
+
     return (
       <SelectDays
         {...this.state}

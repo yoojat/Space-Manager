@@ -6,7 +6,6 @@ import moment from 'moment';
 import {Element} from 'react-scroll';
 
 const SelectDays = (props, context) => {
-  console.log(props);
   if (props.loading) {
     return null;
   } else {
