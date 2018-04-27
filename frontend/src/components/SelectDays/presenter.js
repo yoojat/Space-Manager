@@ -34,34 +34,42 @@ const RenderSelectDays = (props, context) => {
   let end = null;
   const start_datetime = start_date.concat(' ', start_time);
   if (cost_type) {
-    end = moment(start_datetime)
-      .add(Number(cost_type.days) * 24, 'hour')
-      .format('YYYY-MM-DD HH:mm:ss');
+    end = moment(start_datetime).add(Number(cost_type.days) * 24, 'hour');
   } else {
     end = moment();
   }
+
+  const show_end_datetime = end.format('YYYY-MM-DD HH:mm:ss');
+
   return (
     <Fragment>
       <Element name="select_costype" />
 
       <div className={styles.message}>이용일수를 선택해주세요</div>
       <div className={styles.container}>
-        {membership_cost_types.map(cost_type => (
-          <DaysButton
-            cost_type={cost_type}
-            onDaysClick={onDaysClick}
-            id={cost_type.id}
-            key={cost_type.id}
-            isSelected={cost_type.id === selected_button}
-          />
-        ))}
+        {membership_cost_types.map(cost_type => {
+          const end_datetime = moment(start_datetime)
+            .add(Number(cost_type.days) * 24, 'hour')
+            .format('YYYY-MM-DD HH:mm:ss');
+
+          return (
+            <DaysButton
+              cost_type={cost_type}
+              onDaysClick={onDaysClick}
+              id={cost_type.id}
+              key={cost_type.id}
+              isSelected={cost_type.id === selected_button}
+              end_datetime={end_datetime}
+            />
+          );
+        })}
       </div>
 
       {cost_type ? (
         <div className={styles.showPeriod}>
           {' '}
           <span className={styles.blue}>{cost_type.title}</span> 등록시,{' '}
-          <span className={styles.blue}>{end}</span>까지 이용 가능
+          <span className={styles.blue}>{show_end_datetime}</span>까지 이용 가능
         </div>
       ) : (
         ''
@@ -71,11 +79,11 @@ const RenderSelectDays = (props, context) => {
 };
 
 const DaysButton = (props, context) => {
-  const {cost_type, isSelected} = props;
+  const {cost_type, isSelected, end_datetime} = props;
   const classes = `${styles.button} ${isSelected ? styles.selected : ''}`;
 
   const onDaysClick = () => {
-    props.onDaysClick(cost_type);
+    props.onDaysClick(cost_type, end_datetime);
   };
 
   return (
@@ -124,6 +132,7 @@ SelectDays.propTypes = {
   ),
   loading: PropTypes.bool.isRequired,
   getMembershipCostTypes: PropTypes.func.isRequired,
+  setSelEndDateTime: PropTypes.func.isRequired,
 };
 SelectDays.contextTypes = {
   t: PropTypes.func.isRequired,

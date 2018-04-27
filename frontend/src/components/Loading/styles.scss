@@ -1,4 +1,7 @@
 .container {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: center;
   .spinner {
     height: 32px;
     animation: spinner 1.2s steps(12) infinite;

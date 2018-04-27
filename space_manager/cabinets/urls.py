@@ -26,4 +26,7 @@ urlpatterns = [
     url(regex=r'^using/$',
         view=views.CabinetByUser.as_view(),
         name='cabinet_by_user'),
+    url(regex=r'^branch/(?P<branch_id>[0-9]+)/$',
+        view=views.BranchCabinetSets.as_view(),
+        name='branch_cabinet_set'),
 ]

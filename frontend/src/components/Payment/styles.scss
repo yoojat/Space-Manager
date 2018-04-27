@@ -1,0 +1,49 @@
+.payment-container {
+  margin-top: 40px;
+
+  .title {
+    text-align: center;
+    font-size: 13px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e4e4e4;
+  }
+  .payment {
+    margin-top: 15px;
+    display: flex;
+    font-size: 10px;
+
+    .payment-membership {
+      text-align: center;
+      margin-top: auto;
+      margin-bottom: auto;
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+    .payment-content {
+      display: flex;
+      flex-direction: column;
+      .branch-name {
+      }
+      .period {
+      }
+      .cost {
+      }
+      div {
+        margin-top: 3px;
+        margin-bottom: 3px;
+        border-bottom: 1px solid #e4e4e4;
+        padding-bottom: 5px;
+        padding-left: 10px;
+        text-align: center;
+      }
+    }
+  }
+}
+
+.pay-button {
+  @include whiteButton();
+  &.selected {
+    background-color: #374bab;
+    color: white;
+  }
+}

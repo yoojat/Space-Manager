@@ -14,7 +14,7 @@ class Container extends Component {
       selBranchId: event.target.id,
     });
 
-    this.props.setSelBranchId(event.target.id);
+    this.props.getSelBranch(event.target.id);
   };
 
   _handleMarkerClick = id => {
@@ -24,7 +24,7 @@ class Container extends Component {
       selBranchId: branchId,
     });
 
-    this.props.setSelBranchId(branchId);
+    this.props.getSelBranch(branchId);
   };
 
   _handleShowMapButtonClick = event => {

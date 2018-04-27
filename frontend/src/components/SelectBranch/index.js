@@ -4,8 +4,12 @@ import {actionCreators as branchActions} from 'redux/modules/branch';
 import {actionCreators as registActions} from 'redux/modules/regist';
 
 const mapStateToProps = (state, ownProps) => {
-  const {branch: {branches}} = state;
-  const {regist: {sel_branch}} = state;
+  const {
+    branch: {branches},
+  } = state;
+  const {
+    regist: {sel_branch},
+  } = state;
   return {
     branches,
     sel_branch,
@@ -20,8 +24,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     // getBranch: branchId => {
     //   dispatch(registActions.getBranch(branchId));
     // },
-    setSelBranchId: branchId => {
-      dispatch(registActions.setSelBranchId(branchId));
+    getSelBranch: branchId => {
+      dispatch(registActions.getSelBranch(branchId));
     },
   };
 };

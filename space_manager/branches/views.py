@@ -105,6 +105,36 @@ class BranchDetail(APIView):
                 data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class BranchBrief(APIView):
+    def find_branch(self, branch_id):
+        try:
+            branch = models.Branch.objects.get(id=branch_id)
+            return branch
+        except models.Branch.DoesNotExist:
+            return None
+
+    """ get branch info detail """
+
+    def get(self, request, branch_id, format=None):
+        # 제목 : 하나의 지점 정보 가져오기
+        # 설명 : 하나의 지점정보를 디테일하게 가지고 온다
+        # 가지고 오는 데이터
+        # 해당 지점에 해당되는 id,branch_num,region, branch_name,address,detail_address,lat,lng,lounge_img
+
+        try:
+            branch = models.Branch.objects.get(id=branch_id)
+        except models.Branch.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        serializer = serializers.BriefBranchSerializer(
+            branch, context={
+                'reqeust': request
+            })
+        #serializer가 request를 받을 수 있음
+
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+
 class Search(APIView):
     def get(self, request, format=None):
         # 제목 : 지점이름으로 검색하기

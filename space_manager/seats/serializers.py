@@ -54,16 +54,8 @@ class SeatSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Seat
-        fields = (
-            'seat_number',
-            'left',
-            'top',
-            'rotate',
-            'usable',
-            'discard',
-            'room',
-            'branch',
-        )
+        fields = ('seat_number', 'left', 'top', 'rotate', 'usable', 'discard',
+                  'room', 'branch', 'logs')
 
 
 class InputSeatSerializer(serializers.ModelSerializer):

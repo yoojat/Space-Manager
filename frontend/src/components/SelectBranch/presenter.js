@@ -10,6 +10,7 @@ import {
 } from 'react-google-maps';
 
 const SelectBranch = (props, context) => {
+  // console.log(props);
   if (props.loading) {
     return null;
   } else {
@@ -18,7 +19,12 @@ const SelectBranch = (props, context) => {
 };
 
 const RenderSelectBranch = (props, context) => {
-  const selBranchId = Number(props.sel_branch);
+  let selBranchId;
+  if (props.sel_branch) {
+    selBranchId = props.sel_branch.id;
+  } else {
+    selBranchId = null;
+  }
   const {showMap} = props;
   const showMapButtonClasses = showMap
     ? `${styles.mapButtonContainer} ${styles.selected}`
@@ -144,7 +150,7 @@ RenderSelectBranch.propTypes = {
   handleShowMapButtonClick: PropTypes.func.isRequired,
   handleMarkerClick: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
-  selBranchId: PropTypes.string,
+  selBranch: PropTypes.string,
   showMap: PropTypes.bool.isRequired,
 };
 SelectBranch.contextTypes = {

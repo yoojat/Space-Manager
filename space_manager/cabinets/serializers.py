@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from space_manager.branches import serializers as branch_serializers
 from . import models
+from space_manager.branches import models as branch_models
 
 
 class BriefCabinetSetSerializer(serializers.ModelSerializer):
@@ -20,6 +21,64 @@ class CabinetMembershipSerializer(serializers.ModelSerializer):
         fields = ('cabinet_number', 'cabinet_set')
 
 
+class UsecabSerializer(serializers.ModelSerializer):
+    start_date = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
+    end_date = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
+
+    cabinet = CabinetMembershipSerializer()
+
+    class Meta:
+        model = models.UseCabinet
+        fields = (
+            'cabinet',
+            'payment',
+            'user',
+            'start_date',
+            'end_date',
+            'is_usable',
+            'is_clean',
+            'id',
+        )
+
+
+class CabinetSerializerForSelect(serializers.ModelSerializer):
+    class Meta:
+        model = models.Cabinet
+        fields = (
+            'cabinet_number',
+            'xpos',
+            'ypos',
+            'id',
+            'is_available',
+        )
+
+
+class CabinetSetDetailSerializer(serializers.ModelSerializer):
+
+    cabinets = CabinetSerializerForSelect(many=True)
+
+    class Meta:
+        model = models.CabinetSet
+        fields = ('desc', 'id', 'horizontal_num', 'vertical_num', 'cabinets')
+
+
+class CabinetSetSerializer(serializers.ModelSerializer):
+    # cabinets = CabinetSerializerForSelect(many=True)
+
+    class Meta:
+        model = models.CabinetSet
+        fields = ('width', 'height', 'xpos', 'ypos', 'order', 'desc', 'branch',
+                  'id', 'horizontal_num', 'vertical_num')
+
+
+class BranchCabinetSetsSerializer(serializers.ModelSerializer):
+    cabinet_sets = CabinetSetSerializer(many=True)
+
+    class Meta:
+        model = branch_models.Branch
+        fields = ('lounge_img_cabinet', 'cabinet_sets', 'id')
+
+
 class InputCabinetSetSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.CabinetSet
@@ -28,19 +87,6 @@ class InputCabinetSetSerializer(serializers.ModelSerializer):
             'height',
             'order',
             'desc',
-        )
-
-
-class CabinetSetSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.CabinetSet
-        fields = (
-            'width',
-            'height',
-            'order',
-            'desc',
-            'branch',
-            'cabinets',
         )
 
 

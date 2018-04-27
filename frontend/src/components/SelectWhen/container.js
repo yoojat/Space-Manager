@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import SelectWhen from './presenter';
 import moment from 'moment';
-import {Events, scrollSpy, scroller} from 'react-scroll';
+import {scroller} from 'react-scroll';
 
 class Container extends Component {
   constructor(props) {
@@ -14,7 +14,7 @@ class Container extends Component {
   }
 
   componentDidMount() {
-    scrollSpy.update();
+    // scrollSpy.update();
 
     this._scrollTo();
     const start_date = moment(new Date()).format('YYYY-MM-DD');
@@ -24,10 +24,25 @@ class Container extends Component {
     this.props.setSelTimeStart(start_time);
   }
 
-  componentWillUnmount() {
-    Events.scrollEvent.remove('begin');
-    Events.scrollEvent.remove('end');
+  componentWillReceiveProps(nextProps) {
+    let end_datetime;
+    if (nextProps.cost_type) {
+      const start_datetime = this.props.start_date.concat(
+        ' ',
+        this.props.start_time
+      );
+      end_datetime = moment(start_datetime)
+        .add(Number(nextProps.cost_type.days) * 24, 'hour')
+        .format('YYYY-MM-DD HH:mm:ss');
+
+      this.props.setSelEndDateTime(end_datetime);
+    }
   }
+
+  // componentWillUnmount() {
+  //   Events.scrollEvent.remove('begin');
+  //   Events.scrollEvent.remove('end');
+  // }
 
   _scrollTo = () => {
     scroller.scrollTo('select_when', {

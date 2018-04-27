@@ -25,8 +25,12 @@ class CabinetSet(models.Model):
         branch_models.Branch, null=True, related_name='cabinet_sets')
     width = models.IntegerField(null=True)
     height = models.IntegerField(null=True)
+    xpos = models.FloatField(null=True)
+    ypos = models.FloatField(null=True)
     order = models.IntegerField(null=True)
     desc = models.CharField(max_length=255, null=True)
+    horizontal_num = models.IntegerField(null=True)
+    vertical_num = models.IntegerField(null=True)
 
     def __str__(self):
         return '{}({}) - {}'.format(self.branch.branch_name,
@@ -45,6 +49,7 @@ class Cabinet(models.Model):
     ypos = models.IntegerField(null=True)
     cabinet_set = models.ForeignKey(
         CabinetSet, null=True, related_name='cabinets')
+    is_available = models.BooleanField(default=True)
 
     def __str__(self):
         return '{} : {}번 사물함'.format(

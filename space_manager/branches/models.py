@@ -25,6 +25,8 @@ class Branch(models.Model):
     lat = models.FloatField()
     lng = models.FloatField()
     lounge_img = models.ImageField(null=True, validators=[validate_image])
+    lounge_img_cabinet = models.ImageField(
+        null=True, validators=[validate_image])
     usable = models.BooleanField(default=False)
     width = models.FloatField(null=True)
     height = models.FloatField(null=True)

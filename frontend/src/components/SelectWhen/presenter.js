@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './styles.scss';
 import Datetime from 'react-datetime';
@@ -71,11 +71,10 @@ const SelectWhen = (props, context) => {
     },
   });
   return (
-    <Fragment>
+    <Element name="select_when">
       <div className={styles.selWhenTitle}>
         {context.t('이용시작 일시를 선택해 주세요')}
       </div>
-      <Element name="select_when" />
       <Datetime
         dateFormat="YYYY년 MM월 DD일"
         timeFormat={false}
@@ -95,7 +94,7 @@ const SelectWhen = (props, context) => {
         closeOnTab={true}
         closeOnSelect={true}
       />
-    </Fragment>
+    </Element>
   );
 };
 

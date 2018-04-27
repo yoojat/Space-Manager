@@ -16,4 +16,7 @@ urlpatterns = [
     url(regex=r'^here/$',
         view=views.BranchIpAddress.as_view(),
         name='branch_ip'),
+    url(regex=r'^brief/(?P<branch_id>[0-9]+)/$',
+        view=views.BranchBrief.as_view(),
+        name='branch_brief'),
 ]

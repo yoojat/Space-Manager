@@ -52,20 +52,9 @@ class BranchSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Branch
-        fields = (
-            'id',
-            'branch_num',
-            'region',
-            'branch_name',
-            'address',
-            'detail_address',
-            'lat',
-            'lng',
-            'lounge_img',
-            'seats',
-            'is_enrolled',
-            'ips',
-        )
+        fields = ('id', 'branch_num', 'region', 'branch_name', 'address',
+                  'detail_address', 'lat', 'lng', 'lounge_img', 'seats',
+                  'is_enrolled', 'ips', 'lounge_img_cabinet')
 
     def get_is_enrolled(self, obj):
         now = datetime.today()
@@ -87,17 +76,9 @@ class BranchSerializer(serializers.ModelSerializer):
 class BriefBranchSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Branch
-        fields = (
-            'id',
-            'branch_num',
-            'region',
-            'branch_name',
-            'address',
-            'detail_address',
-            'lat',
-            'lng',
-            'lounge_img',
-        )
+        fields = ('id', 'branch_num', 'region', 'branch_name', 'address',
+                  'detail_address', 'lat', 'lng', 'lounge_img',
+                  'lounge_img_cabinet')
 
 
 class BranchConfigSerializer(serializers.ModelSerializer):

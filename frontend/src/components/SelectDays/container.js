@@ -19,12 +19,9 @@ class Container extends Component {
         ...this.state,
         loading: false,
       });
-      console.log(1);
     } else {
       this.props.getMembershipCostTypes();
-      console.log(2);
     }
-    console.log(this.state);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -41,15 +38,12 @@ class Container extends Component {
     }
   }
 
-  _onDaysClick = cost_type => {
-    // console.log('cost_type_id:', cost_type.id);
+  _onDaysClick = (cost_type, end_datetime) => {
     this.props.setSelCostType(cost_type);
-    // this.setState({...this.state, selected_button: cost_type.id});
+    this.props.setSelEndDateTime(end_datetime);
   };
 
   render() {
-    console.log(this.state);
-
     return (
       <SelectDays
         {...this.state}

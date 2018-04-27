@@ -5,6 +5,8 @@ import Loading from 'components/Loading';
 import SelectBranch from 'components/SelectBranch';
 import SelectWhen from 'components/SelectWhen';
 import SelectDays from 'components/SelectDays';
+import SelectCabinet from 'components/SelectCabinet';
+import Payment from 'components/Payment';
 import Ionicon from 'react-ionicons';
 // import SelectCabinet from 'components/SelectCabinet';
 import {Link} from 'react-router-dom';
@@ -47,10 +49,15 @@ const RenderRegistMembership = (props, context) => {
           </div>
         </div>
 
-        <SelectBranch branchSel={props.sel_branch} />
+        <SelectBranch />
         {props.sel_branch ? <SelectWhen /> : ''}
         {props.start_date ? <SelectDays /> : ''}
-        {props.cost_type ? '사물함 선택' : ''}
+        {props.cost_type ? (
+          <SelectCabinet setAllInfoSetup={props.setAllInfoSetup} />
+        ) : (
+          ''
+        )}
+        {props.all_info_setup ? <Payment /> : ''}
       </div>
     </main>
   );
@@ -59,7 +66,7 @@ const RenderRegistMembership = (props, context) => {
 export default RegistMembership;
 
 RegistMembership.propTypes = {
-  sel_branch: PropTypes.string,
+  // sel_branch: PropTypes.,
   user: PropTypes.shape({
     isLoggedIn: PropTypes.bool.isRequired,
     token: PropTypes.string.isRequired,

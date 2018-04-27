@@ -4,10 +4,12 @@ import Container from './container';
 
 const mapStateToProps = (state, ownProps) => {
   const {
-    regist: {start_date},
+    regist: {start_date, cost_type, start_time},
   } = state;
   return {
     start_date,
+    start_time,
+    cost_type,
   };
 };
 
@@ -19,6 +21,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
     setSelTimeStart: start_time => {
       dispatch(registActions.setSelTimeStart(start_time));
+    },
+    setSelEndDateTime: end_datetime => {
+      dispatch(registActions.setSelEndDateTime(end_datetime));
     },
   };
 };

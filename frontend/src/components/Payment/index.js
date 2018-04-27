@@ -1,16 +1,27 @@
 import {connect} from 'react-redux';
-import {actionCreators as registActions} from 'redux/modules/regist';
 import Container from './container';
+import {actionCreators as registActions} from 'redux/modules/regist';
 
 const mapStateToProps = (state, ownProps) => {
   const {
-    regist: {cost_type, membership_cost_types, start_date, start_time},
+    user,
+    regist: {
+      sel_branch,
+      start_date,
+      start_time,
+      end_datetime,
+      cost_type,
+      all_info_setup,
+    },
   } = state;
   return {
-    cost_type,
-    membership_cost_types,
+    sel_branch,
     start_date,
     start_time,
+    end_datetime,
+    cost_type,
+    all_info_setup,
+    user,
   };
 };
 
@@ -22,10 +33,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     getMembershipCostTypes: () => {
       dispatch(registActions.getMembershipCostTypes());
     },
-    setSelEndDateTime: end_datetime => {
-      dispatch(registActions.setSelEndDateTime(end_datetime));
-    },
   };
 };
 
+//이름, 등록지점, 시작시각, 만료시각, cost_type(가격, 일수, title)
 export default connect(mapStateToProps, mapDispatchToProps)(Container);

@@ -16,7 +16,9 @@ function setUsingCabinets(using_cabinets) {
 
 function getUsingCabinets() {
   return function(dispatch, getState) {
-    const {user: {token, isLoggedIn}} = getState();
+    const {
+      user: {token, isLoggedIn},
+    } = getState();
     if (isLoggedIn) {
       fetch(`/cabinets/using/`, {
         method: 'GET',
