@@ -6,6 +6,7 @@ const mapStateToProps = (state, ownProps) => {
   const {
     user,
     regist: {
+      sel_cabinets,
       sel_branch,
       start_date,
       start_time,
@@ -22,6 +23,7 @@ const mapStateToProps = (state, ownProps) => {
     cost_type,
     all_info_setup,
     user,
+    sel_cabinets,
   };
 };
 

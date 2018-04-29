@@ -17,7 +17,14 @@ const SET_SEL_CABINET_SET_ID = 'SET_SEL_CABINET_SET_ID';
 const SET_SEL_CBAINET_SET = 'SET_SEL_CABINET_SET';
 const SET_SEL_CABINET = 'SET_SEL_CABINET';
 const UNSET_SEL_CABINET = 'UNSET_SEL_CABINET';
+const CLEAR_SEL_CABINETS = 'CLEAR_SEL_CABINETS';
 //action creators : 리덕스 state를 변경
+
+function clearSelCabinets() {
+  return {
+    type: CLEAR_SEL_CABINETS,
+  };
+}
 
 function unsetSelCabinet(sel_cabinet) {
   return {
@@ -213,6 +220,7 @@ const initialState = {
   all_info_setup: false,
   sel_cabinet_set_id: null,
   sel_cabinet_set: null,
+  cabinet_cost_type: null,
 };
 
 //reducer
@@ -257,11 +265,21 @@ function reducer(state = initialState, action) {
     case UNSET_SEL_CABINET:
       return applyUnsetSelCabinet(state, action);
 
+    case CLEAR_SEL_CABINETS:
+      return applyClearSelCabinets(state, action);
+
     default:
       return state;
   }
 }
 //reducer functions
+
+function applyClearSelCabinets(state, action) {
+  return {
+    ...state,
+    sel_cabinets: [],
+  };
+}
 
 function applyUnsetSelCabinet(state, action) {
   const {sel_cabinet} = action;
@@ -386,6 +404,7 @@ const actionCreators = {
   setSelCabinetSetId,
   setSelCabinet,
   unsetSelCabinet,
+  clearSelCabinets,
 };
 
 export {actionCreators};

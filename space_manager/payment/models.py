@@ -26,12 +26,26 @@ class EnrollType(models.Model):
 
 
 @python_2_unicode_compatible
+class CabinetCostType(models.Model):
+    """ Cost Type Model """
+    title = models.CharField(max_length=45, null=True)
+    days = models.FloatField(null=True, blank=True)
+    cost = models.IntegerField(null=True, blank=True)
+    enroll_type = models.ForeignKey(EnrollType, null=True)
+    cost_type = models.CharField(max_length=45, null=True)
+
+    def __str__(self):
+        return '{} : {}일 - {}원'.format(self.enroll_type, self.days, self.cost)
+
+
+@python_2_unicode_compatible
 class CostType(models.Model):
     """ Cost Type Model """
     title = models.CharField(max_length=45, null=True)
     days = models.FloatField(null=True, blank=True)
     cost = models.IntegerField(null=True, blank=True)
     enroll_type = models.ForeignKey(EnrollType, null=True)
+    cabinet_cost_type = models.ForeignKey(CabinetCostType, null=True)
     cost_type = models.CharField(max_length=45, null=True)
 
     def __str__(self):

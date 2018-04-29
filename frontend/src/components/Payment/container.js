@@ -97,8 +97,9 @@ class Container extends Component {
       start_date,
       start_time,
       end_datetime,
-      cost_type: {cost},
+      cost_type,
       all_info_setup,
+      sel_cabinets,
     } = this.props;
 
     return (
@@ -117,8 +118,9 @@ class Container extends Component {
           start_date={start_date}
           start_time={start_time}
           end_datetime={end_datetime}
-          cost={cost}
+          cost_type={cost_type}
           all_info_setup={all_info_setup}
+          sel_cabinets={sel_cabinets}
           onPayClick={this._onPayClick}
         />
       </Fragment>

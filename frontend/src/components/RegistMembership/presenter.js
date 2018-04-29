@@ -21,6 +21,7 @@ const RegistMembership = props => {
 
 const RenderRegistMembership = (props, context) => {
   const {user} = props;
+  const {cost_type} = props;
   return (
     <main className={styles.container}>
       <div className={styles.logoContainer}>
@@ -48,15 +49,23 @@ const RenderRegistMembership = (props, context) => {
             </span>
           </div>
         </div>
-
         <SelectBranch />
         {props.sel_branch ? <SelectWhen /> : ''}
         {props.start_date ? <SelectDays /> : ''}
-        {props.cost_type ? (
-          <SelectCabinet setAllInfoSetup={props.setAllInfoSetup} />
+        {cost_type ? (
+          cost_type.cabinet_cost_type ? (
+            <SelectCabinet setAllInfoSetup={props.setAllInfoSetup} />
+          ) : (
+            ''
+          )
         ) : (
           ''
         )}
+        {/* {cost_type ? (
+          <SelectCabinet setAllInfoSetup={props.setAllInfoSetup} />
+        ) : (
+          ''
+        )} */}
         {props.all_info_setup ? <Payment /> : ''}
       </div>
     </main>

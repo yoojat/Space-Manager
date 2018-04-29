@@ -76,7 +76,7 @@ class BranchCabinetSetsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = branch_models.Branch
-        fields = ('lounge_img_cabinet', 'cabinet_sets', 'id')
+        fields = ('lounge_img_cabinet', 'cabinet_sets', 'branch_name', 'id')
 
 
 class InputCabinetSetSerializer(serializers.ModelSerializer):

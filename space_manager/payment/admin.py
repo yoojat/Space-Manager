@@ -17,6 +17,11 @@ class PaymentMethodAdmin(admin.ModelAdmin):
     pass
 
 
+@admin.register(models.CabinetCostType)
+class CabinetCostTypeAdmin(admin.ModelAdmin):
+    pass
+
+
 @admin.register(models.CostType)
 class CostTypeAdmin(admin.ModelAdmin):
     pass

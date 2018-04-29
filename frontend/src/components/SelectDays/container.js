@@ -41,6 +41,13 @@ class Container extends Component {
   _onDaysClick = (cost_type, end_datetime) => {
     this.props.setSelCostType(cost_type);
     this.props.setSelEndDateTime(end_datetime);
+    this.props.clearSelCabinets();
+
+    if (cost_type.cost_type === '1days') {
+      this.props.setAllInfoSetup();
+    } else {
+      this.props.setAllInfoNotSetup();
+    }
   };
 
   render() {

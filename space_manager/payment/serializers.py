@@ -15,9 +15,23 @@ class EnrollTypeSerializer(serializers.ModelSerializer):
         )
 
 
+class CabinetCostTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.CabinetCostType
+        fields = (
+            'id',
+            'title',
+            'days',
+            'cost',
+            'enroll_type',
+            'cost_type',
+        )
+
+
 class CostTypeSerializer(serializers.ModelSerializer):
 
     enroll_type = EnrollTypeSerializer()
+    cabinet_cost_type = CabinetCostTypeSerializer()
 
     class Meta:
         model = models.CostType
@@ -26,6 +40,7 @@ class CostTypeSerializer(serializers.ModelSerializer):
             'days',
             'cost',
             'enroll_type',
+            'cabinet_cost_type',
             'cost_type',
             'title',
         )

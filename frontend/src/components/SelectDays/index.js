@@ -4,13 +4,20 @@ import Container from './container';
 
 const mapStateToProps = (state, ownProps) => {
   const {
-    regist: {cost_type, membership_cost_types, start_date, start_time},
+    regist: {
+      cost_type,
+      membership_cost_types,
+      start_date,
+      start_time,
+      all_info_setup,
+    },
   } = state;
   return {
     cost_type,
     membership_cost_types,
     start_date,
     start_time,
+    all_info_setup,
   };
 };
 
@@ -24,6 +31,15 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     setSelEndDateTime: end_datetime => {
       dispatch(registActions.setSelEndDateTime(end_datetime));
+    },
+    setAllInfoSetup: () => {
+      dispatch(registActions.setAllInfoSetup());
+    },
+    setAllInfoNotSetup: () => {
+      dispatch(registActions.setAllInfoNotSetup());
+    },
+    clearSelCabinets: () => {
+      dispatch(registActions.clearSelCabinets());
     },
   };
 };

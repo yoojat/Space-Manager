@@ -9,26 +9,51 @@ const Payment = props => {
     start_date,
     start_time,
     end_datetime,
-    cost,
+    cost_type,
     all_info_setup,
     onPayClick,
+    sel_cabinets,
   } = props;
+  console.log(cost_type);
   return (
     <Fragment>
       <Element name="payment" className={styles.paymentContainer}>
-        <div className={styles.title}>블루닷라운지 멤버쉽</div>
+        <div className={styles.title}>결제정보 확인</div>
 
         {all_info_setup ? (
           <div>
             <div className={styles.payment}>
-              <div className={styles.paymentMembership}>멤버쉽</div>
+              <div className={styles.paymentMembership} />
               <div className={styles.paymentContent}>
-                <div className={styles.branchName}>{branch_name}</div>
-                <div className={styles.period}>
-                  {start_date} {start_time} ~ {end_datetime}
+                <div className={styles.branchName}>
+                  <div className={styles.title}>{branch_name}</div>
                 </div>
-                <div className={styles.cost}>{numberWithCommas(cost)}원</div>
+                <div className={styles.period}>
+                  <div>
+                    이용시작시간 : {start_date} {start_time}
+                  </div>
+                  <div>이용만료시각 : {end_datetime}</div>
+                  <div>이용요금 : {numberWithCommas(cost_type.cost)}원</div>
+                </div>
               </div>
+              {sel_cabinets.map(cabinet => (
+                <div className={styles.paymentContent} key={cabinet.id}>
+                  <div className={styles.branchName}>
+                    <div className={styles.title}>{branch_name}</div>
+                  </div>
+                  <div className={styles.period}>
+                    <div>사물함번호: {cabinet.cabinet_number}</div>
+                    <div>
+                      이용시작시간 : {start_date} {start_time}
+                    </div>
+                    <div>이용만료시각 : {end_datetime}</div>
+                    <div>
+                      이용요금 :{' '}
+                      {numberWithCommas(cost_type.cabinet_cost_type.cost)}원
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
             <div className={styles.payButton} onClick={onPayClick}>
               결제

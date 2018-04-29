@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import SelectCabinetEach from './presenter';
-import {scroller} from 'react-scroll';
+import {animateScroll as scroll} from 'react-scroll';
 
 class Container extends Component {
   state = {
@@ -10,7 +10,13 @@ class Container extends Component {
   };
 
   _scrollTo = () => {
-    scroller.scrollTo('show_cabinet', {
+    // scroller.scrollTo('show_cabinet', {
+    //   duration: 1500,
+    //   delay: 100,
+    //   smooth: true,
+    //   offset: 50,
+    // });
+    scroll.scrollToBottom({
       duration: 1500,
       delay: 100,
       smooth: true,
