@@ -15,7 +15,23 @@ const SET_ALL_INFO_SETUP = 'SET_ALL_INFO_SETUP';
 const SET_ALL_INFO_NOT_SETUP = 'SET_ALL_INFO_NOT_SETUP';
 const SET_SEL_CABINET_SET_ID = 'SET_SEL_CABINET_SET_ID';
 const SET_SEL_CBAINET_SET = 'SET_SEL_CABINET_SET';
+const SET_SEL_CABINET = 'SET_SEL_CABINET';
+const UNSET_SEL_CABINET = 'UNSET_SEL_CABINET';
 //action creators : 리덕스 state를 변경
+
+function unsetSelCabinet(sel_cabinet) {
+  return {
+    type: UNSET_SEL_CABINET,
+    sel_cabinet,
+  };
+}
+
+function setSelCabinet(sel_cabinet) {
+  return {
+    type: SET_SEL_CABINET,
+    sel_cabinet,
+  };
+}
 
 function setSelCabinetSet(sel_cabinet_set) {
   return {
@@ -187,7 +203,7 @@ function getMembershipCostTypes() {
 // iniital state
 const initialState = {
   sel_branch: null, //branchinfo
-  sel_cabinet: null, //id
+  sel_cabinets: [], //cabinets
   sel_membership: null, // boolean
   cost_type: null, //days
   start_date: null, //string, datetime
@@ -235,11 +251,37 @@ function reducer(state = initialState, action) {
     case SET_SEL_CBAINET_SET:
       return applySetSelCabinetSet(state, action);
 
+    case SET_SEL_CABINET:
+      return applySetSelCabinet(state, action);
+
+    case UNSET_SEL_CABINET:
+      return applyUnsetSelCabinet(state, action);
+
     default:
       return state;
   }
 }
 //reducer functions
+
+function applyUnsetSelCabinet(state, action) {
+  const {sel_cabinet} = action;
+  const new_sel_cabinets = [...state.sel_cabinets];
+  const index = new_sel_cabinets.indexOf(sel_cabinet);
+  new_sel_cabinets.splice(index, 1);
+  return {
+    ...state,
+    sel_cabinets: new_sel_cabinets,
+  };
+}
+
+function applySetSelCabinet(state, action) {
+  const {sel_cabinet} = action;
+  return {
+    ...state,
+    // sel_cabinet_id: new_sel_cabinet_ids,
+    sel_cabinets: [...state.sel_cabinets, sel_cabinet],
+  };
+}
 
 function applySetSelCabinetSet(state, action) {
   const {sel_cabinet_set} = action;
@@ -342,6 +384,8 @@ const actionCreators = {
   setAllInfoNotSetup,
   getCabinetSet,
   setSelCabinetSetId,
+  setSelCabinet,
+  unsetSelCabinet,
 };
 
 export {actionCreators};

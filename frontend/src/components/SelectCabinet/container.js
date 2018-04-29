@@ -9,8 +9,15 @@ class Container extends Component {
   };
 
   _cabinetSetClickHandler = sel_cabinet_set_id => {
-    this.props.setSelCabinetSetId(sel_cabinet_set_id);
-    this.props.getCabinetSet(sel_cabinet_set_id);
+    if (this.props.sel_cabinet_set_id) {
+      if (this.props.sel_cabinet_set_id !== sel_cabinet_set_id) {
+        this.props.setSelCabinetSetId(sel_cabinet_set_id);
+        this.props.getCabinetSet(sel_cabinet_set_id);
+      }
+    } else {
+      this.props.setSelCabinetSetId(sel_cabinet_set_id);
+      this.props.getCabinetSet(sel_cabinet_set_id);
+    }
   };
 
   _yesClickHandler = () => {
