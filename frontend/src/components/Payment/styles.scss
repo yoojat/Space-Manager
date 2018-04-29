@@ -50,10 +50,16 @@
   }
 }
 
-.pay-button {
-  @include whiteButton();
-  &.selected {
-    background-color: #374bab;
-    color: white;
+.pay-button-container {
+  display: flex;
+  justify-content: space-between;
+  .pay-button {
+    @include whiteButton();
+    font-size: 11px;
+
+    &.selected {
+      background-color: #374bab;
+      color: white;
+    }
   }
 }

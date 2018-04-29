@@ -2,6 +2,8 @@ import React, {Fragment} from 'react';
 import PropTypes from 'prop-types';
 import styles from './styles.scss';
 import {Element} from 'react-scroll';
+import Dropdown from 'react-dropdown';
+import 'react-dropdown/style.css';
 
 const Payment = props => {
   const {
@@ -14,6 +16,15 @@ const Payment = props => {
     onPayClick,
     sel_cabinets,
   } = props;
+
+  const options = [
+    '결제수단을 선택해주세요.',
+    '카드결제',
+    '무통장입금(가상계좌)',
+    '휴대폰 소액결제',
+  ];
+  const defaultOption = options[0];
+
   console.log(cost_type);
   return (
     <Fragment>
@@ -55,8 +66,26 @@ const Payment = props => {
                 </div>
               ))}
             </div>
-            <div className={styles.payButton} onClick={onPayClick}>
-              결제
+
+            <div>
+              <Dropdown
+                options={options}
+                onChange={this._onSelect}
+                value={defaultOption}
+                placeholder="Select an option"
+              />
+              {/* <div className={styles.payButton} onClick={onPayClick}>
+                카드 결제
+              </div>
+              <div className={styles.payButton} onClick={onPayClick}>
+                무통장 입금(가상계좌))
+              </div>
+              <div className={styles.payButton} onClick={onPayClick}>
+                휴대폰 소액결제
+              </div>
+              <div className={styles.payButton} onClick={onPayClick}>
+                실시간 계좌이체
+              </div> */}
             </div>
           </div>
         ) : (
