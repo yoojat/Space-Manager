@@ -16,7 +16,7 @@ class Container extends Component {
   componentDidMount() {
     // scrollSpy.update();
 
-    this._scrollTo();
+    // this._scrollTo();
     const start_date = moment(new Date()).format('YYYY-MM-DD');
     const start_time = moment(new Date()).format('HH:mm:ss');
 

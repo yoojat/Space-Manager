@@ -13,6 +13,7 @@ const mapStateToProps = (state, ownProps) => {
       end_datetime,
       cost_type,
       all_info_setup,
+      paymethod,
     },
   } = state;
   return {
@@ -24,6 +25,7 @@ const mapStateToProps = (state, ownProps) => {
     all_info_setup,
     user,
     sel_cabinets,
+    paymethod,
   };
 };
 
@@ -34,6 +36,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     getMembershipCostTypes: () => {
       dispatch(registActions.getMembershipCostTypes());
+    },
+    setPaymethod: paymethod => {
+      dispatch(registActions.setPaymethod(paymethod));
+    },
+    pay: () => {
+      dispatch(registActions.pay());
     },
   };
 };

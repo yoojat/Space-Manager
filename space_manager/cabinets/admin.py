@@ -11,12 +11,9 @@ class CabinetAdmin(admin.ModelAdmin):
 
     list_filter = ('cabinet_set__branch', )
 
-    list_display = (
-        'cabinet_number',
-        'cabinet_set',
-        'xpos',
-        'ypos',
-    )
+    list_display = ('id', 'cabinet_number', 'cabinet_set', 'xpos', 'ypos',
+                    'is_available')
+    list_per_page = 10
 
 
 @admin.register(models.CabinetSet)

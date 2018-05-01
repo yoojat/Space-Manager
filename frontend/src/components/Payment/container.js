@@ -6,7 +6,9 @@ import Script from 'react-load-script';
 let IMP;
 
 class Container extends Component {
-  state = {};
+  state = {
+    amount: 0,
+  };
 
   _scrollTo = () => {
     scroller.scrollTo('payment', {
@@ -17,7 +19,19 @@ class Container extends Component {
     });
   };
 
+  _onPayMethodSelect = e => {
+    this.props.setPaymethod(e.value);
+  };
+
   componentDidMount() {
+    const {cost_type, sel_cabinets} = this.props;
+    const total = cost_type.cabinet_cost_type
+      ? cost_type.cost + cost_type.cabinet_cost_type.cost * sel_cabinets.length
+      : cost_type.cost;
+
+    this.setState({
+      amount: total,
+    });
     this._scrollTo();
   }
   componentWillReceiveProps(nextProps) {}
@@ -54,15 +68,22 @@ class Container extends Component {
   _handleIamportLoad = () => {};
 
   _onPayClick = () => {
-    const amount = this.props.cost_type.cost;
-    const name = this.props.user.name;
+    // this.props.pay();
+    const {
+      user: {name},
+      paymethod,
+    } = this.props;
+
+    const amount = this.state.amount;
+
     const payname = this.props.cost_type.title;
+
     IMP = window.IMP; // 생략가능
     IMP.init('imp61646988'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
     IMP.request_pay(
       {
         pg: 'inicis', // version 1.1.0부터 지원.
-        pay_method: 'vbank',
+        pay_method: paymethod,
         merchant_uid: 'merchant_' + new Date().getTime(),
         name: '주문명 : ' + payname,
         amount: amount,
@@ -76,6 +97,8 @@ class Container extends Component {
       function(rsp) {
         var msg;
         if (rsp.success) {
+          //등록처리
+
           msg = '결제가 완료되었습니다.';
           msg += '고유ID : ' + rsp.imp_uid;
           msg += '상점 거래ID : ' + rsp.merchant_uid;
@@ -86,6 +109,7 @@ class Container extends Component {
           msg += '에러내용 : ' + rsp.error_msg;
         }
         alert(msg);
+        window.location.href = 'http://localhost:3000';
       }
     );
   };
@@ -100,6 +124,7 @@ class Container extends Component {
       cost_type,
       all_info_setup,
       sel_cabinets,
+      paymethod,
     } = this.props;
 
     return (
@@ -121,7 +146,9 @@ class Container extends Component {
           cost_type={cost_type}
           all_info_setup={all_info_setup}
           sel_cabinets={sel_cabinets}
+          onPayMethodSelect={this._onPayMethodSelect}
           onPayClick={this._onPayClick}
+          paymethod={paymethod}
         />
       </Fragment>
     );

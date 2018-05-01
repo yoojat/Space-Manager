@@ -18,7 +18,24 @@ const SET_SEL_CBAINET_SET = 'SET_SEL_CABINET_SET';
 const SET_SEL_CABINET = 'SET_SEL_CABINET';
 const UNSET_SEL_CABINET = 'UNSET_SEL_CABINET';
 const CLEAR_SEL_CABINETS = 'CLEAR_SEL_CABINETS';
+const SET_PAYMETHOD = 'SET_PAYMETHOD';
+// const SET_DEFAULT = 'SET_DEFAULT';
+const PAY = 'PAY';
+
 //action creators : 리덕스 state를 변경
+
+// function setDefault() {
+//   return {
+//     type: SET_DEFAULT,
+//   };
+// }
+
+function setPaymethod(paymethod) {
+  return {
+    type: SET_PAYMETHOD,
+    paymethod,
+  };
+}
 
 function clearSelCabinets() {
   return {
@@ -117,6 +134,40 @@ function setMembershipCostTypes(cost_types) {
 
 // API actions: api를 부를 때 사용
 
+function pay(pay_content) {
+  return function(dispatch, getState) {
+    const {
+      user: {token, isLoggedIn},
+      //등록할 때 필요한 데이터 : 맴버십 선택여부(선택), 사물함 정보(선택), 선택 지점, 시작일시, 종료일시
+      //
+      regist: {
+        sel_membership,
+        sel_cabinets,
+        sel_branch,
+        start_date,
+        start_time,
+        end_datetime,
+      },
+    } = getState();
+    if (isLoggedIn) {
+      console.log(
+        'sel_membership:',
+        sel_membership,
+        'sel_cabinets:',
+        sel_cabinets,
+        'sel_branch:',
+        sel_branch,
+        'start_date:',
+        start_date,
+        'start_time:',
+        start_time,
+        'end_datetime:',
+        end_datetime
+      );
+    }
+  };
+}
+
 function getCabinetSet(cabinet_set_id) {
   return function(dispatch, getState) {
     const {
@@ -211,7 +262,7 @@ function getMembershipCostTypes() {
 const initialState = {
   sel_branch: null, //branchinfo
   sel_cabinets: [], //cabinets
-  sel_membership: null, // boolean
+  sel_membership: false, // boolean
   cost_type: null, //days
   start_date: null, //string, datetime
   start_time: null,
@@ -221,6 +272,7 @@ const initialState = {
   sel_cabinet_set_id: null,
   sel_cabinet_set: null,
   cabinet_cost_type: null,
+  paymethod: null,
 };
 
 //reducer
@@ -268,12 +320,40 @@ function reducer(state = initialState, action) {
     case CLEAR_SEL_CABINETS:
       return applyClearSelCabinets(state, action);
 
+    case SET_PAYMETHOD:
+      return applySetPayMethod(state, action);
+
+    case PAY:
+      return applyPay(state, action);
+
+    // case SET_DEFAULT:
+    //   return applySetDefault(state, action);
+
     default:
       return state;
   }
 }
 //reducer functions
 
+function applySetDefault(state, action) {
+  return initialState;
+}
+
+function applyPay(state, action) {
+  const {pay_content} = action;
+
+  return {
+    ...state,
+  };
+}
+
+function applySetPayMethod(state, action) {
+  const {paymethod} = action;
+  return {
+    ...state,
+    paymethod,
+  };
+}
 function applyClearSelCabinets(state, action) {
   return {
     ...state,
@@ -321,6 +401,7 @@ function applySetAllInfoNotSetup(state, action) {
   return {
     ...state,
     all_info_setup: false,
+    paymethod: null,
   };
 }
 
@@ -405,6 +486,9 @@ const actionCreators = {
   setSelCabinet,
   unsetSelCabinet,
   clearSelCabinets,
+  setPaymethod,
+  pay,
+  // setDefault,
 };
 
 export {actionCreators};

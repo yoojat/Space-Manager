@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import SelectDays from './presenter';
+import {animateScroll as scroll} from 'react-scroll';
 
 class Container extends Component {
   state = {
@@ -38,11 +39,19 @@ class Container extends Component {
     }
   }
 
+  componentDidUpdate() {
+    scroll.scrollToBottom({
+      duration: 1500,
+      delay: 100,
+      smooth: true,
+      offset: 50,
+    });
+  }
+
   _onDaysClick = (cost_type, end_datetime) => {
     this.props.setSelCostType(cost_type);
     this.props.setSelEndDateTime(end_datetime);
     this.props.clearSelCabinets();
-
     if (cost_type.cost_type === '1days') {
       this.props.setAllInfoSetup();
     } else {

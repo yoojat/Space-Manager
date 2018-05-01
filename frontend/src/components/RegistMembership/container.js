@@ -7,7 +7,10 @@ class Container extends Component {
   };
 
   componentDidMount() {
-    const {user: {memberships, id}, setMembership} = this.props;
+    const {
+      user: {memberships, id},
+      setMembership,
+    } = this.props;
     if (!memberships) {
       if (id) {
         setMembership(id);

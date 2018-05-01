@@ -25,12 +25,13 @@
     border-collapse: separate;
 
     .cabinet-tbody {
+      font-size: 11px;
       .table-row {
         .table-col {
           border: 1px solid black;
           margin: 5px;
-          width: 30px;
-          height: 30px;
+          width: 25px;
+          height: 25px;
 
           &.available {
             background-color: white;

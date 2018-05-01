@@ -24,6 +24,10 @@
       display: flex;
       flex-direction: column;
       margin-bottom: 10px;
+      &.total {
+        border-color: #374bae;
+        color: #374bae;
+      }
       .title {
         display: inline-block;
         padding: 0 4px;
@@ -43,7 +47,6 @@
       div {
         margin-top: 3px;
         margin-bottom: 3px;
-        padding-bottom: 5px;
         padding-left: 10px;
       }
     }
@@ -51,8 +54,9 @@
 }
 
 .pay-button-container {
+  margin-top: 15px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   .pay-button {
     @include whiteButton();
     font-size: 11px;

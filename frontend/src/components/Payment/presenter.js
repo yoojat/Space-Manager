@@ -4,6 +4,7 @@ import styles from './styles.scss';
 import {Element} from 'react-scroll';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
+import Faltu from 'faltu';
 
 const Payment = props => {
   const {
@@ -15,17 +16,31 @@ const Payment = props => {
     all_info_setup,
     onPayClick,
     sel_cabinets,
+    onPayMethodSelect,
+    paymethod,
   } = props;
 
   const options = [
-    '결제수단을 선택해주세요.',
-    '카드결제',
-    '무통장입금(가상계좌)',
-    '휴대폰 소액결제',
+    {value: null, label: '결제수단을 선택해주세요'},
+    {value: 'card', label: '카드결제'},
+    {value: 'trans', label: '실시간 계좌이체'},
+    {value: 'vbank', label: '무통장입금(가상계좌)'},
+    {value: 'phone', label: '휴대폰 소액결제', className: 'myOptionClassName'},
   ];
-  const defaultOption = options[0];
+
+  // const options = [
+  //   '결제수단을 선택해주세요.',
+  //   '카드결제',
+  //   '무통장입금(가상계좌)',
+  //   '휴대폰 소액결제',
+  // ];
+  // const defaultOption = options[0];
+  const defaultOption = Faltu(options)
+    .find({value: paymethod})
+    .get()[0];
 
   console.log(cost_type);
+
   return (
     <Fragment>
       <Element name="payment" className={styles.paymentContainer}>
@@ -65,32 +80,44 @@ const Payment = props => {
                   </div>
                 </div>
               ))}
+
+              <div className={`${styles.paymentContent} ${styles.total}`}>
+                <div className={styles.period}>
+                  <div>
+                    총 결제 금액 :{' '}
+                    {cost_type.cabinet_cost_type
+                      ? numberWithCommas(
+                          cost_type.cost +
+                            cost_type.cabinet_cost_type.cost *
+                              sel_cabinets.length
+                        )
+                      : numberWithCommas(cost_type.cost)}원
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div>
               <Dropdown
                 options={options}
-                onChange={this._onSelect}
+                onChange={onPayMethodSelect}
                 value={defaultOption}
                 placeholder="Select an option"
               />
-              {/* <div className={styles.payButton} onClick={onPayClick}>
-                카드 결제
-              </div>
-              <div className={styles.payButton} onClick={onPayClick}>
-                무통장 입금(가상계좌))
-              </div>
-              <div className={styles.payButton} onClick={onPayClick}>
-                휴대폰 소액결제
-              </div>
-              <div className={styles.payButton} onClick={onPayClick}>
-                실시간 계좌이체
-              </div> */}
             </div>
           </div>
         ) : (
           ''
         )}
+        <div className={styles.payButtonContainer}>
+          {paymethod ? (
+            <div className={styles.payButton} onClick={onPayClick}>
+              결제
+            </div>
+          ) : (
+            ''
+          )}
+        </div>
       </Element>
     </Fragment>
   );
