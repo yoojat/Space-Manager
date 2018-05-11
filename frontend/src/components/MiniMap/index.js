@@ -39,6 +39,7 @@ const RoomArea = props => (
             left={seat.left}
             top={seat.top}
             key={seat.id}
+            now_using={seat.now_using}
           />
         );
       } else return null;

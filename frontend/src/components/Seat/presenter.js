@@ -4,15 +4,17 @@ import styles from './styles.scss';
 
 const Seat = props => {
   //   const {id} = props;
-  const {left} = props;
-  const {top} = props;
-  const {rotate} = props;
-  const {usable} = props;
-  const {seat_image} = props;
-  const {discard} = props;
-  const {now_user} = props;
-  const {desk_size} = props;
-  const {seat_number} = props;
+  const {
+    left,
+    top,
+    rotate,
+    usable,
+    seat_image,
+    discard,
+    desk_size,
+    seat_number,
+    now_using,
+  } = props;
 
   let seat_state_image;
   let display_number;
@@ -24,7 +26,7 @@ const Seat = props => {
   } else if (discard || usable === false) {
     seat_state_image = require ('images/prohibited_seat.png');
     clickEv = null;
-  } else if (now_user) {
+  } else if (now_using) {
     seat_state_image = seat_image.file;
     clickEv = null;
   } else {
@@ -32,7 +34,7 @@ const Seat = props => {
     clickEv = props.handleSeatClick;
   }
 
-  if (now_user || seat_number === 0) {
+  if (now_using || seat_number === 0) {
     display_number = null;
   } else {
     display_number = seat_number;
@@ -50,7 +52,7 @@ const Seat = props => {
       onClick={clickEv}
     >
       <div className={styles.seatImg}>
-        <img src={seat_state_image} alt={now_user ? '배정된 좌석' : '배정되지 않은 좌석'} />
+        <img src={seat_state_image} alt={now_using ? '배정된 좌석' : '배정되지 않은 좌석'} />
       </div>
       <div className={styles.name} style={{transform: `rotate(-${rotate}deg)`}}>
         {display_number}

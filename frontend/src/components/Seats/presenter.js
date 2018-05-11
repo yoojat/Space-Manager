@@ -62,6 +62,7 @@ const Seats = props => {
                         discard={seat.discard}
                         now_user={seat.now_user}
                         desk_size={props.room.desk_size}
+                        now_using={seat.now_using}
                         key={seat.id}
                         roomId={props.room.id}
                         closeRoom={props.closeRoom}
@@ -100,7 +101,6 @@ Seats.propTypes = {
         rotate: PropTypes.number.isRequired,
         usable: PropTypes.bool.isRequired,
         discard: PropTypes.bool.isRequired,
-        now_user: PropTypes.bool.isRequired,
         image_url: PropTypes.string,
       }).isRequired
     ).isRequired,

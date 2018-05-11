@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styles from './styles.scss';
 
 const MiniMapSeat = props => {
-  const bgColor = props.now_user ? 'red' : '#CBEEFB';
+  const bgColor = props.now_using ? 'red' : '#CBEEFB';
   return (
     <div
       className={styles.seat}

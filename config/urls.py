@@ -28,7 +28,7 @@ urlpatterns = [
     url(r'^qrcodes/', include(
         'space_manager.qrcodes.urls', namespace='qrcodes')),
     url(r'^accounts/', include('allauth.urls')),
-    url(r'^', views.ReactAppView.as_view()),
+    # url(r'^', views.ReactAppView.as_view()),
 
     # Your stuff: custom urls includes go here
 ] + static(
