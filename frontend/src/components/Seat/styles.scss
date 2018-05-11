@@ -6,6 +6,7 @@
   .name {
     position: absolute;
     top: 12%;
+    font-size: 13px;
     @include breakpoint('phone') {
       font-size: 10px;
     }

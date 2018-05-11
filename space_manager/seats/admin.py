@@ -2,12 +2,26 @@ from django.contrib import admin
 from . import models
 
 
+@admin.register(models.Identity)
+class IdentityAdmin(admin.ModelAdmin):
+    list_display = (
+        'title',
+        'male_available',
+        'female_available',
+        'adult_available',
+        'youth_available',
+    )
+
+
 @admin.register(models.Seat)
 class SeatAdmin(admin.ModelAdmin):
     list_display = (
         'seat_number',
         'branch',
         'room',
+        'now_user',
+        'for_who',
+        'end_datetime',
     )
 
     list_per_page = 10

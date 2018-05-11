@@ -12,9 +12,9 @@ const Room = props => {
         <div className={styles.box}>
           <header className={styles.header}>
             <h4>
-              {props.loading ? null : (
-                <RenderTitle title={props.room.room_type.kr_substance} />
-              )}
+              {props.loading
+                ? null
+                : <RenderTitle title={props.room.room_type.kr_substance} />}
             </h4>
 
             <span className={styles.closeRoom} onClick={props.closeRoom}>
@@ -41,17 +41,16 @@ Room.propTypes = {
 };
 
 RenderRoom.propTypes = {
-  room: PropTypes.shape({
+  room: PropTypes.shape ({
     id: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
     left: PropTypes.number.isRequired,
     top: PropTypes.number.isRequired,
-    seats: PropTypes.arrayOf(
-      PropTypes.shape({
+    seats: PropTypes.arrayOf (
+      PropTypes.shape ({
         id: PropTypes.number.isRequired,
         left: PropTypes.number.isRequired,
-        now_using: PropTypes.bool.isRequired,
         usable: PropTypes.bool.isRequired,
         discard: PropTypes.bool.isRequired,
       }).isRequired

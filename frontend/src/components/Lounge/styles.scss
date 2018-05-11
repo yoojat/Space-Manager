@@ -1,15 +1,29 @@
-.lounge {
-  display: flex;
-  justify-content: center;
-  padding-left: 15px;
-  padding-right: 15px;
-  padding-top: 15px;
-  .container {
-    max-width: 300px;
-    position: relative;
-    width: 90vw;
-    .wholeLounge {
-      width: 100%;
+.back-white {
+  background-color: white;
+  border: 1.4px solid #e4e4e4;
+  width: 90vw;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 30px;
+  .header {
+    text-align: center;
+    font-size: 13px;
+    margin-top: 30px;
+  }
+
+  .lounge {
+    display: flex;
+    justify-content: center;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 15px;
+    .container {
+      max-width: 300px;
+      position: relative;
+      width: 90vw;
+      .wholeLounge {
+        width: 100%;
+      }
     }
   }
 }

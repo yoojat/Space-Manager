@@ -5,10 +5,12 @@ class Container extends Component {
   state = {seeingRoom: false};
 
   render() {
+    const {branch_name} = this.props;
     return (
       <Lounge
         {...this.props}
         {...this.state}
+        branch_name={branch_name}
         openRoom={this._openRoom}
         closeRoom={this._closeRoom}
       />

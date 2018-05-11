@@ -1,7 +1,9 @@
 .branch-area {
   position: relative;
+  width: 100px;
+  height: 100%;
   .room {
     position: absolute;
-    border: 1px solid cornflowerblue;
+    // border: 1px solid cornflowerblue;
   }
 }

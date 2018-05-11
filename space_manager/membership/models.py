@@ -6,7 +6,7 @@ from django.utils.encoding import python_2_unicode_compatible
 
 @python_2_unicode_compatible
 class TimeStampedModel(models.Model):
-    
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -16,12 +16,12 @@ class TimeStampedModel(models.Model):
 
 @python_2_unicode_compatible
 class Membership(TimeStampedModel):
-    
     """ Membership Model """
 
-    user = models.ForeignKey(user_models.User)
-    branch = models.ForeignKey(branch_models.Branch, null=True, related_name='memberships')
-    start_date= models.DateTimeField()
+    user = models.ForeignKey(user_models.User, related_name='memberships')
+    branch = models.ForeignKey(
+        branch_models.Branch, null=True, related_name='memberships')
+    start_date = models.DateTimeField()
     end_date = models.DateTimeField()
     is_usable = models.BooleanField(default=True)
 
@@ -34,7 +34,6 @@ class Membership(TimeStampedModel):
 
 @python_2_unicode_compatible
 class Action(models.Model):
-    
     """ Action Model """
 
     substance = models.CharField(max_length=45, null=True)
@@ -45,7 +44,6 @@ class Action(models.Model):
 
 @python_2_unicode_compatible
 class MembershipHistory(TimeStampedModel):
-    
     """ Membership History Model """
 
     action = models.ForeignKey(Action, null=True)
@@ -53,7 +51,8 @@ class MembershipHistory(TimeStampedModel):
     membership = models.ForeignKey(Membership, null=True)
 
     def __str__(self):
-        return '{} : {} - {}'.format(self.created_at, self.membership, self.action)
+        return '{} : {} - {}'.format(self.created_at, self.membership,
+                                     self.action)
 
     class Meta:
         ordering = ['-created_at']

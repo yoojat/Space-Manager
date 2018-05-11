@@ -2,14 +2,14 @@ import React, {Component} from 'react';
 import MiniMapSeat from './presenter';
 
 class Container extends Component {
-  shouldComponentUpdate(nextProps, nextState) {
-    if (this.props.now_using === nextProps.now_using) {
+  shouldComponentUpdate (nextProps, nextState) {
+    if (this.props.now_user === nextProps.now_user) {
       return false;
     } else {
       return true;
     }
   }
-  render() {
+  render () {
     return <MiniMapSeat {...this.props} />;
   }
 }

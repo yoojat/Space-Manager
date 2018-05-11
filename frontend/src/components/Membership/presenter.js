@@ -31,7 +31,11 @@ const RenderMembership = (
       <div className={styles.contentContainer}>
         <div className={styles.profile}>
           {user.profile_image ? (
-            user.profile_image
+            <img
+              src={`${user.profile_image}`}
+              className={styles.profileImg}
+              alt={context.t('profile')}
+            />
           ) : (
             <Ionicon icon="md-person" fontSize="85px" />
           )}
@@ -48,29 +52,33 @@ const RenderMembership = (
           <div className={styles.membershipTitle}>
             {context.t('이용중인 멤버쉽')}
           </div>
-          {user.memberships.map(membership => (
-            <MembershipList
-              branch={membership.branch}
-              start_date={membership.start_date}
-              end_date={membership.end_date}
-              key={membership.id}
-            />
-          ))}
+          {user.memberships.length
+            ? user.memberships.map(membership => (
+                <MembershipList
+                  branch={membership.branch}
+                  start_date={membership.start_date}
+                  end_date={membership.end_date}
+                  key={membership.id}
+                />
+              ))
+            : '현재 이용중인 맴버쉽이 없습니다'}
         </div>
         <div className={styles.membershipContainer}>
           <div className={styles.membershipTitle}>
             {context.t('이용중인 사물함')}
           </div>
 
-          {using_cabinets.map(using_cabinet => (
-            <CabinetList
-              branch={using_cabinet.cabinet.cabinet_set.branch}
-              cabinet_number={using_cabinet.cabinet.cabinet_number}
-              start_date={using_cabinet.start_date}
-              end_date={using_cabinet.end_date}
-              key={using_cabinet.id}
-            />
-          ))}
+          {using_cabinets.length
+            ? using_cabinets.map(using_cabinet => (
+                <CabinetList
+                  branch={using_cabinet.cabinet.cabinet_set.branch}
+                  cabinet_number={using_cabinet.cabinet.cabinet_number}
+                  start_date={using_cabinet.start_date}
+                  end_date={using_cabinet.end_date}
+                  key={using_cabinet.id}
+                />
+              ))
+            : '현재 이용중인 사물함이 없습니다'}
         </div>
 
         <div className={styles.buttonContainer}>

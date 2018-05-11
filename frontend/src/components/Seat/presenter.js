@@ -10,7 +10,7 @@ const Seat = props => {
   const {usable} = props;
   const {seat_image} = props;
   const {discard} = props;
-  const {now_using} = props;
+  const {now_user} = props;
   const {desk_size} = props;
   const {seat_number} = props;
 
@@ -19,20 +19,20 @@ const Seat = props => {
   let clickEv;
 
   if (seat_number === 0) {
-    seat_state_image = require('images/entrance.png');
+    seat_state_image = require ('images/entrance.png');
     clickEv = props.closeRoom;
   } else if (discard || usable === false) {
-    seat_state_image = require('images/prohibited_seat.png');
+    seat_state_image = require ('images/prohibited_seat.png');
     clickEv = null;
-  } else if (now_using) {
+  } else if (now_user) {
     seat_state_image = seat_image.file;
     clickEv = null;
   } else {
-    seat_state_image = require('images/empty_seat.png');
+    seat_state_image = require ('images/empty_seat.png');
     clickEv = props.handleSeatClick;
   }
 
-  if (now_using || seat_number === 0) {
+  if (now_user || seat_number === 0) {
     display_number = null;
   } else {
     display_number = seat_number;
@@ -50,10 +50,7 @@ const Seat = props => {
       onClick={clickEv}
     >
       <div className={styles.seatImg}>
-        <img
-          src={seat_state_image}
-          alt={now_using ? '배정된 좌석' : '배정되지 않은 좌석'}
-        />
+        <img src={seat_state_image} alt={now_user ? '배정된 좌석' : '배정되지 않은 좌석'} />
       </div>
       <div className={styles.name} style={{transform: `rotate(-${rotate}deg)`}}>
         {display_number}
@@ -68,7 +65,6 @@ Seat.propTypes = {
   id: PropTypes.number.isRequired,
   image_url: PropTypes.string,
   left: PropTypes.number.isRequired,
-  now_using: PropTypes.bool.isRequired,
   rotate: PropTypes.number.isRequired,
   seat_number: PropTypes.number.isRequired,
   top: PropTypes.number.isRequired,

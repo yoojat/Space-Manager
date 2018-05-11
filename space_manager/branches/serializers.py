@@ -13,7 +13,7 @@ class BranchSerializerForIp(serializers.ModelSerializer):
     class Meta:
         model = models.Branch
         fields = ('id', 'branch_name', 'lounge_img', 'is_enrolled', 'rooms',
-                  'height', 'width')
+                  'height', 'width', 'minimap_img')
 
     def get_is_enrolled(self, obj):
         now = datetime.today()

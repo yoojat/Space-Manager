@@ -28,26 +28,25 @@ LoungeFeed.contextTypes = {
 
 RenderLoungeFeed.propTypes = {
   loading: PropTypes.bool.isRequired,
-  now_branch: PropTypes.shape({
-    branch: PropTypes.shape({
+  now_branch: PropTypes.shape ({
+    branch: PropTypes.shape ({
       branch_name: PropTypes.string.isRequired,
       id: PropTypes.number.isRequired,
       is_enrolled: PropTypes.bool.isRequired,
       lounge_img: PropTypes.string.isRequired,
       width: PropTypes.number.isRequired,
       height: PropTypes.number.isRequired,
-      rooms: PropTypes.arrayOf(
-        PropTypes.shape({
+      rooms: PropTypes.arrayOf (
+        PropTypes.shape ({
           id: PropTypes.number.isRequired,
           width: PropTypes.number.isRequired,
           height: PropTypes.number.isRequired,
           left: PropTypes.number.isRequired,
           top: PropTypes.number.isRequired,
-          seats: PropTypes.arrayOf(
-            PropTypes.shape({
+          seats: PropTypes.arrayOf (
+            PropTypes.shape ({
               id: PropTypes.number.isRequired,
               left: PropTypes.number.isRequired,
-              now_using: PropTypes.bool.isRequired,
               usable: PropTypes.bool.isRequired,
               discard: PropTypes.bool.isRequired,
             }).isRequired

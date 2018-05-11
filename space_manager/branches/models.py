@@ -27,6 +27,7 @@ class Branch(models.Model):
     lounge_img = models.ImageField(null=True, validators=[validate_image])
     lounge_img_cabinet = models.ImageField(
         null=True, validators=[validate_image])
+    minimap_img = models.ImageField(null=True, validators=[validate_image])
     usable = models.BooleanField(default=False)
     width = models.FloatField(null=True)
     height = models.FloatField(null=True)
@@ -42,12 +43,13 @@ class Branch(models.Model):
 class BranchConfig(models.Model):
     """ Branch Config Model """
 
-    branch = models.ForeignKey(branch_models.Branch, null=True)
-    man_usable = models.BooleanField(default=True)
-    woman_usable = models.BooleanField(default=True)
-    girl_usable = models.BooleanField(default=True)
-    boy_usable = models.BooleanField(default=True)
-    other_usable = models.BooleanField(default=True)
+    branch = models.ForeignKey(
+        branch_models.Branch, null=True, related_name='config')
+    man_acceptable = models.BooleanField(default=True)
+    woman_acceptable = models.BooleanField(default=True)
+    girl_acceptable = models.BooleanField(default=True)
+    boy_acceptable = models.BooleanField(default=True)
+    other_acceptable = models.BooleanField(default=True)
 
     def __str__(self):
         return '{}호점 - {}'.format(self.branch.branch_num,

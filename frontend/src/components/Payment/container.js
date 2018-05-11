@@ -6,10 +6,6 @@ import Script from 'react-load-script';
 let IMP;
 
 class Container extends Component {
-  state = {
-    amount: 0,
-  };
-
   _scrollTo = () => {
     scroller.scrollTo('payment', {
       duration: 1500,
@@ -29,10 +25,23 @@ class Container extends Component {
       ? cost_type.cost + cost_type.cabinet_cost_type.cost * sel_cabinets.length
       : cost_type.cost;
 
-    this.setState({
-      amount: total,
-    });
-    this._scrollTo();
+    this.props.paymentActions(total);
+
+    // this.setState({
+    //   amount: total,
+    // });
+    // this._scrollTo();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const {cost_type, sel_cabinets} = this.props;
+    const total = cost_type.cabinet_cost_type
+      ? cost_type.cost + cost_type.cabinet_cost_type.cost * sel_cabinets.length
+      : cost_type.cost;
+
+    if (this.props.amount !== total) {
+      this.props.paymentActions(total);
+    }
   }
   componentWillReceiveProps(nextProps) {}
   //   componentDidMount() {
@@ -74,9 +83,15 @@ class Container extends Component {
       paymethod,
     } = this.props;
 
-    const amount = this.state.amount;
+    const amount = this.props.amount;
 
-    const payname = this.props.cost_type.title;
+    const payname = `${this.props.cost_type.title} 멤버쉽 ${
+      this.props.cost_type.cabinet_cost_type
+        ? `${this.props.cost_type.cabinet_cost_type.title} 사물함 ${
+            this.props.sel_cabinets.length
+          }개`
+        : ''
+    }`;
 
     IMP = window.IMP; // 생략가능
     IMP.init('imp61646988'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
@@ -85,7 +100,7 @@ class Container extends Component {
         pg: 'inicis', // version 1.1.0부터 지원.
         pay_method: paymethod,
         merchant_uid: 'merchant_' + new Date().getTime(),
-        name: '주문명 : ' + payname,
+        name: payname,
         amount: amount,
         // buyer_email: 'iamport@siot.do',
         buyer_name: name,

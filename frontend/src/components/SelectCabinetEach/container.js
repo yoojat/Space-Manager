@@ -60,6 +60,7 @@ class Container extends Component {
 
   componentDidMount() {
     const {sel_cabinet_set} = this.props;
+
     if (sel_cabinet_set) {
       this.setState({loading: false, sel_cabinet_set});
     }
@@ -72,7 +73,7 @@ class Container extends Component {
   }
 
   componentDidUpdate() {
-    this._scrollTo();
+    // this._scrollTo();
 
     //기존 스테이트에 있는 상태
     if (this.state.sel_cabinet_set) {

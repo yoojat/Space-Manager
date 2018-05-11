@@ -9,8 +9,8 @@ class Container extends Component {
   };
 
   componentWillMount() {
-    const {getMembershipCostTypes} = this.props;
-    getMembershipCostTypes();
+    // const {getMembershipCostTypes} = this.props;
+    // getMembershipCostTypes();
   }
 
   componentDidMount() {

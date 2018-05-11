@@ -9,6 +9,7 @@ import branch from 'redux/modules/branch';
 import seat from 'redux/modules/seat';
 import cabinet from 'redux/modules/cabinet';
 import regist from 'redux/modules/regist';
+import payment from 'redux/modules/payment';
 
 // 스토어는 여러개의 리듀서를 합칠수 있음
 
@@ -42,6 +43,7 @@ const reducer = combineReducers({
   seat,
   cabinet,
   regist,
+  payment,
 });
 // combineReducer(redux 모듈)을 통해 리듀서를 모두 통합
 //combineReducers는 각 리듀서들을 합쳐주어 global state로 만들어줌

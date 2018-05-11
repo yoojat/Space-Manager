@@ -1,5 +1,8 @@
 {
     "git.ignoreLimitWarning": true,
     "python.pythonPath": "/Users/yoojat/.local/share/virtualenvs/space_manager-lHiV7iEg/bin/python",
-    "python.formatting.provider": "yapf"
+    "python.formatting.provider": "yapf",
+    "python.linting.pylintEnabled": false,
+    "python.linting.enabled": true,
+    "python.linting.mypyEnabled": true
 }

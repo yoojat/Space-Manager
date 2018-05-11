@@ -1,17 +1,12 @@
 .container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  width: 100%;
-  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
   .overlay {
-    min-width: 300px;
+    min-width: 270px;
     position: relative;
+    width: 90%;
     .loading-seat {
       height: 100%;
       width: 100%;
@@ -22,43 +17,57 @@
       z-index: 100;
     }
     .box {
-      @include boxBorder(no);
+      // @include boxBorder(no);
       // width: 100%;
       // max-width: $max-card-width;
       // margin-left: auto;
       // margin-right: auto;
 
-      .header {
-        display: flex;
-        padding: 14px 0;
-        justify-content: center;
-        align-items: center;
-        border-bottom: 2px solid $light-grey;
-        position: relative;
-        .title {
-          order: 1;
-          margin-left: auto;
-          margin-right: auto;
-          font-weight: 600;
-          font-size: $big-font-size;
-        }
-        .close-room {
-          cursor: pointer;
-          right: 10px;
-          position: absolute;
-        }
-      }
       .content {
         min-height: 150px;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
+        .header {
+          display: flex;
+          padding: 14px 0;
+          justify-content: center;
+          align-items: center;
+          border-bottom: 2px solid $light-grey;
+          position: relative;
+          .headline {
+            font-size: 13px;
+          }
+          .title {
+            order: 1;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 600;
+            font-size: $big-font-size;
+          }
+          .close-room {
+            cursor: pointer;
+            right: 10px;
+            position: absolute;
+          }
+        }
+
         .seat-container {
-          width: 95vw;
-          max-width: 600px;
+          width: 100%;
+          max-width: 400px;
+          // max-height: 300px;
           position: relative;
           margin-top: 20px;
           margin-bottom: 40px;
+          // @include breakpoint('phone') {
+          //   width: 100% !important;
+          //   height: 300px !important;
+          // }
+          .seats {
+            position: relative;
+            // overflow: hidden;
+          }
         }
       }
     }

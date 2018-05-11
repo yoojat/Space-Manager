@@ -16,36 +16,51 @@ class LogSerializer(serializers.ModelSerializer):
             'action',
             'user',
             'seat',
-            'seat_image',
+            'reg_datetime',
         )
 
 
 class SeatBriefSerializer(serializers.ModelSerializer):
     # logs = LogSerializer(many=True)
-    seat_image = SeatImageSerializer()
 
     class Meta:
         model = models.Seat
-        fields = ('id', 'left', 'top', 'usable', 'discard', 'now_using',
-                  'seat_number', 'seat_image')
+        fields = (
+            'id',
+            'left',
+            'top',
+            'usable',
+            'discard',
+            'now_user',
+        )
 
-    # def get_now_using(self, obj):
 
-    #     assign_action = models.Action.objects.get(en_substance='allocation')
+# class SeatBriefSerializer(serializers.ModelSerializer):
+#     # logs = LogSerializer(many=True)
+#     seat_image = SeatImageSerializer()
 
-    #     try:
-    #         latest_log = models.Log.objects.filter(
-    #             seat=obj).order_by('-created_at')[:1]
-    #         if latest_log:
-    #             if latest_log[0].action == assign_action:
-    #                 return True
-    #             else:
-    #                 return False
-    #         else:
-    #             return False
+#     class Meta:
+#         model = models.Seat
+#         fields = ('id', 'left', 'top', 'usable', 'discard', 'for_who',
+#                   'seat_number', 'seat_image')
 
-    #     except models.Log.DoesNotExist:
-    #         return False
+# def get_now_using(self, obj):
+
+#     assign_action = models.Action.objects.get(en_substance='allocation')
+
+#     try:
+#         latest_log = models.Log.objects.filter(
+#             seat=obj).order_by('-created_at')[:1]
+#         if latest_log:
+#             if latest_log[0].action == assign_action:
+#                 return True
+#             else:
+#                 return False
+#         else:
+#             return False
+
+#     except models.Log.DoesNotExist:
+#         return False
 
 
 class SeatSerializer(serializers.ModelSerializer):
@@ -76,17 +91,8 @@ class ShowSeatSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Seat
-        fields = (
-            'id',
-            'seat_number',
-            'left',
-            'top',
-            'rotate',
-            'usable',
-            'discard',
-            'now_using',
-            'seat_image',
-        )
+        fields = ('id', 'seat_number', 'left', 'top', 'rotate', 'usable',
+                  'discard', 'seat_image', 'now_user')
 
     # def get_now_using(self, obj):
 

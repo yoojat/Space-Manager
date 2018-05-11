@@ -28,6 +28,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     setAllInfoSetup: () => {
       dispatch(registActions.setAllInfoSetup());
     },
+    clearSelCabinets: () => {
+      dispatch(registActions.clearSelCabinets());
+    },
   };
 };
 

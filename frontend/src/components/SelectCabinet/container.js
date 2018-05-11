@@ -18,6 +18,12 @@ class Container extends Component {
       this.props.setSelCabinetSetId(sel_cabinet_set_id);
       this.props.getCabinetSet(sel_cabinet_set_id);
     }
+    scroll.scrollToBottom({
+      duration: 1500,
+      delay: 100,
+      smooth: true,
+      offset: 50,
+    });
   };
 
   _yesClickHandler = () => {
@@ -29,12 +35,14 @@ class Container extends Component {
     if (this.props.all_info_setup) {
       this._setAllInfoNotSetup();
     }
-    scroll.scrollToBottom({
-      duration: 1500,
-      delay: 100,
-      smooth: true,
-      offset: 50,
-    });
+    if (this.state.is_first) {
+      scroll.scrollToBottom({
+        duration: 1500,
+        delay: 100,
+        smooth: true,
+        offset: 50,
+      });
+    }
   };
 
   _noClickHandler = () => {
@@ -47,6 +55,7 @@ class Container extends Component {
     if (!this.props.all_info_setup) {
       this._setAllInfoSetup();
     }
+    this.props.clearSelCabinets();
   };
 
   _scrollTo = () => {
@@ -60,6 +69,7 @@ class Container extends Component {
 
   componentDidMount() {
     this._scrollTo();
+    console.log('!');
   }
 
   _setAllInfoSetup = () => {

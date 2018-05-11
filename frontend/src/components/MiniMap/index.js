@@ -11,15 +11,11 @@ const MiniMap = (props, context) => {
 const BranchArea = props => {
   const {branch} = props;
   const {rooms} = props.branch;
-  const x = branch.width / branch.height * 100;
-  const y = branch.height / branch.width * 100;
 
   return (
-    <div
-      className={styles.branchArea}
-      style={{width: x + 'px', height: y + 'px'}}
-    >
-      {rooms.map(room => <RoomArea {...room} key={room.id} />)}
+    <div className={styles.branchArea}>
+      {rooms.map (room => <RoomArea {...room} key={room.id} />)}
+      <img src={branch.minimap_img} alt={branch.branch_name} />
     </div>
   );
 };
@@ -35,11 +31,11 @@ const RoomArea = props => (
     }}
     key={props.id}
   >
-    {props.seats.map(seat => {
+    {props.seats.map (seat => {
       if (seat.usable && seat.seat_number !== 0) {
         return (
           <MiniMapSeat
-            now_using={seat.now_using}
+            now_user={seat.now_user}
             left={seat.left}
             top={seat.top}
             key={seat.id}
@@ -51,27 +47,26 @@ const RoomArea = props => (
 );
 
 MiniMap.propTypes = {
-  branch: PropTypes.shape({
+  branch: PropTypes.shape ({
     branch_name: PropTypes.string.isRequired,
     height: PropTypes.number.isRequired,
     id: PropTypes.number.isRequired,
     is_enrolled: PropTypes.bool.isRequired,
     lounge_img: PropTypes.string.isRequired,
     width: PropTypes.number.isRequired,
-    rooms: PropTypes.arrayOf(
-      PropTypes.shape({
+    rooms: PropTypes.arrayOf (
+      PropTypes.shape ({
         height: PropTypes.number.isRequired,
         id: PropTypes.number.isRequired,
         left: PropTypes.number.isRequired,
         top: PropTypes.number.isRequired,
         width: PropTypes.number.isRequired,
-        seats: PropTypes.arrayOf(
-          PropTypes.shape({
+        seats: PropTypes.arrayOf (
+          PropTypes.shape ({
             left: PropTypes.number.isRequired,
             top: PropTypes.number.isRequired,
             usable: PropTypes.bool.isRequired,
             discard: PropTypes.bool.isRequired,
-            now_using: PropTypes.bool.isRequired,
             id: PropTypes.number.isRequired,
           })
         ).isRequired,

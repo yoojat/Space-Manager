@@ -39,8 +39,6 @@ const Payment = props => {
     .find({value: paymethod})
     .get()[0];
 
-  console.log(cost_type);
-
   return (
     <Fragment>
       <Element name="payment" className={styles.paymentContainer}>

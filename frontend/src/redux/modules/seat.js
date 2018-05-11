@@ -11,21 +11,21 @@ const CANCEL_ALLOCATE_SEAT = 'CANCEL_ALLOCATE_SEAT';
 
 //action creators : 리덕스 state를 변경
 
-function setRoomSeats(room) {
+function setRoomSeats (room) {
   return {
     type: SET_ROOM_SEATS,
     room,
   };
 }
 
-function doAllocateSeat(seatId) {
+function doAllocateSeat (seatId) {
   return {
     type: ALLOCATE_SEAT,
     seatId,
   };
 }
 
-function doCancelAllocateSeat(seatId) {
+function doCancelAllocateSeat (seatId) {
   return {
     type: CANCEL_ALLOCATE_SEAT,
     seatId,
@@ -34,49 +34,58 @@ function doCancelAllocateSeat(seatId) {
 
 // API actions: api를 부를 때 사용
 
-function getRoomSeats(roomId) {
+function getRoomSeats (roomId) {
   return (dispatch, getState) => {
-    const {user: {token}} = getState();
-    fetch(`/rooms/room/${roomId}/`, {
+    const {user: {token}} = getState ();
+    fetch (`/rooms/room/${roomId}/`, {
       headers: {
         Authorization: `JWT ${token}`,
       },
     })
-      .then(response => {
+      .then (response => {
         if (response.status === 401) {
-          dispatch(userActions.logout());
+          dispatch (userActions.logout ());
         }
-        return response.json();
+        return response.json ();
       })
-      .then(json => {
-        dispatch(setRoomSeats(json));
+      .then (json => {
+        dispatch (setRoomSeats (json));
       });
   };
 }
 
-function allocateSeat(seatId, roomId) {
+// is_superuser or is_staff or mebership 확인 => redux
+// 이전에 자리잡은 것 있나 확인 => redux
+// 지점 옵션에 걸리는지 확인(지점 이동 금지, 여성,남성,나이 제한) =>redux
+// 사용가능한 열람실인지 확인 => redux
+// 현재 좌석이 이용불가 상태가 아닌지 확인 =>redux
+// 현재 좌석에 누가 이용중인지 확인 => backend
+// 사용자가 사용하고 있는 좌석이 있는지 확인하고 있으면 반납처리하고 다시 잡을 것 => redux
+// 남성전용 여성전용 공용 확인 => redux
+
+function allocateSeat (seatId, roomId) {
   return (dispatch, getState) => {
-    const {user: {id, token}} = getState();
+    const {user: {id, token}} = getState ();
     const allocateFunc = roomId => {
-      dispatch(getRoomSeats(roomId));
-      dispatch(branchActions.getBranch());
+      dispatch (getRoomSeats (roomId));
+      dispatch (branchActions.getBranch ());
     };
 
     //optimistic response
-    dispatch(doAllocateSeat(seatId));
+    dispatch (doAllocateSeat (seatId));
 
-    fetch(`/seats/allocation/${seatId}/${id}/`, {
+    fetch (`/seats/allocation/${seatId}/${id}/`, {
       method: 'POST',
       headers: {
         Authorization: `JWT ${token}`,
       },
-    }).then(response => {
+    }).then (response => {
       if (response.status === 401) {
-        dispatch(userActions.logout());
+        dispatch (userActions.logout ());
       } else if (!response.ok) {
-        dispatch(doCancelAllocateSeat(seatId));
+        dispatch (doCancelAllocateSeat (seatId));
       } else {
-        allocateFunc(roomId);
+        allocateFunc (roomId);
       }
     });
   };
@@ -112,14 +121,14 @@ function allocateSeat(seatId, roomId) {
 const initialState = {};
 
 //reducer
-function reducer(state = initialState, action) {
+function reducer (state = initialState, action) {
   switch (action.type) {
     case SET_ROOM_SEATS:
-      return applySetRoomSeats(state, action);
+      return applySetRoomSeats (state, action);
     case ALLOCATE_SEAT:
-      return applyAllocateSeat(state, action);
+      return applyAllocateSeat (state, action);
     case CANCEL_ALLOCATE_SEAT:
-      return applyCancelAllocateSeat(state, action);
+      return applyCancelAllocateSeat (state, action);
     default:
       return state;
   }
@@ -127,7 +136,7 @@ function reducer(state = initialState, action) {
 
 // reducer functions
 
-function applySetRoomSeats(state, action) {
+function applySetRoomSeats (state, action) {
   const {room} = action;
   return {
     ...state,
@@ -136,15 +145,15 @@ function applySetRoomSeats(state, action) {
   };
 }
 
-function applyAllocateSeat(state, action) {
+function applyAllocateSeat (state, action) {
   const {seatId} = action;
   const {room: {seats}} = state;
-  const updatedSeats = seats.map(seat => {
+  const updatedSeats = seats.map (seat => {
     if (seat.id === seatId) {
       return {
         ...seat,
-        seat_image: {file: require('images/loading_seat.png')},
-        now_using: true,
+        seat_image: {file: require ('images/loading_seat.png')},
+        // now_using: true,
       };
     }
     return seat;
@@ -156,15 +165,15 @@ function applyAllocateSeat(state, action) {
   };
 }
 
-function applyCancelAllocateSeat(state, action) {
+function applyCancelAllocateSeat (state, action) {
   const {seatId} = action;
   const {room: {seats}} = state;
-  const updatedSeats = seats.map(seat => {
+  const updatedSeats = seats.map (seat => {
     if (seat.id === seatId) {
       return {
         ...seat,
         image_url: null,
-        now_using: false,
+        // now_using: false,
       };
     }
     return seat;

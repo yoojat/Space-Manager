@@ -1,6 +1,7 @@
 import {connect} from 'react-redux';
 import Container from './container';
 import {actionCreators as registActions} from 'redux/modules/regist';
+import {actionCreators as paymentActions} from 'redux/modules/payment';
 
 const mapStateToProps = (state, ownProps) => {
   const {
@@ -15,6 +16,7 @@ const mapStateToProps = (state, ownProps) => {
       all_info_setup,
       paymethod,
     },
+    payment: {amount},
   } = state;
   return {
     sel_branch,
@@ -26,6 +28,7 @@ const mapStateToProps = (state, ownProps) => {
     user,
     sel_cabinets,
     paymethod,
+    amount,
   };
 };
 
@@ -42,6 +45,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     pay: () => {
       dispatch(registActions.pay());
+    },
+    paymentActions: amount => {
+      dispatch(paymentActions.setAmount(amount));
     },
   };
 };
