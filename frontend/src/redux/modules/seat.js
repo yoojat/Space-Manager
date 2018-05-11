@@ -152,8 +152,8 @@ function applyAllocateSeat (state, action) {
     if (seat.id === seatId) {
       return {
         ...seat,
-        seat_image: {file: require ('images/loading_seat.png')},
-        // now_using: true,
+        seat_image: {file: require ('images/loading_seat.png')}, //로딩 상태를 보여줌
+        now_using: true,
       };
     }
     return seat;

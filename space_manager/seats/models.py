@@ -91,3 +91,4 @@ class Log(TimeStampModel):
 
     class Meta:
         ordering = ['-created_at']
+        get_latest_by = 'reg_datetime'

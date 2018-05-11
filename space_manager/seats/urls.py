@@ -22,4 +22,9 @@ urlpatterns = [
         view=views.ReturnSeat.as_view(),
         name='Return',
     ),
+    url(
+        regex=r'^user/seat/$',
+        view=views.NowUsing.as_view(),
+        name='NowUsing',
+    ),
 ]

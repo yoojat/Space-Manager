@@ -10,7 +10,23 @@ class SeatImageSerializer(serializers.ModelSerializer):
         fields = ('file', 'gender')
 
 
+class SeatSerializerForUser(serializers.ModelSerializer):
+    class Meta:
+        model = models.Seat
+        fields = ('room', )
+
+
+class ActionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Action
+        fields = '__all__'
+
+
 class LogSerializer(serializers.ModelSerializer):
+
+    seat = SeatSerializerForUser()
+    action = ActionSerializer()
+
     class Meta:
         model = models.Log
         fields = (

@@ -11,6 +11,19 @@ from random import *
 from operator import eq
 
 
+class NowUsing(APIView):
+    # 현재 사용하고 있는 좌석 가져오기
+
+    def get(self, request, format=None):
+        user = request.user
+
+        last_log = models.Log.objects.latest()  # 로그중 가장 최근 데이터를 가지고 옴
+
+        serializer = serializers.LogSerializer(last_log)
+
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+
 class Seats(APIView):
     #  해당열람실에 좌석 추가하기
     #  data :seat_number,left,top,rotate
@@ -267,7 +280,7 @@ class Allocation(APIView):
                 id=seat_id, usable=True, discard=False)
             # find out by id, usable, discard
         except models.Seat.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+            return Response(status=status.HTTP_403_FORBIDDEN)
 
         # 성별체크
         if self.can_user_seat(user, seat) is False:
@@ -291,7 +304,8 @@ class Allocation(APIView):
                 membership = self.get_membership(user)
 
                 if membership is None:  #맴버쉽에 등록되어있지 않을 때
-                    return Response(status=status.HTTP_403_FORBIDDEN)
+                    return Response(status=status.HTTP_406_NOT_ACCEPTABLE
+                                    )  # 프론트단에서 멤버쉽 등록창으로 리다이렉트
 
                 #멤버쉽중 만료시각 가장 최근것으로 불러옴
 
