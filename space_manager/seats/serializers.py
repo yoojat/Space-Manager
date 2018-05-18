@@ -53,6 +53,7 @@ class SeatBriefSerializer(serializers.ModelSerializer):
             'now_user',
             'end_datetime',
             'now_using',
+            'seat_number',
         )
 
     def get_now_using(self, obj):

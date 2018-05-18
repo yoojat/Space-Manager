@@ -27,7 +27,7 @@ urlpatterns = [
         include('space_manager.payment.urls', namespace='payments')),
     url(r'^qrcodes/', include(
         'space_manager.qrcodes.urls', namespace='qrcodes')),
-    url(r'^accounts/', include('allauth.urls')),
+    # url(r'^accounts/', include('allauth.urls')),
     # url(r'^', views.ReactAppView.as_view()),
 
     # Your stuff: custom urls includes go here

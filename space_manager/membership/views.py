@@ -37,7 +37,10 @@ class GetMemberships(APIView):
 
         now = datetime.today()
         all_memberships = models.Membership.objects.filter(
-            user=target_user, end_date__gte=now, is_usable=True)
+            user=target_user,
+            start_date__lte=now,
+            end_date__gte=now,
+            is_usable=True)
 
         serializer = serializers.MembershipSerializer(
             all_memberships, many=True)

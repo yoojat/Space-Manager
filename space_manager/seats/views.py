@@ -120,11 +120,11 @@ class Seat(APIView):
 class Allocation(APIView):
 
     # 멤버쉽 가져오기
-    def get_membership(self, user):
+    def get_memberships(self, user):
 
         now = datetime.today()
         try:
-            membership = membership_models.Membership.objects.get(
+            membership = membership_models.Membership.objects.filter(
                 end_date__gte=now,  #맴버쉽 만료시각이 현재보다 크고
                 start_date__lte=now,  # 시작시간이 현재보다 작고
                 is_usable=True,  #이용가능하고
@@ -234,7 +234,10 @@ class Allocation(APIView):
         seat.end_datetime = sel_datetime
         seat.save()
 
-    def allocate(self, user, seat):
+    def allocate(self,
+                 user,
+                 seat,
+                 end_datetime=datetime.now() + timedelta(hours=24)):
 
         # 배정 액션 얻기
         try:
@@ -260,13 +263,14 @@ class Allocation(APIView):
         new_log.save()
 
         # 좌석 상태 배정상태로 변경
-        self.set_seat_state(
-            seat, user, sel_image, datetime.now() + timedelta(hours=24))
+        self.set_seat_state(seat, user, sel_image, end_datetime)
 
         return Response(status=status.HTTP_201_CREATED)
 
     def post(self, request, seat_id, user_id, format=None):
 
+        # 기본 좌석 마감시각
+        # 멤버쉽 등록기간이 좌석 마감시각보다 작을 경우 멤버쉽 마감시각으로 변경
         e_datetime = datetime.now() + timedelta(hours=24)
 
         creator = request.user
@@ -280,9 +284,9 @@ class Allocation(APIView):
                 id=seat_id, usable=True, discard=False)
             # find out by id, usable, discard
         except models.Seat.DoesNotExist:
-            return Response(status=status.HTTP_403_FORBIDDEN)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
-        # 성별체크
+        # 성별에 따른 좌석 이용 가능여부 체크
         if self.can_user_seat(user, seat) is False:
             return Response(status=status.HTTP_403_FORBIDDEN)
 
@@ -301,11 +305,39 @@ class Allocation(APIView):
             else:  #유저와 생성자가 같다면(본인이 직접 배정할때)
                 #멤버쉽 체크, 멤버쉽 끝나는 기간이 24시간 이내라면 종료시간을 멤버십 끝나는 시간으로
                 #멤버쉽 등록할 때 잡은 자리가 있으면 24시간 뒤로 변경할 것
-                membership = self.get_membership(user)
 
-                if membership is None:  #맴버쉽에 등록되어있지 않을 때
+                #불러오는 멤버쉽 정보는 제일 최근 정보만 가져옴
+                #예를 들면 5월1일, 6월 1일에 등록한 멤버쉽 있으면 5월달 것을 먼저 불러옴(현재 5월 가정)
+                memberships = self.get_memberships(user)
+
+                print(memberships)
+
+                if memberships is None:  #맴버쉽에 등록되어있지 않을 때
                     return Response(status=status.HTTP_406_NOT_ACCEPTABLE
                                     )  # 프론트단에서 멤버쉽 등록창으로 리다이렉트
+                elif len(memberships) == 0:  #현재 사용가능한 맴버쉽이 남아 있지 않을 때
+                    return Response(status=status.HTTP_406_NOT_ACCEPTABLE)
+
+                #멤버쉽 만료기간이 24시간 이내로 남지 않았다면(하루등록 이용자도 포함)
+                if memberships[0].end_date < (
+                        datetime.now() + timedelta(hours=24)):
+
+                    if len(memberships) > 1:  #다음 멤버쉽이 하나 더 이상 있다면
+
+                        #현재 맴버쉽 만료시각보다 다음 맴버쉽 시작 시간이 더크다면
+                        if memberships[0].end_date < memberships[1].start_date:
+                            e_datetime = memberships[0].end_date
+
+                        # 다음 멤버쉽 만료시각이 기본 좌석 만료시각보다 크다면 24시간
+                        # 그렇지 않다면 다음 맴버쉽 만료시각도 체크하고 다음 멤버쉽도
+
+                        elif memberships[1].end_date < datetime.now(
+                        ) + timedelta(hours=24):
+                            # 다음 멤버쉽 만료시각이 기본 좌석 만료시각 보다 작다면 다음 멤버쉽 만료시각으로
+                            e_datetie = memberships[1].end_date
+
+                    else:  #다음 멤버쉽이 없다면 현재 맴버쉽의 만료시각으로
+                        e_datetime = memberships[0].end_date
 
                 #멤버쉽중 만료시각 가장 최근것으로 불러옴
 
@@ -330,7 +362,7 @@ class Allocation(APIView):
         random_image_number = randint(0, rand_limit)
         sel_image = seat_images[random_image_number]  #선택된 이미지
 
-        end_time = datetime.now() + timedelta(hours=24)  #오늘 날짜시간 +24시간
+        # end_time = datetime.now() + timedelta(hours=24)  #오늘 날짜시간 +24시간
 
         # 열람실 설정에 이상 없는지 확인
         if self.is_usable_room(seat) is False:
