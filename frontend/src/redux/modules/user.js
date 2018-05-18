@@ -1,28 +1,28 @@
 //imports
 
 //actions
-const SAVE_TOKEN = 'SAVE_TOKEN';
-const LOGOUT = 'LOGOUT';
-const SAVE_AUTHORITY = 'SAVE_AUTHORITY';
-const SAVE_MEMBERSHIP = 'SAVE_MEMBERSHIP';
+const SAVE_TOKEN = "SAVE_TOKEN";
+const LOGOUT = "LOGOUT";
+const SAVE_AUTHORITY = "SAVE_AUTHORITY";
+const SAVE_MEMBERSHIP = "SAVE_MEMBERSHIP";
 
 //action creators : 리덕스 state를 변경
 
-function logout () {
+function logout() {
   return {
-    type: LOGOUT,
+    type: LOGOUT
   };
 }
 
-function saveToken (token) {
+function saveToken(token) {
   return {
     type: SAVE_TOKEN,
-    token, //token:token,
+    token //token:token,
   };
 }
 
-function saveAuthority (user) {
-  const {is_staff, is_superuser, id, name, username, profile_image} = user;
+function saveAuthority(user) {
+  const { is_staff, is_superuser, id, name, username, profile_image } = user;
   return {
     type: SAVE_AUTHORITY,
     is_staff,
@@ -30,145 +30,151 @@ function saveAuthority (user) {
     id,
     name,
     username,
-    profile_image,
+    profile_image
   };
 }
 
-function saveMembership (memberships) {
+function saveMembership(memberships) {
   return {
     type: SAVE_MEMBERSHIP,
-    memberships,
+    memberships
   };
 }
 
 // API actions: api를 부를 때 사용
 
-function setUser () {
-  return function (dispatch, getState) {
-    const {user: {token, isLoggedIn}} = getState ();
+function setUser() {
+  return function(dispatch, getState) {
+    const {
+      user: { token, isLoggedIn }
+    } = getState();
     if (isLoggedIn) {
-      fetch (`/users/`, {
-        method: 'GET',
+      fetch(`/users/`, {
+        method: "GET",
         headers: {
-          Authorization: `JWT ${token}`,
-        },
+          Authorization: `JWT ${token}`
+        }
       })
-        .then (response => response.json ())
-        .then (json => {
-          dispatch (checkAuthority (json));
+        .then(response => response.json())
+        .then(json => {
+          dispatch(checkAuthority(json));
         });
     }
   };
 }
 
-function setMembership () {
-  return function (dispatch, getState) {
-    const {user: {token, id, isLoggedIn}} = getState ();
+function setMembership() {
+  return function(dispatch, getState) {
+    const {
+      user: { token, id, isLoggedIn }
+    } = getState();
     if (isLoggedIn) {
-      fetch (`/membership/${id}/`, {
-        method: 'GET',
+      fetch(`/membership/${id}/`, {
+        method: "GET",
         headers: {
-          Authorization: `JWT ${token}`,
-        },
+          Authorization: `JWT ${token}`
+        }
       })
-        .then (response => response.json ())
-        .then (json => {
-          dispatch (saveMembership (json));
+        .then(response => response.json())
+        .then(json => {
+          dispatch(saveMembership(json));
         });
     }
   };
 }
 
-function checkAuthority (user) {
+function checkAuthority(user) {
   let userId;
   if (user.pk) {
     userId = user.pk;
   } else if (user.id) {
     userId = user.id;
   }
-  return function (dispatch, getState) {
-    const {user: {token}} = getState ();
-    fetch (`/users/id/${userId}/`, {
-      method: 'GET',
+  return function(dispatch, getState) {
+    const {
+      user: { token }
+    } = getState();
+    fetch(`/users/id/${userId}/`, {
+      method: "GET",
       headers: {
-        Authorization: `JWT ${token}`,
-      },
+        Authorization: `JWT ${token}`
+      }
     })
-      .then (response => response.json ())
-      .then (json => {
-        dispatch (saveAuthority (json));
+      .then(response => response.json())
+      .then(json => {
+        dispatch(saveAuthority(json));
       });
   };
 }
 
-function facebookLogin (access_token) {
-  return function (dispatch) {
+function facebookLogin(access_token) {
+  return function(dispatch) {
     //thunk를 사용할 때 이렇게 사용하면 조건이 맞아떨어질때 디스패치하도록 조정
-    fetch ('/users/login/facebook/', {
-      method: 'POST',
+    fetch("/users/login/facebook/", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json"
       },
-      body: JSON.stringify ({
-        access_token, //  access_token:access_token
-      }),
+      body: JSON.stringify({
+        access_token //  access_token:access_token
+      })
     })
-      .then (response => response.json ())
-      .then (json => {
+      .then(response => response.json())
+      .then(json => {
         if (json.token) {
-          localStorage.setItem ('jwt', json.token);
-          dispatch (saveToken (json.token)); //state를 변경하는 saveToken 실행시킴(action creator)
+          localStorage.setItem("jwt", json.token);
+          dispatch(saveToken(json.token)); //state를 변경하는 saveToken 실행시킴(action creator)
           // dispatch는 액션을 리듀서에게 전달하는 함수
-          dispatch (checkAuthority (json.user));
+          dispatch(checkAuthority(json.user));
         }
       })
-      .catch (err => console.log (err));
+      .catch(err => console.log(err));
   };
 }
 
-function usernameLogin (username, password) {
-  return function (dispatch) {
-    fetch ('/rest-auth/login/', {
-      method: 'POST',
+function usernameLogin(username, password) {
+  return function(dispatch) {
+    fetch("/rest-auth/login/", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json"
       },
-      body: JSON.stringify ({
+      body: JSON.stringify({
         username,
-        password,
-      }),
+        password
+      })
     })
-      .then (response => response.json ())
-      .then (json => {
+      .then(response => response.json())
+      .then(json => {
         if (json.token) {
-          dispatch (saveToken (json.token));
-          dispatch (checkAuthority (json.user));
+          dispatch(saveToken(json.token));
+          dispatch(checkAuthority(json.user));
         }
       })
-      .catch (err => console.log (err));
+      .catch(err => console.log(err));
   };
 }
 
-function createAccount (username, password1, password2, email, name) {
-  return function (dispatch) {
-    fetch ('/rest-auth/registration/', {
-      method: 'POST',
+function createAccount(username, password1, password2, email, name) {
+  return function(dispatch) {
+    fetch("/rest-auth/registration/", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json"
       },
-      body: JSON.stringify ({
+      body: JSON.stringify({
         username,
         password1,
         password2,
         email,
-        name,
-      }),
+        name
+      })
     })
-      .then (response => response.json ())
-      .then (json => {
+      .then(response => response.json())
+      .then(json => {
         if (json.token) {
-          dispatch (saveToken (json.token));
-          dispatch (checkAuthority (json.user));
+          dispatch(saveToken(json.token));
+          dispatch(checkAuthority(json.user));
         }
       });
   };
@@ -176,48 +182,48 @@ function createAccount (username, password1, password2, email, name) {
 
 // iniital state
 const initialState = {
-  isLoggedIn: localStorage.getItem ('jwt') ? true : false,
+  isLoggedIn: localStorage.getItem("jwt") ? true : false,
   //localStorage는 브라우저에 저장하는 쿠키같은 것
-  token: localStorage.getItem ('jwt'),
-  memberships: [],
+  token: localStorage.getItem("jwt"),
+  memberships: null
 };
 
 //reducer
-function reducer (state = initialState, action) {
+function reducer(state = initialState, action) {
   switch (action.type) {
     case SAVE_TOKEN:
-      return applySetToken (state, action);
+      return applySetToken(state, action);
     case LOGOUT:
-      return applyLogout (state, action);
+      return applyLogout(state, action);
     case SAVE_AUTHORITY:
-      return applyAuthority (state, action);
+      return applyAuthority(state, action);
     case SAVE_MEMBERSHIP:
-      return applySaveMembership (state, action);
+      return applySaveMembership(state, action);
     default:
       return state;
   }
 }
 //reducer functions
 
-function applySetToken (state, action) {
-  const {token} = action;
-  localStorage.setItem ('jwt', token);
+function applySetToken(state, action) {
+  const { token } = action;
+  localStorage.setItem("jwt", token);
   return {
     ...state,
     isLoggedIn: true,
-    token,
+    token
   };
 }
 
-function applyLogout (state, action) {
-  localStorage.removeItem ('jwt');
+function applyLogout(state, action) {
+  localStorage.removeItem("jwt");
   return {
-    isLoggedIn: false,
+    isLoggedIn: false
   };
 }
 
-function applyAuthority (state, action) {
-  const {is_staff, is_superuser, id, username, name, profile_image} = action;
+function applyAuthority(state, action) {
+  const { is_staff, is_superuser, id, username, name, profile_image } = action;
   return {
     ...state,
     is_staff,
@@ -225,15 +231,15 @@ function applyAuthority (state, action) {
     id,
     username,
     name,
-    profile_image,
+    profile_image
   };
 }
 
-function applySaveMembership (state, action) {
-  const {memberships} = action;
+function applySaveMembership(state, action) {
+  const { memberships } = action;
   return {
     ...state,
-    memberships,
+    memberships
   };
 }
 
@@ -245,10 +251,10 @@ const actionCreators = {
   createAccount,
   logout,
   setUser,
-  setMembership,
+  setMembership
 };
 
-export {actionCreators};
+export { actionCreators };
 //reducer export
 
 export default reducer;

@@ -1,9 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import styles from './styles.scss';
-import Loading from 'components/Loading';
-import Ionicon from 'react-ionicons';
-import {Link} from 'react-router-dom';
+import React from "react";
+import PropTypes from "prop-types";
+import styles from "./styles.scss";
+import Loading from "components/Loading";
+import Ionicon from "react-ionicons";
+import { Link } from "react-router-dom";
 
 const Membership = props => {
   if (props.loading) {
@@ -14,7 +14,7 @@ const Membership = props => {
 };
 
 const RenderMembership = (
-  {user, setMembership, cabinet: {using_cabinets}},
+  { user, setMembership, cabinet: { using_cabinets } },
   context
 ) => {
   return (
@@ -22,9 +22,9 @@ const RenderMembership = (
       <div className={styles.logoContainer}>
         <Link to="/">
           <img
-            src={require('images/logo.png')}
+            src={require("images/logo.png")}
             className={styles.logo}
-            alt={context.t('Logo')}
+            alt={context.t("Logo")}
           />
         </Link>
       </div>
@@ -34,23 +34,23 @@ const RenderMembership = (
             <img
               src={`${user.profile_image}`}
               className={styles.profileImg}
-              alt={context.t('profile')}
+              alt={context.t("profile")}
             />
           ) : (
             <Ionicon icon="md-person" fontSize="85px" />
           )}
 
           <div className={styles.name}>
-            <span className={styles.username}>{user.username}</span> /{' '}
+            <span className={styles.username}>{user.username}</span> /{" "}
             <span className={styles.userid}>
               {user.name}
-              {context.t('님')}
+              {context.t("님")}
             </span>
           </div>
         </div>
         <div className={styles.membershipContainer}>
           <div className={styles.membershipTitle}>
-            {context.t('이용중인 멤버쉽')}
+            {context.t("이용중인 멤버쉽")}
           </div>
           {user.memberships.length
             ? user.memberships.map(membership => (
@@ -61,11 +61,11 @@ const RenderMembership = (
                   key={membership.id}
                 />
               ))
-            : '현재 이용중인 맴버쉽이 없습니다'}
+            : "현재 이용중인 맴버쉽이 없습니다"}
         </div>
         <div className={styles.membershipContainer}>
           <div className={styles.membershipTitle}>
-            {context.t('이용중인 사물함')}
+            {context.t("이용중인 사물함")}
           </div>
 
           {using_cabinets.length
@@ -78,7 +78,7 @@ const RenderMembership = (
                   key={using_cabinet.id}
                 />
               ))
-            : '현재 이용중인 사물함이 없습니다'}
+            : "현재 이용중인 사물함이 없습니다"}
         </div>
 
         <div className={styles.buttonContainer}>
@@ -97,7 +97,7 @@ const RenderMembership = (
   );
 };
 
-const MembershipList = ({id, start_date, end_date, branch}) => (
+const MembershipList = ({ id, start_date, end_date, branch }) => (
   <div className={styles.listContainer}>
     <div className={styles.branch}>{branch.branch_name}</div>
     <div className={styles.period}>
@@ -106,7 +106,7 @@ const MembershipList = ({id, start_date, end_date, branch}) => (
   </div>
 );
 
-const CabinetList = ({branch, cabinet_number, start_date, end_date}) => (
+const CabinetList = ({ branch, cabinet_number, start_date, end_date }) => (
   <div className={styles.listContainer}>
     <div className={styles.branch}>
       {branch.branch_name} {cabinet_number}번 사물함
@@ -133,15 +133,15 @@ Membership.propTypes = {
         branch: PropTypes.shape({
           branch_name: PropTypes.string.isRequired,
           branch_num: PropTypes.number.isRequired,
-          id: PropTypes.number.isRequired,
+          id: PropTypes.number.isRequired
         }).isRequired,
         end_date: PropTypes.string.isRequired,
         is_usable: PropTypes.bool.isRequired,
         start_date: PropTypes.string.isRequired,
         user: PropTypes.number.isRequired,
-        id: PropTypes.number.isRequired,
+        id: PropTypes.number.isRequired
       })
-    ),
+    )
   }).isRequired,
   setMembership: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
@@ -155,9 +155,9 @@ Membership.propTypes = {
             branch: PropTypes.shape({
               branch_name: PropTypes.string.isRequired,
               branch_num: PropTypes.number.isRequired,
-              id: PropTypes.number.isRequired,
-            }).isRequired,
-          }).isRequired,
+              id: PropTypes.number.isRequired
+            }).isRequired
+          }).isRequired
         }).isRequired,
         end_date: PropTypes.string.isRequired,
         id: PropTypes.number.isRequired,
@@ -165,11 +165,11 @@ Membership.propTypes = {
         is_usable: PropTypes.bool.isRequired,
         payment: PropTypes.number,
         start_date: PropTypes.string.isRequired,
-        user: PropTypes.number.isRequired,
+        user: PropTypes.number.isRequired
       }).isRequired
-    ),
-  }),
+    )
+  })
 };
 RenderMembership.contextTypes = {
-  t: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired
 };

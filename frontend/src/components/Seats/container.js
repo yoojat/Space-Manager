@@ -1,10 +1,20 @@
-import React, {Component} from 'react';
-import Seats from './presenter';
+import React, { Component } from "react";
+import Seats from "./presenter";
+import { scroller } from "react-scroll";
 
 class Container extends Component {
   state = {
-    loading: true,
+    loading: true
   };
+
+  componentDidMount() {
+    scroller.scrollTo("seats", {
+      duration: 1500,
+      delay: 100,
+      smooth: true,
+      offset: 5
+    });
+  }
 
   // componentDidMount() {
   //   const {room} = this.props;
@@ -19,7 +29,7 @@ class Container extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.room) {
       this.setState({
-        loading: false,
+        loading: false
       });
     }
   }
@@ -37,16 +47,16 @@ class Container extends Component {
 
   _closeRoom = () => {
     this.setState({
-      loading: true,
+      loading: true
     });
     this.props.closeRoom();
   };
   _BackClickHandle = event => {
-    const is_back = event.target.getAttribute('data-isback');
+    const is_back = event.target.getAttribute("data-isback");
 
     if (is_back) {
       this.setState({
-        loading: true,
+        loading: true
       });
       this.props.closeRoom();
     }

@@ -1,11 +1,21 @@
-import React, {Component} from 'react';
-import Lounge from './presenter';
+import React, { Component } from "react";
+import Lounge from "./presenter";
 
 class Container extends Component {
-  state = {seeingRoom: false};
+  state = {
+    seeingRoom: false,
+    modalLoading: true
+  };
+  componentDidMount() {
+    this.props.setMembership();
+
+    if (this.props.memberships) {
+      this.setState({ ...this.state, modalLoading: false });
+    }
+  }
 
   render() {
-    const {branch_name} = this.props;
+    const { branch_name } = this.props;
     return (
       <Lounge
         {...this.props}
@@ -20,13 +30,13 @@ class Container extends Component {
   //열람실 정보를 인자로 전달
   _openRoom = () => {
     this.setState({
-      seeingRoom: true,
+      seeingRoom: true
     });
   };
 
   _closeRoom = () => {
     this.setState({
-      seeingRoom: false,
+      seeingRoom: false
     });
   };
 }

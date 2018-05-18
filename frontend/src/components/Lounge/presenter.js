@@ -1,13 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import MiniMap from 'components/MiniMap';
-import Seats from 'components/Seats';
-import ClickableArea from 'components/ClickableArea';
-import styles from './styles.scss';
+import React from "react";
+import PropTypes from "prop-types";
+import MiniMap from "components/MiniMap";
+import Seats from "components/Seats";
+import ClickableArea from "components/ClickableArea";
+import styles from "./styles.scss";
+import Modal from "components/Modal";
 
 const Lounge = (props, context) => {
-  const {rooms} = props.branch;
-  const {branch} = props;
+  const { rooms } = props.branch;
+  const { branch, history, memberships, modalLoading } = props;
 
   return (
     <div className={styles.backWhite}>
@@ -22,49 +23,67 @@ const Lounge = (props, context) => {
             className={styles.wholeLounge}
             alt={branch.branch_name}
           />
-          {rooms.map (room => (
+          {rooms.map(room => (
             <ClickableArea {...room} openRoom={props.openRoom} key={room.id} />
           ))}
         </div>
         <MiniMap branch={branch} />
       </div>
-      {props.seeingRoom &&
-        <Seats closeRoom={props.closeRoom} seeingRoom={props.seeingRoom} />}
+      {props.seeingRoom && (
+        <Seats closeRoom={props.closeRoom} seeingRoom={props.seeingRoom} />
+      )}
+
+      {/* 멤버쉽 확인하고 등록되어 있지않으면 멤버쉽 이동하는 모달창 띄움 */}
+
+      {modalLoading ? (
+        ""
+      ) : memberships.length ? (
+        ""
+      ) : (
+        <Modal
+          content="멤버쉽에 등록해야 열람실을 볼수 있습니다! 3초후 자동으로 멤버십등록화면으로 이동합니다."
+          linkButtonUrl="/membership"
+          linkButtonContext="멤버쉽 등록하기"
+          history={history}
+          closeRedirect={true}
+          autoRedirect={true}
+        />
+      )}
     </div>
   );
 };
 
 Lounge.contextTypes = {
-  t: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired
 };
 Lounge.propTypes = {
-  branch: PropTypes.shape ({
+  branch: PropTypes.shape({
     branch_name: PropTypes.string.isRequired,
     id: PropTypes.number.isRequired,
     is_enrolled: PropTypes.bool.isRequired,
     lounge_img: PropTypes.string.isRequired,
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
-    rooms: PropTypes.arrayOf (
-      PropTypes.shape ({
+    rooms: PropTypes.arrayOf(
+      PropTypes.shape({
         id: PropTypes.number.isRequired,
         width: PropTypes.number.isRequired,
         height: PropTypes.number.isRequired,
         left: PropTypes.number.isRequired,
         top: PropTypes.number.isRequired,
-        seats: PropTypes.arrayOf (
-          PropTypes.shape ({
+        seats: PropTypes.arrayOf(
+          PropTypes.shape({
             id: PropTypes.number.isRequired,
             left: PropTypes.number.isRequired,
             usable: PropTypes.bool.isRequired,
-            discard: PropTypes.bool.isRequired,
+            discard: PropTypes.bool.isRequired
           }).isRequired
-        ).isRequired,
+        ).isRequired
       })
-    ).isRequired,
+    ).isRequired
   }).isRequired,
   closeRoom: PropTypes.func.isRequired,
-  openRoom: PropTypes.func.isRequired,
+  openRoom: PropTypes.func.isRequired
 };
 
 export default Lounge;

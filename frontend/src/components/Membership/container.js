@@ -1,17 +1,17 @@
-import React, {Component} from 'react';
-import Membership from './presenter';
+import React, { Component } from "react";
+import Membership from "./presenter";
 
 class Container extends Component {
   state = {
-    loading: true,
+    loading: true
   };
 
   componentDidMount() {
     const {
-      user: {memberships, id},
+      user: { memberships, id },
       setMembership,
       cabinet,
-      setUsingCabinet,
+      setUsingCabinet
     } = this.props;
     if (!memberships) {
       if (id) {
@@ -21,17 +21,17 @@ class Container extends Component {
       setUsingCabinet();
     } else {
       this.setState({
-        loading: false,
+        loading: false
       });
     }
   }
 
   componentWillReceiveProps = nextProps => {
-    const {setMembership, setUsingCabinet} = this.props;
+    const { setMembership, setUsingCabinet } = this.props;
     if (nextProps.user.memberships) {
       if (nextProps.cabinet.using_cabinets) {
         this.setState({
-          loading: false,
+          loading: false
         });
       } else {
         setUsingCabinet();

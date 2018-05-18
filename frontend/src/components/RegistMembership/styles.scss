@@ -29,7 +29,7 @@ a:active {
     width: 80vw;
     max-width: 300px;
 
-    @include breakpoint('iphone5') {
+    @include breakpoint("iphone5") {
       width: 95vw;
     }
     min-width: 250px;
@@ -47,6 +47,15 @@ a:active {
         }
         .userid {
         }
+      }
+      .profileImg {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        width: 60px;
+        border-radius: 30px;
+        -moz-border-radius: 30px;
+        -khtml-border-radius: 30px;
+        -webkit-border-radius: 30px;
       }
     }
 

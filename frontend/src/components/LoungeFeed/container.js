@@ -1,17 +1,17 @@
-import React, {Component} from 'react';
-import LoungeFeed from './presenter';
+import React, { Component } from "react";
+import LoungeFeed from "./presenter";
 
 class Container extends Component {
   state = {
-    loading: true,
+    loading: true
   };
   componentDidMount() {
-    const {getBranch} = this.props;
+    const { getBranch } = this.props;
     if (!this.props.now_branch) {
       getBranch();
     } else {
       this.setState({
-        loading: false,
+        loading: false
       });
     }
   }
@@ -19,14 +19,20 @@ class Container extends Component {
     // console.log('componentWillReceiveProps', nextProps);
     if (nextProps.now_branch) {
       this.setState({
-        loading: false,
+        loading: false
       });
     }
   };
 
   render() {
-    const {now_branch} = this.props;
-    return <LoungeFeed {...this.state} now_branch={now_branch} />;
+    const { now_branch } = this.props;
+    return (
+      <LoungeFeed
+        {...this.state}
+        now_branch={now_branch}
+        history={this.props.history}
+      />
+    );
   }
 }
 
