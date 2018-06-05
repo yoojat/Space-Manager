@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from . import models
+from space_manager.rooms import models as room_models
+
 import json
 from datetime import datetime, timedelta
 
@@ -37,6 +39,39 @@ class LogSerializer(serializers.ModelSerializer):
         )
 
 
+class BriefRoomSeiralizer(serializers.ModelSerializer):
+    class Meta:
+        model = room_models.Room
+        fields = ('room_number', 'id')
+
+
+class DetailSeatSerializer(serializers.ModelSerializer):
+    room = BriefRoomSeiralizer()
+
+    class Meta:
+        model = models.Seat
+        fields = (
+            'id',
+            'seat_number',
+            'room',
+        )
+
+
+class DetailLogSerializer(serializers.ModelSerializer):
+
+    seat = DetailSeatSerializer()
+    action = ActionSerializer()
+
+    class Meta:
+        model = models.Log
+        fields = (
+            'action',
+            'user',
+            'seat',
+            'reg_datetime',
+        )
+
+
 class SeatBriefSerializer(serializers.ModelSerializer):
     # logs = LogSerializer(many=True)
 
@@ -46,8 +81,8 @@ class SeatBriefSerializer(serializers.ModelSerializer):
         model = models.Seat
         fields = (
             'id',
-            'left',
-            'top',
+            'xpos',
+            'ypos',
             'usable',
             'discard',
             'now_user',
@@ -98,8 +133,17 @@ class SeatSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Seat
-        fields = ('seat_number', 'left', 'top', 'rotate', 'usable', 'discard',
-                  'room', 'branch', 'logs')
+        fields = (
+            'seat_number',
+            'xpos',
+            'ypos',
+            'rotate',
+            'usable',
+            'discard',
+            'room',
+            'branch',
+            'logs',
+        )
 
 
 class InputSeatSerializer(serializers.ModelSerializer):
@@ -107,8 +151,8 @@ class InputSeatSerializer(serializers.ModelSerializer):
         model = models.Seat
         fields = (
             'seat_number',
-            'left',
-            'top',
+            'xpos',
+            'ypos',
             'rotate',
             'room',
             'branch',
@@ -121,8 +165,9 @@ class ShowSeatSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Seat
-        fields = ('id', 'seat_number', 'left', 'top', 'rotate', 'usable',
-                  'discard', 'seat_image', 'now_user', 'now_using')
+        fields = ('id', 'seat_number', 'xpos', 'ypos', 'rotate', 'usable',
+                  'discard', 'seat_image', 'now_user', 'now_using',
+                  'view_left', 'view_top')
 
     def get_now_using(self, obj):
         now = datetime.now()

@@ -1,37 +1,39 @@
 //imports
 
-import {actionCreators as userActions} from 'redux/modules/user';
+import { actionCreators as userActions } from "redux/modules/user";
 
 //actions
 
-const SET_BRANCHES = 'SET_BRANCHES'; // 가져온 지점들을 스테이트에 저장하는 액션
-const SET_BRANCH = 'SET_BRANCH';
+const SET_BRANCHES = "SET_BRANCHES"; // 가져온 지점들을 스테이트에 저장하는 액션
+const SET_BRANCH = "SET_BRANCH";
 //action creators : 리덕스 state를 변경
 
 function setBranches(branches) {
   return {
     type: SET_BRANCHES,
-    branches,
+    branches
   };
 }
 
 function setBranch(branch) {
   return {
     type: SET_BRANCH,
-    branch,
+    branch
   };
 }
 // API actions: api를 부를 때 사용
 
-function getBranches() {
+function fetchBranches() {
   return (dispatch, getState) => {
-    const {user: {token}} = getState();
+    const {
+      user: { token }
+    } = getState();
 
-    fetch('/branch/', {
-      method: 'GET',
+    fetch("/branch/", {
+      method: "GET",
       headers: {
-        Authorization: `JWT ${token}`,
-      },
+        Authorization: `JWT ${token}`
+      }
     })
       .then(response => {
         if (response.status === 401) {
@@ -47,13 +49,15 @@ function getBranches() {
 
 function getBranch() {
   return (dispatch, getState) => {
-    const {user: {token}} = getState();
+    const {
+      user: { token }
+    } = getState();
 
     fetch(`/branch/here/`, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        Authorization: `JWT ${token}`,
-      },
+        Authorization: `JWT ${token}`
+      }
     })
       .then(response => {
         if (response.status === 401) {
@@ -68,7 +72,9 @@ function getBranch() {
 }
 
 // iniital state
-const initialState = {};
+const initialState = {
+  branches: null
+};
 
 //reducer
 function reducer(state = initialState, action) {
@@ -84,28 +90,28 @@ function reducer(state = initialState, action) {
 //reducer functions
 
 function applySetBranches(state, action) {
-  const {branches} = action;
+  const { branches } = action;
   return {
     ...state,
-    branches,
+    branches
   };
 }
 
 function applySetBranch(state, action) {
-  const {branch} = action;
+  const { branch } = action;
   return {
     ...state,
-    now_branch: branch,
+    now_branch: branch
   };
 }
 //exports
 
 const actionCreators = {
-  getBranches,
-  getBranch,
+  fetchBranches,
+  getBranch
 };
 
-export {actionCreators};
+export { actionCreators };
 //reducer export
 
 export default reducer;

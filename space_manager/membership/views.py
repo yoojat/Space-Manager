@@ -20,6 +20,26 @@ class GetActions(APIView):
         return Response(data=serializer.data)
 
 
+class GetMyMemberships(APIView):
+    def get(self, request, format=None):
+        # 맴버쉽 정보 가져오기, 만료되거나 취소된 맴버쉽 경우 제외, 현재 시간 포함되지 않는 미래의 것도 불러옴
+        # user, branch, start_date, end_date, is_usable
+
+        request_user = request.user
+
+        # 본인이 아닌 다른 사람이 결제할려고 할 경우
+        # 관리자가 아닌 사람이 결제할 경우 400
+        # 관리자일 경우 계속 진행
+        now = datetime.today()
+        all_memberships = models.Membership.objects.filter(
+            user=request_user, end_date__gte=now, is_usable=True)
+
+        serializer = serializers.MembershipSerializer(
+            all_memberships, many=True)
+
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+
 class GetMemberships(APIView):
     def get(self, request, user_id, format=None):
         # 맴버쉽 정보 가져오기, 만료되거나 취소된 맴버쉽 경우 제외

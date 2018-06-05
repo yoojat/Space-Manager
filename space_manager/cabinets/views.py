@@ -30,23 +30,110 @@ class BranchCabinetSets(APIView):
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
 
-class CabinetByUser(APIView):
+class MyCabinets(APIView):
     def find_using_cabinets(self, user):
 
-        now = datetime.today()
+        now = datetime.now()
 
         try:
+            # 현재 사용자의 사물함 중 만료시각이 현재보다 같거나 크고, 사용
             cabinets = models.UseCabinet.objects.filter(
                 user=user, end_date__gte=now, is_usable=True)
+
             return cabinets
         except models.UseCabinet.DoesNotExist:
             return None
 
+    # 현재 이용기간이 아니더라도 미래에 있는 사물함 까지불러옴 (사물함 등록을 위하여 필요함)
     def get(self, request, format=None):
         """ get by user """
-        user = request.user
 
-        using_cabinets = self.find_using_cabinets(user)
+        request_user = request.user
+
+        # 본인이 아닌 다른 사람이 결제할려고 할 경우
+        # 관리자가 아닌 사람이 결제할 경우 400
+        # 관리자일 경우 계속 진행
+
+        using_cabinets = self.find_using_cabinets(request_user)
+
+        if using_cabinets is None:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        serializer = serializers.UsecabSerializer(using_cabinets, many=True)
+
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+
+class CabinetsNowUsing(APIView):
+    def find_using_cabinets(self, user):
+
+        now = datetime.now()
+
+        try:
+            # 현재 사용자의 사물함 중 만료시각이 현재보다 같거나 크고, 사용
+            cabinets = models.UseCabinet.objects.filter(
+                user=user,
+                end_date__gte=now,
+                start_date__lte=now,
+                is_usable=True)
+
+            return cabinets
+        except models.UseCabinet.DoesNotExist:
+            return None
+
+    # 현재 이용기간에 포함되는 사물함만 불러옴
+    def get(self, request, user_id, format=None):
+        """ get by user """
+
+        request_user = request.user
+        target_user = user_models.User.objects.get(id=user_id)
+
+        # 본인이 아닌 다른 사람이 결제할려고 할 경우
+        # 관리자가 아닌 사람이 결제할 경우 400
+        # 관리자일 경우 계속 진행
+        if request_user != target_user:
+            if request_user.is_superuser == False:
+                return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+        using_cabinets = self.find_using_cabinets(target_user)
+
+        if using_cabinets is None:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        serializer = serializers.UsecabSerializer(using_cabinets, many=True)
+
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+
+class CabinetByUser(APIView):
+    def find_using_cabinets(self, user):
+
+        now = datetime.now()
+
+        try:
+            # 현재 사용자의 사물함 중 만료시각이 현재보다 같거나 크고, 사용
+            cabinets = models.UseCabinet.objects.filter(
+                user=user, end_date__gte=now, is_usable=True)
+
+            return cabinets
+        except models.UseCabinet.DoesNotExist:
+            return None
+
+    # 현재 이용기간이 아니더라도 미래에 있는 사물함 까지불러옴 (사물함 등록을 위하여 필요함)
+    def get(self, request, user_id, format=None):
+        """ get by user """
+
+        request_user = request.user
+        target_user = user_models.User.objects.get(id=user_id)
+
+        # 본인이 아닌 다른 사람이 결제할려고 할 경우
+        # 관리자가 아닌 사람이 결제할 경우 400
+        # 관리자일 경우 계속 진행
+        if request_user != target_user:
+            if request_user.is_superuser == False:
+                return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+        using_cabinets = self.find_using_cabinets(target_user)
 
         if using_cabinets is None:
             return Response(status=status.HTTP_404_NOT_FOUND)
@@ -241,189 +328,188 @@ class Cabinet(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class Allocate(APIView):
-    def payment_checkout(self, payment):
+# class Allocate(APIView):
+#     def payment_checkout(self, payment):
 
-        payment_serializer = payment_serializers.InputPaymentSerializer(
-            payment, data={'is_usable': False}, partial=True)
+#         payment_serializer = payment_serializers.InputPaymentSerializer(
+#             payment, data={'is_usable': False}, partial=True)
 
-        if payment_serializer.is_valid():
-            payment_serializer.save()
-            return True
+#         if payment_serializer.is_valid():
+#             payment_serializer.save()
+#             return True
 
-        else:
-            return False
+#         else:
+#             return False
 
-    def check_overlap(self, usable_usecabinets, start_date, end_date):
-        # 날짜 중복 여부 검사
-        for usecabinet in usable_usecabinets:
-            if usecabinet.end_date >= start_date and usecabinet.start_date <= end_date:
-                return False
-        return True
+#     def check_overlap(self, usable_usecabinets, start_date, end_date):
+#         # 날짜 중복 여부 검사
+#         for usecabinet in usable_usecabinets:
+#             if usecabinet.end_date >= start_date and usecabinet.start_date <= end_date:
+#                 return False
+#         return True
 
-    def payment_checkout(self, payment):
+#     def payment_checkout(self, payment):
 
-        payment_serializer = payment_serializers.InputPaymentSerializer(
-            payment, data={'is_usable': False}, partial=True)
+#         payment_serializer = payment_serializers.InputPaymentSerializer(
+#             payment, data={'is_usable': False}, partial=True)
 
-        if payment_serializer.is_valid():
-            payment_serializer.save()
-            return True
+#         if payment_serializer.is_valid():
+#             payment_serializer.save()
+#             return True
 
-        else:
-            return False
+#         else:
+#             return False
 
-    def post(self, request, cabinet_id, user_id, format=None):
-        # 사물함 등록하기
-        # start_date, days
-        # 사용자일 경우 payment_id
-        creator = request.user
-        user = user_models.User.objects.get(id=user_id)
-        action = models.CabinetAction.objects.get(substance='regist')
-        payment = None
+# def post(self, request, cabinet_id, user_id, format=None):
+#     # 사물함 등록하기
+#     # start_date, days
+#     # 사용자일 경우 payment_id
+#     creator = request.user
+#     user = user_models.User.objects.get(id=user_id)
+#     action = models.CabinetAction.objects.get(substance='regist')
+#     payment = None
 
-        try:
-            days = int(request.data['days'])
-            start_date = datetime.strptime(request.data['start_date'],
-                                           '%Y-%m-%d %H:%M:%S')
-            end_date = start_date + timedelta(days=days)
+#     try:
+#         days = int(request.data['days'])
+#         start_date = datetime.strptime(request.data['start_date'],
+#                                        '%Y-%m-%d %H:%M:%S')
+#         end_date = start_date + timedelta(days=days)
 
-            cabinet = models.Cabinet.objects.get(id=cabinet_id)
+#         cabinet = models.Cabinet.objects.get(id=cabinet_id)
 
-        except MultiValueDictKeyError:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+#     except MultiValueDictKeyError:
+#         return Response(status=status.HTTP_400_BAD_REQUEST)
 
-        except models.Cabinet.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+#     except models.Cabinet.DoesNotExist:
+#         return Response(status=status.HTTP_404_NOT_FOUND)
 
-        if creator.is_superuser is False:
-            if creator != user:
-                return Resonse(status=status.HTTP_401_UNAUTHORIZED)
+#     if creator.is_superuser is False:
+#         if creator != user:
+#             return Resonse(status=status.HTTP_401_UNAUTHORIZED)
 
-            try:
-                payment_id = int(request.data['payment'])
-            except MultiValueDictKeyError:
-                return Response(status=status.HTTP_400_BAD_REQUEST)
+#         try:
+#             payment_id = int(request.data['payment'])
+#         except MultiValueDictKeyError:
+#             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-            try:
-                payment = payment_models.PaymentHistory.objects.get(
-                    id=payment_id)
+#         try:
+#             payment = payment_models.PaymentHistory.objects.get(
+#                 id=payment_id)
 
-            except payment_models.PaymentHistory.DoesNotExist:
-                payment = None
+#         except payment_models.PaymentHistory.DoesNotExist:
+#             payment = None
 
-            if payment.cost_type.days != days:
-                return Response(status=status.HTTP_400_BAD_REQUEST)
+#         if payment.cost_type.days != days:
+#             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-            if self.payment_checkout(payment) is False:
-                return Response(status=status.HTTP_400_BAD_REQUEST)
+#         if self.payment_checkout(payment) is False:
+#             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-        now = datetime.today()
-        usable_usecabinets = models.UseCabinet.objects.filter(
-            end_date__gte=now, is_usable=True, user=user, is_clean=False)
+#     now = datetime.today()
+#     usable_usecabinets = models.UseCabinet.objects.filter(
+#         end_date__gte=now, is_usable=True, user=user, is_clean=False)
 
-        if self.check_overlap(usable_usecabinets, start_date,
-                              end_date) is False:
-            return Response(status=status.HTTP_403_FORBIDDEN)
+#     if self.check_overlap(usable_usecabinets, start_date,
+#                           end_date) is False:
+#         return Response(status=status.HTTP_403_FORBIDDEN)
 
-        new_enroll = models.UseCabinet.objects.create(
-            cabinet=cabinet,
-            payment=payment,
-            user=user,
-            start_date=start_date,
-            end_date=end_date)
+#     new_enroll = models.UseCabinet.objects.create(
+#         cabinet=cabinet,
+#         payment=payment,
+#         user=user,
+#         start_date=start_date,
+#         end_date=end_date)
 
-        new_history = models.CabinetHistory.objects.create(
-            cabinet=cabinet,
-            user=user,
-            start_date=start_date,
-            end_date=end_date,
-            cabinet_action=action)
+#     new_history = models.CabinetHistory.objects.create(
+#         cabinet=cabinet,
+#         user=user,
+#         start_date=start_date,
+#         end_date=end_date,
+#         cabinet_action=action)
 
-        payment_check = self.payment_checkout(payment)
+#     payment_check = self.payment_checkout(payment)
 
-        if payment_check is False:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+#     if payment_check is False:
+#         return Response(status=status.HTTP_400_BAD_REQUEST)
 
-        new_enroll.save()
+#     new_enroll.save()
 
-        return Response(status=status.HTTP_201_CREATED)
+#     return Response(status=status.HTTP_201_CREATED)
 
+# class CabinetMembership(APIView):
+#     def find_use_cabinet(self, usecab_id):
+#         try:
+#             use_cabinet = models.UseCabinet.objects.get(id=usecab_id)
+#             return use_cabinet
+#         except models.UseCabinet.DoesNotExist:
+#             return None
 
-class CabinetMembership(APIView):
-    def find_use_cabinet(self, usecab_id):
-        try:
-            use_cabinet = models.UseCabinet.objects.get(id=usecab_id)
-            return use_cabinet
-        except models.UseCabinet.DoesNotExist:
-            return None
+#     def put(self, request, usecab_id, format=None):
+#         # 사물함 수정하기
+#         # 'cabinet', 'payment', 'user', 'start_date', 'end_date', 'is_usable', 'is_clean',
 
-    def put(self, request, usecab_id, format=None):
-        # 사물함 수정하기
-        # 'cabinet', 'payment', 'user', 'start_date', 'end_date', 'is_usable', 'is_clean',
+#         action = models.CabinetAction.objects.get(substance='modify')
 
-        action = models.CabinetAction.objects.get(substance='modify')
+#         if request.user.is_superuser is False:
+#             return Response(status=status.HTTP_401_UNAUTHORIZED)
 
-        if request.user.is_superuser is False:
-            return Response(status=status.HTTP_401_UNAUTHORIZED)
+#         use_cabinet = self.find_use_cabinet(usecab_id)
+#         if use_cabinet is None:
+#             return Response(status=status.HTTP_404_NOT_FOUND)
 
-        use_cabinet = self.find_use_cabinet(usecab_id)
-        if use_cabinet is None:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+#         user = use_cabinet.user
+#         cabinet = use_cabinet.cabinet
+#         start_date = use_cabinet.start_date
+#         end_date = use_cabinet.end_date
 
-        user = use_cabinet.user
-        cabinet = use_cabinet.cabinet
-        start_date = use_cabinet.start_date
-        end_date = use_cabinet.end_date
+#         serializer = serializers.UsecabSerializer(
+#             use_cabinet, data=request.data, partial=True)
 
-        serializer = serializers.UsecabSerializer(
-            use_cabinet, data=request.data, partial=True)
+#         if serializer.is_valid():
 
-        if serializer.is_valid():
+#             new_history = models.CabinetHistory.objects.create(
+#                 cabinet=cabinet,
+#                 user=user,
+#                 start_date=start_date,
+#                 end_date=end_date,
+#                 cabinet_action=action)
 
-            new_history = models.CabinetHistory.objects.create(
-                cabinet=cabinet,
-                user=user,
-                start_date=start_date,
-                end_date=end_date,
-                cabinet_action=action)
+#             serializer.save()
+#             new_history.save()
 
-            serializer.save()
-            new_history.save()
+#             return Response(
+#                 data=serializer.data, status=status.HTTP_202_ACCEPTED)
+#         else:
+#             return Response(
+#                 data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-            return Response(
-                data=serializer.data, status=status.HTTP_202_ACCEPTED)
-        else:
-            return Response(
-                data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#     def delete(self, request, usecab_id, format=None):
+#         # 사물함 등록정보 삭제하기
 
-    def delete(self, request, usecab_id, format=None):
-        # 사물함 등록정보 삭제하기
+#         if request.user.is_superuser is False:
+#             return Response(status=status.HTTP_401_UNAUTHORIZED)
 
-        if request.user.is_superuser is False:
-            return Response(status=status.HTTP_401_UNAUTHORIZED)
+#         use_cabinet = self.find_use_cabinet(usecab_id)
+#         if use_cabinet is None:
+#             return Response(status=status.HTTP_404_NOT_FOUND)
 
-        use_cabinet = self.find_use_cabinet(usecab_id)
-        if use_cabinet is None:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+#         user = use_cabinet.user
+#         cabinet = use_cabinet.cabinet
+#         start_date = use_cabinet.start_date
+#         end_date = use_cabinet.end_date
+#         action = models.CabinetAction.objects.get(substance='expire')
 
-        user = use_cabinet.user
-        cabinet = use_cabinet.cabinet
-        start_date = use_cabinet.start_date
-        end_date = use_cabinet.end_date
-        action = models.CabinetAction.objects.get(substance='expire')
+#         new_history = models.CabinetHistory.objects.create(
+#             cabinet=cabinet,
+#             user=user,
+#             start_date=start_date,
+#             end_date=end_date,
+#             cabinet_action=action)
 
-        new_history = models.CabinetHistory.objects.create(
-            cabinet=cabinet,
-            user=user,
-            start_date=start_date,
-            end_date=end_date,
-            cabinet_action=action)
+#         use_cabinet.delete()
+#         new_history.save()
 
-        use_cabinet.delete()
-        new_history.save()
-
-        return Response(status=status.HTTP_204_NO_CONTENT)
+#         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class CabinetLock(APIView):

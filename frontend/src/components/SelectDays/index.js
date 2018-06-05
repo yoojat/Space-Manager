@@ -1,6 +1,6 @@
-import {connect} from 'react-redux';
-import {actionCreators as registActions} from 'redux/modules/regist';
-import Container from './container';
+import { connect } from "react-redux";
+import { actionCreators as registActions } from "redux/modules/regist";
+import Container from "./container";
 
 const mapStateToProps = (state, ownProps) => {
   const {
@@ -9,15 +9,15 @@ const mapStateToProps = (state, ownProps) => {
       membership_cost_types,
       start_date,
       start_time,
-      all_info_setup,
-    },
+      all_info_setup
+    }
   } = state;
   return {
     cost_type,
     membership_cost_types,
     start_date,
     start_time,
-    all_info_setup,
+    all_info_setup
   };
 };
 
@@ -40,7 +40,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     clearSelCabinets: () => {
       dispatch(registActions.clearSelCabinets());
-    },
+    }
   };
 };
 

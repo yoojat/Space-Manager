@@ -1,15 +1,16 @@
-import {createStore, combineReducers, applyMiddleware} from 'redux';
-import thunk from 'redux-thunk'; //redux-thunk는 리덕스 스토어로 원할때마다 액션을 보낼수 있게 해줌
-import {routerReducer, routerMiddleware} from 'react-router-redux';
-import createHistory from 'history/createBrowserHistory';
-import {composeWithDevTools} from 'redux-devtools-extension';
-import {i18nState} from 'redux-i18n'; //번역을 위한 툴
-import user from 'redux/modules/user';
-import branch from 'redux/modules/branch';
-import seat from 'redux/modules/seat';
-import cabinet from 'redux/modules/cabinet';
-import regist from 'redux/modules/regist';
-import payment from 'redux/modules/payment';
+import { createStore, combineReducers, applyMiddleware } from "redux";
+import thunk from "redux-thunk"; //redux-thunk는 리덕스 스토어로 원할때마다 액션을 보낼수 있게 해줌
+import { routerReducer, routerMiddleware } from "react-router-redux";
+import createHistory from "history/createBrowserHistory";
+import { composeWithDevTools } from "redux-devtools-extension";
+import { i18nState } from "redux-i18n"; //번역을 위한 툴
+import user from "redux/modules/user";
+import branch from "redux/modules/branch";
+import seat from "redux/modules/seat";
+import cabinet from "redux/modules/cabinet";
+import regist from "redux/modules/regist";
+import payment from "redux/modules/payment";
+import membership from "redux/modules/membership";
 
 // 스토어는 여러개의 리듀서를 합칠수 있음
 
@@ -28,8 +29,8 @@ const middlewares = [thunk, routerMiddleware(history)];
 // 히스토리는 미들웨어, 그리고 라우터랑 연결되어 있음
 
 // 개발환경이라면
-if (env === 'development') {
-  const {logger} = require('redux-logger');
+if (env === "development") {
+  const { logger } = require("redux-logger");
   middlewares.push(logger);
   //logger라는 미들웨어 추가
   //logger는 before after같이 console창에서 state의 변화를 볼 수 있고, 액션도 볼 수 있다.
@@ -44,15 +45,16 @@ const reducer = combineReducers({
   cabinet,
   regist,
   payment,
+  membership
 });
 // combineReducer(redux 모듈)을 통해 리듀서를 모두 통합
 //combineReducers는 각 리듀서들을 합쳐주어 global state로 만들어줌
 
-export {history};
+export { history };
 // 히스토리는 export하는 이유는 생성할 라우터(ConnectedRouter)에서 히스토리 오브젝젝트가 필요하기 때문
 
 let store;
-if (env === 'development') {
+if (env === "development") {
   store = initialState =>
     createStore(reducer, composeWithDevTools(applyMiddleware(...middlewares))); //...의 역할은 배열을 unpack해주는 역할, [thunk, router]를 thunk, router로 변경
   // 개발환경일경우 composeWithDevTool로 미들웨어 싱크(redux-devtool-extension에서 온것)

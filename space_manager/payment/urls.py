@@ -13,6 +13,11 @@ urlpatterns = [
         name='MembershipCostType',
     ),
     url(
+        regex=r'^costtype/cabinet/$',
+        view=views.CabinetCostType.as_view(),
+        name='CabinetCostType',
+    ),
+    url(
         regex=r'^onlyyou/(?P<user_id>[0-9]+)/$',
         view=views.OnlyYou.as_view(),
         name='OnlyYou',

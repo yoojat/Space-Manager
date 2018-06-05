@@ -1,8 +1,7 @@
 import React from "react";
-import ReactDOM from "react-dom";
+// import ReactDOM from "react-dom";
 import Modal from "react-modal";
 import { Link } from "react-router-dom";
-import { history } from "redux/configureStore"; //생성한 store를 불러들임, 히스토리도 불러옴(라우터를 위해))
 
 const customStyles = {
   content: {

@@ -22,6 +22,8 @@ class SeatAdmin(admin.ModelAdmin):
         'now_user',
         'for_who',
         'end_datetime',
+        'view_left',
+        'view_top',
     )
 
     list_per_page = 10

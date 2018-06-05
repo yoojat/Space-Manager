@@ -52,11 +52,19 @@
             transition: all 0.5s;
           }
 
-          a {
+          & a,
+          & .list-content {
             color: #fff;
             text-decoration: none;
             outline: none;
             width: 100%;
+            height: 100%;
+            text-align: center;
+            padding-top: 10px;
+            padding-bottom: 10px;
+          }
+          & .admin-menu {
+            color: #007fff;
             height: 100%;
             text-align: center;
             padding-top: 10px;

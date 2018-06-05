@@ -28,4 +28,6 @@ class RoomAdmin(admin.ModelAdmin):
         'top',
         'usable',
         'desk_size',
+        'view_width',
+        'view_height',
     )

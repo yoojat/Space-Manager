@@ -37,6 +37,31 @@ class Payment(APIView):
                 data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class CabinetCostType(APIView):
+    # def find_cabinet_enrolltype(self):
+    #     try:
+    #         enroll_type = models.EnrollType.objects.get(en_substance='cabinet')
+    #         return enroll_type
+    #     except models.EnrollType.DoesNotExist:
+    #         return None
+
+    def get(self, request, format=None):
+        # 결제 타입 불러오기
+        # days,cost,enroll_type,cost_type,
+
+        # enroll_type = self.find_cabinet_enrolltype()
+
+        # if enroll_type is None:
+        #     return Response(status=status.HTTP_404_NOT_FOUND)
+
+        all_cost_types = models.CabinetCostType.objects.all()
+
+        serializer = serializers.CabinetCostTypeSerializer(
+            all_cost_types, many=True)
+
+        return Response(data=serializer.data)
+
+
 class MembershipCostType(APIView):
     def find_membership_enrolltype(self):
         try:

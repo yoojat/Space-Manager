@@ -8,7 +8,13 @@ import Modal from "components/Modal";
 
 const Lounge = (props, context) => {
   const { rooms } = props.branch;
-  const { branch, history, memberships, modalLoading } = props;
+  const {
+    branch,
+    history,
+    memberships,
+    modalLoading,
+    onReturnBtnClick
+  } = props;
 
   return (
     <div className={styles.backWhite}>
@@ -27,10 +33,23 @@ const Lounge = (props, context) => {
             <ClickableArea {...room} openRoom={props.openRoom} key={room.id} />
           ))}
         </div>
-        <MiniMap branch={branch} />
+        <MiniMap />
       </div>
       {props.seeingRoom && (
         <Seats closeRoom={props.closeRoom} seeingRoom={props.seeingRoom} />
+      )}
+      {props.now_using ? (
+        <div className={styles.nowContainer}>
+          <div className={styles.nowUsing}>
+            {props.now_using.seat.room.room_number}열람실{" "}
+            {props.now_using.seat.seat_number}번자리를 배정하셨습니다.
+          </div>
+          <button className={styles.returnBtn} onClick={onReturnBtnClick}>
+            좌석 반납하기
+          </button>
+        </div>
+      ) : (
+        ""
       )}
 
       {/* 멤버쉽 확인하고 등록되어 있지않으면 멤버쉽 이동하는 모달창 띄움 */}
@@ -56,34 +75,34 @@ const Lounge = (props, context) => {
 Lounge.contextTypes = {
   t: PropTypes.func.isRequired
 };
-Lounge.propTypes = {
-  branch: PropTypes.shape({
-    branch_name: PropTypes.string.isRequired,
-    id: PropTypes.number.isRequired,
-    is_enrolled: PropTypes.bool.isRequired,
-    lounge_img: PropTypes.string.isRequired,
-    width: PropTypes.number.isRequired,
-    height: PropTypes.number.isRequired,
-    rooms: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        width: PropTypes.number.isRequired,
-        height: PropTypes.number.isRequired,
-        left: PropTypes.number.isRequired,
-        top: PropTypes.number.isRequired,
-        seats: PropTypes.arrayOf(
-          PropTypes.shape({
-            id: PropTypes.number.isRequired,
-            left: PropTypes.number.isRequired,
-            usable: PropTypes.bool.isRequired,
-            discard: PropTypes.bool.isRequired
-          }).isRequired
-        ).isRequired
-      })
-    ).isRequired
-  }).isRequired,
-  closeRoom: PropTypes.func.isRequired,
-  openRoom: PropTypes.func.isRequired
-};
+// Lounge.propTypes = {
+//   branch: PropTypes.shape({
+//     branch_name: PropTypes.string.isRequired,
+//     id: PropTypes.number.isRequired,
+//     is_enrolled: PropTypes.bool.isRequired,
+//     lounge_img: PropTypes.string.isRequired,
+//     width: PropTypes.number.isRequired,
+//     height: PropTypes.number.isRequired,
+//     rooms: PropTypes.arrayOf(
+//       PropTypes.shape({
+//         id: PropTypes.number.isRequired,
+//         width: PropTypes.number.isRequired,
+//         height: PropTypes.number.isRequired,
+//         left: PropTypes.number.isRequired,
+//         top: PropTypes.number.isRequired,
+//         seats: PropTypes.arrayOf(
+//           PropTypes.shape({
+//             id: PropTypes.number.isRequired,
+//             left: PropTypes.number.isRequired,
+//             usable: PropTypes.bool.isRequired,
+//             discard: PropTypes.bool.isRequired
+//           }).isRequired
+//         ).isRequired
+//       })
+//     ).isRequired
+//   }).isRequired,
+//   closeRoom: PropTypes.func.isRequired,
+//   openRoom: PropTypes.func.isRequired
+// };
 
 export default Lounge;

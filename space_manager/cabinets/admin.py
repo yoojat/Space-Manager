@@ -32,25 +32,25 @@ class CabinetSetAdmin(admin.ModelAdmin):
     )
 
 
-@admin.register(models.UseCabinet)
-class UseCabinetAdmin(admin.ModelAdmin):
+# @admin.register(models.UseCabinet)
+# class UseCabinetAdmin(admin.ModelAdmin):
 
-    list_display_links = ('cabinet', )
+#     list_display_links = ('cabinet', )
 
-    search_fields = (
-        'user_name',
-        'user_username',
-    )
+#     search_fields = (
+#         'user_name',
+#         'user_username',
+#     )
 
-    list_filter = ('cabinet__cabinet_set__branch', )
+#     list_filter = ('cabinet__cabinet_set__branch', )
 
-    list_display = (
-        'cabinet',
-        'user',
-        'start_date',
-        'end_date',
-        'is_usable',
-    )
+#     list_display = (
+#         'cabinet',
+#         'user',
+#         'start_date',
+#         'end_date',
+#         'is_usable',
+#     )
 
 
 @admin.register(models.CabinetAction)

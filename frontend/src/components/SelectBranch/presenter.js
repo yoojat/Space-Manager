@@ -1,13 +1,13 @@
-import React, {Fragment} from 'react';
-import PropTypes from 'prop-types';
-import styles from './styles.scss';
-import IoMap from 'react-icons/lib/io/map';
+import React, { Fragment } from "react";
+import PropTypes from "prop-types";
+import styles from "./styles.scss";
+import IoMap from "react-icons/lib/io/map";
 import {
   withScriptjs,
   withGoogleMap,
   GoogleMap,
-  Marker,
-} from 'react-google-maps';
+  Marker
+} from "react-google-maps";
 
 const SelectBranch = (props, context) => {
   // console.log(props);
@@ -25,7 +25,7 @@ const RenderSelectBranch = (props, context) => {
   } else {
     selBranchId = null;
   }
-  const {showMap} = props;
+  const { showMap } = props;
   const showMapButtonClasses = showMap
     ? `${styles.mapButtonContainer} ${styles.selected}`
     : styles.mapButtonContainer;
@@ -69,9 +69,9 @@ const RenderSelectBranch = (props, context) => {
           isMarkerShown
           googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyAcxUDoY1yBXRB48zDBYBTUODAUkrc-qWs"
           // googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places"
-          loadingElement={<div style={{height: `100%`}} />}
-          containerElement={<div style={{height: `270px`}} />}
-          mapElement={<div style={{height: `100%`}} />}
+          loadingElement={<div style={{ height: `100%` }} />}
+          containerElement={<div style={{ height: `270px` }} />}
+          mapElement={<div style={{ height: `100%` }} />}
           key={2}
           centerLat={centerLat}
           centerLng={centerLng}
@@ -79,15 +79,15 @@ const RenderSelectBranch = (props, context) => {
           handleMarkerClick={props.handleMarkerClick}
         />
       ) : (
-        ''
+        ""
       )}
     </Fragment>
   );
 };
 
 const BranchSelectButton = (props, context) => {
-  const {isSelected} = props;
-  const classes = `${styles.button} ${isSelected ? styles.selected : ''}`;
+  const { isSelected } = props;
+  const classes = `${styles.button} ${isSelected ? styles.selected : ""}`;
   return (
     <div className={classes} id={props.id} onClick={props.handleBranchClick}>
       {props.branch_num}호점<br />
@@ -100,7 +100,7 @@ const MyMapComponent = withScriptjs(
   withGoogleMap(props => (
     <GoogleMap
       defaultZoom={11}
-      defaultCenter={{lat: props.centerLat, lng: props.centerLng}}
+      defaultCenter={{ lat: props.centerLat, lng: props.centerLng }}
     >
       {props.isMarkerShown &&
         props.branches.map(branch => (
@@ -115,18 +115,24 @@ const MyMapComponent = withScriptjs(
 );
 
 const CustomMarker = props => {
-  const {branch, handleMarkerClick} = props;
+  const { branch, handleMarkerClick } = props;
 
   const onMarkerClick = evt => {
     handleMarkerClick(branch.id);
   };
+  var image = {
+    // url: require("images/marker.png")
+    url: require("images/Webp.net-resizeimage.png")
+    // scaledSize: new google.maps.Size(31, 43)
+  };
 
   return (
     <Marker
-      options={{icon: require('images/marker.png')}}
-      position={{lat: branch.lat, lng: branch.lng}}
+      // options={{icon: require('images/marker.png')}}
+      position={{ lat: branch.lat, lng: branch.lng }}
       key={branch.id}
       onClick={onMarkerClick}
+      icon={image}
     />
   );
 };
@@ -143,7 +149,7 @@ RenderSelectBranch.propTypes = {
       lat: PropTypes.number.isRequired,
       lng: PropTypes.number.isRequired,
       lounge_img: PropTypes.string.isRequired,
-      region: PropTypes.string.isRequired,
+      region: PropTypes.string.isRequired
     })
   ).isRequired,
   handleBranchClick: PropTypes.func.isRequired,
@@ -151,8 +157,8 @@ RenderSelectBranch.propTypes = {
   handleMarkerClick: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
   selBranch: PropTypes.string,
-  showMap: PropTypes.bool.isRequired,
+  showMap: PropTypes.bool.isRequired
 };
 SelectBranch.contextTypes = {
-  t: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired
 };

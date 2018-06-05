@@ -21,36 +21,11 @@ class CabinetMembershipSerializer(serializers.ModelSerializer):
         fields = ('cabinet_number', 'cabinet_set')
 
 
-class UsecabSerializer(serializers.ModelSerializer):
-    start_date = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
-    end_date = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
-
-    cabinet = CabinetMembershipSerializer()
-
-    class Meta:
-        model = models.UseCabinet
-        fields = (
-            'cabinet',
-            'payment',
-            'user',
-            'start_date',
-            'end_date',
-            'is_usable',
-            'is_clean',
-            'id',
-        )
-
-
 class CabinetSerializerForSelect(serializers.ModelSerializer):
     class Meta:
         model = models.Cabinet
-        fields = (
-            'cabinet_number',
-            'xpos',
-            'ypos',
-            'id',
-            'is_available',
-        )
+        fields = ('cabinet_number', 'xpos', 'ypos', 'id', 'is_available',
+                  'start_date', 'end_date', 'is_usable', 'is_clean', 'user')
 
 
 class CabinetSetDetailSerializer(serializers.ModelSerializer):
@@ -98,26 +73,6 @@ class InputCabinetSerializer(serializers.ModelSerializer):
             'cabinet_set',
             'xpos',
             'ypos',
-        )
-
-
-class UsecabSerializer(serializers.ModelSerializer):
-    start_date = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
-    end_date = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
-
-    cabinet = CabinetMembershipSerializer()
-
-    class Meta:
-        model = models.UseCabinet
-        fields = (
-            'cabinet',
-            'payment',
-            'user',
-            'start_date',
-            'end_date',
-            'is_usable',
-            'is_clean',
-            'id',
         )
 
 

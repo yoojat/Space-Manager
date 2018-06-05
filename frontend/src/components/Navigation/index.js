@@ -1,12 +1,16 @@
-import {connect} from 'react-redux';
-import Container from './container';
+import { connect } from "react-redux";
+import Container from "./container";
 
-const mapStateToProps = (state, ownProps) => {
-  const {user: {is_superuser, is_staff}} = state;
-  return {
-    is_superuser,
-    is_staff,
-  };
-};
+// const mapStateToProps = (state, ownProps) => {
+//   const {
+//     user: { is_superuser, is_staff, id, name }
+//   } = state;
+//   return {
+//     is_superuser,
+//     is_staff,
+//     id,
+//     name
+//   };
+// };
 
-export default connect(mapStateToProps)(Container);
+export default connect()(Container);

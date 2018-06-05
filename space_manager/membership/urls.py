@@ -27,4 +27,10 @@ urlpatterns = [
         view=views.EnrollMembershipBySuper.as_view(),
         name='Modify_Membership',
     ),
+    # 요청한 유저의 맴버쉽 정보를 불러옴(현재시간대에 있는 것만)
+    url(
+        regex=r'^my/$',
+        view=views.GetMyMemberships.as_view(),
+        name='Get_my_meberships',
+    )
 ]

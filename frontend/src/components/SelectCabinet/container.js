@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
-import SelectCabinet from './presenter';
-import {scroller, animateScroll as scroll} from 'react-scroll';
+import React, { Component } from "react";
+import SelectCabinet from "./presenter";
+import { scroller, animateScroll as scroll } from "react-scroll";
 
 class Container extends Component {
   state = {
     use_cabinet: false,
-    is_first: true,
+    is_first: true
   };
 
   _cabinetSetClickHandler = sel_cabinet_set_id => {
@@ -22,7 +22,7 @@ class Container extends Component {
       duration: 1500,
       delay: 100,
       smooth: true,
-      offset: 50,
+      offset: 50
     });
   };
 
@@ -30,7 +30,7 @@ class Container extends Component {
     this.setState({
       ...this.state,
       use_cabinet: true,
-      is_first: false,
+      is_first: false
     });
     if (this.props.all_info_setup) {
       this._setAllInfoNotSetup();
@@ -40,7 +40,7 @@ class Container extends Component {
         duration: 1500,
         delay: 100,
         smooth: true,
-        offset: 50,
+        offset: 50
       });
     }
   };
@@ -49,7 +49,7 @@ class Container extends Component {
     this.setState({
       ...this.state,
       use_cabinet: false,
-      is_first: false,
+      is_first: false
     });
     this._setAllInfoSetup();
     if (!this.props.all_info_setup) {
@@ -59,17 +59,16 @@ class Container extends Component {
   };
 
   _scrollTo = () => {
-    scroller.scrollTo('select_cabinet', {
+    scroller.scrollTo("select_cabinet", {
       duration: 1500,
       delay: 100,
       smooth: true,
-      offset: 50,
+      offset: 50
     });
   };
 
   componentDidMount() {
     this._scrollTo();
-    console.log('!');
   }
 
   _setAllInfoSetup = () => {

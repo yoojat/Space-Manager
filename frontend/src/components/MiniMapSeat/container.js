@@ -1,15 +1,19 @@
-import React, {Component} from 'react';
-import MiniMapSeat from './presenter';
+import React, { Component } from "react";
+import MiniMapSeat from "./presenter";
 
 class Container extends Component {
-  shouldComponentUpdate (nextProps, nextState) {
+  shouldComponentUpdate(nextProps, nextState) {
     if (this.props.now_user === nextProps.now_user) {
-      return false;
+      if (this.props.now_using !== nextProps.now_using) {
+        return true;
+      } else {
+        return false;
+      }
     } else {
       return true;
     }
   }
-  render () {
+  render() {
     return <MiniMapSeat {...this.props} />;
   }
 }

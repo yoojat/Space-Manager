@@ -56,8 +56,8 @@ class Seat(models.Model):
     """ Seat Model """
 
     seat_number = models.IntegerField()
-    left = models.FloatField()
-    top = models.FloatField()
+    xpos = models.FloatField(null=True)
+    ypos = models.FloatField(null=True)
     rotate = models.FloatField()
     usable = models.BooleanField(default=True)
     discard = models.BooleanField(default=False)
@@ -69,6 +69,8 @@ class Seat(models.Model):
     seat_image = models.ForeignKey(SeatImage, null=True, blank=True)
     now_user = models.ForeignKey(user_models.User, null=True, blank=True)
     end_datetime = models.DateTimeField(null=True, blank=True)
+    view_left = models.FloatField(null=True)
+    view_top = models.FloatField(null=True)
 
     def __str__(self):
         return ('{} - {} - {}').format(self.branch, self.seat_number,

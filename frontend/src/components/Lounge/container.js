@@ -12,7 +12,22 @@ class Container extends Component {
     if (this.props.memberships) {
       this.setState({ ...this.state, modalLoading: false });
     }
+
+    //현재 배정중인 좌석이 있다면
+    if (this.props.now_using) {
+      this.props.getRoomSeats(this.props.now_using.seat.room.id);
+      this.setState({
+        ...this.state,
+        seeingRoom: true
+      });
+    }
   }
+
+  _onReturnBtnClick = () => {
+    this.props.returnSeat(this.props.id);
+    this.props.getBranch();
+    this.props.getRoomSeats(this.props.room.id);
+  };
 
   render() {
     const { branch_name } = this.props;
@@ -23,6 +38,7 @@ class Container extends Component {
         branch_name={branch_name}
         openRoom={this._openRoom}
         closeRoom={this._closeRoom}
+        onReturnBtnClick={this._onReturnBtnClick}
       />
     );
   }

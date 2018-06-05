@@ -7,7 +7,6 @@ import SelectWhen from "components/SelectWhen";
 import SelectDays from "components/SelectDays";
 import SelectCabinet from "components/SelectCabinet";
 import Payment from "components/Payment";
-import Ionicon from "react-ionicons";
 // import SelectCabinet from 'components/SelectCabinet';
 import { Link } from "react-router-dom";
 

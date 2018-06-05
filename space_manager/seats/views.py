@@ -17,11 +17,36 @@ class NowUsing(APIView):
     def get(self, request, format=None):
         user = request.user
 
-        last_log = models.Log.objects.latest()  # 로그중 가장 최근 데이터를 가지고 옴
+        #배정 액션 가져오기
+        try:
+            allocate_action = models.Action.objects.get(
+                en_substance='allocation')
+        except models.Action.DoesNotExist:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
-        serializer = serializers.LogSerializer(last_log)
+        #사용자의 가장 최근 좌석 이용 기록 가져오기
+        try:
+            user_recent_log = models.Log.objects.filter(
+                user=user).latest('created_at')
 
-        return Response(data=serializer.data, status=status.HTTP_200_OK)
+        #좌석 이용기록이 하나도 없으면 처음 자리 잡음으로 그전에 자리 잡은 자리가 없음, True 리턴
+        except models.Log.DoesNotExist:
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
+        #사용자의 가장 최근 좌석 이용 기록이 배정이라면 해당 로그 리턴 => 변수 배정하고 반납하지 않은채 이용시간이 자나갈수 있음
+        if user_recent_log.action == allocate_action:
+            serializer = serializers.DetailLogSerializer(user_recent_log)
+
+            if user_recent_log.reg_datetime + timedelta(
+                    hours=24) < datetime.now():
+                # 배정하고 반납하지 않은채 이용시간이 지나간 경우, 현재 잡은 자리가 없는 걸로
+                return Response(status=status.HTTP_204_NO_CONTENT)
+            else:
+                return Response(
+                    data=serializer.data, status=status.HTTP_200_OK)
+
+        else:
+            return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class Seats(APIView):
@@ -392,27 +417,40 @@ class ReturnSeat(APIView):
                     return Response(status=status.HTTP_403_FORBIDDEN)
 
         # 잡혀져 있는 좌석이 있는지 확인
-
         try:
             user_recent_logs = models.Log.objects.filter(user=user)[:1]
         except models.Log.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
+        #가장 최근 로그중 잡혀져있는 로그가 있다면
         user_recent_log = user_recent_logs[0]
 
         allocate_action = models.Action.objects.get(en_substance='allocation')
         return_action = models.Action.objects.get(en_substance='return')
         return_seat_image = models.SeatImage.objects.get(action=return_action)
 
+        #가장 최근 로그가 배정이 아니라면 오류
         if allocate_action != user_recent_log.action:
             return Response(status=status.HTTP_406_NOT_ACCEPTABLE)
+
+        #반납로그생성
+
+        seat = models.Seat.objects.get(id=user_recent_log.seat.id)
+
+        seat.seat_image = return_seat_image
+        seat.now_user = None
+        seat.end_datetime = None
+
+        seat.save()
 
         new_return = models.Log.objects.create(
             action=return_action,
             user=user,
             seat=user_recent_log.seat,
-            seat_image=return_seat_image)
+        )
 
         new_return.save()
 
         return Response(status=status.HTTP_201_CREATED)
+
+        #여기서부터 확인!!!!!!!!!!!

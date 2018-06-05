@@ -1,0 +1,14 @@
+.modal {
+  position: fixed;
+  top: 10vh;
+  left: 5vw;
+  right: 5vw;
+  bottom: 10vh;
+  border: 1px solid #ccc;
+  background: #fff;
+  overflow: auto;
+  border-radius: 4px;
+  outline: none;
+  padding: 20px;
+  display: block;
+}

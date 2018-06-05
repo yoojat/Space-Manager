@@ -21,6 +21,7 @@ function saveToken(token) {
   };
 }
 
+//회원정보 리덕스에 저장
 function saveAuthority(user) {
   const { is_staff, is_superuser, id, name, username, profile_image } = user;
   return {
@@ -43,6 +44,9 @@ function saveMembership(memberships) {
 
 // API actions: api를 부를 때 사용
 
+//회원 정보를 불러옴
+// username, name, gender, is_staff, birth, is_superuser, id, profile_image
+// checkAuthority로 넘김
 function setUser() {
   return function(dispatch, getState) {
     const {
@@ -83,6 +87,8 @@ function setMembership() {
   };
 }
 
+//권한 검사
+// 넘겨받은 회원정보를 통해
 function checkAuthority(user) {
   let userId;
   if (user.pk) {
@@ -183,9 +189,15 @@ function createAccount(username, password1, password2, email, name) {
 // iniital state
 const initialState = {
   isLoggedIn: localStorage.getItem("jwt") ? true : false,
+  is_staff: false,
+  is_superuser: false,
   //localStorage는 브라우저에 저장하는 쿠키같은 것
   token: localStorage.getItem("jwt"),
-  memberships: null
+  memberships: null,
+  id: null,
+  username: null,
+  name: null,
+  profile_image: null
 };
 
 //reducer

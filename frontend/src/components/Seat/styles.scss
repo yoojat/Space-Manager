@@ -5,9 +5,9 @@
   justify-content: center;
   .name {
     position: absolute;
-    top: 12%;
+    top: 17%;
     font-size: 13px;
-    @include breakpoint('phone') {
+    @include breakpoint("phone") {
       font-size: 10px;
     }
   }

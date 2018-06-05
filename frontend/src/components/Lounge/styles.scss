@@ -26,4 +26,27 @@
       }
     }
   }
+  .now-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .now-using {
+      text-align: center;
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+    .return-btn {
+      height: 24px;
+      width: 148px;
+      border: 1px solid #374bab;
+      border-radius: 3px;
+      margin-bottom: 30px;
+      cursor: pointer;
+      &:hover {
+        background-color: #374bab;
+        color: white;
+      }
+    }
+  }
 }

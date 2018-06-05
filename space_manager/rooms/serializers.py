@@ -17,19 +17,9 @@ class RoomSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Room
-        fields = (
-            'id',
-            'branch',
-            'room_number',
-            'room_type',
-            'width',
-            'height',
-            'left',
-            'top',
-            'usable',
-            'seats',
-            'desk_size',
-        )
+        fields = ('id', 'branch', 'room_number', 'room_type', 'width',
+                  'height', 'left', 'top', 'usable', 'seats', 'desk_size',
+                  'view_width', 'view_height')
 
 
 class InputRoomSerializer(serializers.ModelSerializer):

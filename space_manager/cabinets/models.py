@@ -50,6 +50,16 @@ class Cabinet(models.Model):
     cabinet_set = models.ForeignKey(
         CabinetSet, null=True, related_name='cabinets')
     is_available = models.BooleanField(default=True)
+    start_date = models.DateTimeField(null=True, blank=True)
+    end_date = models.DateTimeField(null=True, blank=True)
+    is_usable = models.BooleanField(default=True)
+    is_clean = models.BooleanField(default=True)
+    user = models.ForeignKey(user_models.User, null=True, blank=True)
+
+    # 사용자가 이용하는 순간 start_date, end_date를 업데이트하고, is_clean을 False로 변경한다
+    # 기간이 지나면 관리자가 정리하기 전까지 is_clean은 False상태이다
+    # 사물함 정리가 완료되면 is_clean을 True로 설정하고 새 사용자를 받을수 있도록 한다
+    # is_usable이 False이면 사용을 못하도록 한다(관리자가 사용중인경우, 사물함 고장인 경우)
 
     def __str__(self):
         return '{} : {}번 사물함'.format(
@@ -59,28 +69,6 @@ class Cabinet(models.Model):
 
     class Meta:
         ordering = ['cabinet_number']
-
-
-@python_2_unicode_compatible
-class UseCabinet(TimeStampedModel):
-    """ Use Cabinet Model """
-
-    cabinet = models.ForeignKey(Cabinet, null=True, related_name='UseCabs')
-    payment = models.ForeignKey(
-        payment_models.PaymentHistory, null=True, blank=True)
-    user = models.ForeignKey(user_models.User)
-    start_date = models.DateTimeField()
-    end_date = models.DateTimeField()
-    is_usable = models.BooleanField(default=True)
-    is_clean = models.BooleanField(default=False)
-
-    def __str__(self):
-        return '{} - {}번 사물함, 사용자 : {}, {} - {}'.format(
-            self.cabinet.cabinet_set.branch, self.cabinet.cabinet_number,
-            self.user, self.start_date, self.end_date)
-
-    class Meta:
-        ordering = ['-start_date']
 
 
 @python_2_unicode_compatible

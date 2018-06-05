@@ -14,28 +14,22 @@ class Container extends Component {
     this.props.setMembership();
   };
 
-  componentDidMount() {
-    const { setUser } = this.props;
-    if (
-      this.props.is_staff === undefined &&
-      this.props.is_superuser === undefined
-    ) {
-      setUser();
-    }
+  componentWillMount() {
+    //렌더가 되기전에 회원정보와 현재 사용하고 있는 좌석이 있다면 불러온다
+    //기본적인 정보를 불러옴
+    const { setUser, getNowUsing } = this.props;
+    setUser();
+    getNowUsing();
   }
 
   render() {
-    const { isLoggedIn, pathname, is_staff, is_superuser } = this.props;
+    const { isLoggedIn, now_using, userid } = this.props;
     return (
-      <App
-        isLoggedIn={isLoggedIn}
-        pathname={pathname}
-        is_staff={is_staff}
-        is_superuser={is_superuser}
-      />
+      <App isLoggedIn={isLoggedIn} now_using={now_using} userid={userid} />
     );
   }
 }
-// const Container = props => <App {...props} />;
 
 export default Container;
+
+//리덕스 스토어에서 props를 불러오고 나면 update됨, componentDidMount가 호출됨을 확인할 수 있다
