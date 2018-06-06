@@ -3,8 +3,9 @@ import EnrollMembership from "./presenter";
 
 class Container extends Component {
   componentWillMount() {
-    const { fetchBranches } = this.props;
+    const { fetchBranches, fetchMyCabinets } = this.props;
     fetchBranches();
+    fetchMyCabinets();
   }
 
   render() {

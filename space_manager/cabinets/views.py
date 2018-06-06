@@ -36,9 +36,9 @@ class MyCabinets(APIView):
         now = datetime.now()
 
         try:
-            # 현재 사용자의 사물함 중 만료시각이 현재보다 같거나 크고, 사용
-            cabinets = models.UseCabinet.objects.filter(
-                user=user, end_date__gte=now, is_usable=True)
+            # 현재 사용자의 사물함 중 만료시각이 현재보다 같거나 큰 것들을 불러옴
+            cabinets = models.Cabinet.objects.filter(
+                user=user, end_date__gte=now, is_clean=False)
 
             return cabinets
         except models.UseCabinet.DoesNotExist:
@@ -59,7 +59,8 @@ class MyCabinets(APIView):
         if using_cabinets is None:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
-        serializer = serializers.UsecabSerializer(using_cabinets, many=True)
+        serializer = serializers.CabinetSerializerForSelect(
+            using_cabinets, many=True)
 
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 

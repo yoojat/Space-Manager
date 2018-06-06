@@ -22,10 +22,12 @@ class CabinetMembershipSerializer(serializers.ModelSerializer):
 
 
 class CabinetSerializerForSelect(serializers.ModelSerializer):
+    cabinet_set = BriefCabinetSetSerializer()
+
     class Meta:
         model = models.Cabinet
-        fields = ('cabinet_number', 'xpos', 'ypos', 'id', 'is_available',
-                  'start_date', 'end_date', 'is_usable', 'is_clean', 'user')
+        fields = ('cabinet_number', 'xpos', 'ypos', 'id', 'start_date',
+                  'cabinet_set', 'end_date', 'is_usable', 'is_clean', 'user')
 
 
 class CabinetSetDetailSerializer(serializers.ModelSerializer):

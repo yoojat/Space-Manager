@@ -19,17 +19,31 @@ class Container extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    const { sel_cabinets, setAllInfoSetup, setAllInfoNotSetup } = nextProps;
+    const {
+      sel_cabinets,
+      setAllInfoSetup,
+      setAllInfoNotSetup,
+      my_cabinets,
+      sel_cabinet_set
+    } = nextProps;
     if (sel_cabinets.length) {
       setAllInfoSetup();
     } else {
       setAllInfoNotSetup();
     }
+    if (sel_cabinet_set && my_cabinets) {
+      if (this.state.loading) {
+        this.setState({
+          ...this.state,
+          loading: false
+        });
+      }
+    }
   }
 
   componentDidMount() {
-    const { sel_cabinet_set } = this.props;
-    if (sel_cabinet_set) {
+    const { sel_cabinet_set, my_cabinets } = this.props;
+    if (sel_cabinet_set && my_cabinets) {
       this.setState({
         ...this.state,
         loading: false
@@ -38,13 +52,14 @@ class Container extends Component {
   }
 
   render() {
-    const { sel_cabinet_set, sel_cabinets } = this.props;
+    const { sel_cabinet_set, sel_cabinets, my_cabinets } = this.props;
     return (
       <CabinetChoice
         sel_cabinet_set={sel_cabinet_set}
         loading={this.state.loading}
         onCabinetClick={this._onCabinetClick}
         sel_cabinets={sel_cabinets}
+        my_cabinets={my_cabinets}
       />
     );
   }

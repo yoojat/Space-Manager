@@ -4,11 +4,13 @@ import { actionCreators as registActions } from "redux/modules/regist";
 
 const mapStateToProps = (state, ownProps) => {
   const {
-    regist: { sel_cabinet_set, sel_cabinets }
+    regist: { sel_cabinet_set, sel_cabinets },
+    cabinet: { my_cabinets }
   } = state;
   return {
     sel_cabinet_set,
-    sel_cabinets
+    sel_cabinets,
+    my_cabinets
   };
 };
 
@@ -29,4 +31,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Container);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Container);

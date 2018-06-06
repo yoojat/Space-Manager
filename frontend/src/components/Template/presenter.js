@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const Template = (props, context) => {
-  return "시작 일시 선택";
+  return "Template";
 };
 
 Template.propTypes = {};

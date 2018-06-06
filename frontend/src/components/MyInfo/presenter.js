@@ -39,7 +39,6 @@ MyInfo.propTypes = {
       }),
       end_date: PropTypes.string.isRequired,
       id: PropTypes.number.isRequired,
-      is_usaable: PropTypes.bool.isRequired,
       start_date: PropTypes.string.isRequired,
       user: PropTypes.number.isRequired
     })
@@ -107,8 +106,8 @@ const RenderMembership = (
           {my_cabinets.length
             ? my_cabinets.map(my_cabinet => (
                 <CabinetList
-                  branch={my_cabinet.cabinet.cabinet_set.branch}
-                  cabinet_number={my_cabinet.cabinet.cabinet_number}
+                  branch={my_cabinet.cabinet_set.branch}
+                  cabinet_number={my_cabinet.cabinet_number}
                   start_date={my_cabinet.start_date}
                   end_date={my_cabinet.end_date}
                   key={my_cabinet.id}

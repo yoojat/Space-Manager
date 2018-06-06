@@ -49,7 +49,6 @@ class Cabinet(models.Model):
     ypos = models.IntegerField(null=True)
     cabinet_set = models.ForeignKey(
         CabinetSet, null=True, related_name='cabinets')
-    is_available = models.BooleanField(default=True)
     start_date = models.DateTimeField(null=True, blank=True)
     end_date = models.DateTimeField(null=True, blank=True)
     is_usable = models.BooleanField(default=True)

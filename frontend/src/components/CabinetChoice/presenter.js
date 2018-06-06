@@ -14,8 +14,22 @@ function _valueCheck(sel_cabinets, cabinet) {
   return false;
 }
 
+function isMyCabinet(my_cabinets, cabinet) {
+  return my_cabinets.some(my_cabinet => {
+    if (my_cabinet.id === cabinet.id) {
+      return true;
+    }
+  });
+}
+
 const CabinetChoice = (props, context) => {
-  const { sel_cabinet_set, loading, onCabinetClick, sel_cabinets } = props;
+  const {
+    sel_cabinet_set,
+    loading,
+    onCabinetClick,
+    sel_cabinets,
+    my_cabinets
+  } = props;
 
   return (
     <Fragment>
@@ -26,6 +40,7 @@ const CabinetChoice = (props, context) => {
           sel_cabinet_set={sel_cabinet_set}
           onCabinetClick={onCabinetClick}
           sel_cabinets={sel_cabinets}
+          my_cabinets={my_cabinets}
         />
       )}
     </Fragment>
@@ -36,7 +51,8 @@ const ShowCabinets = (props, context) => {
   const {
     sel_cabinet_set: { horizontal_num, vertical_num, cabinets },
     onCabinetClick,
-    sel_cabinets
+    sel_cabinets,
+    my_cabinets
   } = props;
 
   let rows = [];
@@ -54,9 +70,15 @@ const ShowCabinets = (props, context) => {
       let is_sel_cabinet = _valueCheck(sel_cabinets, cabinet);
 
       let classes = `
-      ${cabinet.is_available ? styles.available : styles.noavailable} ${
-        styles.tableCol
-      } ${is_sel_cabinet ? styles.selected : ""}`;
+      ${
+        cabinet.is_clean
+          ? styles.available
+          : isMyCabinet(my_cabinets, cabinet)
+            ? styles.my
+            : styles.noavailable
+      } ${styles.tableCol} ${is_sel_cabinet ? styles.selected : ""}`;
+      //사물함의 is_clean상태를 확인하고 is_clean이 true이면 available class, false면 noavailable class
+
       cell.push(
         <TableData
           cellID={cellID}
@@ -116,7 +138,7 @@ const ShowCabinets = (props, context) => {
 const TableData = (props, context) => {
   const { onCabinetClick, cabinet } = props;
   const cabinetClickHandler = e => {
-    if (cabinet.is_available) {
+    if (cabinet.is_clean) {
       onCabinetClick(cabinet);
     }
   };
