@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const EnrollContent = (props, context) => {
-  return "Template";
+  return <div>EnrollContent</div>;
 };
 
 EnrollContent.propTypes = {};

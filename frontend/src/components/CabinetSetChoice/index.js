@@ -22,9 +22,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     setUseNoCabinet: () => {
       dispatch(registActions.setUseNoCabinet());
     },
-    setSelCabinetSetId: sel_cabinet_set_id => {
-      dispatch(registActions.setSelCabinetSetId(sel_cabinet_set_id));
-    },
     clearSelCabinets: () => {
       dispatch(registActions.clearSelCabinets());
     },
@@ -37,4 +34,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Container);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Container);

@@ -1,0 +1,24 @@
+.list-container {
+  @include fullWhiteButton();
+
+  font-size: 12px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-align: center;
+  border: 1px solid #374bab;
+  border-radius: 5px;
+  color: #374bab;
+  margin-bottom: 2px;
+  cursor: pointer;
+  font-size: 11px;
+  &.selected {
+    background-color: #374bab;
+    color: white;
+  }
+  .branch {
+    padding-top: 2px;
+    padding-bottom: 3px;
+  }
+  .period {
+  }
+}

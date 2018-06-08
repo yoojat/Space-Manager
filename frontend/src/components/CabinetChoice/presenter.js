@@ -18,6 +18,8 @@ function isMyCabinet(my_cabinets, cabinet) {
   return my_cabinets.some(my_cabinet => {
     if (my_cabinet.id === cabinet.id) {
       return true;
+    } else {
+      return false;
     }
   });
 }

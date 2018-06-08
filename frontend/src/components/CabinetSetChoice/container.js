@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import CabinetSetChoice from "./presenter";
 
 class Container extends Component {
-  state = {};
+  state = {
+    is_first: true
+  };
 
   _cabinetYesClick = () => {
     const {
@@ -17,6 +19,12 @@ class Container extends Component {
     }
     if (!use_cabinet) {
       setUseCabinet(); //사물함을 사용한다고 체크
+    }
+    if (this.state.is_first) {
+      this.setState({
+        ...this.state,
+        is_first: false
+      });
     }
   };
   _cabinetNoClick = () => {
@@ -36,6 +44,12 @@ class Container extends Component {
     if (!all_info_setup) {
       setAllInfoSetup();
     }
+    if (this.state.is_first) {
+      this.setState({
+        ...this.state,
+        is_first: false
+      });
+    }
   };
 
   render() {
@@ -53,6 +67,7 @@ class Container extends Component {
         cabinetNoClick={this._cabinetNoClick}
         sel_branch={sel_branch}
         sel_cost_type={sel_cost_type}
+        is_first={this.state.is_first}
       />
     );
   }

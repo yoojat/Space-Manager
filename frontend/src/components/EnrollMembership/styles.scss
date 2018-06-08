@@ -71,7 +71,7 @@ a:active {
       justify-content: space-between;
       .button {
         text-align: center;
-        width: 32%;
+        width: 40%;
         @include whiteButton();
         &.selected {
           background-color: #374bab;

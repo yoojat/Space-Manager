@@ -6,11 +6,11 @@ import CabinetSet from "components/CabinetSet";
 const CabinetSetChoice = (props, context) => {
   const {
     use_cabinet,
-    select_cabinet_choice,
     cabinetYesClick,
     cabinetNoClick,
     sel_branch,
-    sel_cost_type
+    sel_cost_type,
+    is_first
   } = props;
   return (
     <Fragment>
@@ -22,11 +22,11 @@ const CabinetSetChoice = (props, context) => {
           <div className={styles.buttonContainer}>
             <div
               className={
-                select_cabinet_choice
-                  ? use_cabinet
+                is_first
+                  ? `${styles.button}`
+                  : use_cabinet
                     ? `${styles.button} ${styles.selected}`
                     : `${styles.button}`
-                  : `${styles.button}`
               }
               onClick={cabinetYesClick}
             >
@@ -34,11 +34,11 @@ const CabinetSetChoice = (props, context) => {
             </div>
             <div
               className={
-                select_cabinet_choice
-                  ? use_cabinet
+                is_first
+                  ? `${styles.button}`
+                  : use_cabinet
                     ? `${styles.button}`
                     : `${styles.button} ${styles.selected}`
-                  : `${styles.button}`
               }
               onClick={cabinetNoClick}
             >

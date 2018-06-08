@@ -7,34 +7,63 @@ import { actionCreators as userActions } from "redux/modules/user";
 const SET_START_DATETIME = "SET_START_DATETIME";
 const SET_SEL_BRANCH_ID = "SET_SEL_BRANCH_ID";
 const SET_SEL_BRANCH = "SET_SEL_BRANCH";
-const SET_SEL_DATE_START = "SET_SEL_DATE_START";
-const SET_SEL_TIME_START = "SET_SEL_TIME_START";
 const SET_SEL_END_DATETIME = "SET_SEL_END_DATETIME";
 const SET_SEL_COSTTYPE = "SET_SEL_COSTTYPE";
 const SET_SEL_CABINET_COSTTYPE = "SET_SEL_CABINET_COSTTYPE";
 const SET_MEMBERSHIP_COST_TYPES = "SET_MEMBERSHIP_COST_TYPES";
-const SET_CABINET_COST_TYPES = "SET_CABINET_COST_TYPES";
 const SET_ALL_INFO_SETUP = "SET_ALL_INFO_SETUP";
 const SET_ALL_INFO_NOT_SETUP = "SET_ALL_INFO_NOT_SETUP";
-const SET_SEL_CABINET_SET_ID = "SET_SEL_CABINET_SET_ID";
 const SET_SEL_CABINET_SET = "SET_SEL_CABINET_SET";
 const SET_SEL_CABINET = "SET_SEL_CABINET";
 const UNSET_SEL_CABINET = "UNSET_SEL_CABINET";
 const CLEAR_SEL_CABINETS = "CLEAR_SEL_CABINETS";
-const SET_PAYMETHOD = "SET_PAYMETHOD";
 const SET_USE_CABINET = "SET_USE_CABINET";
 const SET_USE_NO_CABINET = "SET_USE_NO_CABINET";
-
+const SET_SAME_PERIOD_ADJUSTMENT = "SET_SAME_PERIOD_ADJUSTMENT";
+const SET_NOT_SAME_PERIOD_ADJUSTMENT = "SET_NOT_SAME_PERIOD_ADJUSTMENT";
+const SET_EXTEND_MEMBERSHIP = "SET_EXTEND_MEMBERSHIP";
+const SET_NOT_EXTEND_MEMBERSHIP = "SET_NOT_EXTEND_MEMBERSHIP";
+const SET_EXTEND_MEMBERSHIP_COMPLETE = "SET_EXTEND_MEMBERSHIP_COMPLETE";
+const SET_CLEAR_EXTEND_MEMBERSHIP = 'SET_CLEAR_EXTEND_MEMBERSHIP';
 // const SET_DEFAULT = 'SET_DEFAULT';
-const PAY = "PAY";
 
 //action creators : 리덕스 state를 변경
 
-// function setDefault() {
-//   return {
-//     type: SET_DEFAULT,
-//   };
-// }
+function setClearExtendMembership(){
+  return {
+    type:SET_CLEAR_EXTEND_MEMBERSHIP
+  }
+}
+
+function setExtendMembershipComplete() {
+  return {
+    type: SET_EXTEND_MEMBERSHIP_COMPLETE
+  };
+}
+
+function setNotExtendMembership() {
+  return {
+    type: SET_NOT_EXTEND_MEMBERSHIP
+  };
+}
+
+function setExtendMembership() {
+  return {
+    type: SET_EXTEND_MEMBERSHIP
+  };
+}
+
+function setNotSamePeriodAdjustment() {
+  return {
+    type: SET_NOT_SAME_PERIOD_ADJUSTMENT
+  };
+}
+
+function setSamePeriodAdjustment() {
+  return {
+    type: SET_SAME_PERIOD_ADJUSTMENT
+  };
+}
 
 function setUseNoCabinet() {
   return {
@@ -52,13 +81,6 @@ function setStartDatetime(start_datetime) {
   return {
     type: SET_START_DATETIME,
     start_datetime
-  };
-}
-
-function setPaymethod(paymethod) {
-  return {
-    type: SET_PAYMETHOD,
-    paymethod
   };
 }
 
@@ -89,13 +111,6 @@ function setSelCabinetSet(sel_cabinet_set) {
   };
 }
 
-function setSelCabinetSetId(sel_cabinet_set_id) {
-  return {
-    type: SET_SEL_CABINET_SET_ID,
-    sel_cabinet_set_id
-  };
-}
-
 function setAllInfoNotSetup() {
   return {
     type: SET_ALL_INFO_NOT_SETUP
@@ -119,20 +134,6 @@ function setSelBranchId(branchId) {
   return {
     type: SET_SEL_BRANCH_ID,
     branchId
-  };
-}
-
-function setSelDateStart(start_date) {
-  return {
-    type: SET_SEL_DATE_START,
-    start_date
-  };
-}
-
-function setSelTimeStart(start_time) {
-  return {
-    type: SET_SEL_TIME_START,
-    start_time
   };
 }
 
@@ -164,35 +165,7 @@ function setMembershipCostTypes(cost_types) {
   };
 }
 
-function setCabinetCostTypes(cabinet_cost_types) {
-  return {
-    type: SET_CABINET_COST_TYPES,
-    cabinet_cost_types
-  };
-}
-
 // API actions: api를 부를 때 사용
-
-function pay(pay_content) {
-  return function(dispatch, getState) {
-    const {
-      user: {
-        // token,
-        isLoggedIn
-      },
-      //등록할 때 필요한 데이터 : 맴버십 선택여부(선택), 사물함 정보(선택), 선택 지점, 시작일시, 종료일시
-      //
-      regist: {
-        sel_membership,
-        sel_cabinets,
-        sel_branch,
-        start_date,
-        start_time,
-        end_datetime
-      }
-    } = getState();
-  };
-}
 
 function fetchCabinetSet(cabinet_set_id) {
   return function(dispatch, getState) {
@@ -261,30 +234,6 @@ function fetchSelBranch(branchId) {
   };
 }
 
-function getCabietCostTypes() {
-  return (dispatch, getState) => {
-    const {
-      user: { token }
-    } = getState();
-
-    fetch(`/payment/costtype/cabinet/`, {
-      method: "GET",
-      headers: {
-        Authorization: `JWT ${token}`
-      }
-    })
-      .then(response => {
-        if (response.status === 404) {
-          dispatch(userActions.logout());
-        }
-        return response.json();
-      })
-      .then(json => {
-        dispatch(setCabinetCostTypes(json));
-      });
-  };
-}
-
 function fetchMembershipCostTypes() {
   return (dispatch, getState) => {
     const {
@@ -315,22 +264,23 @@ const initialState = {
   sel_cabinets: [], //cabinets
   sel_membership: false, // boolean
   sel_cost_type: null, //days
-  start_date: null, //string, datetime
-  start_time: null,
   end_datetime: null,
   membership_cost_types: null,
-  cabinet_cost_types: null,
   all_info_setup: false,
-  sel_cabinet_set_id: null,
   sel_cabinet_set: null,
   cabinet_cost_type: null,
-  paymethod: null,
-  use_cabinet: false
+  use_cabinet: false,
+  sel_memberships_for_extend: [],
+  is_extend_membership: false,
+  is_set_extend_membership: false
 };
 
 //reducer
 function reducer(state = initialState, action) {
   switch (action.type) {
+    case SET_EXTEND_MEMBERSHIP_COMPLETE:
+      return applySetExtendMembershipComplete(state, action);
+
     case SET_START_DATETIME:
       return applySetStartDatetime(state, action);
 
@@ -340,14 +290,8 @@ function reducer(state = initialState, action) {
     case SET_SEL_BRANCH:
       return applySetSelBranch(state, action);
 
-    case SET_SEL_DATE_START:
-      return applySetSelDateStart(state, action);
-
     case SET_SEL_END_DATETIME:
       return applySetSelEndDatetime(state, action);
-
-    case SET_SEL_TIME_START:
-      return applySetSelTimeStart(state, action);
 
     case SET_SEL_COSTTYPE:
       return applySetSelCostType(state, action);
@@ -358,17 +302,11 @@ function reducer(state = initialState, action) {
     case SET_MEMBERSHIP_COST_TYPES:
       return applySetMembershipCostTypes(state, action);
 
-    case SET_CABINET_COST_TYPES:
-      return applySetCabinetCostTypes(state, action);
-
     case SET_ALL_INFO_SETUP:
       return applySetAllInfoSetup(state, action);
 
     case SET_ALL_INFO_NOT_SETUP:
       return applySetAllInfoNotSetup(state, action);
-
-    case SET_SEL_CABINET_SET_ID:
-      return applySetSelCabinetSetId(state, action);
 
     case SET_SEL_CABINET_SET:
       return applySetSelCabinetSet(state, action);
@@ -382,20 +320,26 @@ function reducer(state = initialState, action) {
     case CLEAR_SEL_CABINETS:
       return applyClearSelCabinets(state, action);
 
-    case SET_PAYMETHOD:
-      return applySetPayMethod(state, action);
-
     case SET_USE_CABINET:
       return applySetUseCabinet(state, action);
 
     case SET_USE_NO_CABINET:
       return applySetUseNoCabinet(state, action);
 
-    case PAY:
-      return applyPay(state, action);
+    case SET_SAME_PERIOD_ADJUSTMENT:
+      return applySetSamePeriodAdjustment(state, action);
 
-    // case SET_DEFAULT:
-    //   return applySetDefault(state, action);
+    case SET_NOT_SAME_PERIOD_ADJUSTMENT:
+      return applySetNotSamePeriodAdjustment(state, action);
+
+    case SET_EXTEND_MEMBERSHIP:
+      return applySetExtendMembership(state, action);
+
+    case SET_NOT_EXTEND_MEMBERSHIP:
+      return applySetNotExtendMembership(state, action);
+    
+    case SET_CLEAR_EXTEND_MEMBERSHIP:
+      return applySetClearExtendMembership(state, action);
 
     default:
       return state;
@@ -403,9 +347,48 @@ function reducer(state = initialState, action) {
 }
 //reducer functions
 
-// function applySetDefault (state, action) {
-//   return initialState;
-// }
+function applySetClearExtendMembership(state, action){
+  return {
+    ...state,
+    is_set_extend_membership:false,
+    set_extend_membership:false
+  }
+}
+
+function applySetExtendMembershipComplete(state, action) {
+  return {
+    ...state,
+    is_set_extend_membership: true
+  };
+}
+
+function applySetNotExtendMembership(state, action) {
+  return {
+    ...state,
+    is_extend_membership: false
+  };
+}
+
+function applySetExtendMembership(state, action) {
+  return {
+    ...state,
+    is_extend_membership: true
+  };
+}
+
+function applySetNotSamePeriodAdjustment(state, action) {
+  return {
+    ...state,
+    is_same_period: false
+  };
+}
+
+function applySetSamePeriodAdjustment(state, action) {
+  return {
+    ...state,
+    is_same_period: true
+  };
+}
 
 function applySetUseNoCabinet(state, action) {
   return {
@@ -429,21 +412,6 @@ function applySetStartDatetime(state, action) {
   };
 }
 
-function applyPay(state, action) {
-  // const {pay_content} = action;
-
-  return {
-    ...state
-  };
-}
-
-function applySetPayMethod(state, action) {
-  const { paymethod } = action;
-  return {
-    ...state,
-    paymethod
-  };
-}
 function applyClearSelCabinets(state, action) {
   return {
     ...state,
@@ -480,14 +448,6 @@ function applySetSelCabinetSet(state, action) {
   };
 }
 
-function applySetSelCabinetSetId(state, action) {
-  const { sel_cabinet_set_id } = action;
-  return {
-    ...state,
-    sel_cabinet_set_id
-  };
-}
-
 function applySetAllInfoNotSetup(state, action) {
   return {
     ...state,
@@ -516,24 +476,7 @@ function applySetSelBranch(state, action) {
     ...state,
     sel_branch: branch,
     sel_cabinets: [],
-    sel_cabinet_set: null,
-    sel_cabinet_set_id: null
-  };
-}
-
-function applySetSelDateStart(state, action) {
-  const { start_date } = action;
-  return {
-    ...state,
-    start_date
-  };
-}
-
-function applySetSelTimeStart(state, action) {
-  const { start_time } = action;
-  return {
-    ...state,
-    start_time
+    sel_cabinet_set: null
   };
 }
 
@@ -569,22 +512,12 @@ function applySetMembershipCostTypes(state, action) {
   };
 }
 
-function applySetCabinetCostTypes(state, action) {
-  const { cabinet_cost_types } = action;
-  return {
-    ...state,
-    cabinet_cost_types
-  };
-}
-
 //exports
 
 const actionCreators = {
   setStartDatetime,
   getBranch,
   setSelBranchId,
-  setSelDateStart,
-  setSelTimeStart,
   setSelEndDateTime,
   setSelCostType,
   fetchMembershipCostTypes,
@@ -592,17 +525,18 @@ const actionCreators = {
   setAllInfoSetup,
   setAllInfoNotSetup,
   fetchCabinetSet,
-  setSelCabinetSetId,
   setSelCabinet,
   unsetSelCabinet,
   clearSelCabinets,
-  setPaymethod,
-  pay,
-  getCabietCostTypes,
   setSelCabinetCostType,
   setUseCabinet,
-  setUseNoCabinet
-  // setDefault,
+  setUseNoCabinet,
+  setSamePeriodAdjustment,
+  setNotSamePeriodAdjustment,
+  setExtendMembership,
+  setNotExtendMembership,
+  setExtendMembershipComplete,
+  setClearExtendMembership
 };
 
 export { actionCreators };

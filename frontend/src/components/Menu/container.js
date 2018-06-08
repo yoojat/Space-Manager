@@ -9,7 +9,6 @@ class Container extends Component {
   };
   render() {
     const {
-      id,
       is_staff,
       is_superuser,
       handleBackClick,

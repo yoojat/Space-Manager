@@ -59,16 +59,61 @@ a:active {
       }
     }
 
+    .membership-container {
+      margin-bottom: 10px;
+      .membership-title {
+        text-align: center;
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+    }
+
+    .message {
+      margin-top: 20px;
+      margin-bottom: 20px;
+      font-size: 13px;
+      text-align: center;
+    }
+
     .button-container {
       display: flex;
       justify-content: space-between;
-      border-top: 1.4px solid rgb(228, 228, 228);
+      .button {
+        text-align: center;
+        @include whiteButton();
+        &.selected {
+          background-color: #374bab;
+          color: white;
+        }
+      }
+    }
+
+    .map-button-container {
+      margin-top: 10px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      @include fullWhiteButton();
+      font-size: 15px;
+      &.selected {
+        background-color: #374bab;
+        color: white;
+      }
+    }
+
+    .button-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
       padding-top: 20px;
       margin-top: 20px;
       .button {
+        width: inherit;
+
         text-align: center;
         border: 1.4px solid rgb(228, 228, 228);
-        width: 32%;
         font-size: 13px;
         padding-top: 10px;
         padding-bottom: 10px;

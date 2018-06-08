@@ -2,12 +2,14 @@ import React from "react";
 import PropTypes from "prop-types";
 import styles from "./styles.scss";
 import Loading from "components/Loading";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 import BranchChoice from "components/BranchChoice";
 import StartChoice from "components/StartChoice";
 import CabinetSetChoice from "components/CabinetSetChoice";
 import CabinetChoice from "components/CabinetChoice";
+import EnrollContent from "components/EnrollContent";
+import MyMembershipsChoice from "components/MyMembershipsChoice";
 
 const EnrollMembership = props => {
   const {
@@ -18,7 +20,11 @@ const EnrollMembership = props => {
     onBranchClick,
     branches,
     sel_cost_type,
-    sel_cabinet_set
+    sel_cabinet_set,
+    all_info_setup,
+    my_memberships,
+    is_set_extend_membership,
+    is_extend_membership
   } = props;
 
   if (props.loading) {
@@ -34,6 +40,10 @@ const EnrollMembership = props => {
         branches={branches}
         sel_cost_type={sel_cost_type}
         sel_cabinet_set={sel_cabinet_set}
+        all_info_setup={all_info_setup}
+        my_memberships={my_memberships}
+        is_set_extend_membership={is_set_extend_membership}
+        is_extend_membership={is_extend_membership}
       />
     );
   }
@@ -45,9 +55,12 @@ const RenderEnrollMembership = (props, context) => {
     username,
     name,
     sel_branch,
-    branches,
     sel_cost_type,
-    sel_cabinet_set
+    sel_cabinet_set,
+    all_info_setup,
+    my_memberships,
+    is_set_extend_membership,
+    is_extend_membership
   } = props;
 
   return (
@@ -81,11 +94,12 @@ const RenderEnrollMembership = (props, context) => {
             </span>
           </div>
         </div>
-
-        {branches ? <BranchChoice /> : ""}
+        {my_memberships.length ? <MyMembershipsChoice /> : <BranchChoice/>}
+        {is_set_extend_membership? is_extend_membership?<Redirect to="/extend"/>:<BranchChoice/> :''}
         {sel_branch ? <StartChoice /> : ""}
         {sel_cost_type ? <CabinetSetChoice /> : ""}
         {sel_cabinet_set ? <CabinetChoice /> : ""}
+        {all_info_setup ? <EnrollContent /> : ""}
       </div>
     </main>
   );

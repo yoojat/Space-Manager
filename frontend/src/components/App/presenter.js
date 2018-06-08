@@ -9,10 +9,9 @@ import Auth from "components/Auth";
 import Navigation from "components/Navigation";
 import LoungeFeed from "components/LoungeFeed";
 import MyInfo from "components/MyInfo";
-import RegistCabinet from "components/RegistCabinet";
 import Main from "components/Main";
-import { actionCreators as userActions } from "redux/modules/user";
 import EnrollMembership from "components/EnrollMembership";
+import ExtendMembership from 'components/ExtendMembership';
 
 //app에서 모든 route를 관리
 //리액트에서는 하나의 컴포터넌트를 리턴하는 것이 아니라, array를 리턴할수도 있음
@@ -60,14 +59,8 @@ const PrivateRoutes = props => {
       {/* <Route exact path="/" component={Branches} /> */}
       <Route path={`/myinfo`} component={MyInfo} />
 
-      <Route path="/enroll" component={EnrollMembership}>
-        {/* <Route exact path="/changePassword" component={ChangePassword} /> */}
-      </Route>
-      <Route
-        path="/cabinet"
-        component={RegistCabinet}
-        onEnter={userActions.setUser}
-      />
+      <Route path="/enroll" component={EnrollMembership}/>
+      <Route path="/extend" component={ExtendMembership}/>
     </div>
   );
 };

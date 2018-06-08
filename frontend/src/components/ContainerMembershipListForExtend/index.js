@@ -3,10 +3,11 @@ import Container from "./container";
 
 const mapStateToProps = (state, ownProps) => {
   const {
-    user,
-    regist: { sel_branch, start_datetime, end_datetime, sel_cabinets }
+    membership: { my_memberships }
   } = state;
-  return { user, sel_branch, start_datetime, end_datetime, sel_cabinets };
+  return {
+    my_memberships
+  };
 };
 
 export default connect(mapStateToProps)(Container);
