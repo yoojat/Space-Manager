@@ -9,7 +9,8 @@ const SET_SEL_BRANCH_ID = "SET_SEL_BRANCH_ID";
 const SET_SEL_BRANCH = "SET_SEL_BRANCH";
 const SET_SEL_END_DATETIME = "SET_SEL_END_DATETIME";
 const SET_SEL_COSTTYPE = "SET_SEL_COSTTYPE";
-const SET_SEL_CABINET_COSTTYPE = "SET_SEL_CABINET_COSTTYPE";
+const SET_CABINET_COST_TYPES = "SET_CABINET_COST_TYPES";
+const FETCH_SEL_CABINET_COSTTYPE = "FETCH_SEL_CABINET_COSTTYPE";
 const SET_MEMBERSHIP_COST_TYPES = "SET_MEMBERSHIP_COST_TYPES";
 const SET_ALL_INFO_SETUP = "SET_ALL_INFO_SETUP";
 const SET_ALL_INFO_NOT_SETUP = "SET_ALL_INFO_NOT_SETUP";
@@ -24,15 +25,22 @@ const SET_NOT_SAME_PERIOD_ADJUSTMENT = "SET_NOT_SAME_PERIOD_ADJUSTMENT";
 const SET_EXTEND_MEMBERSHIP = "SET_EXTEND_MEMBERSHIP";
 const SET_NOT_EXTEND_MEMBERSHIP = "SET_NOT_EXTEND_MEMBERSHIP";
 const SET_EXTEND_MEMBERSHIP_COMPLETE = "SET_EXTEND_MEMBERSHIP_COMPLETE";
-const SET_CLEAR_EXTEND_MEMBERSHIP = 'SET_CLEAR_EXTEND_MEMBERSHIP';
+const SET_CLEAR_EXTEND_MEMBERSHIP = "SET_CLEAR_EXTEND_MEMBERSHIP";
 // const SET_DEFAULT = 'SET_DEFAULT';
 
 //action creators : 리덕스 state를 변경
 
-function setClearExtendMembership(){
+function setCabinetCostTypes(cabinet_cost_types) {
   return {
-    type:SET_CLEAR_EXTEND_MEMBERSHIP
-  }
+    type: SET_CABINET_COST_TYPES,
+    cabinet_cost_types
+  };
+}
+
+function setClearExtendMembership() {
+  return {
+    type: SET_CLEAR_EXTEND_MEMBERSHIP
+  };
 }
 
 function setExtendMembershipComplete() {
@@ -144,9 +152,9 @@ function setSelEndDateTime(end_datetime) {
   };
 }
 
-function setSelCabinetCostType(cabinet_cost_type) {
+function fetchSelCabinetCostType(cabinet_cost_type) {
   return {
-    type: SET_SEL_CABINET_COSTTYPE,
+    type: FETCH_SEL_CABINET_COSTTYPE,
     cabinet_cost_type
   };
 }
@@ -166,6 +174,26 @@ function setMembershipCostTypes(cost_types) {
 }
 
 // API actions: api를 부를 때 사용
+function fetCabinetCostTypes() {
+  return function(dispatch, getState) {
+    const {
+      user: { token, isLoggedIn }
+    } = getState();
+    if (isLoggedIn) {
+      fetch(`/payment/costtype/cabinet/`, {
+        method: "GET",
+        headers: {
+          Authorization: `JWT ${token}`
+        }
+      })
+        .then(response => response.json())
+        .then(json => {
+          console.log("!");
+          dispatch(setCabinetCostTypes(json));
+        });
+    }
+  };
+}
 
 function fetchCabinetSet(cabinet_set_id) {
   return function(dispatch, getState) {
@@ -269,6 +297,7 @@ const initialState = {
   all_info_setup: false,
   sel_cabinet_set: null,
   cabinet_cost_type: null,
+  cabinet_cost_types: [],
   use_cabinet: false,
   sel_memberships_for_extend: [],
   is_extend_membership: false,
@@ -296,7 +325,7 @@ function reducer(state = initialState, action) {
     case SET_SEL_COSTTYPE:
       return applySetSelCostType(state, action);
 
-    case SET_SEL_CABINET_COSTTYPE:
+    case FETCH_SEL_CABINET_COSTTYPE:
       return applySetSelCabinetCostType(state, action);
 
     case SET_MEMBERSHIP_COST_TYPES:
@@ -337,9 +366,12 @@ function reducer(state = initialState, action) {
 
     case SET_NOT_EXTEND_MEMBERSHIP:
       return applySetNotExtendMembership(state, action);
-    
+
     case SET_CLEAR_EXTEND_MEMBERSHIP:
       return applySetClearExtendMembership(state, action);
+
+    case SET_CABINET_COST_TYPES:
+      return applySetCabinetCostTypes(state, action);
 
     default:
       return state;
@@ -347,12 +379,22 @@ function reducer(state = initialState, action) {
 }
 //reducer functions
 
-function applySetClearExtendMembership(state, action){
+function applySetCabinetCostTypes(state, action) {
+  const { cabinet_cost_types } = action;
+  console.log("cabinet_cost_types", cabinet_cost_types);
+
   return {
     ...state,
-    is_set_extend_membership:false,
-    set_extend_membership:false
-  }
+    cabinet_cost_types: cabinet_cost_types
+  };
+}
+
+function applySetClearExtendMembership(state, action) {
+  return {
+    ...state,
+    is_set_extend_membership: false,
+    set_extend_membership: false
+  };
 }
 
 function applySetExtendMembershipComplete(state, action) {
@@ -528,7 +570,7 @@ const actionCreators = {
   setSelCabinet,
   unsetSelCabinet,
   clearSelCabinets,
-  setSelCabinetCostType,
+  fetchSelCabinetCostType,
   setUseCabinet,
   setUseNoCabinet,
   setSamePeriodAdjustment,
@@ -536,7 +578,8 @@ const actionCreators = {
   setExtendMembership,
   setNotExtendMembership,
   setExtendMembershipComplete,
-  setClearExtendMembership
+  setClearExtendMembership,
+  fetCabinetCostTypes
 };
 
 export { actionCreators };

@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import SeleExtendPeriod from "./presenter";
+import SelExtendPeriod from "./presenter";
 
 class Container extends Component {
   state = {};
 
   render() {
-    return <SeleExtendPeriod />;
+    return <SelExtendPeriod />;
   }
 }
 export default Container;

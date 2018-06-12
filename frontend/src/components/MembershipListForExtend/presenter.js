@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import styles from "./styles.scss";
 
 const MembershipListForExtend = (props, context) => {
-  console.log(props);
   const { membership, membership_to_extended, onClickMembership } = props;
 
   return (

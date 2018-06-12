@@ -2,8 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import styles from "./styles.scss";
 import { Link } from "react-router-dom";
-import SelExtendPeriod from "components/SelExtendPeriod";
+import ExtendPeriodChoice from "components/ExtendPeriodChoice";
 import ContainerMembershipListForExtend from "components/ContainerMembershipListForExtend";
+import ExtendCabinet from "components/ExtendCabinet";
+import ExtendTotalCost from "components/ExtendTotalCost";
 
 const ExtendMembership = (props, context) => {
   const {
@@ -12,7 +14,10 @@ const ExtendMembership = (props, context) => {
     name,
     my_memberships,
     loading,
-    membership_to_extended
+    membership_to_extended,
+    sel_cost_type,
+    my_cabinets,
+    all_info_setup
   } = props;
 
   return loading ? (
@@ -58,7 +63,9 @@ const ExtendMembership = (props, context) => {
             "현재 이용중인 맴버쉽이 없습니다"
           )}
         </div>
-        {membership_to_extended ? <SelExtendPeriod /> : ""}
+        {membership_to_extended ? <ExtendPeriodChoice /> : ""}
+        {sel_cost_type ? my_cabinets.length ? <ExtendCabinet /> : "" : ""}
+        {all_info_setup ? <ExtendTotalCost /> : ""}
       </div>
     </main>
   );

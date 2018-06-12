@@ -7,13 +7,19 @@ import { actionCreators as membershipActions } from "redux/modules/membership";
 const mapStateToProps = (state, ownProps) => {
   const {
     user: { profile_image, username, name },
-    membership: { my_memberships }
+    membership: { my_memberships },
+    extend: { membership_to_extended, sel_cost_type, all_info_setup },
+    cabinet: { my_cabinets }
   } = state;
   return {
     profile_image,
     username,
     name,
-    my_memberships
+    my_memberships,
+    membership_to_extended,
+    sel_cost_type,
+    my_cabinets,
+    all_info_setup
   };
 };
 

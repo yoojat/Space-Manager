@@ -1,19 +1,20 @@
 import { connect } from "react-redux";
 import Container from "./container";
-// import { actionCreators as branchActions } from "redux/modules/branch";
-// import { actionCreators as registActions } from "redux/modules/regist";
+import { actionCreators as extendActions } from "redux/modules/extend";
 
 const mapStateToProps = (state, ownProps) => {
-  const {} = state;
+  const {
+    extend: { cabinets_to_extended }
+  } = state;
 
-  return {};
+  return { cabinets_to_extended };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    // getBranch: branchId => {
-    //   dispatch(registActions.getBranch(branchId));
-    // },
+    setCabinetsToExtend: my_cabinet => {
+      dispatch(extendActions.setCabinetsToExtend(my_cabinet));
+    }
   };
 };
 

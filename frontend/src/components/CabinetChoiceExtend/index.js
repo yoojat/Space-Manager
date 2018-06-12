@@ -1,12 +1,17 @@
 import { connect } from "react-redux";
 import Container from "./container";
-// import { actionCreators as branchActions } from "redux/modules/branch";
-// import { actionCreators as registActions } from "redux/modules/regist";
+import { actionCreators as extendActions } from "redux/modules/extend";
 
 const mapStateToProps = (state, ownProps) => {
-  const {} = state;
+  const {
+    extend: { will_extend_cabinet },
+    cabinet: { my_cabinets }
+  } = state;
 
-  return {};
+  return {
+    will_extend_cabinet,
+    my_cabinets
+  };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {

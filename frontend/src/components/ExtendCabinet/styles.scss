@@ -1,0 +1,22 @@
+.select-mem-extend-container {
+  margin-top: 25px;
+  .title {
+    text-align: center;
+    font-size: 13px;
+  }
+  .button-container {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    .button {
+      @include whiteButton();
+      margin: 5px;
+      width: 48%;
+      &.selected {
+        background-color: #374bab;
+        color: white;
+      }
+    }
+  }
+}

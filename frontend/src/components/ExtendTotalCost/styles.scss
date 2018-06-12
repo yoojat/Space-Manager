@@ -1,0 +1,69 @@
+.payment-container {
+  margin-top: 40px;
+
+  .title {
+    text-align: center;
+    font-size: 13px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e4e4e4;
+  }
+  .payment {
+    margin-top: 15px;
+    font-size: 10px;
+
+    .payment-membership {
+      font-size: 15px;
+      margin-top: auto;
+      margin-bottom: 10px;
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+    .payment-content {
+      border: 2px solid #e5e5e5;
+      border-radius: 4px;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 10px;
+      &.total {
+        border-color: #374bae;
+        color: #374bae;
+      }
+      .title {
+        display: inline-block;
+        padding: 0 4px;
+        font-weight: 400;
+        line-height: 15px;
+        color: #a0a0a0;
+        border: 1px solid #ebebeb;
+        border-radius: 2px;
+      }
+      .branch-name {
+      }
+      .period {
+        font-size: 13px;
+      }
+      .cost {
+      }
+      div {
+        margin-top: 3px;
+        margin-bottom: 3px;
+        padding-left: 10px;
+      }
+    }
+  }
+}
+
+.pay-button-container {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  .pay-button {
+    @include whiteButton();
+    font-size: 11px;
+
+    &.selected {
+      background-color: #374bab;
+      color: white;
+    }
+  }
+}

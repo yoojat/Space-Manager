@@ -40,7 +40,10 @@ class Container extends Component {
       username,
       name,
       my_memberships,
-      memberships_to_extended
+      membership_to_extended,
+      sel_cost_type,
+      my_cabinets,
+      all_info_setup
     } = this.props;
     return (
       <ExtendMembership
@@ -49,7 +52,10 @@ class Container extends Component {
         name={name}
         my_memberships={my_memberships}
         loading={this.state.loading}
-        memberships_to_extended={memberships_to_extended}
+        membership_to_extended={membership_to_extended}
+        sel_cost_type={sel_cost_type}
+        my_cabinets={my_cabinets}
+        all_info_setup={all_info_setup}
       />
     );
   }

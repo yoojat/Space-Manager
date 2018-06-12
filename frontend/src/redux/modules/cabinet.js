@@ -66,7 +66,7 @@ function getUsingCabinets(userid) {
 // iniital state
 const initialState = {
   now_using_cabinets: [],
-  my_cabinets: null //ok
+  my_cabinets: [] //ok
 };
 
 //reducer
