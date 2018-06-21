@@ -8,17 +8,17 @@ class Container extends Component {
 
   _cabinetYesClick = () => {
     const {
-      setUseCabinet,
+      setIsEnrollCabinet,
       setAllInfoNotSetup,
-      use_cabinet,
+      is_enroll_cabinet,
       all_info_setup
     } = this.props;
 
     if (all_info_setup) {
       setAllInfoNotSetup();
     }
-    if (!use_cabinet) {
-      setUseCabinet(); //사물함을 사용한다고 체크
+    if (!is_enroll_cabinet) {
+      setIsEnrollCabinet(); //사물함을 사용한다고 체크
     }
     if (this.state.is_first) {
       this.setState({
@@ -29,16 +29,16 @@ class Container extends Component {
   };
   _cabinetNoClick = () => {
     const {
-      setUseNoCabinet,
-      clearSelCabinets,
+      setIsEnrollCabinet,
+      setIsEnrollCabinetNo,
       setAllInfoSetup,
       all_info_setup,
-      use_cabinet
+      is_enroll_cabinet
     } = this.props;
-    clearSelCabinets();
+    // clearSelCabinets();
 
-    if (use_cabinet) {
-      setUseNoCabinet();
+    if (is_enroll_cabinet) {
+      setIsEnrollCabinetNo();
     }
 
     if (!all_info_setup) {
@@ -54,15 +54,15 @@ class Container extends Component {
 
   render() {
     const {
-      use_cabinet,
+      is_enroll_cabinet,
       select_cabinet_choice,
       sel_branch,
       sel_cost_type
     } = this.props;
     return (
       <CabinetSetChoice
-        use_cabinet={use_cabinet}
-        select_cabinet_choice={select_cabinet_choice}
+        is_enroll_cabinet={is_enroll_cabinet}
+        // select_cabinet_choice={select_cabinet_choice}
         cabinetYesClick={this._cabinetYesClick}
         cabinetNoClick={this._cabinetNoClick}
         sel_branch={sel_branch}

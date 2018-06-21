@@ -27,11 +27,11 @@ class Container extends Component {
   }
 
   componentWillMount() {
-    const { fetchBranches, fetchMyCabinets, fetchMyMemberships, setClearExtendMembership } = this.props;
+    const { fetchBranches, fetchMyCabinets, fetchMyMemberships } = this.props;
     fetchBranches();
     fetchMyCabinets();
     fetchMyMemberships();
-    setClearExtendMembership();
+    // setClearExtendMembership();
   }
 
   render() {
@@ -44,8 +44,8 @@ class Container extends Component {
       sel_cabinet_set,
       all_info_setup,
       my_memberships,
-      is_set_extend_membership,
-      is_extend_membership
+      // is_set_extend_membership,
+      // is_extend_membership
     } = this.props;
     return (
       <EnrollMembership
@@ -58,8 +58,8 @@ class Container extends Component {
         all_info_setup={all_info_setup}
         my_memberships={my_memberships}
         loading={this.state.loading}
-        is_set_extend_membership = {is_set_extend_membership}
-        is_extend_membership={is_extend_membership}
+        // is_set_extend_membership = {is_set_extend_membership}
+        // is_extend_membership={is_extend_membership}
       />
     );
   }

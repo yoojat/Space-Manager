@@ -4,7 +4,7 @@ import { actionCreators as registActions } from "redux/modules/regist";
 
 const mapStateToProps = (state, ownProps) => {
   const {
-    regist: { star_datetime, membership_cost_types, sel_cost_type }
+    enrollMembership: { star_datetime, membership_cost_types, sel_cost_type }
   } = state;
   return {
     star_datetime,

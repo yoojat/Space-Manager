@@ -1,6 +1,6 @@
 //imports
 
-// import { actionCreators as userActions } from "redux/modules/user";
+import { actionCreators as userActions } from "redux/modules/user";
 
 //actions
 const SET_SEL_BRANCH = 'SET_SEL_BRANCH';
@@ -69,25 +69,54 @@ function setMembershipCostTypes(cost_types) {
 
 // API actions: api를 부를 때 사용
 
-// function fetCabinetCostTypes() {
-//   return function(dispatch, getState) {
-//     const {
-//       user: { token, isLoggedIn }
-//     } = getState();
-//     if (isLoggedIn) {
-//       fetch(`/payment/costtype/cabinet/`, {
-//         method: "GET",
-//         headers: {
-//           Authorization: `JWT ${token}`
-//         }
-//       })
-//         .then(response => response.json())
-//         .then(json => {
-//           dispatch(setCabinetCostTypes(json));
-//         });
-//     }
-//   };
-// }
+function fetchMembershipCostTypes() {
+  return (dispatch, getState) => {
+    const {
+      user: { token }
+    } = getState();
+
+    fetch(`/payment/costtype/membership/`, {
+      method: "GET",
+      headers: {
+        Authorization: `JWT ${token}`
+      }
+    })
+      .then(response => {
+        if (response.status === 404) {
+          dispatch(userActions.logout());
+        }
+        return response.json();
+      })
+      .then(json => {
+        dispatch(setMembershipCostTypes(json));
+      });
+  };
+}
+
+function fetchSelBranch(branchId) {
+  return (dispatch, getState) => {
+    const {
+      user: { token }
+    } = getState();
+
+    fetch(`/cabinets/branch/${branchId}/`, {
+      method: "GET",
+      headers: {
+        Authorization: `JWT ${token}`
+      }
+    })
+      .then(response => {
+        if (response.status === 404) {
+          dispatch(userActions.logout());
+        }
+        return response.json();
+      })
+      .then(json => {
+        dispatch(setSelBranch(json));
+      });
+  };
+}
+
 
 
 // iniital state
@@ -192,6 +221,8 @@ const actionCreators = {
   setSelBranch,
   setStartDatetime,
   setMembershipCostTypes,
+  fetchMembershipCostTypes,
+  fetchSelBranch
 };
 
 export { actionCreators };

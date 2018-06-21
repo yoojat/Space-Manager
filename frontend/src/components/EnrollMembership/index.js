@@ -9,14 +9,16 @@ const mapStateToProps = (state, ownProps) => {
   const {
     branch: { branches },
     user: { profile_image, username, name },
-    regist: {
+    enrollMembership: {
       sel_branch,
       sel_cost_type,
-      sel_cabinet_set,
+      // sel_cabinet_set,
       all_info_setup,
-      is_set_extend_membership,
-      is_extend_membership
+      // is_set_extend_membership,
+      // is_extend_membership
     },
+
+    
     membership: { my_memberships }
   } = state;
   return {
@@ -26,11 +28,11 @@ const mapStateToProps = (state, ownProps) => {
     name,
     sel_branch,
     sel_cost_type,
-    sel_cabinet_set,
+    // sel_cabinet_set,
     all_info_setup,
     my_memberships,
-    is_set_extend_membership,
-    is_extend_membership
+    // is_set_extend_membership,
+    // is_extend_membership
   };
 };
 
@@ -45,9 +47,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     fetchMyMemberships: () => {
       dispatch(membershipActions.fetchMyMemberships());
     },
-    setClearExtendMembership: () =>{
-      dispatch(registActions.setClearExtendMembership());
-    }
+    // setClearExtendMembership: () =>{
+    //   dispatch(registActions.setClearExtendMembership());
+    // }
   };
 };
 

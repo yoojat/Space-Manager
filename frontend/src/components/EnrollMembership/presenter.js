@@ -6,8 +6,6 @@ import { Link, Redirect } from "react-router-dom";
 
 import BranchChoice from "components/BranchChoice";
 import StartChoice from "components/StartChoice";
-import CabinetSetChoice from "components/CabinetSetChoice";
-import CabinetChoice from "components/CabinetChoice";
 import EnrollContent from "components/EnrollContent";
 import MyMembershipsChoice from "components/MyMembershipsChoice";
 
@@ -20,11 +18,11 @@ const EnrollMembership = props => {
     onBranchClick,
     branches,
     sel_cost_type,
-    sel_cabinet_set,
+    // sel_cabinet_set,
     all_info_setup,
     my_memberships,
-    is_set_extend_membership,
-    is_extend_membership
+    // is_set_extend_membership,
+    // is_extend_membership
   } = props;
 
   if (props.loading) {
@@ -39,11 +37,11 @@ const EnrollMembership = props => {
         onBranchClick={onBranchClick}
         branches={branches}
         sel_cost_type={sel_cost_type}
-        sel_cabinet_set={sel_cabinet_set}
+        // sel_cabinet_set={sel_cabinet_set}
         all_info_setup={all_info_setup}
         my_memberships={my_memberships}
-        is_set_extend_membership={is_set_extend_membership}
-        is_extend_membership={is_extend_membership}
+        // is_set_extend_membership={is_set_extend_membership}
+        // is_extend_membership={is_extend_membership}
       />
     );
   }
@@ -56,11 +54,11 @@ const RenderEnrollMembership = (props, context) => {
     name,
     sel_branch,
     sel_cost_type,
-    sel_cabinet_set,
+    // sel_cabinet_set,
     all_info_setup,
     my_memberships,
-    is_set_extend_membership,
-    is_extend_membership
+    // is_set_extend_membership,
+    // is_extend_membership
   } = props;
 
   return (
@@ -94,11 +92,11 @@ const RenderEnrollMembership = (props, context) => {
             </span>
           </div>
         </div>
-        {my_memberships.length ? <MyMembershipsChoice /> : <BranchChoice/>}
-        {is_set_extend_membership? is_extend_membership?<Redirect to="/extend"/>:<BranchChoice/> :''}
+        <BranchChoice/>
+        {/* {is_set_extend_membership? is_extend_membership?<Redirect to="/extend"/>:<BranchChoice/> :''} */}
         {sel_branch ? <StartChoice /> : ""}
-        {sel_cost_type ? <CabinetSetChoice /> : ""}
-        {sel_cabinet_set ? <CabinetChoice /> : ""}
+        {sel_cost_type ? "사물함 선택 관련 창" : ""}
+        {/* {sel_cabinet_set ? <CabinetChoice /> : ""} */}
         {all_info_setup ? <EnrollContent /> : ""}
       </div>
     </main>

@@ -1,10 +1,10 @@
 import { connect } from "react-redux";
 import Container from "./container";
-import { actionCreators as registActions } from "redux/modules/regist";
+import { actionCreators as enrollMembershipActions } from "redux/modules/enrollMembership";
 
 const mapStateToProps = (state, ownProps) => {
   const {
-    regist: {
+    enrollMembership: {
       start_datetime,
       membership_cost_types,
       sel_cost_type,
@@ -24,16 +24,16 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     setSelCostType: sel_cost_type => {
-      dispatch(registActions.setSelCostType(sel_cost_type));
+      dispatch(enrollMembershipActions.setSelCostType(sel_cost_type));
     },
     setSelEndDateTime: sel_end_datetime => {
-      dispatch(registActions.setSelEndDateTime(sel_end_datetime));
+      dispatch(enrollMembershipActions.setSelEndDateTime(sel_end_datetime));
     },
     setAllInfoSetup: () => {
-      dispatch(registActions.setAllInfoSetup());
+      dispatch(enrollMembershipActions.setAllInfoSetup());
     },
     setAllInfoNotSetup: () => {
-      dispatch(registActions.setAllInfoNotSetup());
+      dispatch(enrollMembershipActions.setAllInfoNotSetup());
     }
   };
 };

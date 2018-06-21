@@ -8,7 +8,7 @@ import user from "redux/modules/user";
 import branch from "redux/modules/branch";
 import seat from "redux/modules/seat";
 import cabinet from "redux/modules/cabinet";
-import regist from "redux/modules/regist";
+// import regist from "redux/modules/regist";
 import payment from "redux/modules/payment";
 import membership from "redux/modules/membership";
 import enrollMembership from 'redux/modules/enrollMembership';
@@ -47,7 +47,7 @@ const reducer = combineReducers({
   i18nState,
   seat,
   cabinet,
-  regist,
+  // regist,
   payment,
   membership,
   enrollMembership,

@@ -5,7 +5,7 @@ import CabinetSet from "components/CabinetSet";
 
 const CabinetSetChoice = (props, context) => {
   const {
-    use_cabinet,
+    is_enroll_cabinet,
     cabinetYesClick,
     cabinetNoClick,
     sel_branch,
@@ -24,7 +24,7 @@ const CabinetSetChoice = (props, context) => {
               className={
                 is_first
                   ? `${styles.button}`
-                  : use_cabinet
+                  : is_enroll_cabinet
                     ? `${styles.button} ${styles.selected}`
                     : `${styles.button}`
               }
@@ -36,7 +36,7 @@ const CabinetSetChoice = (props, context) => {
               className={
                 is_first
                   ? `${styles.button}`
-                  : use_cabinet
+                  : is_enroll_cabinet
                     ? `${styles.button}`
                     : `${styles.button} ${styles.selected}`
               }
@@ -45,7 +45,7 @@ const CabinetSetChoice = (props, context) => {
               아니오
             </div>
           </div>
-          {use_cabinet ? (
+          {is_enroll_cabinet ? (
             <div>
               <div className={styles.cabinetSelectTitle}>
                 사물함 위치를 선택해주세요
@@ -79,7 +79,7 @@ CabinetSetChoice.propTypes = {
   cabinetNoClick: PropTypes.func.isRequired,
   cabinetYesClick: PropTypes.func.isRequired,
   sel_branch: PropTypes.object.isRequired,
-  use_cabinet: PropTypes.bool.isRequired
+  is_enroll_cabinet: PropTypes.bool.isRequired
 };
 
 CabinetSetChoice.contextTypes = {

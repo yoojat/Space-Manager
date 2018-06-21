@@ -1,36 +1,45 @@
 import { connect } from "react-redux";
 import Container from "./container";
-import { actionCreators as registActions } from "redux/modules/regist";
+import { actionCreators as enrollMembershipActions } from "redux/modules/enrollMembership";
+import { actionCreators as enrollCabinetActions } from 'redux/modules/enrollCabinet';
 
 const mapStateToProps = (state, ownProps) => {
   const {
-    regist: { use_cabinet, sel_branch, all_info_setup, sel_cost_type }
+    enrollMembership: { use_cabinet, sel_branch, all_info_setup, sel_cost_type },
+    enrollCabinet : {is_enroll_cabinet}
   } = state;
   return {
     use_cabinet,
     sel_branch,
     all_info_setup,
-    sel_cost_type
+    sel_cost_type,
+    is_enroll_cabinet
   };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    setUseCabinet: () => {
-      dispatch(registActions.setUseCabinet());
-    },
-    setUseNoCabinet: () => {
-      dispatch(registActions.setUseNoCabinet());
-    },
-    clearSelCabinets: () => {
-      dispatch(registActions.clearSelCabinets());
-    },
+    // setUseCabinet: () => {
+    //   dispatch(enrollMembership.setUseCabinet());
+    // },
+    // setUseNoCabinet: () => {
+    //   dispatch(enrollMembership.setUseNoCabinet());
+    // },
+    // clearSelCabinets: () => {
+    //   dispatch(enrollMembership.clearSelCabinets());
+    // },
     setAllInfoSetup: () => {
-      dispatch(registActions.setAllInfoSetup());
+      dispatch(enrollMembershipActions.setAllInfoSetup());
     },
     setAllInfoNotSetup: () => {
-      dispatch(registActions.setAllInfoNotSetup());
-    }
+      dispatch(enrollMembershipActions.setAllInfoNotSetup());
+    },
+    setIsEnrollCabinet: () =>{
+      dispatch(enrollCabinetActions.setIsEnrollCabinet());
+    },
+    setIsEnrollCabinetNo: () =>{
+      dispatch(enrollCabinetActions.setIsEnrollCabinetNo());
+    },
   };
 };
 

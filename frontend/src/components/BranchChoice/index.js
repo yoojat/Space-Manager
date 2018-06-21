@@ -1,10 +1,10 @@
 import { connect } from "react-redux";
-import { actionCreators as registActions } from "redux/modules/regist";
+import { actionCreators as enrollMembershipActions } from "redux/modules/enrollMembership";
 import Container from "./container";
 
 const mapStateToProps = (state, ownProps) => {
   const {
-    regist: { sel_branch },
+    enrollMembership: { sel_branch },
     branch: { branches }
   } = state;
   return {
@@ -16,7 +16,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     fetchSelBranch: branch_id => {
-      dispatch(registActions.fetchSelBranch(branch_id));
+      dispatch(enrollMembershipActions.fetchSelBranch(branch_id));
     }
   };
 };
