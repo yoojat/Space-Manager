@@ -17,7 +17,6 @@ class Container extends Component {
     }
   }
   render() {
-    console.log(this.state);
     return (
       <Seat
         {...this.props}

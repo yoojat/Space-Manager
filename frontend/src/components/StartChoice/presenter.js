@@ -14,7 +14,7 @@ const StartChocie = (props, context) => {
   return (
     <div name="select_when">
       <div className={styles.selWhenTitle}>
-        {context.t("이용시작 일시를 선택해 주세요")}
+        {context.t("이용시작 일시를 선택해 주세요!")}
       </div>
       <Datetime
         className={`${datetime_styles.rdt} ${styles.datetime}`}

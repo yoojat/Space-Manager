@@ -1,104 +1,148 @@
-// imports
+//imports
+
+// import { actionCreators as userActions } from "redux/modules/user";
 
 //actions
-const RESET_ENROLL = "RESET_ENROLL"; //선택한 정보들을 모두 초기화
-const SELECT_BRANCH = "SELECT_BRANCH"; // 지점 선택
-const SELECT_START_DATETIME = "SELECT_START_DATETIME"; //시작 날짜 선택
-const SELECT_END_DATETIME = "SELECT_END_DATETIME"; // 만료 날짜 선택
-const SET_TARGET_USER = "SET_TARGET_USER"; // 타겟 유저 선택
+const SET_SEL_BRANCH = 'SET_SEL_BRANCH';
+const SET_START_DATETIME = "SET_START_DATETIME";
+const SET_MEMBERSHIP_COST_TYPES = "SET_MEMBERSHIP_COST_TYPES";
+const SET_SEL_COSTTYPE = "SET_SEL_COSTTYPE";
+const SET_SEL_END_DATETIME = "SET_SEL_END_DATETIME";
+const SET_ALL_INFO_SETUP = "SET_ALL_INFO_SETUP";
+const SET_ALL_INFO_NOT_SETUP = "SET_ALL_INFO_NOT_SETUP";
+
+
+
+
+// const SEL_BRANCH = 'SEL_BRANCH';
+// const SET_DEFAULT = 'SET_DEFAULT';
+
 //action creators : 리덕스 state를 변경
 
-function setUser(target_user) {
+function setAllInfoSetup() {
   return {
-    type: SET_TARGET_USER,
-    target_user
+    type: SET_ALL_INFO_SETUP
   };
 }
 
-//지점선택
-function selectBranch(branch) {
+function setAllInfoNotSetup() {
   return {
-    type: SELECT_BRANCH,
-    sel_branch: branch
+    type: SET_ALL_INFO_NOT_SETUP
   };
 }
 
-function resetEnroll() {
+function setSelEndDateTime(end_datetime) {
   return {
-    type: RESET_ENROLL
+    type: SET_SEL_END_DATETIME,
+    end_datetime
   };
 }
 
-function selectStartDatetime(start_datetime) {
+function setSelCostType(sel_cost_type) {
   return {
-    type: SELECT_START_DATETIME,
+    type: SET_SEL_COSTTYPE,
+    sel_cost_type
+  };
+}
+
+
+function setSelBranch(branch) {
+  return {
+    type: SET_SEL_BRANCH,
+    branch
+  };
+}
+
+function setStartDatetime(start_datetime) {
+  return {
+    type: SET_START_DATETIME,
     start_datetime
   };
 }
 
-function selectEndDatetime(end_datetime) {
+function setMembershipCostTypes(cost_types) {
   return {
-    type: SELECT_END_DATETIME,
-    end_datetime
+    type: SET_MEMBERSHIP_COST_TYPES,
+    cost_types
   };
 }
 
 // API actions: api를 부를 때 사용
 
-function setNowUser() {
-  return (dispatch, getState) => {
-    const {
-      user: { id }
-    } = getState();
-    dispatch(setUser(id));
-  };
-}
+// function fetCabinetCostTypes() {
+//   return function(dispatch, getState) {
+//     const {
+//       user: { token, isLoggedIn }
+//     } = getState();
+//     if (isLoggedIn) {
+//       fetch(`/payment/costtype/cabinet/`, {
+//         method: "GET",
+//         headers: {
+//           Authorization: `JWT ${token}`
+//         }
+//       })
+//         .then(response => response.json())
+//         .then(json => {
+//           dispatch(setCabinetCostTypes(json));
+//         });
+//     }
+//   };
+// }
+
 
 // iniital state
 const initialState = {
-  sel_branch: null,
   start_datetime: null,
+  sel_branch: null, //branchinfo
+  sel_cost_type: null, //days
   end_datetime: null,
-  target_user: null
+  membership_cost_types: null,
+  all_info_setup: false,
 };
 
 //reducer
 function reducer(state = initialState, action) {
   switch (action.type) {
-    case SELECT_BRANCH:
-      return applySelectBranch(state, action);
-    case RESET_ENROLL:
-      return applyResetEnroll(state, action);
-    case SELECT_START_DATETIME:
-      return applySelectStartDatetime(state, action);
-    case SELECT_END_DATETIME:
-      return applySelectEndDatetime(state, action);
-    case SET_TARGET_USER:
-      return applySetTargetUser(state, action);
+    case SET_SEL_BRANCH:
+      return applySetSelBranch(state, action);
+    case SET_START_DATETIME:
+      return applySetStartDatetime(state, action);
+    case SET_MEMBERSHIP_COST_TYPES:
+      return applySetMembershipCostTypes(state, action);
+    case SET_SEL_COSTTYPE:
+      return applySetSelCostType(state, action);
+    case SET_SEL_END_DATETIME:
+      return applySetSelEndDatetime(state, action);
+    case SET_ALL_INFO_SETUP:
+      return applySetAllInfoSetup(state, action);
+    case SET_ALL_INFO_NOT_SETUP:
+      return applySetAllInfoNotSetup(state, action);
+
     default:
       return state;
   }
 }
-
 //reducer functions
 
-function applySetTargetUser(state, action) {
-  const { target_user } = action;
+function applySetSelCostType(state, action) {
+  const { sel_cost_type } = action;
   return {
     ...state,
-    target_user
+    sel_cost_type
   };
 }
 
-function applySelectEndDatetime(state, action) {
-  const { end_datetime } = action;
+function applySetSelBranch(state, action) {
+  const { branch } = action;
   return {
     ...state,
-    end_datetime
+    sel_branch: branch,
+    sel_cabinets: [],
+    sel_cabinet_set: null
   };
 }
 
-function applySelectStartDatetime(state, action) {
+function applySetStartDatetime(state, action) {
   const { start_datetime } = action;
   return {
     ...state,
@@ -106,28 +150,51 @@ function applySelectStartDatetime(state, action) {
   };
 }
 
-function applySelectBranch(state, action) {
-  const { sel_branch } = action;
+function applySetMembershipCostTypes(state, action) {
+  const { cost_types } = action;
   return {
     ...state,
-    sel_branch
+    membership_cost_types: cost_types
   };
 }
 
-function applyResetEnroll(state, action) {
+function applySetSelEndDatetime(state, action) {
+  const { end_datetime } = action;
   return {
-    ...initialState
+    ...state,
+    end_datetime
   };
 }
+
+function applySetAllInfoNotSetup(state, action) {
+  return {
+    ...state,
+    all_info_setup: false
+  };
+}
+
+function applySetAllInfoSetup(state, action) {
+  return {
+    ...state,
+    all_info_setup: true
+  };
+}
+
+
+
+//exports
 
 const actionCreators = {
-  selectBranch,
-  resetEnroll,
-  selectStartDatetime,
-  selectEndDatetime,
-  setNowUser
+  setAllInfoSetup,
+  setAllInfoNotSetup,
+  setSelEndDateTime,
+  setSelCostType,
+  setSelBranch,
+  setStartDatetime,
+  setMembershipCostTypes,
 };
 
 export { actionCreators };
+//reducer export
 
 export default reducer;

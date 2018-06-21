@@ -2,7 +2,7 @@
 
 //actions
 const SET_MEMBERSHIP_TO_EXTENDED = "SET_MEMBERSHIP_TO_EXTENDED";
-const SET_EXTEND_COST_TYPE = "SET_EXTEND_COST_TYPE";
+const SET_EXTEND_COST_TYPE_DEPRECATED = "SET_EXTEND_COST_TYPE_DEPRECATED";
 const SET_WILL_EXTEND_CABINET = "SET_WILL_EXTEND_CABINET";
 const SET_WILL_DONT_EXTEND_CABINET = "SET_WILL_DONT_EXTEND_CABINET";
 const SET_CABINETS_TO_EXTEND = "SET_CABINETS_TO_EXTEND";
@@ -52,7 +52,7 @@ function setWillExtendCabinet() {
 
 function setExtendCostType(sel_cost_type) {
   return {
-    type: SET_EXTEND_COST_TYPE,
+    type: SET_EXTEND_COST_TYPE_DEPRECATED,
     sel_cost_type
   };
 }
@@ -82,7 +82,7 @@ function reducer(state = initialState, action) {
     case SET_MEMBERSHIP_TO_EXTENDED:
       return applySetMembershipsToExtended(state, action);
 
-    case SET_EXTEND_COST_TYPE:
+    case SET_EXTEND_COST_TYPE_DEPRECATED:
       return applySetExtendCostType(state, action);
 
     case SET_WILL_EXTEND_CABINET:

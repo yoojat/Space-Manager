@@ -5,21 +5,17 @@ import Container from "./container";
 
 const mapStateToProps = (state, ownProps) => {
   const {
-    extend: {
-      membership_to_extended,
+    extendMembership: {
+      membership_extend,
       sel_cost_type,
-      will_extend_cabinet,
-      cabinets_to_extended,
       sel_cabinet_cost_type,
       all_info_setup
     }
   } = state;
 
   return {
-    membership_to_extended,
+    membership_extend,
     sel_cost_type,
-    will_extend_cabinet,
-    cabinets_to_extended,
     sel_cabinet_cost_type,
     all_info_setup
   };

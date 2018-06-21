@@ -1,0 +1,22 @@
+.button {
+  text-align: center;
+  @include whiteButton();
+  width: 31%;
+
+  &.selected {
+    background-color: #374bab;
+    color: white;
+  }
+  margin-bottom: 3px;
+  margin-top: 3px;
+  margin-left: 2px;
+  margin-right: 2px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  flex-direction: column;
+  .hint {
+    font-size: 10px;
+    color: #898989;
+  }
+}

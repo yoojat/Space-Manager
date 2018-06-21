@@ -1,0 +1,45 @@
+.select-cabinet-container {
+  .cabinet-select-title {
+    font-size: 13px;
+    text-align: center;
+  }
+  .title {
+    text-align: center;
+    font-size: 13px;
+  }
+  .button-container {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    .button {
+      @include whiteButton();
+      margin: 5px;
+      &.selected {
+        background-color: #374bab;
+        color: white;
+      }
+    }
+  }
+  .cabinet-set-container {
+    max-width: 300px;
+    min-width: 250px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    .lounge-img {
+      width: 100%;
+    }
+  }
+}
+
+.cabinet-list {
+  .list-title {
+    font-size: 13px;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 5px;
+  }
+  .cabinet-list-container {
+  }
+}

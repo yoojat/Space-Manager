@@ -5,15 +5,15 @@ class Container extends Component {
   state = {};
 
   _onClickMembership = () => {
-    const { membership, setMembershipsToExtended } = this.props;
-    setMembershipsToExtended(membership);
+    const { membership, setMembershipExtend } = this.props;
+    setMembershipExtend(membership);
   };
   render() {
-    const { membership, membership_to_extended } = this.props;
+    const { membership, membership_extend } = this.props;
     return (
       <MembershipListForExtend
         membership={membership}
-        membership_to_extended={membership_to_extended}
+        membership_extend={membership_extend}
         onClickMembership={this._onClickMembership}
       />
     );

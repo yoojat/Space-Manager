@@ -7,7 +7,7 @@ class Container extends Component {
   };
 
   _onYesClick = () => {
-    const { setExtendMembership,setExtendMembershipComplete } = this.props;
+    const { setExtendMembership, setExtendMembershipComplete } = this.props;
     setExtendMembership();
     setExtendMembershipComplete();
     if (this.state.is_first) {
@@ -32,7 +32,6 @@ class Container extends Component {
 
   render() {
     const { is_extend_membership } = this.props;
-    console.log(is_extend_membership);
 
     return (
       <MyMembershipsChocie

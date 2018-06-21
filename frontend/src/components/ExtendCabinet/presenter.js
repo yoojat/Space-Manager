@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import styles from "./styles.scss";
 import CabinetChoiceExtend from "components/CabinetChoiceExtend";
@@ -41,7 +41,7 @@ const ExtendCabinet = (props, context) => {
           }
           onClick={onNoClick}
         >
-          아니오<br />새로 등록하겠습니다
+          아니오<br /> 연장하지 않겠습니다
         </div>
       </div>
       {will_extend_cabinet ? <CabinetChoiceExtend /> : ""}

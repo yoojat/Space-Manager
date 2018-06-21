@@ -5,7 +5,8 @@ import { Link } from "react-router-dom";
 import ExtendPeriodChoice from "components/ExtendPeriodChoice";
 import ContainerMembershipListForExtend from "components/ContainerMembershipListForExtend";
 import ExtendCabinet from "components/ExtendCabinet";
-import ExtendTotalCost from "components/ExtendTotalCost";
+// import ExtendTotalCost from "components/ExtendTotalCost";
+import EnrollCabinet from "components/EnrollCabinet";
 
 const ExtendMembership = (props, context) => {
   const {
@@ -14,10 +15,14 @@ const ExtendMembership = (props, context) => {
     name,
     my_memberships,
     loading,
-    membership_to_extended,
+    membership_extend,
     sel_cost_type,
     my_cabinets,
-    all_info_setup
+    is_enroll_cabinet,
+    showEnrollCabinet_is_first,
+    onEnrollCabinetClick,
+    onEnrollNoCabinetClick,
+    extendMembershipComplete,
   } = props;
 
   return loading ? (
@@ -63,9 +68,48 @@ const ExtendMembership = (props, context) => {
             "현재 이용중인 맴버쉽이 없습니다"
           )}
         </div>
-        {membership_to_extended ? <ExtendPeriodChoice /> : ""}
-        {sel_cost_type ? my_cabinets.length ? <ExtendCabinet /> : "" : ""}
-        {all_info_setup ? <ExtendTotalCost /> : ""}
+        {membership_extend ? <ExtendPeriodChoice /> : ""}
+        {sel_cost_type ? (
+          my_cabinets.length ? (
+            <ExtendCabinet />
+          ) : (
+            <div className={styles.selectMemExtendContainer}>
+              <div className={styles.title}>
+                사물함을 추가로 등록하시겠습니까?
+              </div>
+              <div className={styles.buttonContainer}>
+                <div
+                  className={
+                    showEnrollCabinet_is_first
+                      ? `${styles.button}`
+                      : is_enroll_cabinet
+                        ? `${styles.button} ${styles.selected}`
+                        : `${styles.button}`
+                  }
+                  onClick={onEnrollCabinetClick}
+                >
+                  예<br />
+                </div>
+                <div
+                  className={
+                    showEnrollCabinet_is_first
+                      ? `${styles.button}`
+                      : is_enroll_cabinet
+                        ? `${styles.button}`
+                        : `${styles.button} ${styles.selected}`
+                  }
+                  onClick={onEnrollNoCabinetClick}
+                >
+                  아니오<br />
+                </div>
+              </div>
+              {is_enroll_cabinet ? <EnrollCabinet /> : ""}
+            </div>
+          )
+        ) : (
+          ""
+        )}
+        {extendMembershipComplete ? "가격표시" : ""}
       </div>
     </main>
   );

@@ -10,13 +10,13 @@ class Container extends Component {
     fetchCabinetSet(id);
   };
   render() {
-    const { cabinet_set, sel_cabinet_set, id } = this.props;
+    const { cabinet_set, sel_cabinet_set, temp_cabinet_set } = this.props;
     return (
       <CabinetSet
         cabinet_set={cabinet_set}
         cabinetSetClickHandler={this._cabinetSetClickHandler}
         sel_cabinet_set={sel_cabinet_set}
-        id={id}
+        temp_cabinet_set={temp_cabinet_set}
       />
     );
   }

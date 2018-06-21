@@ -6,7 +6,7 @@ import Loading from "components/Loading";
 
 const ExtendPeriodChoice = (props, context) => {
   const {
-    membership_to_extended,
+    membership_extend,
     membership_cost_types,
     sel_cost_type,
     onPeriodClick
@@ -19,7 +19,7 @@ const ExtendPeriodChoice = (props, context) => {
         {membership_cost_types.map(cost_type => {
           return (
             <DaysButton
-              membership_to_extended={membership_to_extended}
+              membership_extend={membership_extend}
               cost_type={cost_type}
               onPeriodClick={onPeriodClick}
               id={cost_type.id}
@@ -34,7 +34,7 @@ const ExtendPeriodChoice = (props, context) => {
         <div className={styles.showPeriod}>
           <span className={styles.blue}>{sel_cost_type.title}</span> 등록시,{" "}
           <span className={styles.blue}>
-            {moment(membership_to_extended.end_date, "YYYY-MM-DD HH:mm:ss")
+            {moment(membership_extend.end_date, "YYYY-MM-DD HH:mm:ss")
               .add(Number(sel_cost_type.days) * 24, "hour")
               .format("YYYY-MM-DD HH:mm:ss")}
           </span>까지 이용 가능

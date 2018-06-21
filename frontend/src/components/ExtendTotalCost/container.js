@@ -7,17 +7,14 @@ class Container extends Component {
 
   render() {
     const {
-      membership_to_extended,
+      membership_extend,
       sel_cost_type,
-      will_extend_cabinet,
       cabinets_to_extended,
       sel_cabinet_cost_type,
       all_info_setup
     } = this.props;
 
-    const cal_membership_end_datetime = moment(
-      membership_to_extended.end_datetime
-    )
+    const cal_membership_end_datetime = moment(membership_extend.end_datetime)
       .add(Number(sel_cost_type.days) * 24, "hour")
       .format("YYYY-MM-DD HH:mm:ss");
 
@@ -29,9 +26,8 @@ class Container extends Component {
 
     return (
       <ExtendTotalCost
-        membership_to_extended={membership_to_extended}
+        membership_extend={membership_extend}
         sel_cost_type={sel_cost_type}
-        will_extend_cabinet={will_extend_cabinet}
         cabinets_to_extended={cabinets_to_extended}
         sel_cabinet_cost_type={sel_cabinet_cost_type}
         all_info_setup={all_info_setup}

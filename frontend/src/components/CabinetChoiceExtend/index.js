@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import Container from "./container";
-import { actionCreators as extendActions } from "redux/modules/extend";
+// import { actionCreators as extendActions } from "redux/modules/extend";
 
 const mapStateToProps = (state, ownProps) => {
   const {

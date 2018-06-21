@@ -1,21 +1,20 @@
 import { connect } from "react-redux";
 import Container from "./container";
-import { actionCreators as extendActions } from "redux/modules/extend";
+import { actionCreators as extendMembershipActions } from "redux/modules/extendMembership";
 
 const mapStateToProps = (state, ownProps) => {
   const {
-    extend: { membership_to_extended }
+    extendMembership: { membership_extend }
   } = state;
   return {
-    membership_to_extended,
-    membership: ownProps.membership
+    membership_extend
   };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    setMembershipsToExtended: membership => {
-      dispatch(extendActions.setMembershipsToExtended(membership));
+    setMembershipExtend: membership => {
+      dispatch(extendMembershipActions.setMembershipExtend(membership));
     }
   };
 };

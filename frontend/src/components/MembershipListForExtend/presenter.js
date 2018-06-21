@@ -3,13 +3,13 @@ import PropTypes from "prop-types";
 import styles from "./styles.scss";
 
 const MembershipListForExtend = (props, context) => {
-  const { membership, membership_to_extended, onClickMembership } = props;
+  const { membership, membership_extend, onClickMembership } = props;
 
   return (
     <div
       className={`${styles.listContainer} ${
-        membership_to_extended
-          ? membership_to_extended.id === membership.id
+        membership_extend
+          ? membership_extend.id === membership.id
             ? styles.selected
             : ""
           : ""

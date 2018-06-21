@@ -17,6 +17,8 @@ class CabinetAdmin(admin.ModelAdmin):
         'cabinet_set',
         'xpos',
         'ypos',
+        'is_clean',
+        'user'
     )
     list_per_page = 10
 

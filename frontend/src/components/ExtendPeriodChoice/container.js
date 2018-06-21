@@ -49,13 +49,13 @@ class Container extends Component {
 
   render() {
     const {
-      membership_to_extended,
+      membership_extend,
       membership_cost_types,
       sel_cost_type
     } = this.props;
     return (
       <ExtendPeriodChoice
-        membership_to_extended={membership_to_extended}
+        membership_extend={membership_extend}
         membership_cost_types={membership_cost_types}
         onPeriodClick={this._onPeriodClick}
         sel_cost_type={sel_cost_type}

@@ -11,6 +11,7 @@ class Container extends Component {
     const { fetchMyMemberships, fetchMyCabinets } = this.props;
     fetchMyMemberships(); //ok
     fetchMyCabinets(); //ok
+    console.log('전부 리셋하는 액션 여기에 넣을 것');
   }
 
   //멤버쉽정보와 캐비넷 정보가 있으면 로딩을 끝낸다

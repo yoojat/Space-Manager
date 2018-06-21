@@ -188,7 +188,6 @@ function fetCabinetCostTypes() {
       })
         .then(response => response.json())
         .then(json => {
-          console.log("!");
           dispatch(setCabinetCostTypes(json));
         });
     }
@@ -381,7 +380,6 @@ function reducer(state = initialState, action) {
 
 function applySetCabinetCostTypes(state, action) {
   const { cabinet_cost_types } = action;
-  console.log("cabinet_cost_types", cabinet_cost_types);
 
   return {
     ...state,

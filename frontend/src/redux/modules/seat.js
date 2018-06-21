@@ -230,7 +230,6 @@ function reducer(state = initialState, action) {
 
 function applyNowUsingSeat(state, action) {
   const { now_using_data } = action;
-  console.log(now_using_data);
   return {
     ...state,
     now_using: now_using_data
