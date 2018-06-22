@@ -9,10 +9,9 @@ const SET_CABINET_TARGET_USER = "SET_CABINET_TARGET_USER"; // 타겟 유저 선�
 const ADD_CABINET_TO_ENROLL = "ADD_CABINET_TO_ENROLL";
 const SET_IS_ENROLL_CABINET = "SET_IS_ENROLL_CABINET";
 const SET_IS_ENROLL_CABINET_NO = "SET_IS_ENROLL_CABINET_NO";
-const SET_SHOW_ENROLL_CABINET_IS_FIRST_FALSE =
-  "SET_SHOW_ENROLL_CABINET_IS_FIRST_FALSE";
+const SET_SHOW_ENROLL_CABINET_IS_FIRST_FALSE = "SET_SHOW_ENROLL_CABINET_IS_FIRST_FALSE";
 const SET_CABINET_COST_TYPE = "SET_CABINET_COST_TYPE";
-const SET_SEL_BRANCH = "SET_SEL_BRANCH";
+const SET_SEL_CABINET_BRANCH = "SET_SEL_CABINET_BRANCH";
 const SET_SEL_CABINET_SET = "SET_SEL_CABINET_SET";
 const SET_START_DATETIME = "SET_START_DATETIME";
 const SET_END_DATETIME = "SET_END_DATETIME";
@@ -84,9 +83,9 @@ function setSelCabinetSet(sel_cabinet_set) {
   };
 }
 
-function setSelBranch(sel_branch) {
+function setSelCabinetBranch(sel_branch) {
   return {
-    type: SET_SEL_BRANCH,
+    type: SET_SEL_CABINET_BRANCH,
     sel_branch
   };
 }
@@ -153,7 +152,7 @@ function selectCabinetEndDatetime(end_datetime) {
 // API actions: api를 부를 때 사용
 
 function fetchCabinetCostTypes() {
-  return function(dispatch, getState) {
+  return function (dispatch, getState) {
     const {
       user: { token, isLoggedIn }
     } = getState();
@@ -173,7 +172,7 @@ function fetchCabinetCostTypes() {
 }
 
 function fetchSelCabinetSet(cabinet_set_id) {
-  return function(dispatch, getState) {
+  return function (dispatch, getState) {
     const {
       user: { token, isLoggedIn }
     } = getState();
@@ -211,7 +210,7 @@ function fetchSelBranch(branchId) {
         return response.json();
       })
       .then(json => {
-        dispatch(setSelBranch(json));
+        dispatch(setSelCabinetBranch(json));
       });
   };
 }
@@ -264,8 +263,8 @@ function reducer(state = initialState, action) {
       return applySetShowEnrollCabinetIsFirstFalse(state, action);
     case SET_CABINET_COST_TYPE:
       return applySetCabinetCostType(state, action);
-    case SET_SEL_BRANCH:
-      return applySetSelBranch(state, action);
+    case SET_SEL_CABINET_BRANCH:
+      return applySetSelCabinetBranch(state, action);
     case SET_SEL_CABINET_SET:
       return applySetSelCabinetSet(state, action);
     case SET_START_DATETIME:
@@ -351,7 +350,7 @@ function applySetSelCabinetSet(state, action) {
   };
 }
 
-function applySetSelBranch(state, action) {
+function applySetSelCabinetBranch(state, action) {
   const { sel_branch } = action;
   return {
     ...state,
@@ -404,7 +403,7 @@ function applyAddCabinetToEnroll(state, action) {
   } else {
     return {
       ...state,
-      cabinets_to_enroll: state.cabinets_to_enroll.filter(function(
+      cabinets_to_enroll: state.cabinets_to_enroll.filter(function (
         cabinet_to_enroll
       ) {
         return cabinet_to_enroll.id !== cabinet.id;
@@ -418,7 +417,7 @@ function applySubtractCabinetToEnroll(state, action) {
 
   return {
     ...state,
-    cabinets_to_enroll: state.cabinets_to_enroll.filter(function(
+    cabinets_to_enroll: state.cabinets_to_enroll.filter(function (
       cabinet_to_enroll
     ) {
       return cabinet_to_enroll.id !== cabinet.id;

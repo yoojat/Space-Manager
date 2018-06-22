@@ -11,9 +11,10 @@ import cabinet from "redux/modules/cabinet";
 // import regist from "redux/modules/regist";
 import payment from "redux/modules/payment";
 import membership from "redux/modules/membership";
-import enrollMembership from 'redux/modules/enrollMembership';
+import enrollMembership from "redux/modules/enrollMembership";
 import extendMembership from "redux/modules/extendMembership";
 import enrollCabinet from "redux/modules/enrollCabinet";
+import extendCabinet from "redux/modules/extendCabinet";
 import setupInfo from "redux/modules/setupInfo";
 
 // 스토어는 여러개의 리듀서를 합칠수 있음
@@ -53,6 +54,7 @@ const reducer = combineReducers({
   enrollMembership,
   extendMembership,
   enrollCabinet,
+  extendCabinet,
   setupInfo
 });
 // combineReducer(redux 모듈)을 통해 리듀서를 모두 통합

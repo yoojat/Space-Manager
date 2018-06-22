@@ -3,16 +3,13 @@
 import { actionCreators as userActions } from "redux/modules/user";
 
 //actions
-const SET_SEL_BRANCH = 'SET_SEL_BRANCH';
+const SET_SEL_BRANCH = "SET_SEL_BRANCH";
 const SET_START_DATETIME = "SET_START_DATETIME";
 const SET_MEMBERSHIP_COST_TYPES = "SET_MEMBERSHIP_COST_TYPES";
 const SET_SEL_COSTTYPE = "SET_SEL_COSTTYPE";
 const SET_SEL_END_DATETIME = "SET_SEL_END_DATETIME";
 const SET_ALL_INFO_SETUP = "SET_ALL_INFO_SETUP";
 const SET_ALL_INFO_NOT_SETUP = "SET_ALL_INFO_NOT_SETUP";
-
-
-
 
 // const SEL_BRANCH = 'SEL_BRANCH';
 // const SET_DEFAULT = 'SET_DEFAULT';
@@ -44,7 +41,6 @@ function setSelCostType(sel_cost_type) {
     sel_cost_type
   };
 }
-
 
 function setSelBranch(branch) {
   return {
@@ -117,8 +113,6 @@ function fetchSelBranch(branchId) {
   };
 }
 
-
-
 // iniital state
 const initialState = {
   start_datetime: null,
@@ -126,7 +120,7 @@ const initialState = {
   sel_cost_type: null, //days
   end_datetime: null,
   membership_cost_types: null,
-  all_info_setup: false,
+  all_info_setup: false
 };
 
 //reducer
@@ -165,9 +159,7 @@ function applySetSelBranch(state, action) {
   const { branch } = action;
   return {
     ...state,
-    sel_branch: branch,
-    sel_cabinets: [],
-    sel_cabinet_set: null
+    sel_branch: branch
   };
 }
 
@@ -208,8 +200,6 @@ function applySetAllInfoSetup(state, action) {
     all_info_setup: true
   };
 }
-
-
 
 //exports
 
