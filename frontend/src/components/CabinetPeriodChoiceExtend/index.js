@@ -1,19 +1,19 @@
 import { connect } from "react-redux";
 import Container from "./container";
-import { actionCreators as registActions } from "redux/modules/regist";
+import { actionCreators as extendCabinetActions } from "redux/modules/extendCabinet";
 
 const mapStateToProps = (state, ownProps) => {
   const {
-    regist: { cabinet_cost_types }
+    extendCabinet: { extend_cabinet_cost_types }
   } = state;
 
-  return { cabinet_cost_types };
+  return { extend_cabinet_cost_types };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    fetCabinetCostTypes: () => {
-      dispatch(registActions.fetCabinetCostTypes());
+    fetchExtendCabinetCostTypes: () => {
+      dispatch(extendCabinetActions.fetchExtendCabinetCostTypes());
     }
   };
 };

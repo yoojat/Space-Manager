@@ -1,25 +1,21 @@
 import { connect } from "react-redux";
 import Container from "./container";
-import { actionCreators as extendActions } from "redux/modules/extend";
+import { actionCreators as extendCabinetActions } from "redux/modules/extendCabinet";
 
 const mapStateToProps = (state, ownProps) => {
   const {
-    extend: { sel_cabinet_cost_type }
+    extendCabinet: { sel_cabinet_costtype }
   } = state;
 
-  return { sel_cabinet_cost_type };
+  return { sel_cabinet_costtype };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    setCabinetCostType: cabinet_cost_type => {
-      dispatch(extendActions.setCabinetCostType(cabinet_cost_type));
-    },
-    setAllInfoSetup: () => {
-      dispatch(extendActions.setAllInfoSetup());
-    },
-    setAllInfoNotSetup: () => {
-      dispatch(extendActions.setAllInfoNotSetup());
+    setExtendCabinetCostType: cabinet_cost_type => {
+      dispatch(
+        extendCabinetActions.setExtendCabinetCostType(cabinet_cost_type)
+      );
     }
   };
 };

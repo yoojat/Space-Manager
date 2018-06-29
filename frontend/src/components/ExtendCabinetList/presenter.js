@@ -4,12 +4,10 @@ import styles from "./styles.scss";
 import moment from "moment";
 
 const ExtendCabinetList = (props, context) => {
-  const { my_cabinet, onCabinetClick, cabinets_to_extended } = props;
+  const { my_cabinet, onCabinetClick, cabinets_extend } = props;
 
-  const listContainerClasses = cabinets_to_extended.find(function(
-    cabinet_to_extended
-  ) {
-    return cabinet_to_extended.id === my_cabinet.id;
+  const listContainerClasses = cabinets_extend.find(function(cabinet_extend) {
+    return cabinet_extend.id === my_cabinet.id;
   })
     ? `${styles.listContainer} ${styles.select}`
     : `${styles.listContainer}`;

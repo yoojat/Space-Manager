@@ -7,10 +7,10 @@ class Container extends Component {
   };
 
   _onYesClick = () => {
-    const { setWillExtendCabinet, will_extend_cabinet } = this.props;
+    const { setIsExtendCabinetTrue, is_extend_cabinet } = this.props;
 
-    if (!will_extend_cabinet) {
-      setWillExtendCabinet();
+    if (!is_extend_cabinet) {
+      setIsExtendCabinetTrue();
     }
 
     if (this.state.is_first) {
@@ -22,10 +22,10 @@ class Container extends Component {
   };
 
   _onNoClick = () => {
-    const { setWillDontExtendCabinet, will_extend_cabinet } = this.props;
+    const { setIsExtendCabinetFalse, is_extend_cabinet } = this.props;
 
-    if (will_extend_cabinet) {
-      setWillDontExtendCabinet();
+    if (is_extend_cabinet) {
+      setIsExtendCabinetFalse();
     }
 
     if (this.state.is_first) {
@@ -37,15 +37,15 @@ class Container extends Component {
   };
 
   render() {
-    const { will_extend_cabinet, cabinets_to_extended } = this.props;
+    const { is_extend_cabinet, cabinets_extend } = this.props;
 
     return (
       <ExtendCabinet
         is_first={this.state.is_first}
-        will_extend_cabinet={will_extend_cabinet}
+        is_extend_cabinet={is_extend_cabinet}
         onYesClick={this._onYesClick}
         onNoClick={this._onNoClick}
-        cabinets_to_extended={cabinets_to_extended}
+        cabinets_extend={cabinets_extend}
       />
     );
   }

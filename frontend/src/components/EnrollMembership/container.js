@@ -100,7 +100,7 @@ class Container extends Component {
     const { sel_cost_type, sel_start_datetime } = this.props;
     if (sel_cost_type && !sel_start_datetime) {
       if (this.state.scroll_first) {
-        scroller.scrollTo("isAddCabinet", {
+        scroller.scrollTo("cabinetChapter", {
           duration: 1500,
           delay: 100,
           smooth: true,

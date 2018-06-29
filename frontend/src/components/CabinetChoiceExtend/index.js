@@ -4,12 +4,12 @@ import Container from "./container";
 
 const mapStateToProps = (state, ownProps) => {
   const {
-    extend: { will_extend_cabinet },
+    extendCabinet: { is_extend_cabinet },
     cabinet: { my_cabinets }
   } = state;
 
   return {
-    will_extend_cabinet,
+    is_extend_cabinet,
     my_cabinets
   };
 };

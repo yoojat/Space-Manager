@@ -106,10 +106,13 @@ const RenderEnrollMembership = (props, context) => {
         {sel_branch ? <StartChoice /> : ""}
         {sel_cost_type ? (
           my_cabinets.length ? (
-            <ExtendCabinet /> // 이용중인 사물함이 없으면 // 맴버쉽 기간을 정했고 // 이용중인 사물함이 있으면
+            <Element name="cabinetChapter">
+              <ExtendCabinet />
+              {/* // 이용중인 사물함이 없으면 // 맴버쉽 기간을 정했고 // 이용중인 사물함이 있으면 */}
+            </Element>
           ) : (
             <Element
-              name="isAddCabinet"
+              name="cabinetChapter"
               className={styles.selectMemExtendContainer}
             >
               <div className={styles.title}>

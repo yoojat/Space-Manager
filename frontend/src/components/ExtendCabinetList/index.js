@@ -1,19 +1,19 @@
 import { connect } from "react-redux";
 import Container from "./container";
-import { actionCreators as extendActions } from "redux/modules/extend";
+import { actionCreators as extendCabinetActions } from "redux/modules/extendCabinet";
 
 const mapStateToProps = (state, ownProps) => {
   const {
-    extend: { cabinets_to_extended }
+    extendCabinet: { is_extend_cabinet, cabinets_extend }
   } = state;
 
-  return { cabinets_to_extended };
+  return { is_extend_cabinet, cabinets_extend };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    setCabinetsToExtend: my_cabinet => {
-      dispatch(extendActions.setCabinetsToExtend(my_cabinet));
+    setCabinetExtend: my_cabinet => {
+      dispatch(extendCabinetActions.setCabinetExtend(my_cabinet));
     }
   };
 };

@@ -7,10 +7,10 @@ import CabinetPeriodChoiceExtend from "components/CabinetPeriodChoiceExtend";
 const ExtendCabinet = (props, context) => {
   const {
     is_first,
-    will_extend_cabinet,
+    is_extend_cabinet,
     onYesClick,
     onNoClick,
-    cabinets_to_extended
+    cabinets_extend
   } = props;
   return (
     <div className={styles.selectMemExtendContainer}>
@@ -23,7 +23,7 @@ const ExtendCabinet = (props, context) => {
           className={
             is_first
               ? `${styles.button}`
-              : will_extend_cabinet
+              : is_extend_cabinet
                 ? `${styles.button} ${styles.selected}`
                 : `${styles.button}`
           }
@@ -35,7 +35,7 @@ const ExtendCabinet = (props, context) => {
           className={
             is_first
               ? `${styles.button}`
-              : will_extend_cabinet
+              : is_extend_cabinet
                 ? `${styles.button}`
                 : `${styles.button} ${styles.selected}`
           }
@@ -44,8 +44,8 @@ const ExtendCabinet = (props, context) => {
           아니오<br /> 연장하지 않겠습니다
         </div>
       </div>
-      {will_extend_cabinet ? <CabinetChoiceExtend /> : ""}
-      {cabinets_to_extended.length ? <CabinetPeriodChoiceExtend /> : ""}
+      {is_extend_cabinet ? <CabinetChoiceExtend /> : ""}
+      {cabinets_extend.length ? <CabinetPeriodChoiceExtend /> : ""}
     </div>
   );
 };

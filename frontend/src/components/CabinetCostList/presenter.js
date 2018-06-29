@@ -5,11 +5,11 @@ import styles from "./styles.scss";
 const CabinetCostList = (props, context) => {
   const {
     cabinet_cost_type,
-    sel_cabinet_cost_type,
+    sel_cabinet_costtype,
     onCabinetCostListClick
   } = props;
   const classes = `${styles.button} ${
-    sel_cabinet_cost_type && sel_cabinet_cost_type.id === cabinet_cost_type.id
+    sel_cabinet_costtype && sel_cabinet_costtype.id === cabinet_cost_type.id
       ? styles.selected
       : ""
   }`;

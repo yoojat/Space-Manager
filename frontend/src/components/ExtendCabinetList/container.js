@@ -5,17 +5,18 @@ class Container extends Component {
   state = {};
 
   _onCabinetClick = () => {
-    const { my_cabinet, setCabinetsToExtend } = this.props;
-    setCabinetsToExtend(my_cabinet);
+    const { my_cabinet, setCabinetExtend } = this.props;
+    setCabinetExtend(my_cabinet);
+    console.log(my_cabinet);
   };
 
   render() {
-    const { my_cabinet, cabinets_to_extended } = this.props;
+    const { my_cabinet, cabinets_extend } = this.props;
     return (
       <ExtendCabinetList
         onCabinetClick={this._onCabinetClick}
         my_cabinet={my_cabinet}
-        cabinets_to_extended={cabinets_to_extended}
+        cabinets_extend={cabinets_extend}
       />
     );
   }

@@ -4,6 +4,7 @@ import styles from "./styles.scss";
 import Loading from "components/Loading";
 import Ionicon from "react-ionicons";
 import { Link } from "react-router-dom";
+import moment from "moment";
 
 const MyInfo = ({
   loading,
@@ -147,7 +148,8 @@ const CabinetList = ({ branch, cabinet_number, start_date, end_date }) => (
       {branch.branch_name} {cabinet_number}번 사물함
     </div>
     <div className={styles.period}>
-      {start_date} - {end_date}
+      {moment(start_date).format("YYYY-MM-DD HH:mm:ss")} -{" "}
+      {moment(end_date).format("YYYY-MM-DD HH:mm:ss")}
     </div>
   </div>
 );

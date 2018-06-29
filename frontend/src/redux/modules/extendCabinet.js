@@ -3,17 +3,25 @@
 //actions
 
 const SET_CABINET_EXTEND = "SET_CABINET_EXTEND";
-const SET_CABINET_COST_TYPE = "SET_CABINET_COST_TYPE";
+const SET_EXTEND_CABINET_COST_TYPE = "SET_EXTEND_CABINET_COST_TYPE";
 const SET_IS_EXTEND_CABINET_TRUE = "SET_IS_EXTEND_CABINET_TRUE";
 const SET_IS_EXTEND_CABINET_FALSE = "SET_IS_EXTEND_CABINET_FALSE";
 const CLEAR_EXTEND_CABINET = "CLEAR_EXTEND_CABINET";
+const SET_EXTEND_CABINET_COST_TYPES = "SET_EXTEND_CABINET_COST_TYPES";
 
 //action creators : 리덕스 state를 변경
+
+function setExtendCabinetCostTypes(cabinet_cost_types) {
+  return {
+    type: SET_EXTEND_CABINET_COST_TYPES,
+    cabinet_cost_types
+  };
+}
 
 function clearExtendCabinet() {
   return {
     type: CLEAR_EXTEND_CABINET
-  }
+  };
 }
 
 function setCabinetExtend(sel_cabinet) {
@@ -23,10 +31,10 @@ function setCabinetExtend(sel_cabinet) {
   };
 }
 
-function setCabinetCostType(sel_cabinet_costype) {
+function setExtendCabinetCostType(sel_cabinet_costtype) {
   return {
-    type: SET_CABINET_COST_TYPE,
-    sel_cabinet_costype
+    type: SET_EXTEND_CABINET_COST_TYPE,
+    sel_cabinet_costtype
   };
 }
 
@@ -44,35 +52,32 @@ function setIsExtendCabinetFalse() {
 
 // API actions: api를 부를 때 사용
 
-// function fetchSelBranch(branchId) {
-//   return (dispatch, getState) => {
-//     const {
-//       user: { token }
-//     } = getState();
-
-//     fetch(`/cabinets/branch/${branchId}/`, {
-//       method: "GET",
-//       headers: {
-//         Authorization: `JWT ${token}`
-//       }
-//     })
-//       .then(response => {
-//         if (response.status === 404) {
-//           dispatch(userActions.logout());
-//         }
-//         return response.json();
-//       })
-//       .then(json => {
-//         dispatch(setSelBranch(json));
-//       });
-//   };
-// }
+function fetchExtendCabinetCostTypes() {
+  return function(dispatch, getState) {
+    const {
+      user: { token, isLoggedIn }
+    } = getState();
+    if (isLoggedIn) {
+      fetch(`/payment/costtype/cabinet/`, {
+        method: "GET",
+        headers: {
+          Authorization: `JWT ${token}`
+        }
+      })
+        .then(response => response.json())
+        .then(json => {
+          dispatch(setExtendCabinetCostTypes(json));
+        });
+    }
+  };
+}
 
 // iniital state
 const initialState = {
   is_extend_cabinet: false,
   cabinets_extend: [],
-  sel_cabinet_costtype: null
+  sel_cabinet_costtype: null,
+  extend_cabinet_cost_types: []
 };
 
 //reducer
@@ -81,8 +86,8 @@ function reducer(state = initialState, action) {
     case SET_CABINET_EXTEND:
       return applySetCabinetExtend(state, action);
 
-    case SET_CABINET_COST_TYPE:
-      return applySetCabinetCostType(state, action);
+    case SET_EXTEND_CABINET_COST_TYPE:
+      return applySetExtendCabinetCostType(state, action);
 
     case SET_IS_EXTEND_CABINET_TRUE:
       return applySetIsExtendCabinetTrue(state, action);
@@ -93,6 +98,9 @@ function reducer(state = initialState, action) {
     case CLEAR_EXTEND_CABINET:
       return applyClearExtendCabinet(state, action);
 
+    case SET_EXTEND_CABINET_COST_TYPES:
+      return applySetExtendCabinetCostTypes(state, action);
+
     default:
       return state;
   }
@@ -100,8 +108,13 @@ function reducer(state = initialState, action) {
 
 //reducer functions
 
+function applySetExtendCabinetCostTypes(state, action) {
+  const { cabinet_cost_types } = action;
+  return { ...state, extend_cabinet_cost_types: cabinet_cost_types };
+}
+
 function applyClearExtendCabinet(state, action) {
-  return { ...initialState }
+  return { ...initialState };
 }
 
 function applySetIsExtendCabinetFalse(state, action) {
@@ -129,14 +142,14 @@ function applySetCabinetExtend(state, action) {
   } else {
     return {
       ...state,
-      cabinets_extend: state.cabinets_extend.filter(function (cabinets_extend) {
+      cabinets_extend: state.cabinets_extend.filter(function(cabinets_extend) {
         return cabinets_extend.id !== sel_cabinet.id;
       })
     };
   }
 }
 
-function applySetCabinetCostType(state, action) {
+function applySetExtendCabinetCostType(state, action) {
   const { sel_cabinet_costtype } = action;
   return {
     ...state,
@@ -146,10 +159,11 @@ function applySetCabinetCostType(state, action) {
 
 const actionCreators = {
   setCabinetExtend,
-  setCabinetCostType,
+  setExtendCabinetCostType,
   setIsExtendCabinetTrue,
   setIsExtendCabinetFalse,
-  clearExtendCabinet
+  clearExtendCabinet,
+  fetchExtendCabinetCostTypes
 };
 
 export { actionCreators };
