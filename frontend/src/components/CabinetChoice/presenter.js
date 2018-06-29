@@ -3,6 +3,7 @@ import React, { Fragment } from "react";
 import styles from "./styles.scss";
 import Loading from "components/Loading";
 import Faltu from "faltu";
+import { Element } from "react-scroll";
 
 //선택한 사물함은 true를 반환
 function _valueCheck(sel_cabinets, cabinet) {
@@ -34,7 +35,7 @@ const CabinetChoice = (props, context) => {
   } = props;
 
   return (
-    <Fragment>
+    <Element name="CabinetChoice">
       {loading ? (
         <Loading />
       ) : (
@@ -45,7 +46,7 @@ const CabinetChoice = (props, context) => {
           my_cabinets={my_cabinets}
         />
       )}
-    </Fragment>
+    </Element>
   );
 };
 

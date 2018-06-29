@@ -9,7 +9,13 @@ import CabinetSetButtonForEnroll from "components/CabinetSetButtonForEnroll";
 import CabinetListForEnrollCabinet from "components/CabinetListForEnrollCabinet";
 
 const EnrollCabinet = (props, context) => {
-  const { sel_branch, loading, sel_cabinet_set, cabinets_to_enroll } = props;
+  const {
+    sel_branch,
+    loading,
+    sel_cabinet_set,
+    cabinets_to_enroll,
+    cabinet_list_is_first
+  } = props;
   return loading ? (
     <Loading />
   ) : (
@@ -17,7 +23,7 @@ const EnrollCabinet = (props, context) => {
       <div className={styles.selectCabinetContainer}>
         <div>
           <div className={styles.cabinetSelectTitle}>
-            사물함 위치를 선택해주세요
+            사물함 위치를 선택해주세요!
           </div>
 
           <div className={styles.cabinetSetContainer}>
@@ -43,7 +49,17 @@ const EnrollCabinet = (props, context) => {
             ))}
           </div>
 
-          {sel_cabinet_set ? <CabinetChoiceForEnroll /> : ""}
+          {sel_cabinet_set ? (
+            <Fragment>
+              <CabinetChoiceForEnroll />
+            </Fragment>
+          ) : cabinet_list_is_first ? (
+            ""
+          ) : (
+            <div className={styles.loadingContainer}>
+              <Loading />
+            </div>
+          )}
           {cabinets_to_enroll.length ? (
             <div className={styles.cabinetList}>
               <div className={styles.listTitle}>선택하신 사물함</div>

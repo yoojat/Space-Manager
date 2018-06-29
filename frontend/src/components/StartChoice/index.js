@@ -1,6 +1,7 @@
 import { connect } from "react-redux";
 import Container from "./container";
 import { actionCreators as registActions } from "redux/modules/regist";
+import { actionCreators as enrollMembershipActions } from "redux/modules/enrollMembership";
 
 const mapStateToProps = (state, ownProps) => {
   const {
@@ -15,16 +16,25 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    setStartDatetime: start_datetime => {
-      dispatch(registActions.setStartDatetime(start_datetime));
+    setEnrollMembershipStartDatetime: start_datetime => {
+      dispatch(
+        enrollMembershipActions.setEnrollMembershipStartDatetime(start_datetime)
+      );
     },
     fetchMembershipCostTypes: fetchMembershipCostTypes => {
       dispatch(registActions.fetchMembershipCostTypes());
     },
-    setSelEndDateTime: sel_end_datetime => {
-      dispatch(registActions.setSelEndDateTime(sel_end_datetime));
+    setSelEnrollMembershipEndDateTime: sel_end_datetime => {
+      dispatch(
+        enrollMembershipActions.setSelEnrollMembershipEndDateTime(
+          sel_end_datetime
+        )
+      );
     }
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Container);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Container);

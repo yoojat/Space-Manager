@@ -10,16 +10,27 @@ const mapStateToProps = (state, ownProps) => {
       sel_cabinet_set,
       cabinets_to_enroll,
       all_info_complete
-    }
+    },
+    user
   } = state;
 
-  return { sel_cost_type, sel_branch, sel_cabinet_set, cabinets_to_enroll, all_info_complete };
+  return {
+    sel_cost_type,
+    sel_branch,
+    sel_cabinet_set,
+    cabinets_to_enroll,
+    all_info_complete,
+    user
+  };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     setCostType: sel_cabinet_cost => {
       dispatch(enrollCabinetActions.setCostType(sel_cabinet_cost));
+    },
+    setEnrollCabinetTargetUser: target_user => {
+      dispatch(enrollCabinetActions.setEnrollCabinetTargetUser(target_user));
     }
   };
 };

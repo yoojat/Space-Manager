@@ -21,6 +21,12 @@
       }
     }
   }
+  .loading-container {
+    height: 160px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   .cabinet-set-container {
     max-width: 300px;
     min-width: 250px;

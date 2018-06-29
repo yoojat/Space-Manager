@@ -6,8 +6,15 @@ const SET_CABINET_EXTEND = "SET_CABINET_EXTEND";
 const SET_CABINET_COST_TYPE = "SET_CABINET_COST_TYPE";
 const SET_IS_EXTEND_CABINET_TRUE = "SET_IS_EXTEND_CABINET_TRUE";
 const SET_IS_EXTEND_CABINET_FALSE = "SET_IS_EXTEND_CABINET_FALSE";
+const CLEAR_EXTEND_CABINET = "CLEAR_EXTEND_CABINET";
 
 //action creators : 리덕스 state를 변경
+
+function clearExtendCabinet() {
+  return {
+    type: CLEAR_EXTEND_CABINET
+  }
+}
 
 function setCabinetExtend(sel_cabinet) {
   return {
@@ -83,12 +90,19 @@ function reducer(state = initialState, action) {
     case SET_IS_EXTEND_CABINET_FALSE:
       return applySetIsExtendCabinetFalse(state, action);
 
+    case CLEAR_EXTEND_CABINET:
+      return applyClearExtendCabinet(state, action);
+
     default:
       return state;
   }
 }
 
 //reducer functions
+
+function applyClearExtendCabinet(state, action) {
+  return { ...initialState }
+}
 
 function applySetIsExtendCabinetFalse(state, action) {
   return { ...state, is_extend_cabinet: false };
@@ -115,7 +129,7 @@ function applySetCabinetExtend(state, action) {
   } else {
     return {
       ...state,
-      cabinets_extend: state.cabinets_extend.filter(function(cabinets_extend) {
+      cabinets_extend: state.cabinets_extend.filter(function (cabinets_extend) {
         return cabinets_extend.id !== sel_cabinet.id;
       })
     };
@@ -134,7 +148,8 @@ const actionCreators = {
   setCabinetExtend,
   setCabinetCostType,
   setIsExtendCabinetTrue,
-  setIsExtendCabinetFalse
+  setIsExtendCabinetFalse,
+  clearExtendCabinet
 };
 
 export { actionCreators };

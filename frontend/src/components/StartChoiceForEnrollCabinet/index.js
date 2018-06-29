@@ -23,8 +23,10 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    setStartDatetime: start_datetime => {
-      dispatch(enrollCabinetActions.setStartDatetime(start_datetime));
+    setEnrollCabinetStartDatetime: start_datetime => {
+      dispatch(
+        enrollCabinetActions.setEnrollCabinetStartDatetime(start_datetime)
+      );
     },
     fetchCabinetCostTypes: () => {
       dispatch(enrollCabinetActions.fetchCabinetCostTypes());

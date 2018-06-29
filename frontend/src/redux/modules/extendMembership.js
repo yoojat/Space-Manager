@@ -5,10 +5,16 @@
 const SET_MEMBERSHIP_EXTEND = "SET_MEMBERSHIP_EXTEND";
 const SET_EXTEND_COST_TYPE = "SET_EXTEND_COST_TYPE";
 const SET_ENXTEND_MEMBERSHIP_INFO_SETUP = "SET_ALL_INFO_SETUP";
-const SET_ENXTEND_MEMBERSHIP_INFO_NOT_SETUP =
-  "SET_ENXTEND_MEMBERSHIP_INFO_NOT_SETUP";
+const SET_ENXTEND_MEMBERSHIP_INFO_NOT_SETUP = "SET_ENXTEND_MEMBERSHIP_INFO_NOT_SETUP";
+const CLEAR_EXTEND_MEMBERSHIP = 'CLEAR_EXTEND_MEMBERSHIP';
 
 //action creators : 리덕스 state를 변경
+
+function clearExtendMembership() {
+  return {
+    type: CLEAR_EXTEND_MEMBERSHIP
+  }
+}
 
 function setExtendMembershipInfoSetup() {
   return {
@@ -80,13 +86,21 @@ function reducer(state = initialState, action) {
       return applySetExtendMembershipInfoSetup(state, action);
     case SET_ENXTEND_MEMBERSHIP_INFO_NOT_SETUP:
       return applySetExtendMembershipInfoNotSetup(state, action);
-
+    case CLEAR_EXTEND_MEMBERSHIP:
+      return applyClearExtendMembership(state, action);
     default:
       return state;
   }
 }
 
 //reducer functions
+
+function applyClearExtendMembership(state, action) {
+  return {
+    ...initialState
+  }
+}
+
 function applySetExtendMembershipInfoSetup(state, action) {
   return {
     ...state,
@@ -119,7 +133,8 @@ const actionCreators = {
   setMembershipExtend,
   setExtendCostType,
   setExtendMembershipInfoSetup,
-  setExtendMembershipInfoNotSetup
+  setExtendMembershipInfoNotSetup,
+  clearExtendMembership
 };
 
 export { actionCreators };

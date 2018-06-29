@@ -3,8 +3,14 @@ import EnrollCabinet from "./presenter";
 
 class Container extends Component {
   state = {
-    loading: true
+    loading: true,
+    cabinet_list_is_first: true
   };
+
+  componentWillMount() {
+    const { setEnrollCabinetTargetUser, user } = this.props;
+    setEnrollCabinetTargetUser(user);
+  }
 
   componentDidMount() {
     const { sel_branch } = this.props;
@@ -17,11 +23,18 @@ class Container extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { sel_branch } = nextProps;
+    const { sel_branch, sel_cabinet_set } = nextProps;
     if (sel_branch) {
       this.setState({
         ...this.state,
         loading: false
+      });
+    }
+
+    if (sel_cabinet_set) {
+      this.setState({
+        ...this.state,
+        cabinet_list_is_first: false
       });
     }
   }
@@ -40,6 +53,7 @@ class Container extends Component {
         loading={this.state.loading}
         sel_cabinet_set={sel_cabinet_set}
         cabinets_to_enroll={cabinets_to_enroll}
+        cabinet_list_is_first={this.state.cabinet_list_is_first}
       />
     );
   }

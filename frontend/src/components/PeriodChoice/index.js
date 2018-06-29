@@ -26,8 +26,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     setSelCostType: sel_cost_type => {
       dispatch(enrollMembershipActions.setSelCostType(sel_cost_type));
     },
-    setSelEndDateTime: sel_end_datetime => {
-      dispatch(enrollMembershipActions.setSelEndDateTime(sel_end_datetime));
+    setSelEnrollMembershipEndDateTime: sel_end_datetime => {
+      dispatch(
+        enrollMembershipActions.setSelEnrollMembershipEndDateTime(
+          sel_end_datetime
+        )
+      );
     },
     setAllInfoSetup: () => {
       dispatch(enrollMembershipActions.setAllInfoSetup());
@@ -38,4 +42,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Container);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Container);

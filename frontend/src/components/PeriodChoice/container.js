@@ -10,7 +10,7 @@ class Container extends Component {
       membership_cost_types,
       setSelCostType,
       start_datetime,
-      setSelEndDateTime,
+      setSelEnrollMembershipEndDateTime,
       setAllInfoSetup,
       setAllInfoNotSetup,
       all_info_setup
@@ -22,7 +22,7 @@ class Container extends Component {
       .add(Number(target_cost_type.days) * 24, "hour")
       .format("YYYY-MM-DD HH:mm:ss");
     setSelCostType(target_cost_type);
-    setSelEndDateTime(sel_end_datetime);
+    setSelEnrollMembershipEndDateTime(sel_end_datetime);
     if (target_cost_type.days <= 1) {
       if (!all_info_setup) {
         setAllInfoSetup();

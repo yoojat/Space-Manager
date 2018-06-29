@@ -4,6 +4,7 @@ import styles from "./styles.scss";
 import Datetime from "react-datetime";
 import datetime_styles from "react-datetime/css/react-datetime.css";
 import CabinetCostListForEnroll from "components/CabinetCostListForEnroll";
+import { Element } from "react-scroll";
 
 const StartChoiceForEnrollCabinet = (props, context) => {
   var moment = require("moment");
@@ -11,12 +12,12 @@ const StartChoiceForEnrollCabinet = (props, context) => {
 
   const {
     onStartDatetimeChange,
-    cabinet_cost_types,
-    cabinets_to_enroll
+    cabinet_cost_types
+    // cabinets_to_enroll
   } = props;
 
   return (
-    <div>
+    <Element name="StartChoiceForEnrollCabinet">
       <div className={styles.selWhenTitle}>
         {context.t("사물함 이용시작 일시를 선택해 주세요!")}
       </div>
@@ -41,8 +42,7 @@ const StartChoiceForEnrollCabinet = (props, context) => {
             ))
           : ""}
       </div>
-      {/* {cabinet_cost_types ? <PeriodChoice /> : ""} */}
-    </div>
+    </Element>
   );
 };
 StartChoiceForEnrollCabinet.propTypes = {

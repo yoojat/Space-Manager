@@ -5,7 +5,8 @@ class Container extends Component {
   state = {};
 
   _onClickCabinetSetButton = () => {
-    const { cabinet_set, fetchSelCabinetSet } = this.props;
+    const { cabinet_set, fetchSelCabinetSet, clearCabinetSet } = this.props;
+    clearCabinetSet();
     fetchSelCabinetSet(cabinet_set.id);
   };
 

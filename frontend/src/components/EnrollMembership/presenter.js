@@ -5,9 +5,10 @@ import Loading from "components/Loading";
 import { Link } from "react-router-dom";
 import BranchChoice from "components/BranchChoice";
 import StartChoice from "components/StartChoice";
-import EnrollContent from "components/EnrollContent";
 import ExtendCabinet from "components/ExtendCabinet";
-import EnrollCabinet from 'components/EnrollCabinet';
+import EnrollCabinet from "components/EnrollCabinet";
+import EnrollMembershipResult from "components/EnrollMembershipResult";
+import { Element } from "react-scroll";
 
 const EnrollMembership = props => {
   const {
@@ -25,7 +26,8 @@ const EnrollMembership = props => {
     onEnrollYesCabinetClick,
     onEnrollNoCabinetClick,
     showEnrollCabinet_is_first,
-    is_enroll_cabinet
+    is_enroll_cabinet,
+    enrollMembershipComplete
   } = props;
 
   if (props.loading) {
@@ -48,6 +50,7 @@ const EnrollMembership = props => {
         onEnrollNoCabinetClick={onEnrollNoCabinetClick}
         showEnrollCabinet_is_first={showEnrollCabinet_is_first}
         is_enroll_cabinet={is_enroll_cabinet}
+        enrollMembershipComplete={enrollMembershipComplete}
       />
     );
   }
@@ -60,14 +63,13 @@ const RenderEnrollMembership = (props, context) => {
     name,
     sel_branch,
     sel_cost_type,
-    all_info_setup,
     my_cabinets,
     onEnrollYesCabinetClick,
     onEnrollNoCabinetClick,
     showEnrollCabinet_is_first,
-    is_enroll_cabinet
+    is_enroll_cabinet,
+    enrollMembershipComplete
   } = props;
-
 
   return (
     <main className={styles.container}>
@@ -89,8 +91,8 @@ const RenderEnrollMembership = (props, context) => {
               alt={context.t("profile")}
             />
           ) : (
-              ""
-            )}
+            ""
+          )}
 
           <div className={styles.name}>
             <span className={styles.username}>{username}</span> /{" "}
@@ -103,48 +105,49 @@ const RenderEnrollMembership = (props, context) => {
         <BranchChoice />
         {sel_branch ? <StartChoice /> : ""}
         {sel_cost_type ? (
-          my_cabinets.length ? ( // 이용중인 사물함이 있으면
-            <ExtendCabinet />
+          my_cabinets.length ? (
+            <ExtendCabinet /> // 이용중인 사물함이 없으면 // 맴버쉽 기간을 정했고 // 이용중인 사물함이 있으면
           ) : (
-              // 이용중인 사물함이 없으면
-              <div className={styles.selectMemExtendContainer}>
-                <div className={styles.title}>
-                  사물함을 추가로 등록하시겠습니까?
+            <Element
+              name="isAddCabinet"
+              className={styles.selectMemExtendContainer}
+            >
+              <div className={styles.title}>
+                사물함을 추가로 등록하시겠습니까?
               </div>
-                <div className={styles.buttonContainer}>
-                  <div
-                    className={
-                      showEnrollCabinet_is_first
-                        ? `${styles.button}`
-                        : is_enroll_cabinet
-                          ? `${styles.button} ${styles.selected}`
-                          : `${styles.button}`
-                    }
-                    onClick={onEnrollYesCabinetClick}
-                  >
-                    예<br />
-                  </div>
-                  <div
-                    className={
-                      showEnrollCabinet_is_first
-                        ? `${styles.button}`
-                        : is_enroll_cabinet
-                          ? `${styles.button}`
-                          : `${styles.button} ${styles.selected}`
-                    }
-                    onClick={onEnrollNoCabinetClick}
-                  >
-                    아니오<br />
-                  </div>
+              <div className={styles.buttonContainer}>
+                <div
+                  className={
+                    showEnrollCabinet_is_first
+                      ? `${styles.button}`
+                      : is_enroll_cabinet
+                        ? `${styles.button} ${styles.selected}`
+                        : `${styles.button}`
+                  }
+                  onClick={onEnrollYesCabinetClick}
+                >
+                  예<br />
                 </div>
-                {is_enroll_cabinet ? <EnrollCabinet /> : ""}
+                <div
+                  className={
+                    showEnrollCabinet_is_first
+                      ? `${styles.button}`
+                      : is_enroll_cabinet
+                        ? `${styles.button}`
+                        : `${styles.button} ${styles.selected}`
+                  }
+                  onClick={onEnrollNoCabinetClick}
+                >
+                  아니오<br />
+                </div>
               </div>
-            )
+              {is_enroll_cabinet ? <EnrollCabinet /> : ""}
+            </Element>
+          )
         ) : (
-            ""
-          )}
-        {/* {sel_cabinet_set ? <CabinetChoice /> : ""} */}
-        {/* {all_info_setup ? <EnrollContent /> : ""} */}
+          ""
+        )}
+        {enrollMembershipComplete ? <EnrollMembershipResult /> : ""}
       </div>
     </main>
   );

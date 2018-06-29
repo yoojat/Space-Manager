@@ -4,8 +4,16 @@ import BranchChoice from "./presenter";
 class Container extends Component {
   state = {};
   _onBranchClick = e => {
-    const { fetchSelBranch } = this.props;
+    const {
+      fetchSelBranch,
+      clearEnrollCabinet,
+      clearExtendCabinet,
+      setShowEnrollCabinetIsFirstTrue
+    } = this.props;
     fetchSelBranch(e.target.id);
+    clearExtendCabinet();
+    clearEnrollCabinet();
+    setShowEnrollCabinetIsFirstTrue();
   };
   render() {
     const { branches, sel_branch } = this.props;

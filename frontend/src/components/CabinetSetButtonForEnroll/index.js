@@ -20,6 +20,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     fetchSelCabinetSet: sel_cabinet_set_id => {
       dispatch(enrollCabinetActions.fetchSelCabinetSet(sel_cabinet_set_id));
+    },
+    clearCabinetSet: () => {
+      dispatch(enrollCabinetActions.clearCabinetSet());
     }
   };
 };

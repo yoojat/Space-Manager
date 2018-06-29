@@ -4,35 +4,47 @@ import { actionCreators as userActions } from "redux/modules/user";
 
 //actions
 const SET_SEL_BRANCH = "SET_SEL_BRANCH";
-const SET_START_DATETIME = "SET_START_DATETIME";
+const SET_ENROLL_MEMBERSHIP_START_DATETIME =
+  "SET_ENROLL_MEMBERSHIP_START_DATETIME";
 const SET_MEMBERSHIP_COST_TYPES = "SET_MEMBERSHIP_COST_TYPES";
 const SET_SEL_COSTTYPE = "SET_SEL_COSTTYPE";
-const SET_SEL_END_DATETIME = "SET_SEL_END_DATETIME";
-const SET_ALL_INFO_SETUP = "SET_ALL_INFO_SETUP";
-const SET_ALL_INFO_NOT_SETUP = "SET_ALL_INFO_NOT_SETUP";
+const SET_SEL_ENROLL_MEMBERSHIP_END_DATETIME =
+  "SET_SEL_ENROLL_MEMBERSHIP_END_DATETIME";
+const SET_ENROLL_MEMBERSHIP_INFO_SETUP = "SET_ENROLL_MEMBERSHIP_INFO_SETUP";
+const SET_ENROLL_MEMBERSHIP_INFO_NOT_SETUP =
+  "SET_ENROLL_MEMBERSHIP_INFO_NOT_SETUP";
+const CLEAR_ENROLL_MEMBERSHIP = "CLEAR_ENROLL_MEMBERSHIP";
+const SET_ENROLL_MEMBERSHIP_TARGET_USER = "SET_ENROLL_MEMBERSHIP_TARGET_USER";
 
 // const SEL_BRANCH = 'SEL_BRANCH';
 // const SET_DEFAULT = 'SET_DEFAULT';
 
 //action creators : 리덕스 state를 변경
 
+function setEnrollMembershipTargetUser(target_user) {
+  return { type: SET_ENROLL_MEMBERSHIP_TARGET_USER, target_user };
+}
+
+function clearEnrollMembership() {
+  return {
+    type: CLEAR_ENROLL_MEMBERSHIP
+  };
+}
+
 function setAllInfoSetup() {
   return {
-    type: SET_ALL_INFO_SETUP
+    type: SET_ENROLL_MEMBERSHIP_INFO_SETUP
   };
 }
 
 function setAllInfoNotSetup() {
   return {
-    type: SET_ALL_INFO_NOT_SETUP
+    type: SET_ENROLL_MEMBERSHIP_INFO_NOT_SETUP
   };
 }
 
-function setSelEndDateTime(end_datetime) {
-  return {
-    type: SET_SEL_END_DATETIME,
-    end_datetime
-  };
+function setSelEnrollMembershipEndDateTime(end_datetime) {
+  return { type: SET_SEL_ENROLL_MEMBERSHIP_END_DATETIME, end_datetime };
 }
 
 function setSelCostType(sel_cost_type) {
@@ -49,11 +61,8 @@ function setSelBranch(branch) {
   };
 }
 
-function setStartDatetime(start_datetime) {
-  return {
-    type: SET_START_DATETIME,
-    start_datetime
-  };
+function setEnrollMembershipStartDatetime(start_datetime) {
+  return { type: SET_ENROLL_MEMBERSHIP_START_DATETIME, start_datetime };
 }
 
 function setMembershipCostTypes(cost_types) {
@@ -120,7 +129,8 @@ const initialState = {
   sel_cost_type: null, //days
   end_datetime: null,
   membership_cost_types: null,
-  all_info_setup: false
+  all_info_setup: false,
+  target_user: null
 };
 
 //reducer
@@ -128,18 +138,22 @@ function reducer(state = initialState, action) {
   switch (action.type) {
     case SET_SEL_BRANCH:
       return applySetSelBranch(state, action);
-    case SET_START_DATETIME:
-      return applySetStartDatetime(state, action);
+    case SET_ENROLL_MEMBERSHIP_START_DATETIME:
+      return applySetEnrollMembershipStartDatetime(state, action);
     case SET_MEMBERSHIP_COST_TYPES:
       return applySetMembershipCostTypes(state, action);
     case SET_SEL_COSTTYPE:
       return applySetSelCostType(state, action);
-    case SET_SEL_END_DATETIME:
-      return applySetSelEndDatetime(state, action);
-    case SET_ALL_INFO_SETUP:
+    case SET_SEL_ENROLL_MEMBERSHIP_END_DATETIME:
+      return applySetSelEnrollMembershipEndDatetime(state, action);
+    case SET_ENROLL_MEMBERSHIP_INFO_SETUP:
       return applySetAllInfoSetup(state, action);
-    case SET_ALL_INFO_NOT_SETUP:
+    case SET_ENROLL_MEMBERSHIP_INFO_NOT_SETUP:
       return applySetAllInfoNotSetup(state, action);
+    case CLEAR_ENROLL_MEMBERSHIP:
+      return applyClearEnrollMembership(state, action);
+    case SET_ENROLL_MEMBERSHIP_TARGET_USER:
+      return applySetEnrollMembershipTargetUser(state, action);
 
     default:
       return state;
@@ -147,12 +161,24 @@ function reducer(state = initialState, action) {
 }
 //reducer functions
 
+function applySetEnrollMembershipTargetUser(state, action) {
+  const { target_user } = action;
+  return {
+    ...state,
+    target_user
+  };
+}
+
 function applySetSelCostType(state, action) {
   const { sel_cost_type } = action;
   return {
     ...state,
     sel_cost_type
   };
+}
+
+function applyClearEnrollMembership(state, action) {
+  return { ...initialState };
 }
 
 function applySetSelBranch(state, action) {
@@ -163,7 +189,7 @@ function applySetSelBranch(state, action) {
   };
 }
 
-function applySetStartDatetime(state, action) {
+function applySetEnrollMembershipStartDatetime(state, action) {
   const { start_datetime } = action;
   return {
     ...state,
@@ -179,7 +205,7 @@ function applySetMembershipCostTypes(state, action) {
   };
 }
 
-function applySetSelEndDatetime(state, action) {
+function applySetSelEnrollMembershipEndDatetime(state, action) {
   const { end_datetime } = action;
   return {
     ...state,
@@ -206,13 +232,15 @@ function applySetAllInfoSetup(state, action) {
 const actionCreators = {
   setAllInfoSetup,
   setAllInfoNotSetup,
-  setSelEndDateTime,
+  setSelEnrollMembershipEndDateTime,
   setSelCostType,
   setSelBranch,
-  setStartDatetime,
+  setEnrollMembershipStartDatetime,
   setMembershipCostTypes,
   fetchMembershipCostTypes,
-  fetchSelBranch
+  fetchSelBranch,
+  clearEnrollMembership,
+  setEnrollMembershipTargetUser
 };
 
 export { actionCreators };

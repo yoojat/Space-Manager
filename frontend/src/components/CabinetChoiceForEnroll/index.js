@@ -4,14 +4,20 @@ import { actionCreators as enrollCabinetActions } from "redux/modules/enrollCabi
 
 const mapStateToProps = (state, ownProps) => {
   const {
-    enrollCabinet: { sel_cabinet_set, cabinets_to_enroll, sel_start_datetime },
+    enrollCabinet: {
+      sel_cabinet_set,
+      cabinets_to_enroll,
+      sel_start_datetime,
+      scroll_first
+    },
     cabinet: { my_cabinets }
   } = state;
   return {
     sel_cabinet_set,
     cabinets_to_enroll,
     my_cabinets,
-    sel_start_datetime
+    sel_start_datetime,
+    scroll_first
   };
 };
 
@@ -20,8 +26,13 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     addCabinetToEnroll: sel_cabinet => {
       dispatch(enrollCabinetActions.addCabinetToEnroll(sel_cabinet));
     },
-    setStartDatetime: sel_date_time => {
-      dispatch(enrollCabinetActions.setStartDatetime(sel_date_time));
+    setEnrollCabinetStartDatetime: sel_date_time => {
+      dispatch(
+        enrollCabinetActions.setEnrollCabinetStartDatetime(sel_date_time)
+      );
+    },
+    setScrollFirstFalse: () => {
+      dispatch(enrollCabinetActions.setScrollFirstFalse());
     }
   };
 };

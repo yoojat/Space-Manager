@@ -5,15 +5,18 @@ import { actionCreators as userActions } from "redux/modules/user";
 const RESET_ENROLL_CABINET = "RESET_ENROLL_CABINET"; //선택한 정보들을 모두 초기화
 const SELECT_CABINET_START_DATETIME = "SELECT_CABINET_START_DATETIME"; //시작 날짜 선택
 const SELECT_CABINET_END_DATETIME = "SELECT_CABINET_END_DATETIME"; // 만료 날짜 선택
-const SET_CABINET_TARGET_USER = "SET_CABINET_TARGET_USER"; // 타겟 유저 선택
+const SET_ENROLL_CABINET_TARGET_USER = "SET_ENROLL_CABINET_TARGET_USER"; // 타겟 유저 선택
 const ADD_CABINET_TO_ENROLL = "ADD_CABINET_TO_ENROLL";
 const SET_IS_ENROLL_CABINET = "SET_IS_ENROLL_CABINET";
 const SET_IS_ENROLL_CABINET_NO = "SET_IS_ENROLL_CABINET_NO";
-const SET_SHOW_ENROLL_CABINET_IS_FIRST_FALSE = "SET_SHOW_ENROLL_CABINET_IS_FIRST_FALSE";
+const SET_SHOW_ENROLL_CABINET_IS_FIRST_FALSE =
+  "SET_SHOW_ENROLL_CABINET_IS_FIRST_FALSE";
+const SET_SHOW_ENROLL_CABINET_IS_FIRST_TRUE =
+  "SET_SHOW_ENROLL_CABINET_IS_FIRST_TRUE";
 const SET_CABINET_COST_TYPE = "SET_CABINET_COST_TYPE";
 const SET_SEL_CABINET_BRANCH = "SET_SEL_CABINET_BRANCH";
 const SET_SEL_CABINET_SET = "SET_SEL_CABINET_SET";
-const SET_START_DATETIME = "SET_START_DATETIME";
+const SET_ENROLL_CABINET_START_DATETIME = "SET_ENROLL_CABINET_START_DATETIME";
 const SET_END_DATETIME = "SET_END_DATETIME";
 const SET_CABINET_COST_TYPES = "SET_CABINET_COST_TYPES";
 const SET_TEMP_CABINET_SET = "SET_TEMP_CABINET_SET";
@@ -21,8 +24,37 @@ const RESET_TEMP_CABINET_SET = "RESET_TEMP_CABINET_SET";
 const SUBTRACT_CABINET_TO_ENROLL = "SUBTRACT_CABINET_TO_ENROLL";
 const ENROLL_CABINET_ALL_INFO_SETUP = "ENROLL_CABINET_ALL_INFO_SETUP";
 const ENROLL_CABINET_ALL_INFO_NO_SETUP = "ENROLL_CABINET_ALL_INFO_NO_SETUP";
+const CLEAR_ENROLL_CABINET = "CLEAR_ENROLL_CABINET";
+const CLEAR_CABINET_SET = "CLEAR_CABINET_SET";
+const SET_SCROLL_FIRST_FALSE = "SET_SCROLL_FIRST_FALSE";
+const CLEAR_SEL_CABINET_INFO = "CLEAR_SEL_CABINET_INFO";
 
 //action creators : 리덕스 state를 변경
+
+function clearSelCabinetInfo() {
+  return {
+    type: CLEAR_SEL_CABINET_INFO
+  };
+}
+
+function setScrollFirstFalse() {
+  return {
+    type: SET_SCROLL_FIRST_FALSE
+  };
+}
+
+function clearCabinetSet() {
+  return {
+    type: CLEAR_CABINET_SET
+  };
+}
+
+function clearEnrollCabinet() {
+  return {
+    type: CLEAR_ENROLL_CABINET
+  };
+}
+
 function enrollCabinetAllInfoNoSetup() {
   return {
     type: ENROLL_CABINET_ALL_INFO_NO_SETUP
@@ -69,11 +101,8 @@ function setEndDatetime(sel_end_datetime) {
   };
 }
 
-function setStartDatetime(sel_start_datetime) {
-  return {
-    type: SET_START_DATETIME,
-    sel_start_datetime
-  };
+function setEnrollCabinetStartDatetime(sel_start_datetime) {
+  return { type: SET_ENROLL_CABINET_START_DATETIME, sel_start_datetime };
 }
 
 function setSelCabinetSet(sel_cabinet_set) {
@@ -94,6 +123,12 @@ function setCabinetCostType(sel_cabinet_cost_type) {
   return {
     type: SET_CABINET_COST_TYPE,
     sel_cabinet_cost_type
+  };
+}
+
+function setShowEnrollCabinetIsFirstTrue() {
+  return {
+    type: SET_SHOW_ENROLL_CABINET_IS_FIRST_TRUE
   };
 }
 
@@ -122,9 +157,9 @@ function addCabinetToEnroll(cabinet) {
   };
 }
 
-function setCabinetUser(target_user) {
+function setEnrollCabinetTargetUser(target_user) {
   return {
-    type: SET_CABINET_TARGET_USER,
+    type: SET_ENROLL_CABINET_TARGET_USER,
     target_user
   };
 }
@@ -152,7 +187,7 @@ function selectCabinetEndDatetime(end_datetime) {
 // API actions: api를 부를 때 사용
 
 function fetchCabinetCostTypes() {
-  return function (dispatch, getState) {
+  return function(dispatch, getState) {
     const {
       user: { token, isLoggedIn }
     } = getState();
@@ -172,7 +207,7 @@ function fetchCabinetCostTypes() {
 }
 
 function fetchSelCabinetSet(cabinet_set_id) {
-  return function (dispatch, getState) {
+  return function(dispatch, getState) {
     const {
       user: { token, isLoggedIn }
     } = getState();
@@ -215,15 +250,6 @@ function fetchSelBranch(branchId) {
   };
 }
 
-function setNowUser() {
-  return (dispatch, getState) => {
-    const {
-      user: { id }
-    } = getState();
-    dispatch(setCabinetUser(id));
-  };
-}
-
 // iniital state
 const initialState = {
   sel_start_datetime: null,
@@ -237,7 +263,8 @@ const initialState = {
   sel_branch: null,
   cabinet_cost_types: [],
   temp_cabinet_set: null,
-  all_info_complete: false
+  all_info_complete: false,
+  scroll_first: true
 };
 
 //reducer
@@ -249,8 +276,8 @@ function reducer(state = initialState, action) {
       return applySelectCabinetStartDatetime(state, action);
     case SELECT_CABINET_END_DATETIME:
       return applySelectCabinetEndDatetime(state, action);
-    case SET_CABINET_TARGET_USER:
-      return applySetCabinetTargetUser(state, action);
+    case SET_ENROLL_CABINET_TARGET_USER:
+      return applySetEnrollCabinetTargetUser(state, action);
     case ADD_CABINET_TO_ENROLL:
       return applyAddCabinetToEnroll(state, action);
     case SUBTRACT_CABINET_TO_ENROLL:
@@ -261,14 +288,16 @@ function reducer(state = initialState, action) {
       return applySetIsEnrollCabinetNo(state, action);
     case SET_SHOW_ENROLL_CABINET_IS_FIRST_FALSE:
       return applySetShowEnrollCabinetIsFirstFalse(state, action);
+    case SET_SHOW_ENROLL_CABINET_IS_FIRST_TRUE:
+      return applySetShowEnrollCabinetIsFirstTrue(state, action);
     case SET_CABINET_COST_TYPE:
       return applySetCabinetCostType(state, action);
     case SET_SEL_CABINET_BRANCH:
       return applySetSelCabinetBranch(state, action);
     case SET_SEL_CABINET_SET:
       return applySetSelCabinetSet(state, action);
-    case SET_START_DATETIME:
-      return applySetStartDatettime(state, action);
+    case SET_ENROLL_CABINET_START_DATETIME:
+      return applySetEnrollCabinetStartDatettime(state, action);
     case SET_END_DATETIME:
       return applySetEndDatetime(state, action);
     case SET_CABINET_COST_TYPES:
@@ -281,13 +310,46 @@ function reducer(state = initialState, action) {
       return applyEnrollcabinetAllInfoSetup(state, action);
     case ENROLL_CABINET_ALL_INFO_NO_SETUP:
       return applyEnrollCabinetAllInfoNoSetup(state, action);
-
+    case CLEAR_ENROLL_CABINET:
+      return applyClearEnrollCabinet(state, action);
+    case CLEAR_CABINET_SET:
+      return applyClearCabinetSet(state, action);
+    case SET_SCROLL_FIRST_FALSE:
+      return applySetScrollFirstFalse(state, action);
+    case CLEAR_SEL_CABINET_INFO:
+      return applyClearSelCabinetInfo(state, action);
     default:
       return state;
   }
 }
 
 //reducer functions
+
+function applyClearSelCabinetInfo(state, action) {
+  //sel_cabinet_cost_type, sel_end_datetime
+
+  return {
+    ...state,
+    sel_end_datetime: null,
+    sel_start_datetime: null,
+    cabinets_to_enroll: [],
+    sel_cabinet_cost_type: null
+  };
+}
+
+function applySetScrollFirstFalse(state, action) {
+  return { ...state, scroll_first: false };
+}
+
+function applyClearCabinetSet(state, action) {
+  return { ...state, sel_cabinet_set: null };
+}
+
+function applyClearEnrollCabinet(state, action) {
+  return {
+    ...initialState
+  };
+}
 
 function applyEnrollCabinetAllInfoNoSetup(state, action) {
   return {
@@ -334,7 +396,7 @@ function applySetEndDatetime(state, action) {
   };
 }
 
-function applySetStartDatettime(state, action) {
+function applySetEnrollCabinetStartDatettime(state, action) {
   const { sel_start_datetime } = action;
   return {
     ...state,
@@ -373,6 +435,13 @@ function applySetShowEnrollCabinetIsFirstFalse(state, action) {
   };
 }
 
+function applySetShowEnrollCabinetIsFirstTrue(state, action) {
+  return {
+    ...state,
+    showEnrollCabinet_is_first: true
+  };
+}
+
 function applySetIsEnrollCabinet(state, action) {
   return {
     ...state,
@@ -382,7 +451,8 @@ function applySetIsEnrollCabinet(state, action) {
 function applySetIsEnrollCabinetNo(state, action) {
   return {
     ...state,
-    is_enroll_cabinet: false
+    is_enroll_cabinet: false,
+    showEnrollCabinet_is_first: false
   };
 }
 
@@ -403,7 +473,7 @@ function applyAddCabinetToEnroll(state, action) {
   } else {
     return {
       ...state,
-      cabinets_to_enroll: state.cabinets_to_enroll.filter(function (
+      cabinets_to_enroll: state.cabinets_to_enroll.filter(function(
         cabinet_to_enroll
       ) {
         return cabinet_to_enroll.id !== cabinet.id;
@@ -417,7 +487,7 @@ function applySubtractCabinetToEnroll(state, action) {
 
   return {
     ...state,
-    cabinets_to_enroll: state.cabinets_to_enroll.filter(function (
+    cabinets_to_enroll: state.cabinets_to_enroll.filter(function(
       cabinet_to_enroll
     ) {
       return cabinet_to_enroll.id !== cabinet.id;
@@ -425,7 +495,7 @@ function applySubtractCabinetToEnroll(state, action) {
   };
 }
 
-function applySetCabinetTargetUser(state, action) {
+function applySetEnrollCabinetTargetUser(state, action) {
   const { target_user } = action;
   return {
     ...state,
@@ -460,22 +530,27 @@ const actionCreators = {
   resetEnrollCabinet,
   selectCabinetStartDatetime,
   selectCabinetEndDatetime,
-  setNowUser,
   addCabinetToEnroll,
   subtractCabinetToEnroll,
   setIsEnrollCabinet,
   setIsEnrollCabinetNo,
   SetShowEnrollCabinetIsFirstFalse,
+  setShowEnrollCabinetIsFirstTrue,
   setCabinetCostType,
   fetchSelBranch,
   fetchSelCabinetSet,
-  setStartDatetime,
+  setEnrollCabinetStartDatetime,
   setEndDatetime,
   fetchCabinetCostTypes,
   setTempCabinetSet,
   resetTempCabinetSet,
   enrollCabinetAllInfoSetup,
-  enrollCabinetAllInfoNoSetup
+  enrollCabinetAllInfoNoSetup,
+  clearEnrollCabinet,
+  clearCabinetSet,
+  setScrollFirstFalse,
+  clearSelCabinetInfo,
+  setEnrollCabinetTargetUser
 };
 
 export { actionCreators };
