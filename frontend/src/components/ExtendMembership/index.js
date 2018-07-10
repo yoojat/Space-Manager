@@ -4,6 +4,8 @@ import { actionCreators as branchActions } from "redux/modules/branch";
 import { actionCreators as cabinetActions } from "redux/modules/cabinet";
 import { actionCreators as membershipActions } from "redux/modules/membership";
 import { actionCreators as enrollCabinetActions } from "redux/modules/enrollCabinet";
+import { actionCreators as enrollMembershipActions } from "redux/modules/enrollMembership";
+import { actionCreators as extendCabinetActions } from "redux/modules/extendCabinet";
 import { actionCreators as extendMembershipActions } from "redux/modules/extendMembership";
 import { actionCreators as setupInfoActions } from "redux/modules/setupInfo";
 
@@ -24,6 +26,7 @@ const mapStateToProps = (state, ownProps) => {
       all_info_complete,
       sel_cabinet_cost_type
     },
+    extendCabinet: { sel_cabinet_costtype },
     setupInfo: { extendMembershipComplete }
   } = state;
   return {
@@ -40,7 +43,8 @@ const mapStateToProps = (state, ownProps) => {
     membership_extend_complete: extend_membership_info_setup,
     cabinet_enroll_complete: all_info_complete,
     extendMembershipComplete,
-    sel_cabinet_cost_type
+    sel_cabinet_cost_type,
+    sel_cabinet_costtype
   };
 };
 
@@ -81,6 +85,21 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     setExtendMembershipNotComplete: () => {
       dispatch(setupInfoActions.setExtendMembershipNotComplete());
+    },
+    clearSelCabinetInfo: () => {
+      dispatch(enrollCabinetActions.clearSelCabinetInfo());
+    },
+    clearExtendMembership: () => {
+      dispatch(extendMembershipActions.clearExtendMembership());
+    },
+    clearExtendCabinet: () => {
+      dispatch(extendCabinetActions.clearExtendCabinet());
+    },
+    clearEnrollCabinet: () => {
+      dispatch(enrollCabinetActions.clearEnrollCabinet());
+    },
+    clearEnrollMembership: () => {
+      dispatch(enrollMembershipActions.clearEnrollMembership());
     }
   };
 };

@@ -6,7 +6,7 @@ class Container extends Component {
 
   componentWillMount() {
     const { fetchMembershipCostTypes, membership_cost_types } = this.props;
-    if (!membership_cost_types) {
+    if (!membership_cost_types.length) {
       fetchMembershipCostTypes();
     }
   }

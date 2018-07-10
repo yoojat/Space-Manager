@@ -52,6 +52,27 @@ function setIsExtendCabinetFalse() {
 
 // API actions: api를 부를 때 사용
 
+function extendCabinet() {
+  return (dispatch, getState) => {
+    const {
+      user: { token },
+      extendCabinet
+    } = getState();
+
+    fetch(`/cabinets/extendCabinet/`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `JWT ${token}`
+      },
+      body: JSON.stringify({
+        cabinets_extend: extendCabinet.cabinets_extend,
+        days: extendCabinet.sel_cabinet_costtype.days
+      })
+    });
+  };
+}
+
 function fetchExtendCabinetCostTypes() {
   return function(dispatch, getState) {
     const {
@@ -163,7 +184,8 @@ const actionCreators = {
   setIsExtendCabinetTrue,
   setIsExtendCabinetFalse,
   clearExtendCabinet,
-  fetchExtendCabinetCostTypes
+  fetchExtendCabinetCostTypes,
+  extendCabinet
 };
 
 export { actionCreators };

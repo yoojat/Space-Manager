@@ -10,9 +10,9 @@ const SET_MEMBERSHIP_COST_TYPES = "SET_MEMBERSHIP_COST_TYPES";
 const SET_SEL_COSTTYPE = "SET_SEL_COSTTYPE";
 const SET_SEL_ENROLL_MEMBERSHIP_END_DATETIME =
   "SET_SEL_ENROLL_MEMBERSHIP_END_DATETIME";
-const SET_ENROLL_MEMBERSHIP_INFO_SETUP = "SET_ENROLL_MEMBERSHIP_INFO_SETUP";
-const SET_ENROLL_MEMBERSHIP_INFO_NOT_SETUP =
-  "SET_ENROLL_MEMBERSHIP_INFO_NOT_SETUP";
+// const SET_ENROLL_MEMBERSHIP_INFO_SETUP = "SET_ENROLL_MEMBERSHIP_INFO_SETUP";
+// const SET_ENROLL_MEMBERSHIP_INFO_NOT_SETUP =
+//   "SET_ENROLL_MEMBERSHIP_INFO_NOT_SETUP";
 const CLEAR_ENROLL_MEMBERSHIP = "CLEAR_ENROLL_MEMBERSHIP";
 const SET_ENROLL_MEMBERSHIP_TARGET_USER = "SET_ENROLL_MEMBERSHIP_TARGET_USER";
 
@@ -31,17 +31,17 @@ function clearEnrollMembership() {
   };
 }
 
-function setAllInfoSetup() {
-  return {
-    type: SET_ENROLL_MEMBERSHIP_INFO_SETUP
-  };
-}
+// function setAllInfoSetup() {
+//   return {
+//     type: SET_ENROLL_MEMBERSHIP_INFO_SETUP
+//   };
+// }
 
-function setAllInfoNotSetup() {
-  return {
-    type: SET_ENROLL_MEMBERSHIP_INFO_NOT_SETUP
-  };
-}
+// function setAllInfoNotSetup() {
+//   return {
+//     type: SET_ENROLL_MEMBERSHIP_INFO_NOT_SETUP
+//   };
+// }
 
 function setSelEnrollMembershipEndDateTime(end_datetime) {
   return { type: SET_SEL_ENROLL_MEMBERSHIP_END_DATETIME, end_datetime };
@@ -73,6 +73,42 @@ function setMembershipCostTypes(cost_types) {
 }
 
 // API actions: api를 부를 때 사용
+
+function enrollMembership() {
+  return (dispatch, getState) => {
+    const {
+      user: { token }
+    } = getState();
+    const user_id = getState().enrollMembership.target_user.id;
+    const branch_id = getState().enrollMembership.sel_branch.id;
+    const start_datetime = getState().enrollMembership.start_datetime;
+    const end_datetime = getState().enrollMembership.end_datetime;
+    console.log({ user_id });
+    console.log({ branch_id });
+    console.log({ start_datetime });
+    console.log({ end_datetime });
+
+    fetch("/membership/enroll/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `JWT ${token}`
+      },
+      body: JSON.stringify({
+        user: user_id,
+        branch: branch_id,
+        start_datetime: start_datetime,
+        end_datetime: end_datetime
+      })
+    }).then(response => {
+      if (response.status === 201) {
+        console.log("멤버쉽 등록에 성공했습니다");
+      } else {
+        console.log("멤버쉽 등록에 실패했습니다");
+      }
+    });
+  };
+}
 
 function fetchMembershipCostTypes() {
   return (dispatch, getState) => {
@@ -146,10 +182,10 @@ function reducer(state = initialState, action) {
       return applySetSelCostType(state, action);
     case SET_SEL_ENROLL_MEMBERSHIP_END_DATETIME:
       return applySetSelEnrollMembershipEndDatetime(state, action);
-    case SET_ENROLL_MEMBERSHIP_INFO_SETUP:
-      return applySetAllInfoSetup(state, action);
-    case SET_ENROLL_MEMBERSHIP_INFO_NOT_SETUP:
-      return applySetAllInfoNotSetup(state, action);
+    // case SET_ENROLL_MEMBERSHIP_INFO_SETUP:
+    //   return applySetAllInfoSetup(state, action);
+    // case SET_ENROLL_MEMBERSHIP_INFO_NOT_SETUP:
+    //   return applySetAllInfoNotSetup(state, action);
     case CLEAR_ENROLL_MEMBERSHIP:
       return applyClearEnrollMembership(state, action);
     case SET_ENROLL_MEMBERSHIP_TARGET_USER:
@@ -213,25 +249,25 @@ function applySetSelEnrollMembershipEndDatetime(state, action) {
   };
 }
 
-function applySetAllInfoNotSetup(state, action) {
-  return {
-    ...state,
-    all_info_setup: false
-  };
-}
+// function applySetAllInfoNotSetup(state, action) {
+//   return {
+//     ...state,
+//     all_info_setup: false
+//   };
+// }
 
-function applySetAllInfoSetup(state, action) {
-  return {
-    ...state,
-    all_info_setup: true
-  };
-}
+// function applySetAllInfoSetup(state, action) {
+//   return {
+//     ...state,
+//     all_info_setup: true
+//   };
+// }
 
 //exports
 
 const actionCreators = {
-  setAllInfoSetup,
-  setAllInfoNotSetup,
+  // setAllInfoSetup,
+  // setAllInfoNotSetup,
   setSelEnrollMembershipEndDateTime,
   setSelCostType,
   setSelBranch,
@@ -240,7 +276,8 @@ const actionCreators = {
   fetchMembershipCostTypes,
   fetchSelBranch,
   clearEnrollMembership,
-  setEnrollMembershipTargetUser
+  setEnrollMembershipTargetUser,
+  enrollMembership
 };
 
 export { actionCreators };

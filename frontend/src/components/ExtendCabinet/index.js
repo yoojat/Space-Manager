@@ -19,6 +19,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     setIsExtendCabinetFalse: () => {
       dispatch(extendCabinetActions.setIsExtendCabinetFalse());
+    },
+    clearExtendCabinet: () => {
+      dispatch(extendCabinetActions.clearExtendCabinet());
     }
   };
 };

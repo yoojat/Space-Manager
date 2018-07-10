@@ -28,4 +28,10 @@ urlpatterns = [
         name='branch_cabinet_set'),
     url(regex=r'^my/$', view=views.MyCabinets.as_view(),
         name='my_cabinets'),  # ok
+    url(regex=r'^extendCabinet/$',
+        view=views.ExtendCabinet.as_view(),
+        name='extendCabinet'),
+    url(regex=r'^enrollCabinets/$',
+        view=views.EnrollCabinets.as_view(),
+        name='enrollCabinets'),
 ]

@@ -6,6 +6,7 @@ import { actionCreators as membershipActions } from "redux/modules/membership";
 import { actionCreators as enrollCabinetActions } from "redux/modules/enrollCabinet";
 import { actionCreators as enrollMembershipActions } from "redux/modules/enrollMembership";
 import { actionCreators as extendCabinetActions } from "redux/modules/extendCabinet";
+import { actionCreators as extendMembershipActions } from "redux/modules/extendMembership";
 import { actionCreators as setupInfoActions } from "redux/modules/setupInfo";
 
 const mapStateToProps = (state, ownProps) => {
@@ -25,6 +26,8 @@ const mapStateToProps = (state, ownProps) => {
     },
     setupInfo: { enrollMembershipComplete }
   } = state;
+
+  const sel_extend_cabinet_cost_type = state.extendCabinet.sel_cabinet_costtype;
   return {
     branches,
     profile_image,
@@ -41,7 +44,8 @@ const mapStateToProps = (state, ownProps) => {
     sel_cabinet_cost_type,
     sel_start_datetime,
     cabinets_to_enroll,
-    user
+    user,
+    sel_extend_cabinet_cost_type
   };
 };
 
@@ -68,18 +72,13 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     clearEnrollMembership: () => {
       dispatch(enrollMembershipActions.clearEnrollMembership());
     },
-    clearExtendCabinet: () => {
-      dispatch(extendCabinetActions.clearExtendCabinet());
-    },
-    clearEnrollCabinet: () => {
-      dispatch(enrollCabinetActions.clearEnrollCabinet());
-    },
-    setEnrollMembershipInfoSetup: () => {
-      dispatch(enrollMembershipActions.setAllInfoSetup());
-    },
-    setEnrollMembershipInfoNotSetup: () => {
-      dispatch(enrollMembershipActions.setAllInfoNotSetup());
-    },
+
+    // setEnrollMembershipInfoSetup: () => {
+    //   dispatch(enrollMembershipActions.setAllInfoSetup());
+    // },
+    // setEnrollMembershipInfoNotSetup: () => {
+    //   dispatch(enrollMembershipActions.setAllInfoNotSetup());
+    // },
     SetShowEnrollCabinetIsFirstFalse: () => {
       dispatch(enrollCabinetActions.SetShowEnrollCabinetIsFirstFalse());
     },
@@ -91,6 +90,15 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     clearSelCabinetInfo: () => {
       dispatch(enrollCabinetActions.clearSelCabinetInfo());
+    },
+    clearExtendMembership: () => {
+      dispatch(extendMembershipActions.clearExtendMembership());
+    },
+    clearExtendCabinet: () => {
+      dispatch(extendCabinetActions.clearExtendCabinet());
+    },
+    clearEnrollCabinet: () => {
+      dispatch(enrollCabinetActions.clearEnrollCabinet());
     },
     setEnrollMembershipTargetUser: target_user => {
       dispatch(

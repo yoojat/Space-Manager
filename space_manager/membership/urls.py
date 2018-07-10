@@ -2,13 +2,18 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
+    # url(
+    #     regex=r'^enroll/(?P<user_id>[0-9]+)/$',
+    #     view=views.EnrollMembershipBySuper.as_view(),
+    #     name='Enroll_by_super',
+    # ),
+    # url(
+    #     regex=r'^(?P<user_id>[0-9]+)/(?P<payment_id>[0-9]+)/enroll/$',
+    #     view=views.EnrollMembership.as_view(),
+    #     name='Enroll_Membership',
+    # ),
     url(
-        regex=r'^enroll/(?P<user_id>[0-9]+)/$',
-        view=views.EnrollMembershipBySuper.as_view(),
-        name='Enroll_by_super',
-    ),
-    url(
-        regex=r'^(?P<user_id>[0-9]+)/(?P<payment_id>[0-9]+)/enroll/$',
+        regex=r'^enroll/$',
         view=views.EnrollMembership.as_view(),
         name='Enroll_Membership',
     ),
@@ -32,5 +37,10 @@ urlpatterns = [
         regex=r'^my/$',
         view=views.GetMyMemberships.as_view(),
         name='Get_my_meberships',
-    )
+    ),
+    url(
+        regex=r'^extend/$',
+        view=views.ExtendMembership.as_view(),
+        name='ExtendMembership',
+    ),
 ]

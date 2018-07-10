@@ -37,4 +37,14 @@ urlpatterns = [
         view=views.BasketDetail.as_view(),
         name='BasketDetail',
     ),
+    url(
+        regex=r'^paycheck/$',
+        view=views.PayCheck.as_view(),
+        name='PayCheck',
+    ),
+    url(
+        regex=r'^paymethod/$',
+        view=views.PayMethod.as_view(),
+        name='PayMethod',
+    ),
 ]

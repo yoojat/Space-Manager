@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import EnrollMembership from "./presenter";
-import { scroller } from "react-scroll";
+// import { scroller } from "react-scroll";
 
 class Container extends Component {
   state = {
@@ -13,7 +13,6 @@ class Container extends Component {
       setIsEnrollCabinet,
       fetchSelBranch,
       sel_branch,
-      setEnrollMembershipInfoNotSetup,
       SetShowEnrollCabinetIsFirstFalse,
       enrollMembershipComplete,
       setEnrollMembershipNotComplete
@@ -25,7 +24,6 @@ class Container extends Component {
 
     fetchSelBranch(sel_branch.id); // 사물함을 위한 지점 정보 저장
     setIsEnrollCabinet();
-    setEnrollMembershipInfoNotSetup();
     SetShowEnrollCabinetIsFirstFalse();
   };
 
@@ -33,7 +31,6 @@ class Container extends Component {
     const {
       setIsEnrollCabinetNo,
       clearEnrollCabinet,
-      setEnrollMembershipInfoSetup,
       enrollMembershipComplete,
       setEnrollMembershipComplete
     } = this.props;
@@ -42,7 +39,27 @@ class Container extends Component {
     }
     clearEnrollCabinet();
     setIsEnrollCabinetNo();
-    setEnrollMembershipInfoSetup();
+  };
+
+  _onExtendYesCabinetClick = () => {
+    const {
+      enrollMembershipComplete,
+      setEnrollMembershipNotComplete
+    } = this.props;
+    if (enrollMembershipComplete) {
+      setEnrollMembershipNotComplete();
+    }
+  };
+
+  _onExtendNoCabinetClick = () => {
+    const {
+      // setEnrollMembershipInfoSetup,
+      enrollMembershipComplete,
+      setEnrollMembershipComplete
+    } = this.props;
+    if (!enrollMembershipComplete) {
+      setEnrollMembershipComplete();
+    }
   };
 
   componentDidMount() {
@@ -67,7 +84,8 @@ class Container extends Component {
       setEnrollMembershipNotComplete,
       cabinets_to_enroll,
       clearSelCabinetInfo,
-      sel_start_datetime
+      sel_start_datetime,
+      sel_extend_cabinet_cost_type
     } = nextProps;
 
     if (branches && username && name && name && my_memberships) {
@@ -85,6 +103,9 @@ class Container extends Component {
     if (sel_cabinet_cost_type && !enrollMembershipComplete) {
       setEnrollMembershipComplete();
     }
+    if (sel_extend_cabinet_cost_type && !enrollMembershipComplete) {
+      setEnrollMembershipComplete();
+    }
 
     if (
       !cabinets_to_enroll.length &&
@@ -97,17 +118,17 @@ class Container extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { sel_cost_type, sel_start_datetime } = this.props;
-    if (sel_cost_type && !sel_start_datetime) {
-      if (this.state.scroll_first) {
-        scroller.scrollTo("cabinetChapter", {
-          duration: 1500,
-          delay: 100,
-          smooth: true,
-          offset: 50
-        });
-      }
-    }
+    // const { sel_cost_type, sel_start_datetime } = this.props;
+    // if (sel_cost_type && !sel_start_datetime) {
+    //   if (this.state.scroll_first) {
+    //     scroller.scrollTo("cabinetChapter", {
+    //       duration: 1500,
+    //       delay: 100,
+    //       smooth: true,
+    //       offset: 50
+    //     });
+    //   }
+    // }
   }
 
   componentWillMount() {
@@ -118,19 +139,41 @@ class Container extends Component {
       clearEnrollMembership,
       clearExtendCabinet,
       clearEnrollCabinet,
+      clearExtendMembership,
       setEnrollMembershipTargetUser,
       user
     } = this.props;
     fetchBranches();
     fetchMyCabinets();
     fetchMyMemberships();
-    clearEnrollMembership();
-    clearExtendCabinet();
-    clearEnrollCabinet();
+    clearEnrollMembership(); //멤버쉽 등록 초기화
+    clearExtendCabinet(); // 사물함 연장 초기화
+    clearEnrollCabinet(); // 사물함 등록 초기화
+    clearExtendMembership(); // 멤버쉽 연장 초기화
     setEnrollMembershipTargetUser(user);
   }
 
+  componentWillUnmount() {
+    const {
+      fetchBranches,
+      fetchMyCabinets,
+      fetchMyMemberships,
+      clearEnrollMembership,
+      clearExtendCabinet,
+      clearEnrollCabinet,
+      clearExtendMembership
+    } = this.props;
+    fetchBranches();
+    fetchMyCabinets();
+    fetchMyMemberships();
+    clearEnrollMembership(); //멤버쉽 등록 초기화
+    clearExtendCabinet(); // 사물함 연장 초기화
+    clearEnrollCabinet(); // 사물함 등록 초기화
+    clearExtendMembership(); // 멤버쉽 연장 초기화
+  }
+
   render() {
+    console.log(this.props.sel_extend_cabinet_cost_type);
     const {
       profile_image,
       username,
@@ -162,6 +205,8 @@ class Container extends Component {
         onEnrollNoCabinetClick={this._onEnrollNoCabinetClick}
         showEnrollCabinet_is_first={showEnrollCabinet_is_first}
         enrollMembershipComplete={enrollMembershipComplete}
+        onExtendNoCabinetClick={this._onExtendNoCabinetClick}
+        onExtendYesCabinetClick={this._onExtendYesCabinetClick}
       />
     );
   }

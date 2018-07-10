@@ -186,6 +186,29 @@ function selectCabinetEndDatetime(end_datetime) {
 
 // API actions: api를 부를 때 사용
 
+function enrollCabinet() {
+  return function(dispatch, getState) {
+    const {
+      user: { token },
+      enrollCabinet
+    } = getState();
+
+    fetch(`/cabinets/enrollCabinets/`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `JWT ${token}`
+      },
+      body: JSON.stringify({
+        is_clean: false,
+        cabinets: enrollCabinet.cabinets_to_enroll,
+        start_date: enrollCabinet.sel_start_datetime,
+        end_date: enrollCabinet.sel_end_datetime,
+        user: enrollCabinet.target_user.id
+      })
+    });
+  };
+}
 function fetchCabinetCostTypes() {
   return function(dispatch, getState) {
     const {
@@ -550,7 +573,8 @@ const actionCreators = {
   clearCabinetSet,
   setScrollFirstFalse,
   clearSelCabinetInfo,
-  setEnrollCabinetTargetUser
+  setEnrollCabinetTargetUser,
+  enrollCabinet
 };
 
 export { actionCreators };

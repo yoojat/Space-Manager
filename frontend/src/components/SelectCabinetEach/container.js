@@ -1,26 +1,26 @@
-import React, {Component} from 'react';
-import SelectCabinetEach from './presenter';
-import {animateScroll as scroll} from 'react-scroll';
+import React, { Component } from "react";
+import SelectCabinetEach from "./presenter";
+import { animateScroll as scroll } from "react-scroll";
 
 class Container extends Component {
   state = {
     loading: true,
     sel_cabinet_set: null,
-    sel_cabinets: [],
+    sel_cabinets: []
   };
 
   _scrollTo = () => {
-    // scroller.scrollTo('show_cabinet', {
-    //   duration: 1500,
-    //   delay: 100,
-    //   smooth: true,
-    //   offset: 50,
-    // });
+    scroller.scrollTo("show_cabinet", {
+      duration: 1500,
+      delay: 100,
+      smooth: true,
+      offset: 50
+    });
     scroll.scrollToBottom({
       duration: 1500,
       delay: 100,
       smooth: true,
-      offset: 50,
+      offset: 50
     });
   };
   _valueCheck = (cabinets, cabinet) => {
@@ -42,7 +42,7 @@ class Container extends Component {
       }
       this.setState({
         ...this.state,
-        sel_cabinets: [...this.state.sel_cabinets, cabinet],
+        sel_cabinets: [...this.state.sel_cabinets, cabinet]
       });
       //현재 해당 캐비넷에 아이디가 들어가 있으면
     } else {
@@ -52,17 +52,17 @@ class Container extends Component {
       new_sel_cabinets.splice(index, 1);
       this.setState({
         ...this.state,
-        sel_cabinets: new_sel_cabinets,
+        sel_cabinets: new_sel_cabinets
       });
     }
     // alert(cabinet_id);
   };
 
   componentDidMount() {
-    const {sel_cabinet_set} = this.props;
+    const { sel_cabinet_set } = this.props;
 
     if (sel_cabinet_set) {
-      this.setState({loading: false, sel_cabinet_set});
+      this.setState({ loading: false, sel_cabinet_set });
     }
   }
 
@@ -82,7 +82,7 @@ class Container extends Component {
         if (this.state.loading) {
           this.setState({
             loading: false,
-            sel_cabinet_set: this.props.sel_cabinet_set,
+            sel_cabinet_set: this.props.sel_cabinet_set
           });
         }
       } else {
@@ -90,7 +90,7 @@ class Container extends Component {
         if (this.state.loading) {
           this.setState({
             ...this.state,
-            loading: false,
+            loading: false
           });
         }
       }
@@ -99,14 +99,14 @@ class Container extends Component {
       if (this.state.loading) {
         this.setState({
           loading: false,
-          sel_cabinet_set: this.props.sel_cabinet_set,
+          sel_cabinet_set: this.props.sel_cabinet_set
         });
       }
     }
   }
 
   render() {
-    const {sel_cabinet_set, sel_cabinets} = this.props;
+    const { sel_cabinet_set, sel_cabinets } = this.props;
 
     return (
       <SelectCabinetEach

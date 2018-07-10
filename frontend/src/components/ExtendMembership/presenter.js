@@ -7,6 +7,7 @@ import ContainerMembershipListForExtend from "components/ContainerMembershipList
 import ExtendCabinet from "components/ExtendCabinet";
 // import ExtendTotalCost from "components/ExtendTotalCost";
 import EnrollCabinet from "components/EnrollCabinet";
+import ExtendMembershipResult from "components/ExtendMembershipResult";
 
 const ExtendMembership = (props, context) => {
   const {
@@ -23,6 +24,8 @@ const ExtendMembership = (props, context) => {
     onEnrollCabinetClick,
     onEnrollNoCabinetClick,
     extendMembershipComplete,
+    onExtendYesCabinetClick,
+    onExtendNoCabinetClick
   } = props;
 
   return loading ? (
@@ -71,7 +74,10 @@ const ExtendMembership = (props, context) => {
         {membership_extend ? <ExtendPeriodChoice /> : ""}
         {sel_cost_type ? (
           my_cabinets.length ? (
-            <ExtendCabinet />
+            <ExtendCabinet
+              onExtendNoCabinetClick={onExtendNoCabinetClick}
+              onExtendYesCabinetClick={onExtendYesCabinetClick}
+            />
           ) : (
             <div className={styles.selectMemExtendContainer}>
               <div className={styles.title}>
@@ -109,7 +115,7 @@ const ExtendMembership = (props, context) => {
         ) : (
           ""
         )}
-        {extendMembershipComplete ? "가격표시" : ""}
+        {extendMembershipComplete ? <ExtendMembershipResult /> : ""}
       </div>
     </main>
   );

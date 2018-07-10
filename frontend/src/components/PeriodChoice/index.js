@@ -32,13 +32,13 @@ const mapDispatchToProps = (dispatch, ownProps) => {
           sel_end_datetime
         )
       );
-    },
-    setAllInfoSetup: () => {
-      dispatch(enrollMembershipActions.setAllInfoSetup());
-    },
-    setAllInfoNotSetup: () => {
-      dispatch(enrollMembershipActions.setAllInfoNotSetup());
     }
+    // setAllInfoSetup: () => {
+    //   dispatch(enrollMembershipActions.setAllInfoSetup());
+    // },
+    // setAllInfoNotSetup: () => {
+    //   dispatch(enrollMembershipActions.setAllInfoNotSetup());
+    // }
   };
 };
 

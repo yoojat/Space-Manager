@@ -8,8 +8,9 @@ class PaymentHistoryAdmin(admin.ModelAdmin):
 
     search_fields = ('user__name', )
 
-    list_display = ('created_at', 'user', 'cost_type', 'cost_value',
-                    'payment_method', 'is_usable')
+    list_display = ('created_at', 'user', 'membership_cost_type',
+                    'cabinet_cost_type', 'cost_value', 'payment_method',
+                    'is_usable')
 
 
 @admin.register(models.PaymentMethod)

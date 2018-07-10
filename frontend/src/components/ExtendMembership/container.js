@@ -7,6 +7,29 @@ class Container extends Component {
     showSelBranch: false
   };
 
+  _onExtendYesCabinetClick = () => {
+    const {
+      // setEnrollMembershipInfoSetup,
+      extendMembershipComplete,
+      setExtendMembershipNotComplete
+    } = this.props;
+    if (extendMembershipComplete) {
+      setExtendMembershipNotComplete();
+    }
+    // setEnrollMembershipInfoSetup(); //멤버쉽 등록 완료
+  };
+
+  _onExtendNoCabinetClick = () => {
+    const {
+      // setEnrollMembershipInfoSetup,
+      extendMembershipComplete,
+      setExtendMembershipComplete
+    } = this.props;
+    if (!extendMembershipComplete) {
+      setExtendMembershipComplete();
+    }
+  };
+
   _setExtendInfoTotalSetupTrue = () => {
     const { setExtendMembershipComplete } = this.props;
     setExtendMembershipComplete();
@@ -28,23 +51,49 @@ class Container extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { username, name, my_memberships, sel_cabinet_cost_type, setExtendMembershipComplete } = nextProps;
+    const {
+      username,
+      name,
+      my_memberships,
+      sel_cabinet_cost_type,
+      setExtendMembershipComplete,
+      sel_cabinet_costtype
+    } = nextProps;
     if (username && name && name && my_memberships) {
       this.setState({
         ...this.state,
         loading: false
       });
     }
-    if(sel_cabinet_cost_type){
+    if (sel_cabinet_cost_type) {
+      // 등록 사물함이 완료 되었을 때
+      setExtendMembershipComplete();
+    }
+
+    if (sel_cabinet_costtype) {
+      // 연장 사물함이 완료 되었을 때
       setExtendMembershipComplete();
     }
   }
 
   componentWillMount() {
-    const { fetchBranches, fetchMyCabinets, fetchMyMemberships } = this.props;
+    const {
+      fetchBranches,
+      fetchMyCabinets,
+      fetchMyMemberships,
+      clearEnrollMembership,
+      clearExtendCabinet,
+      clearEnrollCabinet,
+      clearExtendMembership
+    } = this.props;
+
     fetchBranches();
     fetchMyCabinets();
     fetchMyMemberships();
+    clearEnrollMembership();
+    clearExtendCabinet();
+    clearEnrollCabinet();
+    clearExtendMembership();
   }
 
   _onEnrollCabinetClick = () => {
@@ -93,8 +142,7 @@ class Container extends Component {
       cabinets_to_enroll,
       is_enroll_cabinet,
       showEnrollCabinet_is_first,
-      extendMembershipComplete,
-
+      extendMembershipComplete
     } = this.props;
     return (
       <ExtendMembership
@@ -113,6 +161,9 @@ class Container extends Component {
         onEnrollCabinetClick={this._onEnrollCabinetClick}
         onEnrollNoCabinetClick={this._onEnrollNoCabinetClick}
         cabinets_to_enroll={cabinets_to_enroll}
+        extendMemershipComplete={extendMembershipComplete}
+        onExtendYesCabinetClick={this._onExtendYesCabinetClick}
+        onExtendNoCabinetClick={this._onExtendNoCabinetClick}
         extendMembershipComplete={extendMembershipComplete}
       />
     );

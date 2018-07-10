@@ -2,6 +2,7 @@ from rest_framework import serializers
 from space_manager.branches import serializers as branch_serializers
 from . import models
 from space_manager.branches import models as branch_models
+from space_manager.users import serializers as user_serializers
 
 
 class BriefCabinetSetSerializer(serializers.ModelSerializer):
@@ -23,6 +24,7 @@ class CabinetMembershipSerializer(serializers.ModelSerializer):
 
 class CabinetSerializerForSelect(serializers.ModelSerializer):
     cabinet_set = BriefCabinetSetSerializer()
+    user = user_serializers.UserSerializer()
 
     class Meta:
         model = models.Cabinet

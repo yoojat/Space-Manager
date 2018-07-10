@@ -27,7 +27,9 @@ const EnrollMembership = props => {
     onEnrollNoCabinetClick,
     showEnrollCabinet_is_first,
     is_enroll_cabinet,
-    enrollMembershipComplete
+    enrollMembershipComplete,
+    onExtendNoCabinetClick,
+    onExtendYesCabinetClick
   } = props;
 
   if (props.loading) {
@@ -51,6 +53,8 @@ const EnrollMembership = props => {
         showEnrollCabinet_is_first={showEnrollCabinet_is_first}
         is_enroll_cabinet={is_enroll_cabinet}
         enrollMembershipComplete={enrollMembershipComplete}
+        onExtendNoCabinetClick={onExtendNoCabinetClick}
+        onExtendYesCabinetClick={onExtendYesCabinetClick}
       />
     );
   }
@@ -68,7 +72,9 @@ const RenderEnrollMembership = (props, context) => {
     onEnrollNoCabinetClick,
     showEnrollCabinet_is_first,
     is_enroll_cabinet,
-    enrollMembershipComplete
+    enrollMembershipComplete,
+    onExtendNoCabinetClick,
+    onExtendYesCabinetClick
   } = props;
 
   return (
@@ -106,8 +112,12 @@ const RenderEnrollMembership = (props, context) => {
         {sel_branch ? <StartChoice /> : ""}
         {sel_cost_type ? (
           my_cabinets.length ? (
-            <Element name="cabinetChapter">
-              <ExtendCabinet />
+            <Element name="cabinetChapter" className={styles.cabinetChapter}>
+              <ExtendCabinet
+                sel_branch={sel_branch}
+                onExtendNoCabinetClick={onExtendNoCabinetClick}
+                onExtendYesCabinetClick={onExtendYesCabinetClick}
+              />
               {/* // 이용중인 사물함이 없으면 // 맴버쉽 기간을 정했고 // 이용중인 사물함이 있으면 */}
             </Element>
           ) : (

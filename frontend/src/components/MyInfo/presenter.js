@@ -31,19 +31,19 @@ const MyInfo = ({
 
 MyInfo.propTypes = {
   loading: PropTypes.bool.isRequired,
-  my_memberships: PropTypes.arrayOf(
-    PropTypes.shape({
-      branch: PropTypes.shape({
-        branch_name: PropTypes.string.isRequired,
-        branch_num: PropTypes.number.isRequired,
-        id: PropTypes.number.isRequired
-      }),
-      end_date: PropTypes.string.isRequired,
-      id: PropTypes.number.isRequired,
-      start_date: PropTypes.string.isRequired,
-      user: PropTypes.number.isRequired
-    })
-  ),
+  // my_memberships: PropTypes.arrayOf(
+  //   PropTypes.shape({
+  //     branch: PropTypes.shape({
+  //       branch_name: PropTypes.string.isRequired,
+  //       branch_num: PropTypes.number.isRequired,
+  //       id: PropTypes.number.isRequired
+  //     }),
+  //     end_date: PropTypes.string.isRequired,
+  //     id: PropTypes.number.isRequired,
+  //     start_date: PropTypes.string.isRequired,
+  //     user: PropTypes.number.isRequired
+  //   })
+  // ),
   name: PropTypes.string.isRequired,
   profile_image: PropTypes.string,
   username: PropTypes.string.isRequired
@@ -133,26 +133,34 @@ const RenderMembership = (
   );
 };
 
-const MembershipList = ({ id, start_date, end_date, branch }) => (
-  <div className={styles.listContainer}>
-    <div className={styles.branch}>{branch.branch_name}</div>
-    <div className={styles.period}>
-      {start_date} - {end_date}
+const MembershipList = ({ id, start_date, end_date, branch }) => {
+  return (
+    <div className={`${styles.listContainer}`}>
+      <div className={styles.branch}>{branch.branch_name}</div>
+      <div className={styles.period}>
+        {start_date} - {end_date}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
-const CabinetList = ({ branch, cabinet_number, start_date, end_date }) => (
-  <div className={styles.listContainer}>
-    <div className={styles.branch}>
-      {branch.branch_name} {cabinet_number}번 사물함
+const CabinetList = ({ branch, cabinet_number, start_date, end_date }) => {
+  const is_expired = moment(end_date).valueOf() < moment().valueOf();
+  return (
+    <div
+      className={`${styles.listContainer} ${is_expired ? styles.expired : ""}`}
+    >
+      <div className={styles.branch}>
+        {branch.branch_name} {cabinet_number}번 사물함{" "}
+        {is_expired ? "만료" : ""}
+      </div>
+      <div className={styles.period}>
+        {moment(start_date).format("YYYY-MM-DD HH:mm:ss")} -{" "}
+        {moment(end_date).format("YYYY-MM-DD HH:mm:ss")}
+      </div>
     </div>
-    <div className={styles.period}>
-      {moment(start_date).format("YYYY-MM-DD HH:mm:ss")} -{" "}
-      {moment(end_date).format("YYYY-MM-DD HH:mm:ss")}
-    </div>
-  </div>
-);
+  );
+};
 
 export default MyInfo;
 

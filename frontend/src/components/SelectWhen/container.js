@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
-import SelectWhen from './presenter';
-import moment from 'moment';
-import {scroller} from 'react-scroll';
+import React, { Component } from "react";
+import SelectWhen from "./presenter";
+import moment from "moment";
+import { scroller } from "react-scroll";
 
 class Container extends Component {
   constructor(props) {
@@ -17,8 +17,8 @@ class Container extends Component {
     // scrollSpy.update();
 
     // this._scrollTo();
-    const start_date = moment(new Date()).format('YYYY-MM-DD');
-    const start_time = moment(new Date()).format('HH:mm:ss');
+    const start_date = moment(new Date()).format("YYYY-MM-DD");
+    const start_time = moment(new Date()).format("HH:mm:ss");
 
     this.props.setSelDateStart(start_date);
     this.props.setSelTimeStart(start_time);
@@ -28,12 +28,12 @@ class Container extends Component {
     let end_datetime;
     if (nextProps.cost_type) {
       const start_datetime = this.props.start_date.concat(
-        ' ',
+        " ",
         this.props.start_time
       );
       end_datetime = moment(start_datetime)
-        .add(Number(nextProps.cost_type.days) * 24, 'hour')
-        .format('YYYY-MM-DD HH:mm:ss');
+        .add(Number(nextProps.cost_type.days) * 24, "hour")
+        .format("YYYY-MM-DD HH:mm:ss");
 
       this.props.setSelEndDateTime(end_datetime);
     }
@@ -45,11 +45,11 @@ class Container extends Component {
   // }
 
   _scrollTo = () => {
-    scroller.scrollTo('select_when', {
+    scroller.scrollTo("select_when", {
       duration: 1500,
       delay: 100,
       smooth: true,
-      offset: 50,
+      offset: 50
     });
   };
 
@@ -65,12 +65,12 @@ class Container extends Component {
 
   _onChangeDateHandler(m) {
     const datetime = m._d;
-    const start_date = moment(datetime).format('YYYY-MM-DD');
+    const start_date = moment(datetime).format("YYYY-MM-DD");
     this.props.setSelDateStart(start_date);
   }
   _onChangeTimeHandler(m) {
     const datetime = m._d;
-    const start_time = moment(datetime).format('HH:mm:ss');
+    const start_time = moment(datetime).format("HH:mm:ss");
     this.props.setSelTimeStart(start_time);
   }
 }

@@ -9,6 +9,52 @@ from rest_framework import status
 from datetime import datetime, timedelta
 
 
+class EnrollMembership(APIView):
+    def post(self, request, format=None):
+        user = users_models.User.objects.get(id=request.data['user'])
+
+        branch = branch_models.Branch.objects.get(id=request.data['branch'])
+        start_date = datetime.strptime(request.data['start_datetime'],
+                                       '%Y-%m-%d %H:%M:%S')
+        end_date = datetime.strptime(request.data['end_datetime'],
+                                     '%Y-%m-%d %H:%M:%S')
+
+        new_membership = models.Membership.objects.create(
+            user=user,
+            branch=branch,
+            start_date=start_date,
+            end_date=end_date,
+            is_usable=True)
+
+        new_membership.save()
+
+        return Response(status=status.HTTP_201_CREATED)
+
+
+class ExtendMembership(APIView):
+    # 맴버쉽 연장
+    def put(self, request, format=None):
+
+        # 슈퍼 유저 혹은 스태프인지 확인
+        # 결제정보 확인
+
+        membership_id = request.data['membership_id']
+        days = request.data['days']
+        try:
+            target_membership_obj = models.Membership.objects.get(
+                id=membership_id)
+            target_membership_obj.end_date = target_membership_obj.end_date + timedelta(
+                hours=days * 24)
+            target_membership_obj.save()
+
+            serializer = serializers.MembershipSerializer(
+                target_membership_obj)
+        except models.Membership.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        return Response(data=serializer.data, status=status.HTTP_202_ACCEPTED)
+
+
 class GetActions(APIView):
     # 액션 정보 불러오기(취소, 연장, 등록)
     def get(self, request, format=None):
@@ -182,152 +228,152 @@ class EnrollMembershipBySuper(APIView):
                 data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class EnrollMembership(APIView):
-    def check_overlap(self, user, start_date, end_date):
-        now = datetime.today()
-        usable_memberships = models.Membership.objects.filter(
-            end_date__gte=now, is_usable=True, user=user)
+# class EnrollMembership(APIView):
+#     def check_overlap(self, user, start_date, end_date):
+#         now = datetime.today()
+#         usable_memberships = models.Membership.objects.filter(
+#             end_date__gte=now, is_usable=True, user=user)
 
-        for membership in usable_memberships:
-            if membership.end_date >= start_date and membership.end_date < end_date:
-                return False
+#         for membership in usable_memberships:
+#             if membership.end_date >= start_date and membership.end_date < end_date:
+#                 return False
 
-            if membership.start_date <= start_date and end_date <= membership.start_date:
-                return False
+#             if membership.start_date <= start_date and end_date <= membership.start_date:
+#                 return False
 
-            if membership.start_date <= end_date and start_date < membership.start_date:
-                return False
-        return True
+#             if membership.start_date <= end_date and start_date < membership.start_date:
+#                 return False
+#         return True
 
-    def check_user(self, user, creator):
+#     def check_user(self, user, creator):
 
-        if user == creator:
-            return True
+#         if user == creator:
+#             return True
 
-        else:
-            return False
+#         else:
+#             return False
 
-    def check_payment_user(self, user, payment):
+#     def check_payment_user(self, user, payment):
 
-        if payment.user == user:
-            return True
-        else:
-            return False
+#         if payment.user == user:
+#             return True
+#         else:
+#             return False
 
-    def check_payment_days(self, payment, enroll_days):
+#     def check_payment_days(self, payment, enroll_days):
 
-        if payment.cost_type.days == enroll_days:
-            return True
-        else:
-            return False
+#         if payment.cost_type.days == enroll_days:
+#             return True
+#         else:
+#             return False
 
-    def check_payment_usable(self, payment):
-        return payment.is_usable
+#     def check_payment_usable(self, payment):
+#         return payment.is_usable
 
-    def payment_checkout(self, payment):
+#     def payment_checkout(self, payment):
 
-        payment_serializer = payment_serializers.InputPaymentSerializer(
-            payment, data={'is_usable': False}, partial=True)
+#         payment_serializer = payment_serializers.InputPaymentSerializer(
+#             payment, data={'is_usable': False}, partial=True)
 
-        if payment_serializer.is_valid():
-            payment_serializer.save()
-            return True
+#         if payment_serializer.is_valid():
+#             payment_serializer.save()
+#             return True
 
-        else:
-            return False
+#         else:
+#             return False
 
-    def enroll_membership(sefl, membership):
+#     def enroll_membership(sefl, membership):
 
-        membership.save()
+#         membership.save()
 
-        return True
+#         return True
 
-    def enroll_membership_history(self, membership, creator, action):
-        new_membership_history = models.MembershipHistory.objects.create(
-            membership=membership,
-            creator=creator,
-            action=action,
-        )
-        new_membership_history.save()
+#     def enroll_membership_history(self, membership, creator, action):
+#         new_membership_history = models.MembershipHistory.objects.create(
+#             membership=membership,
+#             creator=creator,
+#             action=action,
+#         )
+#         new_membership_history.save()
 
-        return True
+#         return True
 
-    def post(self, request, user_id, payment_id, format=None):
-        # 멤버쉽 등록
-        # request -> {"start_date":"2018-10-10 12:22:12", "days":"30", "branch_id":"1"}
-        # 맴버쉽 등록
-        creator = request.user
-        action = models.Action.objects.get(substance='regist')
-        enrolled_days = int(request.data['days'])
+#     def post(self, request, user_id, payment_id, format=None):
+#         # 멤버쉽 등록
+#         # request -> {"start_date":"2018-10-10 12:22:12", "days":"30", "branch_id":"1"}
+#         # 맴버쉽 등록
+#         creator = request.user
+#         action = models.Action.objects.get(substance='regist')
+#         enrolled_days = int(request.data['days'])
 
-        try:
-            payment = payment_models.PaymentHistory.objects.get(id=payment_id)
-        except payment_models.PaymentHistory.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+#         try:
+#             payment = payment_models.PaymentHistory.objects.get(id=payment_id)
+#         except payment_models.PaymentHistory.DoesNotExist:
+#             return Response(status=status.HTTP_404_NOT_FOUND)
 
-        start_date = datetime.datetime.strptime(request.data['start_date'],
-                                                '%Y-%m-%d %H:%M:%S')
-        # 하루 등록시 12시간
-        if enrolled_days is 1:
-            end_date = start_date + datetime.timedelta(hours=12)
+#         start_date = datetime.datetime.strptime(request.data['start_date'],
+#                                                 '%Y-%m-%d %H:%M:%S')
+#         # 하루 등록시 12시간
+#         if enrolled_days is 1:
+#             end_date = start_date + datetime.timedelta(hours=12)
 
-        # 그 외에는 일수로 계산
-        else:
-            end_date = start_date + datetime.timedelta(days=enrolled_days)
+#         # 그 외에는 일수로 계산
+#         else:
+#             end_date = start_date + datetime.timedelta(days=enrolled_days)
 
-        branch_id = int(request.data['branch_id'])
+#         branch_id = int(request.data['branch_id'])
 
-        try:
-            branch_enrolled = branch_models.Branch.objects.get(id=branch_id)
+#         try:
+#             branch_enrolled = branch_models.Branch.objects.get(id=branch_id)
 
-        except branch_models.Branch.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+#         except branch_models.Branch.DoesNotExist:
+#             return Response(status=status.HTTP_404_NOT_FOUND)
 
-        # 등록할 사용자 찾기
-        try:
-            user_to_enrolled = users_models.User.objects.get(id=user_id)
+#         # 등록할 사용자 찾기
+#         try:
+#             user_to_enrolled = users_models.User.objects.get(id=user_id)
 
-        except models.User.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+#         except models.User.DoesNotExist:
+#             return Response(status=status.HTTP_404_NOT_FOUND)
 
-        # 사용자가 아닌 다른 사람이 등록 요청을 할시 404
-        if self.check_user(user_to_enrolled, creator) is False:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+#         # 사용자가 아닌 다른 사람이 등록 요청을 할시 404
+#         if self.check_user(user_to_enrolled, creator) is False:
+#             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-        # 결제 정보 확인, 결제한 데이터가 현재도 유효한지 검사
-        if self.check_payment_usable(payment) is False:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+#         # 결제 정보 확인, 결제한 데이터가 현재도 유효한지 검사
+#         if self.check_payment_usable(payment) is False:
+#             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-        # 사용자가 직접등록할시 본인 결제여부 확인
-        if self.check_payment_user(user_to_enrolled, payment) is False:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+#         # 사용자가 직접등록할시 본인 결제여부 확인
+#         if self.check_payment_user(user_to_enrolled, payment) is False:
+#             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-        # 등록 요청한 날이랑 결제한 날이랑 맞는지 확인
-        if self.check_payment_days(payment, enrolled_days) is False:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+#         # 등록 요청한 날이랑 결제한 날이랑 맞는지 확인
+#         if self.check_payment_days(payment, enrolled_days) is False:
+#             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-        # 이미 등록되어있는 맴버쉽중 겹치는 날이 있는지 확인
-        if self.check_overlap(user, start_date, end_date) is False:
-            return Response(status=status.HTTP_403_FORBIDDEN)
+#         # 이미 등록되어있는 맴버쉽중 겹치는 날이 있는지 확인
+#         if self.check_overlap(user, start_date, end_date) is False:
+#             return Response(status=status.HTTP_403_FORBIDDEN)
 
-        # 결제한 정보 체크아웃 처리
-        if self.payment_checkout(payment) is False:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+#         # 결제한 정보 체크아웃 처리
+#         if self.payment_checkout(payment) is False:
+#             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-        # 멤버쉽 등록
-        new_membership = models.Membership.objects.create(
-            user=user_to_enrolled,
-            branch=branch_enrolled,
-            start_date=start_date,
-            end_date=end_date)
+#         # 멤버쉽 등록
+#         new_membership = models.Membership.objects.create(
+#             user=user_to_enrolled,
+#             branch=branch_enrolled,
+#             start_date=start_date,
+#             end_date=end_date)
 
-        serializer = serializers.MembershipSerializer(new_membership)
+#         serializer = serializers.MembershipSerializer(new_membership)
 
-        if (self.enroll_membership(new_membership)):
-            if self.enroll_membership_history(new_membership, creator, action):
-                return Response(
-                    data=serializer.data, status=status.HTTP_201_CREATED)
-            else:
-                return Response(status=status.HTTP_400_BAD_REQUEST)
-        else:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+#         if (self.enroll_membership(new_membership)):
+#             if self.enroll_membership_history(new_membership, creator, action):
+#                 return Response(
+#                     data=serializer.data, status=status.HTTP_201_CREATED)
+#             else:
+#                 return Response(status=status.HTTP_400_BAD_REQUEST)
+#         else:
+#             return Response(status=status.HTTP_400_BAD_REQUEST)

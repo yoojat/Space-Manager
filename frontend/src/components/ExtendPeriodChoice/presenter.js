@@ -14,7 +14,7 @@ const ExtendPeriodChoice = (props, context) => {
 
   return membership_cost_types ? (
     <Fragment>
-      <div className={styles.message}>연장 일수를 선택해주세요</div>
+      <div className={styles.message}>연장 일수를 선택해주세요!</div>
       <div className={styles.container}>
         {membership_cost_types.map(cost_type => {
           return (

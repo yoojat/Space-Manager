@@ -11,12 +11,16 @@ const ExtendCabinetList = (props, context) => {
   })
     ? `${styles.listContainer} ${styles.select}`
     : `${styles.listContainer}`;
+  const is_expired = moment(my_cabinet.end_date).valueOf() < moment().valueOf();
 
   return (
-    <div className={listContainerClasses} onClick={onCabinetClick}>
+    <div
+      className={`${listContainerClasses} ${is_expired ? styles.expired : ""}`}
+      onClick={onCabinetClick}
+    >
       <div className={styles.branch}>
         {my_cabinet.cabinet_set.branch.branch_name} {my_cabinet.cabinet_number}번
-        사물함
+        사물함 {is_expired ? "만료" : ""}
       </div>
       <div className={styles.period}>
         {moment(my_cabinet.start_date).format("YYYY-MM-DD HH:mm:ss")} -{" "}

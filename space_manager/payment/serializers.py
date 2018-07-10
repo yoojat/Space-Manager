@@ -50,6 +50,7 @@ class PaymentMethodSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.PaymentMethod
         fields = (
+            'id',
             'substance',
             'kr_substance',
         )
@@ -59,13 +60,14 @@ class PaymentHistorySerializer(serializers.ModelSerializer):
     class Meta:
         model = models.PaymentHistory
         fields = (
-            'cost_type',
+            'membership_cost_type',
+            'cabinet_cost_type',
             'cost_value',
             'payment_method',
             'is_usable',
         )
 
-        read_only_fields = ('created_at', )
+        # read_only_fields = ('created_at', )
 
 
 class InputPaymentSerializer(serializers.ModelSerializer):

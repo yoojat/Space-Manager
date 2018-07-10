@@ -1,12 +1,14 @@
 import { connect } from "react-redux";
 import Container from "./container";
 import { actionCreators as extendMebershipActions } from "redux/modules/extendMembership";
-import { actionCreators as registActions } from "redux/modules/regist";
 
 const mapStateToProps = (state, ownProps) => {
   const {
-    extendMembership: { membership_extend, sel_cost_type },
-    regist: { membership_cost_types }
+    extendMembership: {
+      membership_extend,
+      sel_cost_type,
+      membership_cost_types
+    }
   } = state;
   return {
     membership_extend,
@@ -18,7 +20,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     fetchMembershipCostTypes: () => {
-      dispatch(registActions.fetchMembershipCostTypes());
+      dispatch(extendMebershipActions.fetchExtendMembershipCostTypes());
     },
     setExtendCostType: sel_cost_type => {
       dispatch(extendMebershipActions.setExtendCostType(sel_cost_type));

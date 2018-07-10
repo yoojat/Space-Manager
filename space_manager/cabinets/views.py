@@ -10,6 +10,69 @@ from django.utils.datastructures import MultiValueDictKeyError
 from datetime import datetime, timedelta
 
 
+class EnrollCabinets(APIView):
+    def get_cabinet(self, id):
+        try:
+            found_user = models.Cabinet.objects.get(id=id)
+            return found_user
+        except models.User.DoesNotExist:
+            return None
+
+    def get_user(self, id):
+        try:
+            target_user = user_models.User.objects.get(id=id)
+            return target_user
+        except user_models.DoesNotExist:
+            return None
+
+    def put(self, request, format=None):
+
+        cabinets = request.data['cabinets']
+        is_clean = request.data['is_clean']
+        start_date = request.data['start_date']
+        end_date = request.data['end_date']
+        user_id = request.data['user']
+        target_user = self.get_user(user_id)
+
+        for cabinet in cabinets:
+            target_cabinet = self.get_cabinet(cabinet['id'])
+            target_cabinet.start_date = start_date
+            target_cabinet.end_date = end_date
+            target_cabinet.user = target_user
+            target_cabinet.is_clean = is_clean
+            target_cabinet.save()
+
+            serializer = serializers.CabinetSerializerForSelect(target_cabinet)
+
+        return Response(data=serializer.data, status=status.HTTP_202_ACCEPTED)
+
+
+class ExtendCabinet(APIView):
+    # 맴버쉽 연장
+    def put(self, request, format=None):
+
+        # 슈퍼 유저 혹은 스태프인지 확인
+        # 결제정보 확인
+
+        cabinets_extend = request.data['cabinets_extend']
+        days = request.data['days']
+        try:
+            for cabinet_extend in cabinets_extend:
+
+                target_cabinet_obj = models.Cabinet.objects.get(
+                    id=cabinet_extend['id'])
+                target_cabinet_obj.end_date = target_cabinet_obj.end_date + timedelta(
+                    hours=days * 24)
+                target_cabinet_obj.save()
+
+                serializer = serializers.CabinetSerializerForSelect(
+                    target_cabinet_obj)
+        except models.Cabinet.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        return Response(data=serializer.data, status=status.HTTP_202_ACCEPTED)
+
+
 class BranchCabinetSets(APIView):
     def find_branch(self, branch_id):
         try:
@@ -37,9 +100,9 @@ class MyCabinets(APIView):
 
         try:
             # 현재 사용자의 사물함 중 만료시각이 현재보다 같거나 큰 것들을 불러옴
-            cabinets = models.Cabinet.objects.filter(
-                user=user, end_date__gte=now, is_clean=False)
-
+            cabinets = models.Cabinet.objects.filter(user=user, is_clean=False)
+            # cabinets = models.Cabinet.objects.filter(
+            #     user=user, end_date__gte=now, is_clean=False)
             return cabinets
         except models.UseCabinet.DoesNotExist:
             return None
@@ -275,6 +338,7 @@ class CabinetSet(APIView):
                 data=serializer.data, status=status.HTTP_201_CREATED)
 
         else:
+            print(serializer.errors)
             return Response(
                 data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

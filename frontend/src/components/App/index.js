@@ -9,13 +9,15 @@ const mapStateToProps = (state, ownProps) => {
   const {
     user,
     // routing: { location },
-    seat: { now_using }
+    seat: { now_using },
+    membership: { my_memberships }
   } = state;
 
   return {
     isLoggedIn: user.isLoggedIn,
     userid: user.id,
-    now_using: now_using
+    now_using: now_using,
+    my_memberships
     // pathname: location.pathname
   };
 };
@@ -37,4 +39,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 };
 
 // 만든 mapStateToProps를 통해 만든 props를 Container와 연결해줌 그리고 그 Container를 내보냄
-export default connect(mapStateToProps, mapDispatchToProps)(Container);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Container);

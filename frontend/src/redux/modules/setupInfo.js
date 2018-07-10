@@ -1,4 +1,5 @@
 // imports
+import moment from "moment";
 
 //actions
 const SET_EXTEND_MEMBERSHIP_COMPLETE = "SET_EXTEND_MEMBERSHIP_COMPLETE";
@@ -9,8 +10,14 @@ const SET_ENROLL_CABINET_COMPLETE = "SET_ENROLL_CABINET_COMPLETE";
 const SET_ENROLL_CABINET_NOT_COMPLETE = "SET_ENROLL_CABINET_NOT_COMPLETE";
 const SET_EXTEND_CABINET_COMPLETE = "SET_EXTEND_CABINET_COMPLETE";
 const SET_EXTEND_CABINET_NOT_COMPLETE = "SET_EXTEND_CABINET_NOT_COMPLETE";
+const SET_NOW_DATETIME = "SET_NOW_DATETIME";
 
 //action creators : 리덕스 state를 변경
+function setNowDatetime() {
+  return {
+    type: SET_NOW_DATETIME
+  };
+}
 
 function setExtendMembershipComplete() {
   return {
@@ -67,7 +74,8 @@ const initialState = {
   extendMembershipComplete: false,
   enrollMembershipComplete: false,
   enrollCabinetComplete: false,
-  extendCabinetComplete: false
+  extendCabinetComplete: false,
+  now_datetime: null
 };
 
 //reducer
@@ -89,12 +97,20 @@ function reducer(state = initialState, action) {
       return applyExtendCabinetComplete(state, action);
     case SET_EXTEND_CABINET_NOT_COMPLETE:
       return applyExtendCabinetNotComplete(state, action);
-
+    case SET_NOW_DATETIME:
+      return applySetNowDatetime(state, action);
     default:
       return state;
   }
 }
 //reducer functions
+function applySetNowDatetime(state, action) {
+  return {
+    ...state,
+    now_datetime: moment().format("YYYY-MM-DD HH:mm:ss")
+  };
+}
+
 function applyExtendMembershipComplete(state, action) {
   return {
     ...state,
@@ -154,7 +170,8 @@ const actionCreators = {
   setEnrollCabinetComplete,
   setEnrollCabinetNotComplete,
   setExtendCabinetComplete,
-  setExtendCabinetNotComplete
+  setExtendCabinetNotComplete,
+  setNowDatetime
 };
 
 export { actionCreators };

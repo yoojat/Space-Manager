@@ -10,10 +10,10 @@ class Container extends Component {
       membership_cost_types,
       setSelCostType,
       start_datetime,
-      setSelEnrollMembershipEndDateTime,
-      setAllInfoSetup,
-      setAllInfoNotSetup,
-      all_info_setup
+      setSelEnrollMembershipEndDateTime
+      // setAllInfoSetup,
+      // setAllInfoNotSetup,
+      // all_info_setup
     } = this.props;
     const target_cost_type = membership_cost_types.find(function(cost_type) {
       return cost_type.id === id;
@@ -23,15 +23,15 @@ class Container extends Component {
       .format("YYYY-MM-DD HH:mm:ss");
     setSelCostType(target_cost_type);
     setSelEnrollMembershipEndDateTime(sel_end_datetime);
-    if (target_cost_type.days <= 1) {
-      if (!all_info_setup) {
-        setAllInfoSetup();
-      }
-    } else {
-      if (all_info_setup) {
-        setAllInfoNotSetup();
-      }
-    }
+    // if (target_cost_type.days <= 1) {
+    //   if (!all_info_setup) {
+    //     setAllInfoSetup();
+    //   }
+    // } else {
+    //   if (all_info_setup) {
+    //     setAllInfoNotSetup();
+    //   }
+    // }
   };
 
   render() {

@@ -68,7 +68,9 @@ class PaymentHistory(membership_models.TimeStampedModel):
     """ Payment History Model """
 
     user = models.ForeignKey(user_models.User, null=True)
-    cost_type = models.ForeignKey(CostType, null=True)
+    membership_cost_type = models.ForeignKey(CostType, null=True, blank=True)
+    cabinet_cost_type = models.ForeignKey(
+        CabinetCostType, null=True, blank=True)
     cost_value = models.IntegerField(null=True)
     payment_method = models.ForeignKey(PaymentMethod, null=True)
     is_usable = models.BooleanField(default=True)
@@ -76,9 +78,9 @@ class PaymentHistory(membership_models.TimeStampedModel):
         user_models.User, related_name='creator', null=True)
 
     def __str__(self):
-        return '{}_{}_{}_{} by {}'.format(self.user, self.cost_type,
-                                          self.cost_value, self.payment_method,
-                                          self.creator)
+        return '{}_{}_{}_{} by {}'.format(
+            self.user, self.membership_cost_type, self.cabinet_cost_type,
+            self.cost_value, self.payment_method, self.creator)
 
     class Meta:
         ordering = ['-created_at']

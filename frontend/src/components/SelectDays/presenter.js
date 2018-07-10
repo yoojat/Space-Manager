@@ -1,9 +1,9 @@
-import React, {Fragment} from 'react';
-import PropTypes from 'prop-types';
-import styles from './styles.scss';
-import moment from 'moment';
+import React, { Fragment } from "react";
+import PropTypes from "prop-types";
+import styles from "./styles.scss";
+import moment from "moment";
 
-import {Element} from 'react-scroll';
+import { Element } from "react-scroll";
 
 const SelectDays = (props, context) => {
   if (props.loading) {
@@ -29,17 +29,17 @@ const RenderSelectDays = (props, context) => {
     cost_type,
     start_date,
     start_time,
-    selected_button,
+    selected_button
   } = props;
   let end = null;
-  const start_datetime = start_date.concat(' ', start_time);
+  const start_datetime = start_date.concat(" ", start_time);
   if (cost_type) {
-    end = moment(start_datetime).add(Number(cost_type.days) * 24, 'hour');
+    end = moment(start_datetime).add(Number(cost_type.days) * 24, "hour");
   } else {
     end = moment();
   }
 
-  const show_end_datetime = end.format('YYYY-MM-DD HH:mm:ss');
+  const show_end_datetime = end.format("YYYY-MM-DD HH:mm:ss");
 
   return (
     <Fragment>
@@ -49,8 +49,8 @@ const RenderSelectDays = (props, context) => {
       <div className={styles.container}>
         {membership_cost_types.map(cost_type => {
           const end_datetime = moment(start_datetime)
-            .add(Number(cost_type.days) * 24, 'hour')
-            .format('YYYY-MM-DD HH:mm:ss');
+            .add(Number(cost_type.days) * 24, "hour")
+            .format("YYYY-MM-DD HH:mm:ss");
 
           return (
             <DaysButton
@@ -67,20 +67,20 @@ const RenderSelectDays = (props, context) => {
 
       {cost_type ? (
         <div className={styles.showPeriod}>
-          {' '}
-          <span className={styles.blue}>{cost_type.title}</span> 등록시,{' '}
+          {" "}
+          <span className={styles.blue}>{cost_type.title}</span> 등록시,{" "}
           <span className={styles.blue}>{show_end_datetime}</span>까지 이용 가능
         </div>
       ) : (
-        ''
+        ""
       )}
     </Fragment>
   );
 };
 
 const DaysButton = (props, context) => {
-  const {cost_type, isSelected, end_datetime} = props;
-  const classes = `${styles.button} ${isSelected ? styles.selected : ''}`;
+  const { cost_type, isSelected, end_datetime } = props;
+  const classes = `${styles.button} ${isSelected ? styles.selected : ""}`;
 
   const onDaysClick = () => {
     props.onDaysClick(cost_type, end_datetime);
@@ -99,7 +99,7 @@ const DaysButton = (props, context) => {
             )}원/30일)
           </div>
         ) : (
-          ''
+          ""
         )}
       </div>
     </Fragment>
@@ -107,7 +107,7 @@ const DaysButton = (props, context) => {
 };
 
 function numberWithCommas(x) {
-  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 SelectDays.propTypes = {
@@ -124,18 +124,18 @@ SelectDays.propTypes = {
       enroll_type: PropTypes.shape({
         en_substance: PropTypes.string.isRequired,
         kr_substance: PropTypes.string.isRequired,
-        id: PropTypes.number.isRequired,
+        id: PropTypes.number.isRequired
       }).isRequired,
       id: PropTypes.number.isRequired,
-      title: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired
     })
   ),
   loading: PropTypes.bool.isRequired,
   getMembershipCostTypes: PropTypes.func.isRequired,
-  setSelEndDateTime: PropTypes.func.isRequired,
+  setSelEndDateTime: PropTypes.func.isRequired
 };
 SelectDays.contextTypes = {
-  t: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired
 };
 
 export default SelectDays;

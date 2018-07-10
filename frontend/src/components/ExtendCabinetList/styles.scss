@@ -14,6 +14,16 @@
     background-color: #374bab;
     color: white;
   }
+
+  &.expired {
+    color: #d95350;
+    border-color: #d95350;
+    &:hover {
+      background-color: #d95350;
+      color: white;
+    }
+  }
+
   &.select {
     background-color: #374bab;
     color: white;

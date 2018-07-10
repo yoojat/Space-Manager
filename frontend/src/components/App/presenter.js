@@ -11,19 +11,25 @@ import LoungeFeed from "components/LoungeFeed";
 import MyInfo from "components/MyInfo";
 import Main from "components/Main";
 import EnrollMembership from "components/EnrollMembership";
-import ExtendMembership from 'components/ExtendMembership';
+import ExtendMembership from "components/ExtendMembership";
+import RegistCabinet from "components/RegistCabinet";
+import EnrollCabinetOnly from "components/EnrollCabinetOnly";
 
 //app에서 모든 route를 관리
 //리액트에서는 하나의 컴포터넌트를 리턴하는 것이 아니라, array를 리턴할수도 있음
 const App = props => {
-  const { now_using, isLoggedIn, userid } = props;
+  const { now_using, isLoggedIn, userid, my_memberships } = props;
   return (
     <BrowserRouter>
       <Fragment>
         {isLoggedIn && userid ? (
           <Fragment>
             <Navigation />
-            <PrivateRoutes now_using={now_using} userid={userid} />
+            <PrivateRoutes
+              now_using={now_using}
+              userid={userid}
+              my_memberships={my_memberships}
+            />
           </Fragment>
         ) : props.isLoggedIn ? null : (
           <PublicRoutes />
@@ -44,7 +50,7 @@ App.propTypes = {
 
 // 로그인했을 때 보여지는 컴포넌트
 const PrivateRoutes = props => {
-  const { now_using } = props;
+  const { now_using, my_memberships } = props;
 
   if (now_using) {
     history.push("/현재 이용하고 있는 좌석으로 이동");
@@ -59,8 +65,19 @@ const PrivateRoutes = props => {
       {/* <Route exact path="/" component={Branches} /> */}
       <Route path={`/myinfo`} component={MyInfo} />
 
-      <Route path="/enroll" component={EnrollMembership}/>
-      <Route path="/extend" component={ExtendMembership}/>
+      <Route
+        path="/enroll"
+        component={
+          my_memberships
+            ? my_memberships.length
+              ? ExtendMembership
+              : EnrollMembership
+            : EnrollMembership
+        }
+      />
+      <Route path="/extend" component={ExtendMembership} />
+      <Route path="/cabinet" component={RegistCabinet} />
+      <Route path="/enrollcabinet" component={EnrollCabinetOnly} />
     </div>
   );
 };

@@ -3,28 +3,60 @@ from rest_framework.response import Response
 from . import models, serializers
 from space_manager.users import models as users_models
 from rest_framework import status
+import requests
+
 
 # Create your views here.
+class PayMethod(APIView):
+    def get(self, request, format=None):
+        all_pay_methods = models.PaymentMethod.objects.all()
+
+        serializer = serializers.PaymentMethodSerializer(
+            all_pay_methods, many=True)
+
+        return Response(data=serializer.data)
+
+
+class PayCheck(APIView):
+    def post(self, request, format=None):
+
+        r = requests.post(
+            'https://api.iamport.kr/users/getToken',
+            data={
+                'imp_key': request.data['imp_key'],
+                'imp_secret': request.data['imp_secret']
+            })
+        if (r.status_code == 200):
+            access_token = r.json()['response']['access_token']
+            headers = {'Authorization': access_token}
+
+            r2 = requests.post(
+                'https://api.iamport.kr/payments/' + request.data['imp_uid'],
+                headers=headers)
+            if (r2.status_code == 200):
+                return Response(data=r2.json(), status=status.HTTP_200_OK)
+            else:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 class Payment(APIView):
     def post(self, request, user_id, format=None):
         # 사용자 결제하기
         # cost_type,cost_value,payment_method,is_usable
-
         creator = request.user
         enrolled_user = users_models.User.objects.get(id=user_id)
 
         # 본인이 아닌 다른 사람이 결제할려고 할 경우
         # 관리자가 아닌 사람이 결제할 경우 400
         # 관리자일 경우 계속 진행
-        if creator is not enrolled_user:
-            if creator.is_superuser == False:
-                return Response(
-                    data=serializer.errors,
-                    status=status.HTTP_401_UNAUTHORIZED)
 
         serializer = serializers.PaymentHistorySerializer(data=request.data)
+
+        if creator.id is not enrolled_user.id:
+            if creator.is_superuser == False:
+                return Response(status=status.HTTP_401_UNAUTHORIZED)
 
         if serializer.is_valid():
             serializer.save(user=enrolled_user, creator=creator)
@@ -33,6 +65,7 @@ class Payment(APIView):
                 data=serializer.data, status=status.HTTP_201_CREATED)
 
         else:
+            print(serializer.is_valid())
             return Response(
                 data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

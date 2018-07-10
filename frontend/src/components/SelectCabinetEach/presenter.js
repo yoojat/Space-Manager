@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 // import PropTypes from 'prop-types';
-import styles from './styles.scss';
-import {Element} from 'react-scroll';
-import Loading from 'components/Loading';
-import Faltu from 'faltu';
+import styles from "./styles.scss";
+import { Element } from "react-scroll";
+import Loading from "components/Loading";
+import Faltu from "faltu";
 
-function _valueCheck (cabinets, cabinet) {
+function _valueCheck(cabinets, cabinet) {
   for (let i = 0, len = cabinets.length; i < len; i++) {
     if (cabinets[i].id === cabinet.id) {
       return true;
@@ -15,26 +15,28 @@ function _valueCheck (cabinets, cabinet) {
 }
 
 const SelectCabinetEach = (props, context) => {
-  const {sel_cabinet_set, loading, onCabinetClick, sel_cabinets} = props;
+  const { sel_cabinet_set, loading, onCabinetClick, sel_cabinets } = props;
 
   return (
     <Element name="show_cabinet">
-      {loading
-        ? <Loading />
-        : <ShowCabinets
-            sel_cabinet_set={sel_cabinet_set}
-            onCabinetClick={onCabinetClick}
-            sel_cabinets={sel_cabinets}
-          />}
+      {loading ? (
+        <Loading />
+      ) : (
+        <ShowCabinets
+          sel_cabinet_set={sel_cabinet_set}
+          onCabinetClick={onCabinetClick}
+          sel_cabinets={sel_cabinets}
+        />
+      )}
     </Element>
   );
 };
 
 const ShowCabinets = (props, context) => {
   const {
-    sel_cabinet_set: {horizontal_num, vertical_num, cabinets},
+    sel_cabinet_set: { horizontal_num, vertical_num, cabinets },
     onCabinetClick,
-    sel_cabinets,
+    sel_cabinets
   } = props;
 
   let rows = [];
@@ -44,16 +46,18 @@ const ShowCabinets = (props, context) => {
     for (var idx = 0; idx < horizontal_num; idx++) {
       let cellID = `cell${i}-${idx}`;
       // console.log('idx, i : ', idx, i);
-      let cabinet = Faltu (cabinets)
-        .find ({xpos: idx + 1, ypos: i + 1})
-        .get ()[0];
+      let cabinet = Faltu(cabinets)
+        .find({ xpos: idx + 1, ypos: i + 1 })
+        .get()[0];
 
-      let is_sel_cabinet = _valueCheck (sel_cabinets, cabinet);
+      let is_sel_cabinet = _valueCheck(sel_cabinets, cabinet);
 
       let classes = `
-      ${cabinet.is_available ? styles.available : styles.noavailable} ${styles.tableCol} ${is_sel_cabinet ? styles.selected : ''}`;
+      ${cabinet.is_available ? styles.available : styles.noavailable} ${
+        styles.tableCol
+      } ${is_sel_cabinet ? styles.selected : ""}`;
       // console.log(newData);
-      cell.push (
+      cell.push(
         <TableData
           cellID={cellID}
           classes={classes}
@@ -63,7 +67,7 @@ const ShowCabinets = (props, context) => {
         />
       );
     }
-    rows.push (
+    rows.push(
       <tr key={i} id={rowID} className={styles.tableRow}>
         {cell}
       </tr>
@@ -75,28 +79,28 @@ const ShowCabinets = (props, context) => {
         <div className={styles.displayCol}>
           <div
             className={styles.stateColor}
-            style={{backgroundColor: '#f7465b'}}
+            style={{ backgroundColor: "#f7465b" }}
           />
           이용불가
         </div>
         <div className={styles.displayCol}>
           <div
             className={styles.stateColor}
-            style={{backgroundColor: 'white'}}
+            style={{ backgroundColor: "white" }}
           />
           이용가능
         </div>
         <div className={styles.displayCol}>
           <div
             className={styles.stateColor}
-            style={{backgroundColor: '#374bab'}}
+            style={{ backgroundColor: "#374bab" }}
           />
           내사물함
         </div>
         <div className={styles.displayCol}>
           <div
             className={styles.stateColor}
-            style={{backgroundColor: '#cdeefb'}}
+            style={{ backgroundColor: "#cdeefb" }}
           />
           선택한 사물함
         </div>
@@ -110,10 +114,10 @@ const ShowCabinets = (props, context) => {
 };
 
 const TableData = (props, context) => {
-  const {onCabinetClick, cabinet} = props;
+  const { onCabinetClick, cabinet } = props;
   const cabinetClickHandler = e => {
     if (cabinet.is_available) {
-      onCabinetClick (cabinet);
+      onCabinetClick(cabinet);
     }
   };
   return (
