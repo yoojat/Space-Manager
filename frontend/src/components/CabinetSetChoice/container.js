@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import CabinetSetChoice from "./presenter";
+import { scroller } from "react-scroll";
 
 class Container extends Component {
   state = {

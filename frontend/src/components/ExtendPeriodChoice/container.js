@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import ExtendPeriodChoice from "./presenter";
+import { scroller } from "react-scroll";
 
 class Container extends Component {
   state = {};
@@ -9,6 +10,15 @@ class Container extends Component {
     if (!membership_cost_types.length) {
       fetchMembershipCostTypes();
     }
+  }
+
+  componentDidMount() {
+    scroller.scrollTo("ExtendPeriodChoice", {
+      duration: 1500,
+      delay: 100,
+      smooth: true,
+      offset: 50
+    });
   }
 
   _onPeriodClick = id => {

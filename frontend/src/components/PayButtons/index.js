@@ -9,7 +9,7 @@ const mapStateToProps = (state, ownProps) => {
     enrollCabinet,
     extendCabinet,
     cabinet: { my_cabinets },
-    user: { name }
+    user: { name, phone }
   } = state;
 
   return {
@@ -18,7 +18,8 @@ const mapStateToProps = (state, ownProps) => {
     enrollCabinet,
     extendCabinet,
     my_cabinets,
-    name
+    name,
+    phone
   };
 };
 

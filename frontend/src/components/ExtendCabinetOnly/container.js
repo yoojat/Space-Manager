@@ -11,12 +11,15 @@ class Container extends Component {
       clearEnrollMembership,
       clearExtendMembership,
       clearEnrollCabinet,
-      clearExtendCabinet
+      clearExtendCabinet,
+      setExtendCabinetTargetUser,
+      user
     } = this.props;
     clearEnrollMembership();
     clearExtendMembership();
     clearEnrollCabinet();
     clearExtendCabinet();
+    setExtendCabinetTargetUser(user);
   }
 
   _onYesClick = () => {

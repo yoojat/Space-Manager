@@ -84,7 +84,9 @@ class Container extends Component {
       clearEnrollMembership,
       clearExtendCabinet,
       clearEnrollCabinet,
-      clearExtendMembership
+      clearExtendMembership,
+      setExtendMembershipNotComplete,
+      setEnrollMembershipNotComplete
     } = this.props;
 
     fetchBranches();
@@ -94,6 +96,8 @@ class Container extends Component {
     clearExtendCabinet();
     clearEnrollCabinet();
     clearExtendMembership();
+    setExtendMembershipNotComplete();
+    setEnrollMembershipNotComplete();
   }
 
   _onEnrollCabinetClick = () => {

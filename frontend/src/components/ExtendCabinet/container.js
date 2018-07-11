@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import ExtendCabinet from "./presenter";
+import { scroller } from "react-scroll";
 
 class Container extends Component {
   state = {
@@ -61,6 +62,20 @@ class Container extends Component {
         is_first: true
       });
     }
+  }
+
+  componentDidMount() {
+    scroller.scrollTo("ExtendCabinet", {
+      duration: 1500,
+      delay: 100,
+      smooth: true,
+      offset: 50
+    });
+  }
+
+  componentWillMount() {
+    const { user, setExtendCabinetTargetUser } = this.props;
+    setExtendCabinetTargetUser(user);
   }
 
   render() {

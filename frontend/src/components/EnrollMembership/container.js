@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import EnrollMembership from "./presenter";
-// import { scroller } from "react-scroll";
+import { scroller } from "react-scroll";
 
 class Container extends Component {
   state = {
@@ -118,17 +118,19 @@ class Container extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    // const { sel_cost_type, sel_start_datetime } = this.props;
-    // if (sel_cost_type && !sel_start_datetime) {
-    //   if (this.state.scroll_first) {
-    //     scroller.scrollTo("cabinetChapter", {
-    //       duration: 1500,
-    //       delay: 100,
-    //       smooth: true,
-    //       offset: 50
-    //     });
-    //   }
-    // }
+    const { sel_cost_type } = this.props;
+
+    if (sel_cost_type) {
+      if (this.state.scroll_first) {
+        this.setState({ ...this.state, scroll_first: false });
+        scroller.scrollTo("cabinetQuestion", {
+          duration: 1500,
+          delay: 100,
+          smooth: true,
+          offset: 50
+        });
+      }
+    }
   }
 
   componentWillMount() {
@@ -161,7 +163,9 @@ class Container extends Component {
       clearEnrollMembership,
       clearExtendCabinet,
       clearEnrollCabinet,
-      clearExtendMembership
+      clearExtendMembership,
+      setExtendMembershipNotComplete,
+      setEnrollMembershipNotComplete
     } = this.props;
     fetchBranches();
     fetchMyCabinets();
@@ -170,10 +174,11 @@ class Container extends Component {
     clearExtendCabinet(); // 사물함 연장 초기화
     clearEnrollCabinet(); // 사물함 등록 초기화
     clearExtendMembership(); // 멤버쉽 연장 초기화
+    setExtendMembershipNotComplete();
+    setEnrollMembershipNotComplete();
   }
 
   render() {
-    console.log(this.props.sel_extend_cabinet_cost_type);
     const {
       profile_image,
       username,

@@ -8,8 +8,15 @@ const SET_IS_EXTEND_CABINET_TRUE = "SET_IS_EXTEND_CABINET_TRUE";
 const SET_IS_EXTEND_CABINET_FALSE = "SET_IS_EXTEND_CABINET_FALSE";
 const CLEAR_EXTEND_CABINET = "CLEAR_EXTEND_CABINET";
 const SET_EXTEND_CABINET_COST_TYPES = "SET_EXTEND_CABINET_COST_TYPES";
-
+const SET_EXTEND_CABINET_TARGET_USER = "SET_EXTEND_CABINET_TARGET_USER";
 //action creators : 리덕스 state를 변경
+
+function setExtendCabinetTargetUser(target_user) {
+  return {
+    type: SET_EXTEND_CABINET_TARGET_USER,
+    target_user
+  };
+}
 
 function setExtendCabinetCostTypes(cabinet_cost_types) {
   return {
@@ -98,7 +105,8 @@ const initialState = {
   is_extend_cabinet: false,
   cabinets_extend: [],
   sel_cabinet_costtype: null,
-  extend_cabinet_cost_types: []
+  extend_cabinet_cost_types: [],
+  target_user: null
 };
 
 //reducer
@@ -122,12 +130,20 @@ function reducer(state = initialState, action) {
     case SET_EXTEND_CABINET_COST_TYPES:
       return applySetExtendCabinetCostTypes(state, action);
 
+    case SET_EXTEND_CABINET_TARGET_USER:
+      return applySetExtendCabinetTargetUser(state, action);
+
     default:
       return state;
   }
 }
 
 //reducer functions
+
+function applySetExtendCabinetTargetUser(state, action) {
+  const { target_user } = action;
+  return { ...state, target_user };
+}
 
 function applySetExtendCabinetCostTypes(state, action) {
   const { cabinet_cost_types } = action;
@@ -185,7 +201,8 @@ const actionCreators = {
   setIsExtendCabinetFalse,
   clearExtendCabinet,
   fetchExtendCabinetCostTypes,
-  extendCabinet
+  extendCabinet,
+  setExtendCabinetTargetUser
 };
 
 export { actionCreators };

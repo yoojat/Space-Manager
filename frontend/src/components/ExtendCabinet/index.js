@@ -4,11 +4,14 @@ import { actionCreators as extendCabinetActions } from "redux/modules/extendCabi
 
 const mapStateToProps = (state, ownProps) => {
   const {
-    extendCabinet: { is_extend_cabinet, cabinets_extend }
+    extendCabinet: { is_extend_cabinet, cabinets_extend, target_user },
+    user
   } = state;
   return {
     is_extend_cabinet,
-    cabinets_extend
+    cabinets_extend,
+    target_user,
+    user
   };
 };
 
@@ -22,6 +25,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     clearExtendCabinet: () => {
       dispatch(extendCabinetActions.clearExtendCabinet());
+    },
+    setExtendCabinetTargetUser: target_user => {
+      dispatch(extendCabinetActions.setExtendCabinetTargetUser(target_user));
     }
   };
 };

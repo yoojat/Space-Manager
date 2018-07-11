@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import EnrollCabinet from "./presenter";
+import { scroller } from "react-scroll";
 
 class Container extends Component {
   state = {
     loading: true,
-    cabinet_list_is_first: true
+    cabinet_list_is_first: true,
+    scroll_first: true
   };
 
   componentWillMount() {
@@ -14,6 +16,15 @@ class Container extends Component {
 
   componentDidMount() {
     const { sel_branch } = this.props;
+    if (!this.state.loading) {
+      scroller.scrollTo("EnrollCabinet", {
+        duration: 1500,
+        delay: 100,
+        smooth: true,
+        offset: 50
+      });
+    }
+
     if (sel_branch) {
       this.setState({
         ...this.state,
@@ -34,8 +45,21 @@ class Container extends Component {
     if (sel_cabinet_set) {
       this.setState({
         ...this.state,
+        loading: false,
         cabinet_list_is_first: false
       });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (!this.state.loading && this.state.scroll_first) {
+      scroller.scrollTo("EnrollCabinet", {
+        duraeion: 1500,
+        delay: 100,
+        smooth: true,
+        offset: 50
+      });
+      this.setState({ ...this.state, scroll_first: false });
     }
   }
 

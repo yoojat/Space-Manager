@@ -30,15 +30,18 @@ class Container extends Component {
   };
 
   render() {
-    const { branch_name } = this.props;
+    const { branch_name, profile_image, username, name } = this.props;
     return (
       <Lounge
         {...this.props}
         {...this.state}
         branch_name={branch_name}
+        profile_image={profile_image}
         openRoom={this._openRoom}
         closeRoom={this._closeRoom}
         onReturnBtnClick={this._onReturnBtnClick}
+        username={username}
+        name={name}
       />
     );
   }

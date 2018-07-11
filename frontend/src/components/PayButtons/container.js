@@ -11,9 +11,15 @@ class Container extends Component {
     const { fetchPaymethods } = this.props;
     fetchPaymethods();
   }
-  _onPayClick = () => {
+  _onPayClick = pay_method => {
     // this.props.pay();
 
+    if (pay_method === "vbank") {
+      alert(
+        "무통장입금 결제 방법은 현재 개발중입니다! 빠른 시일내에 준비하도록 하겠습니다!"
+      );
+      return;
+    }
     const {
       enrollMembership,
       extendMembership,
@@ -21,7 +27,8 @@ class Container extends Component {
       extendCabinet,
       payCheck,
       my_cabinets, //for expired cabinet checking,
-      name
+      name,
+      phone
     } = this.props;
 
     const expired_cabinet = my_cabinets.find(function(my_cabinet) {
@@ -79,7 +86,7 @@ class Container extends Component {
         ? `${extendCabinet.sel_cabinet_costtype.title} 사물함 연장`
         : "");
 
-    const total_pay_amount = 10; // test
+    const total_pay_amount = 100; // test
 
     // const total_pay_amount =
     //   (extendMembership.sel_cost_type
@@ -95,13 +102,13 @@ class Container extends Component {
     IMP.request_pay(
       {
         pg: "html5_inicis", // version 1.1.0부터 지원.
-        pay_method: "phone",
+        pay_method: pay_method,
         merchant_uid: "merchant_" + new Date().getTime(),
         name: reulst_name,
         amount: total_pay_amount,
-        // buyer_email: 'iamport@siot.do',
-        buyer_name: name
-        // buyer_tel: '010-1234-5678',
+        buyer_email: "",
+        buyer_name: name,
+        buyer_tel: phone
         // buyer_addr: '서울특별시 강남구 삼성동',
         // buyer_postcode: '123-456',
         // m_redirect_url: "https://localhost:3000"

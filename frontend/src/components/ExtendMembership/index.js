@@ -86,6 +86,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     setExtendMembershipNotComplete: () => {
       dispatch(setupInfoActions.setExtendMembershipNotComplete());
     },
+
+    setEnrollMembershipNotComplete: () => {
+      dispatch(setupInfoActions.setEnrollMembershipNotComplete());
+    },
+
     clearSelCabinetInfo: () => {
       dispatch(enrollCabinetActions.clearSelCabinetInfo());
     },

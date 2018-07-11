@@ -1,18 +1,27 @@
 import React, { Component } from "react";
 import RegistCabinet from "./presenter";
-import moment from "moment";
 
 class Container extends Component {
-  state = {};
+  state = { loading: true };
+
+  componentWillMount() {
+    const { fetchMyCabinets } = this.props;
+    fetchMyCabinets();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { is_fetched } = nextProps;
+    if (is_fetched) {
+      this.setState({ ...this.state, loading: false });
+    }
+  }
 
   render() {
     const { my_cabinets } = this.props;
 
-    const expired_cabinet = my_cabinets.find(function(my_cabinet) {
-      return moment(my_cabinet.end_date).valueOf() < moment().valueOf();
-    });
-
-    return <RegistCabinet my_cabinets={my_cabinets} />;
+    return (
+      <RegistCabinet my_cabinets={my_cabinets} loading={this.state.loading} />
+    );
   }
 }
 export default Container;

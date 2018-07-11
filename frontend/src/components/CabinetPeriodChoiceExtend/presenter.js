@@ -1,15 +1,16 @@
-import React, { Fragment } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import styles from "./styles.scss";
 import Loading from "components/Loading";
 import CabinetCostList from "components/CabinetCostList";
+import { Element } from "react-scroll";
 
 const CabinetPeriodChoiceExtend = (props, context) => {
   const { extend_cabinet_cost_types, loading } = props;
   return loading ? (
     <Loading />
   ) : (
-    <Fragment>
+    <Element name="CabinetPeriodChoiceExtend">
       <div className={styles.title}>사물함의 연장기간을 선택해주세요</div>
       <div className={styles.costListContainer}>
         {extend_cabinet_cost_types.map(cabinet_cost_type => (
@@ -19,7 +20,7 @@ const CabinetPeriodChoiceExtend = (props, context) => {
           />
         ))}
       </div>
-    </Fragment>
+    </Element>
   );
 };
 

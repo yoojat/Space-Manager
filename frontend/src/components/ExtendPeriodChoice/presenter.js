@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import styles from "./styles.scss";
 import moment from "moment";
 import Loading from "components/Loading";
+import { Element } from "react-scroll";
 
 const ExtendPeriodChoice = (props, context) => {
   const {
@@ -13,7 +14,7 @@ const ExtendPeriodChoice = (props, context) => {
   } = props;
 
   return membership_cost_types ? (
-    <Fragment>
+    <Element name="ExtendPeriodChoice">
       <div className={styles.message}>연장 일수를 선택해주세요!</div>
       <div className={styles.container}>
         {membership_cost_types.map(cost_type => {
@@ -42,7 +43,7 @@ const ExtendPeriodChoice = (props, context) => {
       ) : (
         ""
       )}
-    </Fragment>
+    </Element>
   ) : (
     <Loading />
   );

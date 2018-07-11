@@ -7,8 +7,9 @@ class Container extends Component {
   };
 
   _onSeatClick = () => {
+    const { handleSeatClick } = this.props;
     this.setState({ ...this.state, loading: true });
-    this.props.handleSeatClick();
+    handleSeatClick();
   };
 
   componentDidUpdate(prevProps, prevState) {

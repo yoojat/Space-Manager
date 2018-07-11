@@ -37,6 +37,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     clearExtendCabinet: () => {
       dispatch(extendCabinetActions.clearExtendCabinet());
+    },
+    setExtendCabinetTargetUser: target_user => {
+      dispatch(extendCabinetActions.setExtendCabinetTargetUser(target_user));
     }
   };
 };

@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import styles from "./styles.scss";
 import CabinetSet from "components/CabinetSet";
+import { Element } from "react-scroll";
 
 const CabinetSetChoice = (props, context) => {
   const {
@@ -13,7 +14,7 @@ const CabinetSetChoice = (props, context) => {
     is_first
   } = props;
   return (
-    <Fragment>
+    <Element name="CabinetSetChoice">
       {sel_cost_type.days <= 1 ? (
         ""
       ) : (
@@ -48,7 +49,7 @@ const CabinetSetChoice = (props, context) => {
           {is_enroll_cabinet ? (
             <div>
               <div className={styles.cabinetSelectTitle}>
-                사물함 위치를 선택해주세요
+                사물함 위치를 선택해주세요!
               </div>
 
               <div className={styles.cabinetSetContainer}>
@@ -71,7 +72,7 @@ const CabinetSetChoice = (props, context) => {
           )}
         </div>
       )}
-    </Fragment>
+    </Element>
   );
 };
 

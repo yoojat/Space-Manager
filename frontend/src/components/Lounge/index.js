@@ -6,7 +6,7 @@ import { actionCreators as branchActions } from "redux/modules/branch";
 
 const mapStateToProps = (state, ownProps) => {
   const {
-    user: { memberships, id },
+    user: { memberships, id, profile_image, username, name },
     seat: { now_using, room }
   } = state;
 
@@ -15,7 +15,10 @@ const mapStateToProps = (state, ownProps) => {
     memberships,
     now_using,
     id,
-    room
+    room,
+    profile_image,
+    username,
+    name
     // roomId
   };
 };
@@ -36,4 +39,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Container);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Container);

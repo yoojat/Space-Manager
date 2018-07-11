@@ -104,6 +104,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(
         enrollMembershipActions.setEnrollMembershipTargetUser(target_user)
       );
+    },
+    setExtendMembershipNotComplete: () => {
+      dispatch(setupInfoActions.setExtendMembershipNotComplete());
     }
   };
 };

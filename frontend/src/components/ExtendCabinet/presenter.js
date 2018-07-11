@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import styles from "./styles.scss";
 import CabinetChoiceExtend from "components/CabinetChoiceExtend";
 import CabinetPeriodChoiceExtend from "components/CabinetPeriodChoiceExtend";
+import { Element } from "react-scroll";
 
 const ExtendCabinet = (props, context) => {
   const {
@@ -13,7 +14,7 @@ const ExtendCabinet = (props, context) => {
     cabinets_extend
   } = props;
   return (
-    <div className={styles.selectMemExtendContainer}>
+    <Element name="ExtendCabinet" className={styles.selectMemExtendContainer}>
       <div className={styles.title}>
         현재 이용하고 있는 사물함이 있습니다.<br />기존 사물함을
         연장하시겠습니까?
@@ -46,7 +47,7 @@ const ExtendCabinet = (props, context) => {
       </div>
       {is_extend_cabinet ? <CabinetChoiceExtend /> : ""}
       {cabinets_extend.length ? <CabinetPeriodChoiceExtend /> : ""}
-    </div>
+    </Element>
   );
 };
 

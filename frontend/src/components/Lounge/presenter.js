@@ -13,12 +13,25 @@ const Lounge = (props, context) => {
     history,
     memberships,
     modalLoading,
-    onReturnBtnClick
+    onReturnBtnClick,
+    profile_image,
+    username,
+    name
   } = props;
 
   return (
     <div className={styles.backWhite}>
-      <div>프로필 화면</div>
+      <div className={styles.profileCon}>
+        {" "}
+        <img
+          src={`${profile_image}`}
+          className={styles.profileImg}
+          alt={context.t("profile")}
+        />
+        <div className={styles.profileTitle}>
+          {username} / {name}
+        </div>
+      </div>
       <header className={styles.header}>
         현재 계신 곳은 {branch.branch_name} 입니다.
       </header>

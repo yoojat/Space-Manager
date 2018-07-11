@@ -7,6 +7,7 @@ import CabinetChoiceForEnroll from "components/CabinetChoiceForEnroll";
 import StartChoiceForEnrollCabinet from "../StartChoiceForEnrollCabinet";
 import CabinetSetButtonForEnroll from "components/CabinetSetButtonForEnroll";
 import CabinetListForEnrollCabinet from "components/CabinetListForEnrollCabinet";
+import { Element } from "react-scroll";
 
 const EnrollCabinet = (props, context) => {
   const {
@@ -19,7 +20,7 @@ const EnrollCabinet = (props, context) => {
   return loading ? (
     <Loading />
   ) : (
-    <Fragment>
+    <Element name="EnrollCabinet">
       <div className={styles.selectCabinetContainer}>
         <div>
           <div className={styles.cabinetSelectTitle}>
@@ -77,7 +78,7 @@ const EnrollCabinet = (props, context) => {
           {cabinets_to_enroll.length ? <StartChoiceForEnrollCabinet /> : ""}
         </div>
       </div>
-    </Fragment>
+    </Element>
   );
 };
 

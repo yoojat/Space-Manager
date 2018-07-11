@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import CabinetPeriodChoiceExtend from "./presenter";
+import { scroller } from "react-scroll";
 
 class Container extends Component {
   state = { loading: true };
@@ -16,6 +17,12 @@ class Container extends Component {
 
   componentDidMount() {
     const { extend_cabinet_cost_types } = this.props;
+    scroller.scrollTo("CabinetChoiceExtend", {
+      duration: 1500,
+      delay: 100,
+      smooth: true,
+      offset: 50
+    });
     if (extend_cabinet_cost_types.length) {
       this.setState({
         ...this.state,

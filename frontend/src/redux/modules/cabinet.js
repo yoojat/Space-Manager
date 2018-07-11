@@ -16,7 +16,8 @@ function setUsingCabinets(using_cabinets) {
 function setMyCabinets(my_cabinets) {
   return {
     type: SET_MY_CABINETS,
-    my_cabinets
+    my_cabinets,
+    is_fetched: true
   };
 }
 
@@ -66,7 +67,8 @@ function getUsingCabinets(userid) {
 // iniital state
 const initialState = {
   now_using_cabinets: [],
-  my_cabinets: [] //ok
+  my_cabinets: [], //ok,
+  is_fetched: false
 };
 
 //reducer
@@ -103,10 +105,11 @@ function applySetNowUsingCabinets(state, action) {
 }
 
 function applySetMyCabinets(state, action) {
-  const { my_cabinets } = action;
+  const { my_cabinets, is_fetched } = action;
   return {
     ...state,
-    my_cabinets
+    my_cabinets,
+    is_fetched
   };
 }
 

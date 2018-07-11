@@ -122,7 +122,7 @@ const RenderEnrollMembership = (props, context) => {
             </Element>
           ) : (
             <Element
-              name="cabinetChapter"
+              name="cabinetQuestion"
               className={styles.selectMemExtendContainer}
             >
               <div className={styles.title}>

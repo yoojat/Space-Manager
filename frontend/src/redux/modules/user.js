@@ -23,7 +23,15 @@ function saveToken(token) {
 
 //회원정보 리덕스에 저장
 function saveAuthority(user) {
-  const { is_staff, is_superuser, id, name, username, profile_image } = user;
+  const {
+    is_staff,
+    is_superuser,
+    id,
+    name,
+    username,
+    profile_image,
+    phone
+  } = user;
   return {
     type: SAVE_AUTHORITY,
     is_staff,
@@ -31,7 +39,8 @@ function saveAuthority(user) {
     id,
     name,
     username,
-    profile_image
+    profile_image,
+    phone
   };
 }
 
@@ -197,7 +206,8 @@ const initialState = {
   id: null,
   username: null,
   name: null,
-  profile_image: null
+  profile_image: null,
+  phone: null
 };
 
 //reducer
@@ -235,7 +245,15 @@ function applyLogout(state, action) {
 }
 
 function applyAuthority(state, action) {
-  const { is_staff, is_superuser, id, username, name, profile_image } = action;
+  const {
+    is_staff,
+    is_superuser,
+    id,
+    username,
+    name,
+    profile_image,
+    phone
+  } = action;
   return {
     ...state,
     is_staff,
@@ -243,7 +261,8 @@ function applyAuthority(state, action) {
     id,
     username,
     name,
-    profile_image
+    profile_image,
+    phone
   };
 }
 
