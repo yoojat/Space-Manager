@@ -6,8 +6,9 @@ class Container extends Component {
     loading: true
   };
   componentWillMount() {
-    const { getBranch } = this.props;
-    if (!this.props.now_branch) {
+    const { getBranch, getMinimapBranch, now_branch } = this.props;
+    getMinimapBranch();
+    if (!now_branch) {
       getBranch();
     } else {
       this.setState({

@@ -30,8 +30,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     getRoomSeats: roomId => {
       dispatch(seatActions.getRoomSeats(roomId));
     },
-    returnSeat: userId => {
-      dispatch(seatActions.returnSeat(userId));
+    returnSeat: seatId => {
+      dispatch(seatActions.returnSeat(seatId));
     },
     getBranch: () => {
       dispatch(branchActions.getBranch());

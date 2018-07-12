@@ -22,7 +22,6 @@
       // max-width: $max-card-width;
       // margin-left: auto;
       // margin-right: auto;
-
       .content {
         min-height: 150px;
         display: flex;
@@ -67,6 +66,29 @@
           .seats {
             position: relative;
             // overflow: hidden;
+          }
+        }
+      }
+
+      .color-dis-con {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 15px;
+        .color-item {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin-left: 5px;
+          margin-right: 5px;
+          font-size: 11px;
+
+          .color-box {
+            width: 10px;
+            height: 10px;
+            margin-right: 2px;
+          }
+          .color-text {
           }
         }
       }

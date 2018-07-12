@@ -1,11 +1,12 @@
-import {connect} from 'react-redux';
-import Container from './container';
-import {actionCreators as branchActions} from 'redux/modules/branch';
+import { connect } from "react-redux";
+import Container from "./container";
+import { actionCreators as branchActions } from "redux/modules/branch";
+import { actionCreators as minimapActions } from "redux/modules/minimap";
 
 const mapStateToProps = (state, ownProps) => {
-  const {branch: {now_branch}} = state;
+  const { branch } = state;
   return {
-    now_branch,
+    now_branch: branch.now_branch
   };
 };
 
@@ -15,7 +16,13 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     getBranch: () => {
       dispatch(branchActions.getBranch());
     },
+    getMinimapBranch: () => {
+      dispatch(minimapActions.getMinimapBranch());
+    }
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Container);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Container);

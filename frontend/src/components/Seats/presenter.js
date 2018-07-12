@@ -57,8 +57,8 @@ const Seats = props => {
               >
                 <div
                   style={{
-                    paddingTop: `${props.room.view_height /
-                      props.room.view_width *
+                    paddingTop: `${(props.room.view_height /
+                      props.room.view_width) *
                       100}%`
                   }}
                   className={styles.seats}
@@ -84,6 +84,36 @@ const Seats = props => {
                 </div>
               </div>
             )}
+          </div>
+          <div className={styles.colorDisCon}>
+            <div className={styles.colorItem}>
+              <div
+                className={styles.colorBox}
+                style={{ backgroundColor: "#CEEEFA" }}
+              />
+              <span className={styles.colorText}>이용가능</span>
+            </div>
+            {/* <div className={styles.colorItem}>
+              <div
+                className={styles.colorBox}
+                style={{ backgroundColor: "#374bab" }}
+              />
+              <span className={styles.colorText}>내 좌석</span>
+            </div> */}
+            <div className={styles.colorItem}>
+              <div
+                className={styles.colorBox}
+                style={{ backgroundColor: "#33b6cc" }}
+              />
+              <span className={styles.colorText}>남성 이용중</span>
+            </div>
+            <div className={styles.colorItem}>
+              <div
+                className={styles.colorBox}
+                style={{ backgroundColor: "#f7465b" }}
+              />
+              <span className={styles.colorText}>여성이용중</span>
+            </div>
           </div>
         </div>
       </div>

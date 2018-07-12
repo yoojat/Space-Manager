@@ -29,7 +29,7 @@ const Lounge = (props, context) => {
           alt={context.t("profile")}
         />
         <div className={styles.profileTitle}>
-          {username} / {name}
+          {username} / {name}님
         </div>
       </div>
       <header className={styles.header}>
@@ -54,8 +54,8 @@ const Lounge = (props, context) => {
       {props.now_using ? (
         <div className={styles.nowContainer}>
           <div className={styles.nowUsing}>
-            {props.now_using.seat.room.room_number}열람실{" "}
-            {props.now_using.seat.seat_number}번자리를 배정하셨습니다.
+            {props.now_using.room.room_number}열람실{" "}
+            {props.now_using.seat_number}번자리를 배정하셨습니다.
           </div>
           <button className={styles.returnBtn} onClick={onReturnBtnClick}>
             좌석 반납하기

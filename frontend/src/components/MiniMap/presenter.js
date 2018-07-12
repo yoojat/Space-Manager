@@ -5,7 +5,8 @@ import MiniMapSeat from "components/MiniMapSeat";
 
 //props = {now_branch.branch}
 const MiniMap = (props, context) => {
-  return <BranchArea branch={props.branch} />;
+  const { branch } = props;
+  return <BranchArea branch={branch} />;
 };
 
 const BranchArea = props => {
@@ -21,18 +22,19 @@ const BranchArea = props => {
 };
 
 const RoomArea = props => {
+  const { left, top, width, height, seats, id } = props;
   return (
     <div
       className={styles.room}
       style={{
-        left: props.left + "%",
-        top: props.top + "%",
-        width: props.width + "%",
-        height: props.height + "%"
+        left: left + "%",
+        top: top + "%",
+        width: width + "%",
+        height: height + "%"
       }}
-      key={props.id}
+      key={id}
     >
-      {props.seats.map(seat => {
+      {seats.map(seat => {
         if (seat.usable && seat.seat_number !== 0) {
           return (
             <MiniMapSeat

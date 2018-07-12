@@ -14,7 +14,8 @@ const Seat = props => {
     desk_size,
     seat_number,
     now_using,
-    loading
+    loading,
+    onSeatClick
   } = props;
 
   let seat_state_image;
@@ -28,11 +29,12 @@ const Seat = props => {
     seat_state_image = require("images/prohibited_seat.png");
     clickEv = null;
   } else if (now_using) {
+    //현재 이용중인 좌석이면 DB에서 좌석이미지를 가지고 옴
     seat_state_image = seat_image.file;
     clickEv = null;
   } else {
     seat_state_image = require("images/empty_seat.png");
-    clickEv = props.handleSeatClick;
+    clickEv = onSeatClick;
   }
 
   if (now_using || seat_number === 0) {

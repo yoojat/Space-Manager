@@ -1,17 +1,31 @@
 //imports
 
 import { actionCreators as userActions } from "redux/modules/user";
-import { actionCreators as branchActions } from "redux/modules/branch";
+import { actionCreators as minimapActions } from "redux/modules/minimap";
 
 //actions
-
 const SET_ROOM_SEATS = "SET_ROOM_SEATS";
-const ALLOCATE_SEAT = "ALLOCATE_SEAT";
+const LOADING_SEAT = "LOADING_SEAT";
 const CANCEL_ALLOCATE_SEAT = "CANCEL_ALLOCATE_SEAT";
 const NOW_USING_SEAT = "NOW_USING_SEAT";
 const RETURN_SEAT = "RETURN_SEAT";
 const CANCEL_RETURN_SEAT = "CANCEL_RETURN_SEAT";
+const CLEAR_NOW_USING = "CLEAR_NOW_USING";
+
 //action creators : 리덕스 state를 변경
+
+function clearNowUsing() {
+  return {
+    type: CLEAR_NOW_USING
+  };
+}
+
+function loadingSeat(seatId) {
+  return {
+    type: LOADING_SEAT,
+    seatId
+  };
+}
 
 function setNowUsing(now_using_data) {
   return {
@@ -30,13 +44,6 @@ function setRoomSeats(room) {
 function doReturnSeat(seatId) {
   return {
     type: RETURN_SEAT,
-    seatId
-  };
-}
-
-function doAllocateSeat(seatId) {
-  return {
-    type: ALLOCATE_SEAT,
     seatId
   };
 }
@@ -63,17 +70,20 @@ function getNowUsing() {
     const {
       user: { token }
     } = getState();
-
-    fetch(`/seats/user/seat/`, {
+    console.log("call get Now Using");
+    fetch(`/seats/myseat/`, {
       headers: {
         Authorization: `JWT ${token}`
       }
     })
       .then(response => {
-        if (response.status === 400) {
-          dispatch(userActions.logout());
-        } else if (response.status === 200) {
+        if (response.status === 200) {
           return response.json();
+        } else if (response.status === 204) {
+          dispatch(clearNowUsing());
+        } else {
+          console.log(1);
+          dispatch(userActions.logout());
         }
       })
       .then(json => {
@@ -106,73 +116,174 @@ function getRoomSeats(roomId) {
   };
 }
 
-function returnSeat(userid) {
+// function returnSeat(userid) {
+//   return (dispatch, getState) => {
+//     const {
+//       user: { token },
+//       seat: {
+//         room: { id }
+//       }
+//     } = getState();
+
+//     const seatId = getState().seat.now_using.seat.id;
+
+//     const stateChange = roomId => {
+//       dispatch(getRoomSeats(roomId));
+//       // dispatch(branchActions.getBranch());
+//       dispatch(getNowUsing());
+//     };
+
+//     //optimistic response
+//     dispatch(doReturnSeat(seatId));
+
+//     //좌석 반납시도
+//     fetch(`/seats/user/${userid}/return/`, {
+//       method: "POST",
+//       headers: {
+//         Authorization: `JWT ${token}`
+//       }
+//     }).then(response => {
+//       if (response.status === 201) {
+//         //좌석반납 성공하면 다시 현재 사용정보 세팅 다시할 것
+//         stateChange(id);
+//       } else {
+//         dispatch(doCancelReturnSeat(seatId));
+//       }
+//     });
+//   };
+// }
+
+function returnSeat(seatId) {
   return (dispatch, getState) => {
     const {
       user: { token },
-      seat: {
-        room: { id }
-      }
+      seat: { room }
     } = getState();
 
-    const seatId = getState().seat.now_using.seat.id;
-
-    const stateChange = roomId => {
-      dispatch(getRoomSeats(roomId));
-      // dispatch(branchActions.getBranch());
-      dispatch(getNowUsing());
-    };
-
-    //optimistic response
-    dispatch(doReturnSeat(seatId));
-
-    //좌석 반납시도
-    fetch(`/seats/user/${userid}/return/`, {
-      method: "POST",
+    fetch(`/seats/return/${seatId}/`, {
+      method: "PUT",
       headers: {
+        "Content-Type": "application/json",
         Authorization: `JWT ${token}`
       }
     }).then(response => {
-      if (response.status === 201) {
-        //좌석반납 성공하면 다시 현재 사용정보 세팅 다시할 것
-        stateChange(id);
-      } else {
-        dispatch(doCancelReturnSeat(seatId));
+      if (response.status === 404 || response.status === 400) {
+        dispatch(userActions.logout());
       }
+      //멤버쉽이 등록되어있지 않은 경우
+      dispatch(getNowUsing());
+      dispatch(getRoomSeats(room.id));
+      dispatch(minimapActions.getMinimapBranch());
     });
   };
 }
 
-function allocateSeat(seatId, roomId) {
+function allocateSeat(seatId) {
   return (dispatch, getState) => {
     const {
-      user: { id, token }
+      user: { id, token, memberships },
+      seat: { room }
     } = getState();
-    const allocateFunc = roomId => {
-      dispatch(getRoomSeats(roomId));
-      dispatch(branchActions.getBranch());
-      dispatch(getNowUsing());
-    };
+    dispatch(loadingSeat(seatId));
+
+    //멤버쉽 검사
+    //시작일시가 오늘보다 작거나 같아야 되고
+    //종료일시가 오늘보다 크거나 같아야 됨
+
+    const moment = require("moment");
+
+    const usable_membership = memberships.find(my_membership => {
+      const start_datetime = my_membership.start_date;
+      const end_datetime = my_membership.end_date;
+      const now = moment();
+
+      if (
+        moment(start_datetime).valueOf() <= now.valueOf() &&
+        moment(end_datetime).valueOf() >= now.valueOf()
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+
+    if (!usable_membership) {
+      alert("멤버쉽에 먼저 등록하셔야 이용 가능하십니다!");
+      return;
+    }
+
+    const membership_end_datetime = usable_membership.end_date;
+
+    let target_end_datetime;
+    if (
+      moment(membership_end_datetime).valueOf() >=
+      moment()
+        .add(24, "h")
+        .valueOf()
+    ) {
+      target_end_datetime = moment()
+        .add(24, "h")
+        .format("YYYY-MM-DD HH:mm:ss");
+    } else {
+      target_end_datetime = moment(membership_end_datetime).format(
+        "YYYY-MM-DD HH:mm:ss"
+      );
+    }
 
     //optimistic response
-    dispatch(doAllocateSeat(seatId));
+    dispatch(loadingSeat(seatId));
 
     fetch(`/seats/allocation/${seatId}/${id}/`, {
-      method: "POST",
+      method: "PUT",
       headers: {
+        "Content-Type": "application/json",
         Authorization: `JWT ${token}`
-      }
+      },
+      body: JSON.stringify({
+        end_datetime: target_end_datetime
+      })
     }).then(response => {
-      if (response.status === 401 || response.status === 400) {
+      if (response.status === 404 || response.status === 400) {
         dispatch(userActions.logout());
-      } else if (!response.ok) {
-        dispatch(doCancelAllocateSeat(seatId));
-      } else {
-        allocateFunc(roomId);
       }
+      //멤버쉽이 등록되어있지 않은 경우
+      dispatch(getRoomSeats(room.id));
+      dispatch(minimapActions.getMinimapBranch());
+      dispatch(getNowUsing());
     });
   };
 }
+
+// function allocateSeat(seatId, roomId) {
+//   return (dispatch, getState) => {
+//     const {
+//       user: { id, token }
+//     } = getState();
+//     const allocateFunc = roomId => {
+//       dispatch(getRoomSeats(roomId));
+//       dispatch(branchActions.getBranch());
+//       dispatch(getNowUsing());
+//     };
+
+//     //optimistic response
+//     dispatch(doAllocateSeat(seatId));
+
+//     fetch(`/seats/allocation/${seatId}/${id}/`, {
+//       method: "POST",
+//       headers: {
+//         Authorization: `JWT ${token}`
+//       }
+//     }).then(response => {
+//       if (response.status === 401 || response.status === 400) {
+//         dispatch(userActions.logout());
+//       } else if (!response.ok) {
+//         dispatch(doCancelAllocateSeat(seatId));
+//       } else {
+//         allocateFunc(roomId);
+//       }
+//     });
+//   };
+// }
 
 // function returnSeat(userId) {
 //   return (dispatch, getState) => {
@@ -211,8 +322,8 @@ function reducer(state = initialState, action) {
   switch (action.type) {
     case SET_ROOM_SEATS:
       return applySetRoomSeats(state, action);
-    case ALLOCATE_SEAT:
-      return applyAllocateSeat(state, action);
+    case LOADING_SEAT:
+      return applyLoadingSeat(state, action);
     case CANCEL_ALLOCATE_SEAT:
       return applyCancelAllocateSeat(state, action);
     case NOW_USING_SEAT:
@@ -221,12 +332,22 @@ function reducer(state = initialState, action) {
       return applyReturnSeat(state, action);
     case CANCEL_RETURN_SEAT:
       return applyCancelReturnSeat(state, action);
+    case CLEAR_NOW_USING:
+      return applyClearNowUsing(state, action);
+
     default:
       return state;
   }
 }
 
 // reducer functions
+
+function applyClearNowUsing(state, action) {
+  return {
+    ...state,
+    now_using: null
+  };
+}
 
 function applyNowUsingSeat(state, action) {
   const { now_using_data } = action;
@@ -268,7 +389,7 @@ function applyReturnSeat(state, action) {
   };
 }
 
-function applyAllocateSeat(state, action) {
+function applyLoadingSeat(state, action) {
   const { seatId } = action;
   const {
     room: { seats }
@@ -277,7 +398,7 @@ function applyAllocateSeat(state, action) {
     if (seat.id === seatId) {
       return {
         ...seat,
-        seat_image: { file: require("images/loading_seat.png") }, //로딩 상태를 보여줌
+        seat_image: { file: require("images/loading2.png") }, //로딩 상태를 보여줌
         now_using: true
       };
     }
@@ -285,7 +406,6 @@ function applyAllocateSeat(state, action) {
   });
   return {
     ...state,
-    onAssignment: true,
     room: { ...state.room, seats: updatedSeats }
   };
 }

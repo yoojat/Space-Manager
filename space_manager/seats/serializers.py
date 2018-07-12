@@ -130,20 +130,12 @@ class SeatBriefSerializer(serializers.ModelSerializer):
 class SeatSerializer(serializers.ModelSerializer):
 
     logs = LogSerializer(many=True)
+    room = BriefRoomSeiralizer()
 
     class Meta:
         model = models.Seat
-        fields = (
-            'seat_number',
-            'xpos',
-            'ypos',
-            'rotate',
-            'usable',
-            'discard',
-            'room',
-            'branch',
-            'logs',
-        )
+        fields = ('seat_number', 'xpos', 'ypos', 'rotate', 'usable', 'discard',
+                  'room', 'branch', 'logs', 'id')
 
 
 class InputSeatSerializer(serializers.ModelSerializer):

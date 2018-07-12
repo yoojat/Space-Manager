@@ -15,7 +15,7 @@ class Container extends Component {
 
     //현재 배정중인 좌석이 있다면
     if (this.props.now_using) {
-      this.props.getRoomSeats(this.props.now_using.seat.room.id);
+      this.props.getRoomSeats(this.props.now_using.room.id);
       this.setState({
         ...this.state,
         seeingRoom: true
@@ -24,9 +24,10 @@ class Container extends Component {
   }
 
   _onReturnBtnClick = () => {
-    this.props.returnSeat(this.props.id);
-    this.props.getBranch();
-    this.props.getRoomSeats(this.props.room.id);
+    const { now_using, returnSeat, getBranch, getRoomSeats, room } = this.props;
+    returnSeat(now_using.id);
+    getBranch();
+    getRoomSeats(room.id);
   };
 
   render() {

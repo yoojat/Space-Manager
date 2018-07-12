@@ -3,7 +3,9 @@ import MiniMap from "./presenter";
 
 class Container extends Component {
   render() {
-    return <MiniMap {...this.props} />;
+    const { branch } = this.props;
+
+    return <MiniMap branch={branch} />;
   }
 }
 

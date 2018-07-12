@@ -118,7 +118,7 @@ const RenderMembership = (
         </div>
 
         <div className={styles.buttonContainer}>
-          <Link to="/enroll" className={styles.button}>
+          <Link to="/membership" className={styles.button}>
             멤버쉽<br />(재)등록하기
           </Link>
           <Link to="/cabinet" className={styles.button}>

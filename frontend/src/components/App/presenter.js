@@ -14,6 +14,7 @@ import EnrollMembership from "components/EnrollMembership";
 import ExtendMembership from "components/ExtendMembership";
 import RegistCabinet from "components/RegistCabinet";
 import EnrollCabinetOnly from "components/EnrollCabinetOnly";
+import EnrollExtendChoice from "components/EnrollExtendChoice";
 
 //app에서 모든 route를 관리
 //리액트에서는 하나의 컴포터넌트를 리턴하는 것이 아니라, array를 리턴할수도 있음
@@ -52,11 +53,11 @@ App.propTypes = {
 const PrivateRoutes = props => {
   const { now_using, my_memberships } = props;
 
-  if (now_using) {
-    history.push("/현재 이용하고 있는 좌석으로 이동");
-    //now_using의 데이터를 활용해서 해당 지점, 열람실로 이동
-    return null;
-  }
+  // if (now_using) {
+  //   history.push("/현재 이용하고 있는 좌석으로 이동");
+  //   //now_using의 데이터를 활용해서 해당 지점, 열람실로 이동
+  //   return null;
+  // }
 
   return (
     <div>
@@ -66,15 +67,16 @@ const PrivateRoutes = props => {
       <Route path={`/myinfo`} component={MyInfo} />
 
       <Route
-        path="/enroll"
+        path="/membership"
         component={
           my_memberships
             ? my_memberships.length
-              ? ExtendMembership
+              ? EnrollExtendChoice
               : EnrollMembership
             : EnrollMembership
         }
       />
+      <Route path="/enroll" component={EnrollMembership} />
       <Route path="/extend" component={ExtendMembership} />
       <Route path="/cabinet" component={RegistCabinet} />
       <Route path="/enrollcabinet" component={EnrollCabinetOnly} />
@@ -90,6 +92,7 @@ PrivateRoutes.propTypes = {
 //로그인을 하지 않았을때 보여지는 컴포넌트
 const PublicRoutes = props => (
   <Switch>
+    <Route exact path="" component={Auth} />
     <Route exact path="/" component={Auth} />
     <Route exact path="/forgot" render={() => "password"} />
   </Switch>
