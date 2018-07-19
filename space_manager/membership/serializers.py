@@ -15,14 +15,8 @@ class MembershipSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Membership
-        fields = (
-            'id',
-            'user',
-            'branch',
-            'start_date',
-            'end_date',
-            'is_usable',
-        )
+        fields = ('id', 'user', 'branch', 'start_date', 'end_date',
+                  'is_usable', 'created_at', 'updated_at')
 
 
 class ActionSerializer(serializers.ModelSerializer):

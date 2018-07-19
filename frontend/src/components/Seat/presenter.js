@@ -15,7 +15,8 @@ const Seat = props => {
     seat_number,
     now_using,
     loading,
-    onSeatClick
+    onSeatClick,
+    is_processing
   } = props;
 
   let seat_state_image;
@@ -58,6 +59,7 @@ const Seat = props => {
     >
       <div className={styles.seatImg}>
         <img
+          className={is_processing ? styles.spinner : ""}
           src={seat_state_image}
           alt={now_using ? "배정된 좌석" : "배정되지 않은 좌석"}
         />

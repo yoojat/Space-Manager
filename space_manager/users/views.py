@@ -6,6 +6,20 @@ from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
 from rest_auth.registration.views import SocialLoginView
 
 
+class GetMembersByKeywords(APIView):
+    def get(self, request, format=None):
+
+        keyword = request.GET.get('keyword')
+        print(keyword)
+        target_users = models.User.objects.filter(
+            name__contains=keyword) | models.User.objects.filter(
+                username__contains=keyword)
+
+        serializer = serializers.UserDetailSerializer(target_users, many=True)
+
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+
 class UserStatus(APIView):
     # def get_user(self, id):
     #     try:
@@ -33,7 +47,7 @@ class UserByID(APIView):
 
         found_user = self.get_user(userid)
 
-        serializer = serializers.UserProfileSerializer(found_user)
+        serializer = serializers.UserDetailSerializer(found_user)
 
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 

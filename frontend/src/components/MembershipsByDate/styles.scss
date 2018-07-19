@@ -1,0 +1,99 @@
+.member-back-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  @include breakpoint("phone") {
+    font-size: 10px;
+  }
+
+  .title-tag-con {
+    width: 95%;
+    .title-tag {
+      display: flex;
+      align-items: center;
+      // background-color: #007fff;
+      // color: white;
+      // display: inline-block;
+      // padding-top: 5px;
+      // padding-bottom: 5px;
+      // padding-left: 5px;
+      // padding-right: 5px;
+      // font-weight: lighter;
+      .datepicker {
+        text-align: center;
+        margin-right: 10px;
+        width: 90px;
+        border-radius: 5px;
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+        padding: 4px 6px;
+        cursor: text;
+        border: 1px solid #cccccc;
+        background-color: #ffffff;
+      }
+    }
+  }
+
+  .row-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 95%;
+    .row {
+      display: flex;
+      justify-content: center;
+      text-align: center;
+      padding-top: 10px;
+      padding-bottom: 10px;
+
+      .name {
+        flex-basis: 80px;
+      }
+      .old {
+        flex-basis: 30px;
+      }
+      .userid {
+        flex-basis: 100px;
+        @include breakpoint("userid") {
+          display: none;
+        }
+      }
+      .reg-time {
+        @include breakpoint("phone") {
+          display: none;
+        }
+        flex-basis: 160px;
+      }
+      .enroll-time {
+        flex-basis: 160px;
+      }
+      .end-time {
+        flex-basis: 160px;
+      }
+    }
+  }
+
+  .title-container {
+    padding-top: inherit;
+    padding-bottom: inherit;
+  }
+  .member-container {
+    background-color: white;
+    width: 95%;
+    border: 1px solid #dedede;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    overflow: scroll;
+    height: 100px;
+    .row {
+      cursor: pointer;
+      &:hover {
+        background-color: #56aeea;
+        color: white;
+      }
+    }
+  }
+}

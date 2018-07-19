@@ -17,7 +17,8 @@ class Container extends Component {
       now_using, //좌석의 현재상태
       my_now_using,
       seat_number,
-      handleSeatClick
+      handleSeatClick,
+      changeSeat
     } = this.props;
 
     //멤버쉽 확인
@@ -55,10 +56,11 @@ class Container extends Component {
           my_now_using.seat_number
         }번 좌석을 반납하고 ${seat_number}번 좌석을 배정합니다`
       );
+      changeSeat(my_now_using.id, id);
+
       return;
     }
 
-    console.log(id);
     handleSeatClick();
 
     // const { handleSeatClick } = this.props;
@@ -72,11 +74,13 @@ class Container extends Component {
     }
   }
   render() {
+    const { is_processing } = this.props;
     return (
       <Seat
         {...this.props}
         loading={this.state.loading}
         onSeatClick={this._onSeatClick}
+        is_processing={is_processing}
       />
     );
   }

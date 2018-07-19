@@ -4,6 +4,9 @@ from . import views
 
 urlpatterns = [
     url(regex=r'^$', view=views.UserStatus.as_view(), name='user_status_self'),
+    url(regex=r'^search/$',
+        view=views.GetMembersByKeywords.as_view(),
+        name='GetMembersByKeywords'),
     url(regex=r'^(?P<username>\w+)/password/$',
         view=views.ChangePassword.as_view(),
         name='change'),

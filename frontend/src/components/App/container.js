@@ -23,13 +23,15 @@ class Container extends Component {
   }
 
   render() {
-    const { isLoggedIn, now_using, userid, my_memberships } = this.props;
+    const { isLoggedIn, now_using, userid, my_memberships, user } = this.props;
     return (
       <App
         isLoggedIn={isLoggedIn}
         now_using={now_using}
         userid={userid}
         my_memberships={my_memberships}
+        is_staff={user.is_staff}
+        is_superuser={user.is_superuser}
       />
     );
   }

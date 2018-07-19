@@ -1,0 +1,30 @@
+.staff-menu-con {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  @include breakpoint("phone") {
+    font-size: 11px;
+  }
+  .staff-menus {
+    display: flex;
+    padding-top: 3px;
+    padding-bottom: 3px;
+
+    .staff-menu-item {
+      margin-left: 5px;
+      margin-right: 5px;
+      padding: 10px;
+      width: 100px;
+      @include breakpoint("phone") {
+        width: 70px;
+      }
+      text-align: center;
+      cursor: pointer;
+      &:hover {
+        color: #007fff;
+      }
+    }
+  }
+}

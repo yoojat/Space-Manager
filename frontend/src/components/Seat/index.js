@@ -17,6 +17,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     handleSeatClick: () => {
       dispatch(seatActions.allocateSeat(ownProps.id));
+    },
+    changeSeat: (beforeSeatId, afterSeatId) => {
+      dispatch(seatActions.changeSeat(beforeSeatId, afterSeatId));
     }
   };
 };

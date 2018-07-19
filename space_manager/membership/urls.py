@@ -43,4 +43,19 @@ urlpatterns = [
         view=views.ExtendMembership.as_view(),
         name='ExtendMembership',
     ),
+    url(
+        regex=r'^today/$',
+        view=views.TodayMemberships.as_view(),
+        name='TodayMemberships',
+    ),
+    url(
+        regex=r'^bydate/$',
+        view=views.MembershipsByDate.as_view(),
+        name='MembershipsByDate',
+    ),
+    url(
+        regex=r'^log/(?P<membership_id>[0-9]+)/$',
+        view=views.RegistMembershipLog.as_view(),
+        name='RegistMembershipLog',
+    ),
 ]

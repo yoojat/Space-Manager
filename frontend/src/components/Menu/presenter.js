@@ -63,7 +63,11 @@ const Menu = (props, context) => {
             </li>
             {is_staff ? (
               <li className={styles.listItem}>
-                <div className={styles.adminMenu}>스탭 메뉴</div>
+                <div className={styles.listContent} onClick={closeMenu}>
+                  <Link className={styles.staffMenu} to={`/staff`}>
+                    {context.t("스탭 메뉴")}
+                  </Link>
+                </div>
               </li>
             ) : (
               ""

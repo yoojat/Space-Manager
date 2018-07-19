@@ -17,6 +17,7 @@ import enrollCabinet from "redux/modules/enrollCabinet";
 import extendCabinet from "redux/modules/extendCabinet";
 import setupInfo from "redux/modules/setupInfo";
 import minimap from "redux/modules/minimap";
+import staff from "redux/modules/staff";
 
 // 스토어는 여러개의 리듀서를 합칠수 있음
 
@@ -57,7 +58,8 @@ const reducer = combineReducers({
   enrollCabinet,
   extendCabinet,
   setupInfo,
-  minimap
+  minimap,
+  staff
 });
 // combineReducer(redux 모듈)을 통해 리듀서를 모두 통합
 //combineReducers는 각 리듀서들을 합쳐주어 global state로 만들어줌

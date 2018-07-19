@@ -15,11 +15,19 @@ import ExtendMembership from "components/ExtendMembership";
 import RegistCabinet from "components/RegistCabinet";
 import EnrollCabinetOnly from "components/EnrollCabinetOnly";
 import EnrollExtendChoice from "components/EnrollExtendChoice";
+import Staff from "components/Staff";
 
 //app에서 모든 route를 관리
 //리액트에서는 하나의 컴포터넌트를 리턴하는 것이 아니라, array를 리턴할수도 있음
 const App = props => {
-  const { now_using, isLoggedIn, userid, my_memberships } = props;
+  const {
+    now_using,
+    isLoggedIn,
+    userid,
+    my_memberships,
+    is_staff,
+    is_superuser
+  } = props;
   return (
     <BrowserRouter>
       <Fragment>
@@ -30,6 +38,8 @@ const App = props => {
               now_using={now_using}
               userid={userid}
               my_memberships={my_memberships}
+              is_staff={is_staff}
+              is_superuser={is_superuser}
             />
           </Fragment>
         ) : props.isLoggedIn ? null : (
@@ -51,13 +61,13 @@ App.propTypes = {
 
 // 로그인했을 때 보여지는 컴포넌트
 const PrivateRoutes = props => {
-  const { now_using, my_memberships } = props;
+  const { now_using, my_memberships, is_staff } = props;
 
   // if (now_using) {
   //   history.push("/현재 이용하고 있는 좌석으로 이동");
   //   //now_using의 데이터를 활용해서 해당 지점, 열람실로 이동
   //   return null;
-  // }
+  // }x
 
   return (
     <div>
@@ -80,6 +90,7 @@ const PrivateRoutes = props => {
       <Route path="/extend" component={ExtendMembership} />
       <Route path="/cabinet" component={RegistCabinet} />
       <Route path="/enrollcabinet" component={EnrollCabinetOnly} />
+      <Route path="/staff" component={is_staff ? Staff : ""} />
     </div>
   );
 };

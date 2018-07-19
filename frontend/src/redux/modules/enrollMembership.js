@@ -74,6 +74,30 @@ function setMembershipCostTypes(cost_types) {
 
 // API actions: api를 부를 때 사용
 
+function registMembershipLog(membership_id) {
+  return (dispatch, getState) => {
+    const {
+      user: { token }
+    } = getState();
+
+    fetch(`membership/log/${membership_id}/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `JWT ${token}`
+      }
+    }).then(response => {
+      if (response.status === 201) {
+        console.log("성공");
+        return true;
+      } else {
+        console.log("실패");
+        return false;
+      }
+    });
+  };
+}
+
 function enrollMembership() {
   return (dispatch, getState) => {
     const {
@@ -83,10 +107,6 @@ function enrollMembership() {
     const branch_id = getState().enrollMembership.sel_branch.id;
     const start_datetime = getState().enrollMembership.start_datetime;
     const end_datetime = getState().enrollMembership.end_datetime;
-    console.log({ user_id });
-    console.log({ branch_id });
-    console.log({ start_datetime });
-    console.log({ end_datetime });
 
     fetch("/membership/enroll/", {
       method: "POST",
@@ -100,13 +120,15 @@ function enrollMembership() {
         start_datetime: start_datetime,
         end_datetime: end_datetime
       })
-    }).then(response => {
-      if (response.status === 201) {
-        console.log("멤버쉽 등록에 성공했습니다");
-      } else {
-        console.log("멤버쉽 등록에 실패했습니다");
-      }
-    });
+    })
+      .then(response => {
+        if (response.status !== 201) {
+          dispatch(userActions.logout());
+        }
+        console.log("!!!!!!!");
+        return response.json();
+      })
+      .then(json => dispatch(registMembershipLog(json.id)));
   };
 }
 

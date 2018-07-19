@@ -17,7 +17,8 @@ const mapStateToProps = (state, ownProps) => {
     isLoggedIn: user.isLoggedIn,
     userid: user.id,
     now_using: now_using,
-    my_memberships
+    my_memberships,
+    user
     // pathname: location.pathname
   };
 };

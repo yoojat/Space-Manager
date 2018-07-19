@@ -1,4 +1,5 @@
 //imports
+import { history } from "redux/configureStore"; //생성한 store를 불러들임, 히스토리도 불러옴(라우터를 위해))
 
 //actions
 const SAVE_TOKEN = "SAVE_TOKEN";
@@ -239,6 +240,7 @@ function applySetToken(state, action) {
 
 function applyLogout(state, action) {
   localStorage.removeItem("jwt");
+
   return {
     isLoggedIn: false
   };

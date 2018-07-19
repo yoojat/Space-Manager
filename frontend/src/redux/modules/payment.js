@@ -86,7 +86,7 @@ function payCheck(imp_uid, pay_amount) {
             //사물함 등록 처리
             dispatch(enrollCabinetActions.enrollCabinet());
           }
-          window.location.href = "/myinfo";
+          // window.location.href = "/myinfo";
         } else {
           //결제 실패
           console.log("결제 실패");

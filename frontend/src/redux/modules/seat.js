@@ -82,7 +82,6 @@ function getNowUsing() {
         } else if (response.status === 204) {
           dispatch(clearNowUsing());
         } else {
-          console.log(1);
           dispatch(userActions.logout());
         }
       })
@@ -153,12 +152,45 @@ function getRoomSeats(roomId) {
 //   };
 // }
 
+function changeSeat(beforeSeatId, afterSeatId) {
+  return (dispatch, getState) => {
+    const {
+      user: { token },
+      seat: { room }
+    } = getState();
+
+    //optimistic response
+    dispatch(loadingSeat(beforeSeatId));
+
+    fetch(`/seats/return/${beforeSeatId}/`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `JWT ${token}`
+      }
+    }).then(response => {
+      if (response.status === 404 || response.status === 400) {
+        dispatch(userActions.logout());
+      }
+
+      dispatch(allocateSeat(afterSeatId));
+      //멤버쉽이 등록되어있지 않은 경우
+      // dispatch(getNowUsing());
+      // dispatch(getRoomSeats(room.id));
+      // dispatch(minimapActions.getMinimapBranch());
+    });
+  };
+}
+
 function returnSeat(seatId) {
   return (dispatch, getState) => {
     const {
       user: { token },
       seat: { room }
     } = getState();
+
+    //optimistic response
+    dispatch(loadingSeat(seatId));
 
     fetch(`/seats/return/${seatId}/`, {
       method: "PUT",
@@ -171,8 +203,9 @@ function returnSeat(seatId) {
         dispatch(userActions.logout());
       }
       //멤버쉽이 등록되어있지 않은 경우
-      dispatch(getNowUsing());
+
       dispatch(getRoomSeats(room.id));
+      dispatch(getNowUsing());
       dispatch(minimapActions.getMinimapBranch());
     });
   };
@@ -399,7 +432,8 @@ function applyLoadingSeat(state, action) {
       return {
         ...seat,
         seat_image: { file: require("images/loading2.png") }, //로딩 상태를 보여줌
-        now_using: true
+        now_using: true,
+        is_processing: true
       };
     }
     return seat;
@@ -452,9 +486,10 @@ function applyCancelAllocateSeat(state, action) {
 
 const actionCreators = {
   getRoomSeats,
-  allocateSeat,
   getNowUsing,
-  returnSeat
+  allocateSeat,
+  returnSeat,
+  changeSeat
 };
 
 export { actionCreators };

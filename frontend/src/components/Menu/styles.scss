@@ -61,8 +61,11 @@
             height: 100%;
             text-align: center;
             padding-top: 10px;
-            padding-bottom: 10px;
+            a.staff-menu {
+              color: #007fff;
+            }
           }
+          padding-bottom: 10px;
           & .admin-menu {
             color: #007fff;
             height: 100%;

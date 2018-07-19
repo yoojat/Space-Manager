@@ -6,7 +6,56 @@ from space_manager.payment import models as payment_models
 from space_manager.payment import serializers as payment_serializers
 from space_manager.branches import models as branch_models
 from rest_framework import status
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
+
+
+class RegistMembershipLog(APIView):
+    def post(self, request, membership_id, format=None):
+        enroll_action = models.Action.objects.get(substance='regist')
+        creator = request.user
+        membership = models.Membership.objects.get(id=membership_id)
+
+        new_membership_log = models.MembershipHistory.objects.create(
+            action=enroll_action,
+            creator=creator,
+            membership=membership,
+        )
+
+        new_membership_log.save()
+
+        serializer = serializers.MembershipHistorySerializer(
+            new_membership_log)
+
+        return Response(status=status.HTTP_201_CREATED, data=serializer.data)
+
+
+class MembershipsByDate(APIView):
+    def post(self, request, format=None):
+        select_date = datetime.strptime(request.data['select_date'],
+                                        '%Y-%m-%d')
+        end_date = select_date + timedelta(days=1)
+
+        today_memberships = models.Membership.objects.filter(
+            updated_at__range=(select_date, end_date))
+
+        serializer = serializers.MembershipSerializer(
+            today_memberships, many=True)
+
+        return Response(status=status.HTTP_200_OK, data=serializer.data)
+
+
+class TodayMemberships(APIView):
+    def get(self, request, format=None):
+        select_date = datetime.now().date()
+        end_date = select_date + timedelta(days=1)
+
+        today_memberships = models.Membership.objects.filter(
+            updated_at__range=(select_date, end_date))
+
+        serializer = serializers.MembershipSerializer(
+            today_memberships, many=True)
+
+        return Response(status=status.HTTP_200_OK, data=serializer.data)
 
 
 class EnrollMembership(APIView):
@@ -14,21 +63,23 @@ class EnrollMembership(APIView):
         user = users_models.User.objects.get(id=request.data['user'])
 
         branch = branch_models.Branch.objects.get(id=request.data['branch'])
-        start_date = datetime.strptime(request.data['start_datetime'],
-                                       '%Y-%m-%d %H:%M:%S')
+        select_date = datetime.strptime(request.data['start_datetime'],
+                                        '%Y-%m-%d %H:%M:%S')
         end_date = datetime.strptime(request.data['end_datetime'],
                                      '%Y-%m-%d %H:%M:%S')
 
         new_membership = models.Membership.objects.create(
             user=user,
             branch=branch,
-            start_date=start_date,
+            start_date=select_date,
             end_date=end_date,
             is_usable=True)
 
         new_membership.save()
 
-        return Response(status=status.HTTP_201_CREATED)
+        serializer = serializers.MembershipSerializer(new_membership)
+
+        return Response(status=status.HTTP_201_CREATED, data=serializer.data)
 
 
 class ExtendMembership(APIView):

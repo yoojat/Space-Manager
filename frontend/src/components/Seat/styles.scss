@@ -13,8 +13,20 @@
   }
   img {
     width: 100%;
+    &.spinner {
+      animation: spinner 1.2s steps(12) infinite;
+    }
   }
   &:hover {
     background-color: yellow;
+  }
+}
+
+@keyframes spinner {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }

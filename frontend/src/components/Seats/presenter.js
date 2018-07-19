@@ -79,6 +79,7 @@ const Seats = props => {
                       key={seat.id}
                       roomId={props.room.id}
                       closeRoom={props.closeRoom}
+                      is_processing={seat.is_processing}
                     />
                   ))}
                 </div>

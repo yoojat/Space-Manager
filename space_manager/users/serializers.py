@@ -2,7 +2,29 @@ from rest_framework import serializers
 from rest_auth.registration.serializers import RegisterSerializer
 from allauth.account.adapter import get_adapter
 from allauth.account.utils import setup_user_email
+from space_manager.membership import models as membership_models
 from . import models
+
+
+class MembershipSerializer(serializers.ModelSerializer):
+    start_date = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
+    end_date = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
+
+    class Meta:
+        model = membership_models.Membership
+        fields = ('id', 'branch', 'start_date', 'end_date', 'is_usable',
+                  'created_at', 'updated_at')
+
+
+class UserDetailSerializer(serializers.ModelSerializer):
+
+    memberships = MembershipSerializer(many=True)
+
+    class Meta:
+        model = models.User
+        fields = ('username', 'name', 'gender', 'is_staff', 'birth',
+                  'is_superuser', 'id', 'profile_image', 'phone',
+                  'memberships', 'created_at', 'updated_at')
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
