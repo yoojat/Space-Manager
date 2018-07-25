@@ -53,7 +53,8 @@ class Cabinet(models.Model):
     end_date = models.DateTimeField(null=True, blank=True)
     is_usable = models.BooleanField(default=True)
     is_clean = models.BooleanField(default=True)
-    user = models.ForeignKey(user_models.User, null=True, blank=True)
+    user = models.ForeignKey(
+        user_models.User, null=True, blank=True, related_name='cabinets')
 
     # 사용자가 이용하는 순간 start_date, end_date를 업데이트하고, is_clean을 False로 변경한다
     # 기간이 지나면 관리자가 정리하기 전까지 is_clean은 False상태이다
@@ -84,7 +85,7 @@ class CabinetAction(models.Model):
 class CabinetHistory(TimeStampedModel):
     """ Cabinet History Model """
 
-    user = models.ForeignKey(user_models.User)
+    user = models.ForeignKey(user_models.User, related_name='cabinet_historys')
     cabinet = models.ForeignKey(
         Cabinet, null=True, related_name='cabinet_historys')
     start_date = models.DateTimeField()

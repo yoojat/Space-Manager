@@ -32,12 +32,13 @@ class Container extends Component {
   }
 
   render() {
-    const { memberships_by_date, now_view_user } = this.props;
+    const { memberships_by_date, now_view_user, show_detail_view } = this.props;
     return (
       <MemberAdmin
         loading={this.state.loading}
         memberships_by_date={memberships_by_date}
         now_view_user={now_view_user}
+        show_detail_view={show_detail_view}
       />
     );
   }

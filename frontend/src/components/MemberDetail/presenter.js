@@ -4,12 +4,24 @@ import styled from "styled-components";
 import SimpleProfile from "components/SimpleProfile";
 import breakpoint from "styled-components-breakpoint";
 import MembershipInfo from "components/MembershipInfo";
+import MembershipLogInfo from "components/MembershipLogInfo";
+import CabinetInfo from "components/CabinetInfo";
+import CabinetLogInfo from "components/CabinetLogInfo";
 import Loading from "components/Loading";
 
 const MemberDetail = (props, context) => {
-  const { loading } = props;
+  const {
+    loading,
+    detail_view_loading,
+    now_view_user_memberships,
+    now_view_user_membership_logs,
+    now_view_member_cabinets,
+    cabinet_historys
+  } = props;
 
   return loading ? (
+    <Loading />
+  ) : detail_view_loading ? (
     <Loading />
   ) : (
     <BackGround>
@@ -23,10 +35,25 @@ const MemberDetail = (props, context) => {
             <div style={{ marginBottom: "10px" }}>[ 멤버쉽 정보 ]</div>
             <MembershipInfoContent>
               <LeftMembershipInfo>
-                <MembershipInfo />
+                <MembershipInfo
+                  now_view_user_memberships={now_view_user_memberships}
+                />
               </LeftMembershipInfo>
               <RightMembershipInfo>
-                <div>사물함 등록정보</div>
+                <MembershipLogInfo
+                  now_view_user_membership_logs={now_view_user_membership_logs}
+                />
+              </RightMembershipInfo>
+            </MembershipInfoContent>
+            <div style={{ marginBottom: "10px" }}>[ 사물함 정보 ]</div>
+            <MembershipInfoContent>
+              <LeftMembershipInfo>
+                <CabinetInfo
+                  now_view_member_cabinets={now_view_member_cabinets}
+                />
+              </LeftMembershipInfo>
+              <RightMembershipInfo>
+                <CabinetLogInfo cabinet_historys={cabinet_historys} />
               </RightMembershipInfo>
             </MembershipInfoContent>
           </MembershipInfoContainer>

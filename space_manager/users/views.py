@@ -10,12 +10,11 @@ class GetMembersByKeywords(APIView):
     def get(self, request, format=None):
 
         keyword = request.GET.get('keyword')
-        print(keyword)
         target_users = models.User.objects.filter(
             name__contains=keyword) | models.User.objects.filter(
                 username__contains=keyword)
 
-        serializer = serializers.UserDetailSerializer(target_users, many=True)
+        serializer = serializers.SearchedUserSerializer(target_users, many=True)
 
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
@@ -31,6 +30,23 @@ class UserStatus(APIView):
     def get(self, request, format=None):
 
         serializer = serializers.UserProfileSerializer(request.user)
+
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+
+class SimpleUserById(APIView):
+    def get_user(self, id):
+        try:
+            found_user = models.User.objects.get(id=id)
+            return found_user
+        except models.User.DoesNotExist:
+            return None
+
+    def get(self, request, userid, format=None):
+
+        found_user = self.get_user(userid)
+
+        serializer = serializers.UserProfileSerializer(found_user)
 
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 

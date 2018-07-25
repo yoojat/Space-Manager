@@ -39,6 +39,11 @@ urlpatterns = [
         name='Get_my_meberships',
     ),
     url(
+        regex=r'^extend/log/(?P<membership_id>[0-9]+)/$',
+        view=views.ExtendMembershipLog.as_view(),
+        name='ExtendMembershipLog',
+    ),
+    url(
         regex=r'^extend/$',
         view=views.ExtendMembership.as_view(),
         name='ExtendMembership',
@@ -54,8 +59,13 @@ urlpatterns = [
         name='MembershipsByDate',
     ),
     url(
-        regex=r'^log/(?P<membership_id>[0-9]+)/$',
+        regex=r'^regist/log/(?P<membership_id>[0-9]+)/$',
         view=views.RegistMembershipLog.as_view(),
         name='RegistMembershipLog',
+    ),
+    url(
+        regex=r'^history/(?P<user_id>[0-9]+)/$',
+        view=views.MembershipHistory.as_view(),
+        name='MembershipHistory',
     ),
 ]

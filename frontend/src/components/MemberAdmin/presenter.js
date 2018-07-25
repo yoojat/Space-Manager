@@ -7,7 +7,7 @@ import SearchMember from "components/SearchMember";
 import MemberDetail from "components/MemberDetail";
 
 const MemberAdmin = (props, context) => {
-  const { loading, now_view_user } = props;
+  const { loading, now_view_user, show_detail_view } = props;
   return (
     <div className={styles.memberAdminCon}>
       {loading ? (
@@ -16,7 +16,7 @@ const MemberAdmin = (props, context) => {
         <div>
           <MembershipsByDate />
           <SearchMember />
-          {now_view_user ? <MemberDetail /> : ""}
+          {show_detail_view ? <MemberDetail /> : ""}
         </div>
       )}
     </div>

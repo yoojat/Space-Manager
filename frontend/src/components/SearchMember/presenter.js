@@ -5,7 +5,13 @@ import breakpoint from "styled-components-breakpoint";
 import moment from "moment";
 
 const SearchMember = (props, context) => {
-  const { onInputChange, onSearchButtonClick, handleOnKeyUp, keyword } = props;
+  const {
+    onInputChange,
+    onSearchButtonClick,
+    handleOnKeyUp,
+    keyword,
+    onMemberClick
+  } = props;
   return (
     <MemberBackContainer>
       <TitleTagCon>
@@ -32,24 +38,29 @@ const SearchMember = (props, context) => {
         {props.found_users ? (
           props.found_users.length ? (
             props.found_users.map(found_user => (
-              <Row key={found_user.id}>
-                <Name>{found_user.name}</Name>
-                <UserId>{found_user.username}</UserId>
-                <Old>
-                  {moment().year() - moment(found_user.birth).year() + 1}
-                </Old>
-                <Phone>{found_user.phone}</Phone>
-                <EnrollTime>
-                  {found_user.memberships.length
-                    ? found_user.memberships[0].start_date
-                    : ""}
-                </EnrollTime>
-                <EndTime>
-                  {found_user.memberships.length
-                    ? found_user.memberships[0].end_date
-                    : ""}
-                </EndTime>
-              </Row>
+              <MemberList
+                found_user={found_user}
+                onMemberClick={onMemberClick}
+                key={found_user.id}
+              />
+              // <Row key={found_user.id}>
+              //   <Name>{found_user.name}</Name>
+              //   <UserId>{found_user.username}</UserId>
+              //   <Old>
+              //     {moment().year() - moment(found_user.birth).year() + 1}
+              //   </Old>
+              //   <Phone>{found_user.phone}</Phone>
+              //   <EnrollTime>
+              //     {found_user.memberships.length
+              //       ? found_user.memberships[0].start_date
+              //       : ""}
+              //   </EnrollTime>
+              //   <EndTime>
+              //     {found_user.memberships.length
+              //       ? found_user.memberships[0].end_date
+              //       : ""}
+              //   </EndTime>
+              // </Row>
             ))
           ) : (
             <div style={{ textAlign: "center" }}>검색 결과가 없습니다</div>
@@ -59,6 +70,32 @@ const SearchMember = (props, context) => {
         )}
       </MemberContainer>
     </MemberBackContainer>
+  );
+};
+
+const MemberList = (props, context) => {
+  const { found_user, onMemberClick } = props;
+
+  const clickHandler = () => {
+    onMemberClick(found_user.id);
+  };
+  return (
+    <Row key={found_user.id} onClick={clickHandler}>
+      <Name>{found_user.name}</Name>
+      <UserId>{found_user.username}</UserId>
+      <Old>{moment().year() - moment(found_user.birth).year() + 1}</Old>
+      <Phone>{found_user.phone}</Phone>
+      <EnrollTime>
+        {found_user.memberships.length
+          ? found_user.memberships[0].start_date
+          : ""}
+      </EnrollTime>
+      <EndTime>
+        {found_user.memberships.length
+          ? found_user.memberships[0].end_date
+          : ""}
+      </EndTime>
+    </Row>
   );
 };
 
@@ -132,6 +169,13 @@ const TitleContainer = RowContainer.extend`
   padding-bottom: inherit;
 `;
 
+const Row = styled.div`
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+`;
 const MemberContainer = RowContainer.extend`
   background-color: white;
   width: 95%;
@@ -141,15 +185,20 @@ const MemberContainer = RowContainer.extend`
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   overflow: scroll;
+  overflow-x: hidden;
+  overflow-y: auto;
   height: 100px;
-`;
-
-const Row = styled.div`
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  ${Row} {
+    &:hover {
+      background-color: #56aeea;
+      color: white;
+    }
+    cursor: pointer;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    min-height: 40px;
+    align-items: center;
+  }
 `;
 
 const Name = styled.div`

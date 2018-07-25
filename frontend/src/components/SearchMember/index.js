@@ -14,6 +14,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     fetchSearchedMembers: keyword => {
       dispatch(staffActions.fetchSearchedMembers(keyword));
+    },
+    fetchNowViewMember: user_id => {
+      dispatch(staffActions.fetchNowViewMember(user_id));
     }
   };
 };

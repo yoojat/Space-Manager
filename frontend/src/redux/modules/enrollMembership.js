@@ -80,7 +80,7 @@ function registMembershipLog(membership_id) {
       user: { token }
     } = getState();
 
-    fetch(`membership/log/${membership_id}/`, {
+    fetch(`membership/regist/log/${membership_id}/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -125,7 +125,6 @@ function enrollMembership() {
         if (response.status !== 201) {
           dispatch(userActions.logout());
         }
-        console.log("!!!!!!!");
         return response.json();
       })
       .then(json => dispatch(registMembershipLog(json.id)));

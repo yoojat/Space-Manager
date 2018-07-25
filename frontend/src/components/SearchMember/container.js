@@ -31,6 +31,11 @@ class Container extends Component {
     }
   };
 
+  _onMemberClick = userid => {
+    const { fetchNowViewMember } = this.props;
+    fetchNowViewMember(userid);
+  };
+
   render() {
     const { found_users } = this.props;
     return (
@@ -40,6 +45,7 @@ class Container extends Component {
         keyword={this.state.keyword}
         found_users={found_users}
         handleOnKeyUp={this._handleOnKeyUp}
+        onMemberClick={this._onMemberClick}
       />
     );
   }

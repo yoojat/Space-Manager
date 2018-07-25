@@ -1,5 +1,4 @@
 //imports
-import { history } from "redux/configureStore"; //생성한 store를 불러들임, 히스토리도 불러옴(라우터를 위해))
 
 //actions
 const SAVE_TOKEN = "SAVE_TOKEN";
@@ -110,7 +109,8 @@ function checkAuthority(user) {
     const {
       user: { token }
     } = getState();
-    fetch(`/users/id/${userId}/`, {
+    // fetch(`/users/id/${userId}/`, {
+    fetch(`/users/profile/${userId}/`, {
       method: "GET",
       headers: {
         Authorization: `JWT ${token}`

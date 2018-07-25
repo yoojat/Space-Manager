@@ -11,6 +11,17 @@ from random import *
 from operator import eq
 
 
+class SeatLog(APIView):
+    def get(self, request, user_id, format=None):
+        user = user_models.User.objects.get(id=user_id)
+
+        seat_logs = models.Log.objects.filter(user=user)
+
+        serializer = serializers.LogSerializer(seat_logs, many=True)
+
+        return Response(status=status.HTTP_200_OK, data=serializer.data)
+
+
 class MySeat(APIView):
     def get(self, request, format=None):
         user = request.user

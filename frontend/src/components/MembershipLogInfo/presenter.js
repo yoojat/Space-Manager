@@ -4,26 +4,34 @@ import styled from "styled-components";
 import moment from "moment";
 
 const MembershipLogInfo = (props, context) => {
-  const { now_view_member_memberships } = props;
+  const { now_view_user_membership_logs } = props;
   return (
     <MembershipInfoContainer>
       <TitleContainer>
-        <div>이용중인 멤버쉽</div>
+        <div>멤버쉽 등록 내역</div>
       </TitleContainer>
       <ContentContainer>
-        {now_view_member_memberships.map(membership => (
-          <Row key={membership.id}>
+        {now_view_user_membership_logs.map(history => (
+          <Row key={history.id}>
+            <MembershipTitleCol>
+              <TitleCol>
+                {history.branch.branch_name}{" "}
+                {history.action.substance === "regist" ? "등록" : ""}
+                {history.action.substance === "extend" ? "연장" : ""}
+                {history.action.substance === "modify" ? "수정" : ""}
+              </TitleCol>
+            </MembershipTitleCol>
             <TimeCol>
               <TitleCol>등록 일시 :</TitleCol>
-              {moment(membership.updated_at).format("YYYY-MM-DD HH:mm:ss")}
+              {moment(history.created_at).format("YYYY-MM-DD HH:mm:ss")}
             </TimeCol>
             <TimeCol>
               <TitleCol>멤버쉽 시작 :</TitleCol>
-              {membership.start_date}
+              {history.start_date}
             </TimeCol>
             <TimeCol>
               <TitleCol>멤버쉽 종료 :</TitleCol>
-              {membership.end_date}
+              {history.end_date}
             </TimeCol>
           </Row>
         ))}
@@ -52,7 +60,9 @@ const TitleContainer = styled.div`
 `;
 const ContentContainer = styled.div`
   overflow: scroll;
-  height: 180px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: 120px;
   padding: 10px;
 `;
 const Row = styled.div`
@@ -65,6 +75,15 @@ const TimeCol = styled.div`
   padding: 3px 5px;
   display: flex;
   justify-content: center;
+`;
+
+const MembershipTitleCol = styled.div`
+  padding: 6px 5px;
+  display: flex;
+  justify-content: center;
+  background-color: #12cbc4;
+  color: white;
+  text-align: center;
 `;
 
 const TitleCol = styled.div`

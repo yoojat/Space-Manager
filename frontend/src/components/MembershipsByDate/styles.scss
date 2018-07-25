@@ -88,8 +88,14 @@
     border-bottom-right-radius: 5px;
     overflow: scroll;
     height: 100px;
+    overflow-x: hidden;
+    overflow-y: auto;
     .row {
       cursor: pointer;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      min-height: 40px;
+      align-items: center;
       &:hover {
         background-color: #56aeea;
         color: white;

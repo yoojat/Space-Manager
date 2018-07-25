@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
-import { history } from "redux/configureStore"; //생성한 store를 불러들임, 히스토리도 불러옴(라우터를 위해))
+// import { history } from "redux/configureStore"; //생성한 store를 불러들임, 히스토리도 불러옴(라우터를 위해))
 import "./styles.scss";
 import Footer from "components/Footer";
 import Auth from "components/Auth";
@@ -16,6 +16,8 @@ import RegistCabinet from "components/RegistCabinet";
 import EnrollCabinetOnly from "components/EnrollCabinetOnly";
 import EnrollExtendChoice from "components/EnrollExtendChoice";
 import Staff from "components/Staff";
+import SuperRegist from "components/SuperRegist";
+import SuperEnrollMembership from "components/SuperEnrollMembership";
 
 //app에서 모든 route를 관리
 //리액트에서는 하나의 컴포터넌트를 리턴하는 것이 아니라, array를 리턴할수도 있음
@@ -61,7 +63,11 @@ App.propTypes = {
 
 // 로그인했을 때 보여지는 컴포넌트
 const PrivateRoutes = props => {
-  const { now_using, my_memberships, is_staff } = props;
+  const {
+    //  now_using,
+    my_memberships,
+    is_staff
+  } = props;
 
   // if (now_using) {
   //   history.push("/현재 이용하고 있는 좌석으로 이동");
@@ -91,6 +97,11 @@ const PrivateRoutes = props => {
       <Route path="/cabinet" component={RegistCabinet} />
       <Route path="/enrollcabinet" component={EnrollCabinetOnly} />
       <Route path="/staff" component={is_staff ? Staff : ""} />
+      <Route path="/superenroll" component={SuperEnrollMembership} />
+      <Route
+        path="/super/:what_regist(membership|cabinet)"
+        component={SuperRegist}
+      />
     </div>
   );
 };

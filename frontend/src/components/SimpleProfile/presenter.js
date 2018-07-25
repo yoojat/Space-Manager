@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import Ionicon from "react-ionicons";
-import moment from "moment";
+import { Link } from "react-router-dom";
 
 const SimpleProfile = (props, context) => {
   const { now_view_user, now_membership_end_date, now_user_created_at } = props;
@@ -38,6 +38,14 @@ const SimpleProfile = (props, context) => {
         멤버쉽 만료 :{" "}
         {now_membership_end_date ? now_membership_end_date : "미등록 상태"}
       </ExpiredContainer>
+      <ButtonContainer>
+        <Link to="/super/membership">
+          <Button color="#3498db">멤버쉽 등록</Button>
+        </Link>
+        <Link to="/super/cabinet">
+          <Button color="#3498db">사물함 등록</Button>
+        </Link>
+      </ButtonContainer>
     </ProfileContainer>
   );
 };
@@ -84,4 +92,23 @@ const JoinedContainer = styled.div`
 `;
 const ExpiredContainer = styled.div`
   padding: 3px 0px;
+`;
+
+const ButtonContainer = styled.div`
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+`;
+
+const Button = styled.button`
+  border-radius: 30px;
+  border: none;
+  padding: 5px 15px;
+  margin: 5px;
+  color: white;
+  background-color: ${props => props.color};
+  cursor: pointer;
+  &:hover {
+    background-color: #2980b9;
+  }
 `;

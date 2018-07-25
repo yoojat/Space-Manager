@@ -3,6 +3,7 @@ from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
+from space_manager.branches import models as branch_models
 
 
 @python_2_unicode_compatible
@@ -45,6 +46,7 @@ class User(AbstractUser):
     updated_at = models.DateTimeField(auto_now=True, null=True)
     infolow_route = models.ForeignKey(InflowRoute, null=True)
     purpose = models.ForeignKey(Purpose, null=True)
+    manageable_branches = models.ManyToManyField(branch_models.Branch)
 
     def __str__(self):
         return '{}({})'.format(self.name, self.username)

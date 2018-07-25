@@ -41,27 +41,6 @@ function setRoomSeats(room) {
   };
 }
 
-function doReturnSeat(seatId) {
-  return {
-    type: RETURN_SEAT,
-    seatId
-  };
-}
-
-function doCancelAllocateSeat(seatId) {
-  return {
-    type: CANCEL_ALLOCATE_SEAT,
-    seatId
-  };
-}
-
-function doCancelReturnSeat(seatId) {
-  return {
-    type: CANCEL_RETURN_SEAT,
-    seatId
-  };
-}
-
 // API actions: api를 부를 때 사용
 
 //현재 앉아있는 이요하고 있는 좌석 정보를 불러오고 리덕스에 해당 정보 저장
@@ -155,8 +134,7 @@ function getRoomSeats(roomId) {
 function changeSeat(beforeSeatId, afterSeatId) {
   return (dispatch, getState) => {
     const {
-      user: { token },
-      seat: { room }
+      user: { token }
     } = getState();
 
     //optimistic response

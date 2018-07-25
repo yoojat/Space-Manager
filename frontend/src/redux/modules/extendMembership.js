@@ -77,6 +77,30 @@ function setExtendCostType(sel_cost_type) {
 //   };
 // }
 
+function extendMembershipLog(membership_id) {
+  return (dispatch, getState) => {
+    const {
+      user: { token }
+    } = getState();
+
+    fetch(`membership/extend/log/${membership_id}/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `JWT ${token}`
+      }
+    }).then(response => {
+      if (response.status === 201) {
+        console.log("성공");
+        return true;
+      } else {
+        console.log("실패");
+        return false;
+      }
+    });
+  };
+}
+
 function extendMembership() {
   return (dispatch, getState) => {
     const {
@@ -94,7 +118,14 @@ function extendMembership() {
         membership_id: extendMembership.membership_extend.id,
         days: extendMembership.sel_cost_type.days
       })
-    });
+    })
+      .then(response => {
+        if (response.status !== 202) {
+          dispatch(userActions.logout());
+        }
+        return response.json();
+      })
+      .then(json => dispatch(extendMembershipLog(json.id)));
   };
 }
 

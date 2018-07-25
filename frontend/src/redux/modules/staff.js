@@ -1,25 +1,69 @@
 //imports
 import { actionCreators as userActions } from "redux/modules/user";
-
+import moment from "moment";
 //actions
 const SET_MEMBERSHIPS_BY_DATE = "SET_MEMBERSHIPS_BY_DATE";
 const SET_MEMBERS_BY_SEARCHING = "SET_MEMBERS_BY_SEARCHING";
+const CLEAR_MEMBER_DETAIL_INFO = "CLEAR_MEMBER_DETAIL_INFO";
+const SET_NOW_VIEW_MEMBER_SEAT_LOGS = "SET_NOW_VIEW_MEMBER_SEAT_LOGS";
 const SET_NOW_VIEW_MEMBER = "SET_NOW_VIEW_MEMBER";
-const SET_NOW_VIEW_MEMBER_MEMBERSHIPS = "SET_NOW_VIEW_MEMBER_MEMBERSHIPS";
+const SET_NOW_VIEW_MEMBERSHIPS = "SET_NOW_VIEW_MEMBERSHIPS";
+const SET_NOW_VIEW_CABINETS = "SET_NOW_VIEW_CABINETS";
+const SET_TURE_SHOW_DETAIL_VIEW = "SET_TURE_SHOW_DETAIL_VIEW";
+const SET_DETAIL_VIEW_LOADING_TRUE = "SET_DETAIL_VIEW_LOADING_TRUE";
+const SET_DETAIL_VIEW_LOADING_FALSE = "SET_DETAIL_VIEW_LOADING_FALSE";
 
 //action creators : 리덕스 state를 변경
 
-function setNowViewMemberMemberships(now_view_member_memberships) {
+function setDetailViewLoadingTrue() {
   return {
-    type: SET_NOW_VIEW_MEMBER_MEMBERSHIPS,
-    now_view_member_memberships
+    type: SET_DETAIL_VIEW_LOADING_TRUE
   };
 }
 
-function setNowViewMember(now_view_user) {
+function setDetailViewLoadingFalse() {
+  return {
+    type: SET_DETAIL_VIEW_LOADING_FALSE
+  };
+}
+
+function setTrueShowDetailView() {
+  return {
+    type: SET_TURE_SHOW_DETAIL_VIEW
+  };
+}
+
+function setNowViewMemberships(memberships) {
+  return {
+    type: SET_NOW_VIEW_MEMBERSHIPS,
+    memberships
+  };
+}
+
+function setNowViewCabinets(cabinets) {
+  return {
+    type: SET_NOW_VIEW_CABINETS,
+    cabinets
+  };
+}
+
+function setNowViewMember(member_status) {
   return {
     type: SET_NOW_VIEW_MEMBER,
-    now_view_user
+    member_status
+  };
+}
+
+function setNowViewMemberSeatLogs(seat_logs) {
+  return {
+    type: SET_NOW_VIEW_MEMBER_SEAT_LOGS,
+    seat_logs
+  };
+}
+
+function clearMemberDetailInfo() {
+  return {
+    type: CLEAR_MEMBER_DETAIL_INFO
   };
 }
 
@@ -63,36 +107,15 @@ function setMembersBySearching(members) {
 
 // 오늘 가입한 사람, 오늘 등록한 사람 모두 불러옴
 
-function fetchNowViewMemberships(user_id) {
-  return function(dispatch, getState) {
-    const {
-      user: { token }
-    } = getState();
-
-    fetch(`membership/${user_id}/`, {
-      method: "GET",
-      headers: {
-        Authorization: `JWT ${token}`
-      }
-    })
-      .then(response => {
-        if (response.status !== 200) {
-          dispatch(userActions.logout());
-        }
-        return response.json();
-      })
-      .then(json => {
-        dispatch(setNowViewMemberMemberships(json));
-      });
-  };
-}
-
 function fetchNowViewMember(user_id) {
   return function(dispatch, getState) {
     const {
       user: { token }
     } = getState();
-    fetch(`/users/id/${user_id}/`, {
+
+    dispatch(setDetailViewLoadingTrue());
+
+    fetch(`users/id/${user_id}/`, {
       method: "GET",
       headers: {
         Authorization: `JWT ${token}`
@@ -105,7 +128,49 @@ function fetchNowViewMember(user_id) {
         return response.json();
       })
       .then(json => {
+        dispatch(setTrueShowDetailView());
         dispatch(setNowViewMember(json));
+        const now_view_user_memberships = json.memberships.filter(
+          membership =>
+            moment(membership.end_date).valueOf() > moment().valueOf() &&
+            membership.is_usable
+        );
+        const now_view_member_cabinets = json.cabinets.filter(
+          cabinet =>
+            moment(cabinet.end_date).valueOf() > moment().valueOf() &&
+            !cabinet.is_clean
+        );
+
+        dispatch(setNowViewMemberships(now_view_user_memberships));
+        dispatch(setNowViewCabinets(now_view_member_cabinets));
+        return true;
+      })
+      .then(is_complete => {
+        dispatch(setDetailViewLoadingFalse());
+      });
+  };
+}
+
+function fetchNowViewMemberSeatHistory(user_id) {
+  return function(dispatch, getState) {
+    const {
+      user: { token }
+    } = getState();
+
+    fetch(`seats/log/${user_id}/`, {
+      method: "GET",
+      headers: {
+        Authorization: `JWT ${token}`
+      }
+    })
+      .then(response => {
+        if (response.status !== 200) {
+          dispatch(userActions.logout());
+        }
+        return response.json();
+      })
+      .then(json => {
+        dispatch(setNowViewMemberSeatLogs(json));
       });
   };
 }
@@ -191,7 +256,11 @@ const initialState = {
   memberships_by_date: null,
   found_users: null,
   now_view_user: null,
-  now_view_member_memberships: null
+  now_view_member_seat_logs: null,
+  show_detail_view: false,
+  detail_view_loading: true,
+  now_view_member_memberships: null,
+  now_view_member_cabinets: null
 };
 
 //reducer
@@ -203,28 +272,80 @@ function reducer(state = initialState, action) {
     case SET_MEMBERS_BY_SEARCHING:
       return applySetMembersBySearching(state, action);
 
+    case SET_NOW_VIEW_MEMBER_SEAT_LOGS:
+      return applySetNowViewMemberSeatLogs(state, action);
+
     case SET_NOW_VIEW_MEMBER:
       return applySetNowViewMember(state, action);
 
-    case SET_NOW_VIEW_MEMBER_MEMBERSHIPS:
-      return applySetNowViewMemberMembership(state, action);
+    case SET_NOW_VIEW_MEMBERSHIPS:
+      return applySetNowViewMemberships(state, action);
+
+    case SET_NOW_VIEW_CABINETS:
+      return applySetNowViewCabinets(state, action);
+
+    case SET_TURE_SHOW_DETAIL_VIEW:
+      return applySetTrueShowDetailView(state, action);
+
+    case SET_DETAIL_VIEW_LOADING_TRUE:
+      return applySetDetailViewLoadingTrue(state, action);
+
+    case SET_DETAIL_VIEW_LOADING_FALSE:
+      return applySetDetailViewLoadingFalse(state, action);
 
     default:
       return state;
   }
 }
 //reducer functions
+function applySetDetailViewLoadingTrue(state, action) {
+  return {
+    ...state,
+    detail_view_loading: true
+  };
+}
+function applySetDetailViewLoadingFalse(state, action) {
+  return {
+    ...state,
+    detail_view_loading: false
+  };
+}
 
-function applySetNowViewMemberMembership(state, action) {
-  const { now_view_member_memberships } = action;
-  return { ...state, now_view_member_memberships };
+function applySetTrueShowDetailView(state, action) {
+  return {
+    ...state,
+    show_detail_view: true
+  };
+}
+
+function applySetNowViewMemberships(state, action) {
+  const { memberships } = action;
+  return {
+    ...state,
+    now_view_member_memberships: memberships
+  };
+}
+function applySetNowViewCabinets(state, action) {
+  const { cabinets } = action;
+  return {
+    ...state,
+    now_view_member_cabinets: cabinets
+  };
 }
 
 function applySetNowViewMember(state, action) {
-  const { now_view_user } = action;
+  const { member_status } = action;
   return {
     ...state,
-    now_view_user
+    now_view_user: member_status
+  };
+}
+
+function applySetNowViewMemberSeatLogs(state, action) {
+  const { seat_logs } = action;
+  return {
+    ...state,
+    now_view_member_seat_logs: seat_logs
   };
 }
 
@@ -249,8 +370,9 @@ const actionCreators = {
   fetchTodayMemberships,
   fetchMembershipsByDate,
   fetchSearchedMembers,
-  fetchNowViewMember,
-  fetchNowViewMemberships
+  fetchNowViewMemberSeatHistory,
+  clearMemberDetailInfo,
+  fetchNowViewMember
 };
 
 export { actionCreators };

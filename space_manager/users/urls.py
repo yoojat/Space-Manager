@@ -19,4 +19,7 @@ urlpatterns = [
     url(regex=r'^id/(?P<userid>[0-9]+)/$',
         view=views.UserByID.as_view(),
         name='user_profile_userid'),
+    url(regex=r'^profile/(?P<userid>[0-9]+)/$',
+        view=views.SimpleUserById.as_view(),
+        name='SimpleUserById'),
 ]

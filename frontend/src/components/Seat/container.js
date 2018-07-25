@@ -11,9 +11,6 @@ class Container extends Component {
     const {
       id,
       memberships,
-      usable,
-      discard,
-      now_user,
       now_using, //좌석의 현재상태
       my_now_using,
       seat_number,

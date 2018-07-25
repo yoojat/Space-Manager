@@ -37,4 +37,9 @@ urlpatterns = [
         view=views.MySeat.as_view(),
         name='MySeat',
     ),
+    url(
+        regex=r'^log/(?P<user_id>[0-9]+)/$',
+        view=views.SeatLog.as_view(),
+        name='SeatLog',
+    ),
 ]

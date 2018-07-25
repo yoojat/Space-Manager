@@ -48,7 +48,8 @@ class MembershipHistory(TimeStampedModel):
 
     action = models.ForeignKey(Action, null=True)
     creator = models.ForeignKey(user_models.User, null=True)
-    membership = models.ForeignKey(Membership, null=True)
+    membership = models.ForeignKey(
+        Membership, null=True, related_name="membership_historys")
 
     def __str__(self):
         return '{} : {} - {}'.format(self.created_at, self.membership,

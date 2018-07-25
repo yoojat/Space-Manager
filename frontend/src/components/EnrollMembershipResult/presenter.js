@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import styles from "./styles.scss";
 import { Element } from "react-scroll";
@@ -188,46 +188,6 @@ const EnrollCabinetResult = (props, context) => {
       </div>
     </div>
   ));
-
-  // <div className={styles.membershipResultContainer}>
-  //   <div className={styles.title}>블루닷라운지 사물함</div>
-
-  //   <div className={styles.column}>
-  //     <div className={styles.columnTitle}>등록 지점</div>
-  //     <div className={styles.columnContent}>{branch_name}</div>
-  //   </div>
-  //   <div className={styles.column}>
-  //     <div className={styles.columnTitle}>이용 시작</div>
-  //     <div className={styles.columnContent}>{start_datetime}</div>
-  //   </div>
-
-  //   <div className={styles.column}>
-  //     <div className={styles.columnTitle}>이용 종료</div>
-  //     <div className={styles.columnContent}>{end_datetime}</div>
-  //   </div>
-
-  //   <div className={styles.column}>
-  //     <div className={styles.columnTitle}>사물함 번호</div>
-  //     <div className={styles.columnContent}>
-  //       {cabinets_to_enroll.map(cabinet => (
-  //         <span className={styles.cabinetNumber} key={cabinet.id}>
-  //           {cabinet.cabinet_number}
-  //         </span>
-  //       ))}
-  //     </div>
-  //   </div>
-
-  //   <div className={styles.column}>
-  //     <div className={styles.columnTitle}>이용 종료</div>
-  //     <div className={styles.columnContent}>{end_datetime}</div>
-  //   </div>
-  //   <div className={styles.column}>
-  //     <div className={styles.columnTitle}>총 이용일수</div>
-  //     <div className={styles.columnContent}>
-  //       {days === 0.5 ? "12시간" : `${days}일`}
-  //     </div>
-  //   </div>
-  // </div>
 };
 
 const ExtendCabinetResult = (props, context) => {

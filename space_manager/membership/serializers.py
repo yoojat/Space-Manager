@@ -34,6 +34,7 @@ class MembershipHistorySerializer(serializers.ModelSerializer):
     class Meta:
         model = models.MembershipHistory
         fields = (
+            'id',
             'action',
             'membership',
             'creator',

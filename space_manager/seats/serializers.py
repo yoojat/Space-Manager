@@ -35,7 +35,7 @@ class LogSerializer(serializers.ModelSerializer):
             'action',
             'user',
             'seat',
-            'reg_datetime',
+            'created_at',
         )
 
 

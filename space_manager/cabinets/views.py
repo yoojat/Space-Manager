@@ -10,6 +10,61 @@ from django.utils.datastructures import MultiValueDictKeyError
 from datetime import datetime, timedelta
 
 
+class CabinetLog(APIView):
+    def get(self, request, user_id, format=None):
+        user = user_models.User.objects.get(id=user_id)
+        cabinet_historys = models.CabinetHistory.objects.filter(user=user)
+        print(cabinet_historys)
+
+        serializer = serializers.HistorySerializer(cabinet_historys, many=True)
+
+        return Response(status=status.HTTP_200_OK, data=serializer.data)
+
+
+class ExtendCabinetLog(APIView):
+    def post(self, request, cabinet_id, format=None):
+        cabinet = models.Cabinet.objects.get(id=cabinet_id)
+        user = cabinet.user
+        start_date = cabinet.start_date
+        end_date = cabinet.end_date
+        cabinet_action = models.CabinetAction.objects.get(substance='extend')
+
+        new_cabinet_log = models.CabinetHistory.objects.create(
+            user=user,
+            cabinet=cabinet,
+            start_date=start_date,
+            end_date=end_date,
+            cabinet_action=cabinet_action)
+
+        new_cabinet_log.save()
+        serializer = serializers.HistorySerializer(new_cabinet_log)
+
+        return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+
+
+class EnrollCabinetLog(APIView):
+    def post(self, request, cabinet_id, format=None):
+        #user, cabinet, start_date, end_date, cabinet_action
+        cabinet = models.Cabinet.objects.get(id=cabinet_id)
+        user = cabinet.user
+        start_date = cabinet.start_date
+        end_date = cabinet.end_date
+        cabinet_action = models.CabinetAction.objects.get(substance='regist')
+
+        new_cabinet_log = models.CabinetHistory.objects.create(
+            user=user,
+            cabinet=cabinet,
+            start_date=start_date,
+            end_date=end_date,
+            cabinet_action=cabinet_action)
+
+        new_cabinet_log.save()
+
+        serializer = serializers.HistorySerializer(new_cabinet_log)
+
+        return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+
+
 class EnrollCabinets(APIView):
     def get_cabinet(self, id):
         try:
@@ -131,15 +186,9 @@ class MyCabinets(APIView):
 class CabinetsNowUsing(APIView):
     def find_using_cabinets(self, user):
 
-        now = datetime.now()
-
         try:
             # 현재 사용자의 사물함 중 만료시각이 현재보다 같거나 크고, 사용
-            cabinets = models.UseCabinet.objects.filter(
-                user=user,
-                end_date__gte=now,
-                start_date__lte=now,
-                is_usable=True)
+            cabinets = models.Cabinet.objects.filter(user=user, is_clean=False)
 
             return cabinets
         except models.UseCabinet.DoesNotExist:
@@ -176,11 +225,10 @@ class CabinetByUser(APIView):
 
         try:
             # 현재 사용자의 사물함 중 만료시각이 현재보다 같거나 크고, 사용
-            cabinets = models.UseCabinet.objects.filter(
-                user=user, end_date__gte=now, is_usable=True)
+            cabinets = models.Cabinet.objects.filter(user=user, is_clean=False)
 
             return cabinets
-        except models.UseCabinet.DoesNotExist:
+        except models.Cabinet.DoesNotExist:
             return None
 
     # 현재 이용기간이 아니더라도 미래에 있는 사물함 까지불러옴 (사물함 등록을 위하여 필요함)
@@ -202,7 +250,8 @@ class CabinetByUser(APIView):
         if using_cabinets is None:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
-        serializer = serializers.UsecabSerializer(using_cabinets, many=True)
+        serializer = serializers.CabinetSerializerForSelect(
+            using_cabinets, many=True)
 
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 

@@ -11,8 +11,15 @@ const SET_ENROLL_CABINET_NOT_COMPLETE = "SET_ENROLL_CABINET_NOT_COMPLETE";
 const SET_EXTEND_CABINET_COMPLETE = "SET_EXTEND_CABINET_COMPLETE";
 const SET_EXTEND_CABINET_NOT_COMPLETE = "SET_EXTEND_CABINET_NOT_COMPLETE";
 const SET_NOW_DATETIME = "SET_NOW_DATETIME";
+const CLEAR_SET_UP_INFO = "CLEAR_SET_UP_INFO";
 
 //action creators : 리덕스 state를 변경
+
+function clearSetupInfo() {
+  return {
+    type: CLEAR_SET_UP_INFO
+  };
+}
 function setNowDatetime() {
   return {
     type: SET_NOW_DATETIME
@@ -99,11 +106,20 @@ function reducer(state = initialState, action) {
       return applyExtendCabinetNotComplete(state, action);
     case SET_NOW_DATETIME:
       return applySetNowDatetime(state, action);
+    case CLEAR_SET_UP_INFO:
+      return applyClearSetUpInfo(state, action);
     default:
       return state;
   }
 }
 //reducer functions
+
+function applyClearSetUpInfo(state, action) {
+  return {
+    ...initialState
+  };
+}
+
 function applySetNowDatetime(state, action) {
   return {
     ...state,
@@ -171,7 +187,8 @@ const actionCreators = {
   setEnrollCabinetNotComplete,
   setExtendCabinetComplete,
   setExtendCabinetNotComplete,
-  setNowDatetime
+  setNowDatetime,
+  clearSetupInfo
 };
 
 export { actionCreators };

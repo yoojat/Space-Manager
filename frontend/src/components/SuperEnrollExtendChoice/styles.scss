@@ -1,0 +1,39 @@
+.back-white {
+  background-color: white;
+  border: 1.4px solid #e4e4e4;
+  width: 90vw;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 30px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  .title {
+    text-align: center;
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+
+  .button-container {
+    display: flex;
+    justify-content: center;
+    .button {
+      text-align: center;
+      border: 1.4px solid #e4e4e4;
+      font-size: 13px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      padding-left: 10px;
+      padding-right: 10px;
+      transition: all 0.5s;
+      border-radius: 3px;
+      cursor: pointer;
+      font-size: 13px;
+      margin-left: 5px;
+      margin-right: 5px;
+      &:hover {
+        background-color: #374bab;
+        color: white;
+      }
+    }
+  }
+}

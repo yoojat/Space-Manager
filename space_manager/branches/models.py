@@ -31,6 +31,7 @@ class Branch(models.Model):
     usable = models.BooleanField(default=False)
     width = models.FloatField(null=True)
     height = models.FloatField(null=True)
+    usable_branches = models.ManyToManyField("self")
 
     def __str__(self):
         return ('{}({}호점)').format(self.branch_name, self.branch_num)
@@ -50,6 +51,10 @@ class BranchConfig(models.Model):
     girl_acceptable = models.BooleanField(default=True)
     boy_acceptable = models.BooleanField(default=True)
     other_acceptable = models.BooleanField(default=True)
+    man_acceptable_number = models.IntegerField(null=True)
+    woman_acceptable_number = models.IntegerField(null=True)
+    girl_acceptable_number = models.IntegerField(null=True)
+    boy_acceptable_number = models.IntegerField(null=True)
 
     def __str__(self):
         return '{}호점 - {}'.format(self.branch.branch_num,

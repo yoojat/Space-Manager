@@ -5,10 +5,10 @@ class Container extends Component {
   state = {};
 
   render() {
-    const { now_view_member_memberships } = this.props;
+    const { now_view_user_membership_logs } = this.props;
     return (
       <MembershipLogInfo
-        now_view_member_memberships={now_view_member_memberships}
+        now_view_user_membership_logs={now_view_user_membership_logs}
       />
     );
   }

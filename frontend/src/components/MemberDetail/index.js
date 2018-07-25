@@ -1,22 +1,16 @@
 import { connect } from "react-redux";
 import Container from "./container";
-import { actionCreators as staffActions } from "redux/modules/staff";
-// import { actionCreators as registActions } from "redux/modules/regist";
 
 const mapStateToProps = (state, ownProps) => {
   const {
-    staff: { now_view_member_memberships, now_view_user }
+    staff: { now_view_user, detail_view_loading }
   } = state;
 
-  return { now_view_member_memberships, now_view_user };
+  return { now_view_user, detail_view_loading };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    fetchNowViewMemberships: userid => {
-      dispatch(staffActions.fetchNowViewMemberships(userid));
-    }
-  };
+  return {};
 };
 
 export default connect(

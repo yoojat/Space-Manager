@@ -85,7 +85,8 @@ const EnrollCabinetResult = (props, context) => {
                 <div className={styles.fromCon}>
                   <div className={styles.left}>기간 :</div>
                   <div className={styles.right}>
-                    {start_datetime} - {end_datetime}
+                    {moment(start_datetime).format("YYYY-MM-DD HH:mm:ss")} -{" "}
+                    {moment(end_datetime).format("YYYY-MM-DD HH:mm:ss")}
                   </div>
                 </div>
               </div>
@@ -155,7 +156,13 @@ const ExtendCabinetResult = (props, context) => {
                     <div className={styles.fromCon}>
                       <div className={styles.left}>From :</div>
                       <div className={styles.right}>
-                        {cabinet_extend.start_date} - {cabinet_extend.end_date}
+                        {moment(cabinet_extend.start_date).format(
+                          "YYYY-MM-DD HH:mm:ss"
+                        )}{" "}
+                        -{" "}
+                        {moment(cabinet_extend.end_date).format(
+                          "YYYY-MM-DD HH:mm:ss"
+                        )}
                       </div>
                     </div>
                     <div className={styles.fromtoCon}>

@@ -11,7 +11,8 @@ class Container extends Component {
     const now_membership = now_view_user.memberships.find(membership => {
       return (
         moment(membership.start_date).valueOf() <= now_day_value &&
-        moment(membership.end_date).valueOf() >= now_day_value
+        moment(membership.end_date).valueOf() >= now_day_value &&
+        membership.is_usable
       );
     });
     return (

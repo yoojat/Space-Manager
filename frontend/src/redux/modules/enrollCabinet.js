@@ -185,6 +185,29 @@ function selectCabinetEndDatetime(end_datetime) {
 }
 
 // API actions: api를 부를 때 사용
+function registCabinetLog(cabinet_id) {
+  return (dispatch, getState) => {
+    const {
+      user: { token }
+    } = getState();
+
+    fetch(`/cabinets/regist/log/${cabinet_id}/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `JWT ${token}`
+      }
+    }).then(response => {
+      if (response.status === 201) {
+        console.log("사물함 로그 성공");
+        return true;
+      } else {
+        console.log("사물함 로그 실패");
+        return false;
+      }
+    });
+  };
+}
 
 function enrollCabinet() {
   return function(dispatch, getState) {
@@ -206,7 +229,16 @@ function enrollCabinet() {
         end_date: enrollCabinet.sel_end_datetime,
         user: enrollCabinet.target_user.id
       })
-    });
+    })
+      .then(response => {
+        if (response.status !== 202) {
+          dispatch(userActions.logout());
+        }
+        return response.json();
+      })
+      .then(json => {
+        dispatch(registCabinetLog(json.id));
+      });
   };
 }
 function fetchCabinetCostTypes() {

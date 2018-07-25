@@ -1,5 +1,5 @@
 // imports
-// import { actionCreators as userActions } from "redux/modules/user";
+import { actionCreators as userActions } from "redux/modules/user";
 //actions
 
 const SET_CABINET_EXTEND = "SET_CABINET_EXTEND";
@@ -59,6 +59,28 @@ function setIsExtendCabinetFalse() {
 
 // API actions: api를 부를 때 사용
 
+function extendCabinetLog(cabinet_id) {
+  return (dispatch, getState) => {
+    const {
+      user: { token }
+    } = getState();
+
+    fetch(`cabinets/extend/log/${cabinet_id}/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `JWT ${token}`
+      }
+    }).then(response => {
+      if (response.status !== 201) {
+        console.log("사물함 연장 로그 실패");
+      } else {
+        console.log("사물함 연장 로그 성공");
+      }
+    });
+  };
+}
+
 function extendCabinet() {
   return (dispatch, getState) => {
     const {
@@ -76,7 +98,16 @@ function extendCabinet() {
         cabinets_extend: extendCabinet.cabinets_extend,
         days: extendCabinet.sel_cabinet_costtype.days
       })
-    });
+    })
+      .then(response => {
+        if (response.status !== 202) {
+          dispatch(userActions.logout());
+        }
+        return response.json();
+      })
+      .then(json => {
+        dispatch(extendCabinetLog(json.id));
+      });
   };
 }
 

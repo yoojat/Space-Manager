@@ -3,6 +3,8 @@ import { actionCreators as enrollMembershipActions } from "redux/modules/enrollM
 import { actionCreators as extendMembershipActions } from "redux/modules/extendMembership";
 import { actionCreators as extendCabinetActions } from "redux/modules/extendCabinet";
 import { actionCreators as enrollCabinetActions } from "redux/modules/enrollCabinet";
+import { actionCreators as setupInfoActions } from "redux/modules/setupInfo";
+
 //actions
 const SET_PAY_METHODS = "SET_PAY_METHODS";
 
@@ -33,16 +35,56 @@ function fetchPaymethods() {
       .then(json => dispatch(setPayMethods(json)));
   };
 }
+function clearProcessing() {
+  return async function(dispatch, getState) {
+    dispatch(extendMembershipActions.clearExtendMembership());
+    dispatch(enrollMembershipActions.clearEnrollMembership());
+    dispatch(extendCabinetActions.clearExtendCabinet());
+    dispatch(enrollCabinetActions.clearEnrollCabinet());
+    dispatch(setupInfoActions.clearSetupInfo());
+  };
+}
+
+function enrollProcessing() {
+  return async function(dispatch, getState) {
+    const {
+      enrollMembership,
+      extendMembership,
+      enrollCabinet,
+      extendCabinet
+    } = getState();
+
+    if (extendMembership.sel_cost_type) {
+      await dispatch(extendMembershipActions.extendMembership());
+    }
+    if (enrollMembership.sel_cost_type) {
+      await dispatch(enrollMembershipActions.enrollMembership());
+    }
+    if (extendCabinet.sel_cabinet_costtype) {
+      //사물함 연장처리
+      await dispatch(extendCabinetActions.extendCabinet());
+    }
+    if (enrollCabinet.sel_cabinet_cost_type) {
+      //사물함 등록 처리
+      await dispatch(enrollCabinetActions.enrollCabinet());
+    }
+    await dispatch(clearProcessing());
+    await function() {
+      console.log("go to myinfo");
+      window.location.href = "/myinfo";
+    };
+  };
+}
 
 function payCheck(imp_uid, pay_amount) {
   return function(dispatch, getState) {
     const {
       user: { token, id },
-      payment: { pay_methods },
-      enrollMembership,
-      extendMembership,
-      enrollCabinet,
-      extendCabinet
+      payment: { pay_methods }
+      // enrollMembership,
+      // extendMembership,
+      // enrollCabinet,
+      // extendCabinet
     } = getState();
 
     fetch(`/payment/paycheck/`, {
@@ -71,21 +113,23 @@ function payCheck(imp_uid, pay_amount) {
           //결제 성공
           //결제 정보 기록
           dispatch(registPayment(id, sel_pay_method_obj.id));
-          //멤버쉽 혹은 사물함 등록 처리
-          if (extendMembership.sel_cost_type) {
-            dispatch(extendMembershipActions.extendMembership());
-          }
-          if (enrollMembership.sel_cost_type) {
-            dispatch(enrollMembershipActions.enrollMembership());
-          }
-          if (extendCabinet.sel_cabinet_costtype) {
-            //사물함 연장처리
-            dispatch(extendCabinetActions.extendCabinet());
-          }
-          if (enrollCabinet.sel_cabinet_cost_type) {
-            //사물함 등록 처리
-            dispatch(enrollCabinetActions.enrollCabinet());
-          }
+          // 멤버쉽 혹은 사물함 등록 처리
+          // if (extendMembership.sel_cost_type) {
+          //   dispatch(extendMembershipActions.extendMembership());
+          // }
+          // if (enrollMembership.sel_cost_type) {
+          //   dispatch(enrollMembershipActions.enrollMembership());
+          // }
+          // if (extendCabinet.sel_cabinet_costtype) {
+          //   //사물함 연장처리
+          //   dispatch(extendCabinetActions.extendCabinet());
+          // }
+          // if (enrollCabinet.sel_cabinet_cost_type) {
+          //   //사물함 등록 처리
+          //   dispatch(enrollCabinetActions.enrollCabinet());
+          // }
+
+          dispatch(enrollProcessing());
           // window.location.href = "/myinfo";
         } else {
           //결제 실패
@@ -175,7 +219,8 @@ function applySetPayMethods(state, action) {
 const actionCreators = {
   payCheck,
   registPayment,
-  fetchPaymethods
+  fetchPaymethods,
+  enrollProcessing
 };
 
 export { actionCreators };

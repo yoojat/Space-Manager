@@ -9,6 +9,38 @@ from rest_framework import status
 from datetime import datetime, timedelta, date
 
 
+class MembershipHistory(APIView):
+    def get(self, request, user_id, format=None):
+        creator = users_models.User.objects.get(id=user_id)
+        membership_historys = models.MembershipHistory.objects.filter(
+            creator=creator)
+
+        serializer = serializers.MembershipHistorySerializer(
+            membership_historys, many=True)
+
+        return Response(status=status.HTTP_200_OK, data=serializer.data)
+
+
+class ExtendMembershipLog(APIView):
+    def post(self, request, membership_id, format=None):
+        enroll_action = models.Action.objects.get(substance='extend')
+        creator = request.user
+        membership = models.Membership.objects.get(id=membership_id)
+
+        new_membership_log = models.MembershipHistory.objects.create(
+            action=enroll_action,
+            creator=creator,
+            membership=membership,
+        )
+
+        new_membership_log.save()
+
+        serializer = serializers.MembershipHistorySerializer(
+            new_membership_log)
+
+        return Response(status=status.HTTP_201_CREATED, data=serializer.data)
+
+
 class RegistMembershipLog(APIView):
     def post(self, request, membership_id, format=None):
         enroll_action = models.Action.objects.get(substance='regist')
