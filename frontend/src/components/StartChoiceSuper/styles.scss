@@ -1,0 +1,45 @@
+.sel-when-title {
+  border-top: 1px solid #e4e4e4;
+  padding-top: 15px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 13px;
+}
+.datetime {
+  margin-top: 10px;
+  margin-bottom: 10px;
+
+  /* input 기본 스타일 초기화 */
+  input {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: 1px solid #374bab;
+    border-radius: 3px;
+    width: 100%;
+    text-align: center;
+    height: 38px;
+    cursor: pointer;
+    &:hover {
+      background-color: #374bab;
+      color: white;
+    }
+  }
+  & > div {
+    width: 100%;
+  }
+
+  /* IE10 이상에서 input box 에 추가된 지우기 버튼 제거 */
+  input::-ms-clear {
+    display: none;
+  }
+
+  /* input type number 에서 화살표 제거 */
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+}

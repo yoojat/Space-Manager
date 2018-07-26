@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import EnrollMembership from "./presenter";
-import { scroller } from "react-scroll";
+import SuperEnrollMembership from "./presenter";
 
 class Container extends Component {
   state = {
@@ -117,26 +116,10 @@ class Container extends Component {
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    const { sel_cost_type } = this.props;
-
-    if (sel_cost_type) {
-      if (this.state.scroll_first) {
-        this.setState({ ...this.state, scroll_first: false });
-        scroller.scrollTo("cabinetQuestion", {
-          duration: 1500,
-          delay: 100,
-          smooth: true,
-          offset: 50
-        });
-      }
-    }
-  }
-
   componentWillMount() {
     const {
       fetchBranches,
-      fetchMyCabinets,
+      getUsingCabinets,
       clearEnrollMembership,
       clearExtendCabinet,
       clearEnrollCabinet,
@@ -145,7 +128,7 @@ class Container extends Component {
       user
     } = this.props;
     fetchBranches();
-    fetchMyCabinets();
+    getUsingCabinets(user.id);
     clearEnrollMembership(); //멤버쉽 등록 초기화
     clearExtendCabinet(); // 사물함 연장 초기화
     clearEnrollCabinet(); // 사물함 등록 초기화
@@ -156,16 +139,17 @@ class Container extends Component {
   componentWillUnmount() {
     const {
       fetchBranches,
-      fetchMyCabinets,
+      getUsingCabinets,
       clearEnrollMembership,
       clearExtendCabinet,
       clearEnrollCabinet,
       clearExtendMembership,
       setExtendMembershipNotComplete,
-      setEnrollMembershipNotComplete
+      setEnrollMembershipNotComplete,
+      user
     } = this.props;
     fetchBranches();
-    fetchMyCabinets();
+    getUsingCabinets(user.id);
     clearEnrollMembership(); //멤버쉽 등록 초기화
     clearExtendCabinet(); // 사물함 연장 초기화
     clearEnrollCabinet(); // 사물함 등록 초기화
@@ -190,7 +174,7 @@ class Container extends Component {
       enrollMembershipComplete
     } = this.props;
     return (
-      <EnrollMembership
+      <SuperEnrollMembership
         profile_image={profile_image}
         username={username}
         name={name}

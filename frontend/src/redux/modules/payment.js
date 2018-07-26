@@ -4,6 +4,7 @@ import { actionCreators as extendMembershipActions } from "redux/modules/extendM
 import { actionCreators as extendCabinetActions } from "redux/modules/extendCabinet";
 import { actionCreators as enrollCabinetActions } from "redux/modules/enrollCabinet";
 import { actionCreators as setupInfoActions } from "redux/modules/setupInfo";
+import { actionCreators as staffActions } from "redux/modules/staff";
 
 //actions
 const SET_PAY_METHODS = "SET_PAY_METHODS";
@@ -51,13 +52,17 @@ function enrollProcessing() {
       enrollMembership,
       extendMembership,
       enrollCabinet,
-      extendCabinet
+      extendCabinet,
+      user
     } = getState();
+
+    let userid;
 
     if (extendMembership.sel_cost_type) {
       await dispatch(extendMembershipActions.extendMembership());
     }
     if (enrollMembership.sel_cost_type) {
+      userid = enrollMembership.target_user.id;
       await dispatch(enrollMembershipActions.enrollMembership());
     }
     if (extendCabinet.sel_cabinet_costtype) {
@@ -66,13 +71,17 @@ function enrollProcessing() {
     }
     if (enrollCabinet.sel_cabinet_cost_type) {
       //사물함 등록 처리
+      userid = enrollCabinet.target_user.id;
       await dispatch(enrollCabinetActions.enrollCabinet());
     }
     await dispatch(clearProcessing());
-    await function() {
-      console.log("go to myinfo");
+    if (!user.is_staff && !user.is_superuser) {
       window.location.href = "/myinfo";
-    };
+    } else {
+      setTimeout(() => {
+        dispatch(staffActions.fetchNowViewMember(userid));
+      }, 2000);
+    }
   };
 }
 

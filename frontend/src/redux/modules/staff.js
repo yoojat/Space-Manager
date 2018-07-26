@@ -12,8 +12,21 @@ const SET_NOW_VIEW_CABINETS = "SET_NOW_VIEW_CABINETS";
 const SET_TURE_SHOW_DETAIL_VIEW = "SET_TURE_SHOW_DETAIL_VIEW";
 const SET_DETAIL_VIEW_LOADING_TRUE = "SET_DETAIL_VIEW_LOADING_TRUE";
 const SET_DETAIL_VIEW_LOADING_FALSE = "SET_DETAIL_VIEW_LOADING_FALSE";
-
+const SET_SEEING_REGIST_WINDOW_TRUE = "SET_SEEING_REGIST_WINDOW_TRUE";
+const SET_SEEING_REGIST_WINDOW_FALSE = "SET_SEEING_REGIST_WINDOW_FALSE";
 //action creators : 리덕스 state를 변경
+
+function setSeeingRegistWindowTrue() {
+  return {
+    type: SET_SEEING_REGIST_WINDOW_TRUE
+  };
+}
+
+function setSeeingRegistWindowFalse() {
+  return {
+    type: SET_SEEING_REGIST_WINDOW_FALSE
+  };
+}
 
 function setDetailViewLoadingTrue() {
   return {
@@ -128,8 +141,8 @@ function fetchNowViewMember(user_id) {
         return response.json();
       })
       .then(json => {
+        console.log({ json });
         dispatch(setTrueShowDetailView());
-        dispatch(setNowViewMember(json));
         const now_view_user_memberships = json.memberships.filter(
           membership =>
             moment(membership.end_date).valueOf() > moment().valueOf() &&
@@ -143,6 +156,8 @@ function fetchNowViewMember(user_id) {
 
         dispatch(setNowViewMemberships(now_view_user_memberships));
         dispatch(setNowViewCabinets(now_view_member_cabinets));
+        dispatch(setNowViewMember(json));
+
         return true;
       })
       .then(is_complete => {
@@ -260,7 +275,8 @@ const initialState = {
   show_detail_view: false,
   detail_view_loading: true,
   now_view_member_memberships: null,
-  now_view_member_cabinets: null
+  now_view_member_cabinets: null,
+  seeing_regist_window: false
 };
 
 //reducer
@@ -293,11 +309,29 @@ function reducer(state = initialState, action) {
     case SET_DETAIL_VIEW_LOADING_FALSE:
       return applySetDetailViewLoadingFalse(state, action);
 
+    case SET_SEEING_REGIST_WINDOW_TRUE:
+      return applySetSeeingRegistWindowTrue(state, action);
+
+    case SET_SEEING_REGIST_WINDOW_FALSE:
+      return applySetSeeingRegistWindowFalse(state, action);
+
     default:
       return state;
   }
 }
 //reducer functions
+function applySetSeeingRegistWindowTrue(state, action) {
+  return {
+    ...state,
+    seeing_regist_window: true
+  };
+}
+function applySetSeeingRegistWindowFalse(state, action) {
+  return {
+    ...state,
+    seeing_regist_window: false
+  };
+}
 function applySetDetailViewLoadingTrue(state, action) {
   return {
     ...state,
@@ -372,7 +406,9 @@ const actionCreators = {
   fetchSearchedMembers,
   fetchNowViewMemberSeatHistory,
   clearMemberDetailInfo,
-  fetchNowViewMember
+  fetchNowViewMember,
+  setSeeingRegistWindowTrue,
+  setSeeingRegistWindowFalse
 };
 
 export { actionCreators };

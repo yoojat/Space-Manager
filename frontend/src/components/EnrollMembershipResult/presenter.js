@@ -109,7 +109,7 @@ const MembershipResult = (props, context) => {
               </div>
               <div className={styles.mainTextCon}>
                 <div className={styles.timeCon}>
-                  연장시간<br /> {title}
+                  등록시간<br /> {title}
                 </div>
               </div>
             </div>

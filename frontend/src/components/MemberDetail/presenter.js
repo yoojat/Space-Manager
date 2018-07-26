@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import SimpleProfile from "components/SimpleProfile";
@@ -8,6 +8,8 @@ import MembershipLogInfo from "components/MembershipLogInfo";
 import CabinetInfo from "components/CabinetInfo";
 import CabinetLogInfo from "components/CabinetLogInfo";
 import Loading from "components/Loading";
+import RegistWindow from "components/RegistWindow";
+import SuperMembership from "components/SuperMembership";
 
 const MemberDetail = (props, context) => {
   const {
@@ -16,7 +18,8 @@ const MemberDetail = (props, context) => {
     now_view_user_memberships,
     now_view_user_membership_logs,
     now_view_member_cabinets,
-    cabinet_historys
+    cabinet_historys,
+    seeing_regist_window
   } = props;
 
   return loading ? (
@@ -24,42 +27,51 @@ const MemberDetail = (props, context) => {
   ) : detail_view_loading ? (
     <Loading />
   ) : (
-    <BackGround>
-      <BackGroundImage />
-      <ContentContainer>
-        <LeftSection>
-          <SimpleProfile />
-        </LeftSection>
-        <RightSection>
-          <MembershipInfoContainer>
-            <div style={{ marginBottom: "10px" }}>[ 멤버쉽 정보 ]</div>
-            <MembershipInfoContent>
-              <LeftMembershipInfo>
-                <MembershipInfo
-                  now_view_user_memberships={now_view_user_memberships}
-                />
-              </LeftMembershipInfo>
-              <RightMembershipInfo>
-                <MembershipLogInfo
-                  now_view_user_membership_logs={now_view_user_membership_logs}
-                />
-              </RightMembershipInfo>
-            </MembershipInfoContent>
-            <div style={{ marginBottom: "10px" }}>[ 사물함 정보 ]</div>
-            <MembershipInfoContent>
-              <LeftMembershipInfo>
-                <CabinetInfo
-                  now_view_member_cabinets={now_view_member_cabinets}
-                />
-              </LeftMembershipInfo>
-              <RightMembershipInfo>
-                <CabinetLogInfo cabinet_historys={cabinet_historys} />
-              </RightMembershipInfo>
-            </MembershipInfoContent>
-          </MembershipInfoContainer>
-        </RightSection>
-      </ContentContainer>
-    </BackGround>
+    <Fragment>
+      <BackGround>
+        <BackGroundImage />
+        <ContentContainer>
+          <LeftSection>
+            <SimpleProfile />
+          </LeftSection>
+          <RightSection>
+            <MembershipInfoContainer>
+              <div style={{ marginBottom: "10px" }}>[ 멤버쉽 정보 ]</div>
+              <MembershipInfoContent>
+                <LeftMembershipInfo>
+                  <MembershipInfo
+                    now_view_user_memberships={now_view_user_memberships}
+                  />
+                </LeftMembershipInfo>
+                <RightMembershipInfo>
+                  <MembershipLogInfo
+                    now_view_user_membership_logs={
+                      now_view_user_membership_logs
+                    }
+                  />
+                </RightMembershipInfo>
+              </MembershipInfoContent>
+              <div style={{ marginBottom: "10px" }}>[ 사물함 정보 ]</div>
+              <MembershipInfoContent>
+                <LeftMembershipInfo>
+                  <CabinetInfo
+                    now_view_member_cabinets={now_view_member_cabinets}
+                  />
+                </LeftMembershipInfo>
+                <RightMembershipInfo>
+                  <CabinetLogInfo cabinet_historys={cabinet_historys} />
+                </RightMembershipInfo>
+              </MembershipInfoContent>
+            </MembershipInfoContainer>
+          </RightSection>
+        </ContentContainer>
+      </BackGround>
+      {seeing_regist_window ? (
+        <RegistWindow content={<SuperMembership />} />
+      ) : (
+        ""
+      )}
+    </Fragment>
   );
 };
 
@@ -112,7 +124,7 @@ const RightSection = styled.div`
   padding-left: 0px;`};
 
   ${breakpoint("tablet")`
-  margin-top: 140px;
+  margin-top: 40px;
   padding-left: 20px;`};
 
   ${breakpoint("desktop")`

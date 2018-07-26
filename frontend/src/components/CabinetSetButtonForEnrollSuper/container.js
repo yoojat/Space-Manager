@@ -20,6 +20,18 @@ class Container extends Component {
     resetTempCabinetSet();
   };
 
+  componentDidMount() {
+    const target = document.getElementById("regist_content");
+    target.scrollTop = target.scrollHeight;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (!(prevProps.temp_cabinet_set !== this.props.temp_cabinet_set)) {
+      const target = document.getElementById("regist_content");
+      target.scrollTop = target.scrollHeight;
+    }
+  }
+
   render() {
     const { cabinet_set, temp_cabinet_set, sel_cabinet_set } = this.props;
     return (

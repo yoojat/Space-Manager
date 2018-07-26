@@ -5,14 +5,15 @@ import SuperConfirm from "./presenter";
 class Container extends Component {
   state = {};
 
-  _onConfirmClick = () => {
-    const { enrollProcessing } = this.props;
-    enrollProcessing();
+  _onConfirmClick = async () => {
+    const { enrollProcessing, setSeeingRegistWindowFalse } = this.props;
+    await enrollProcessing();
+    await setSeeingRegistWindowFalse();
   };
   render() {
     return (
       <Fragment>
-        <SuperConfirm />
+        <SuperConfirm onConfirmClick={this._onConfirmClick} />
       </Fragment>
     );
   }

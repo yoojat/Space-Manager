@@ -4,11 +4,10 @@ import styles from "./styles.scss";
 import Loading from "components/Loading";
 import { Link } from "react-router-dom";
 import BranchChoice from "components/BranchChoice";
-import StartChoice from "components/StartChoice";
+import StartChoiceSuper from "components/StartChoiceSuper";
 import SuperExtendCabinet from "components/SuperExtendCabinet";
-import EnrollCabinet from "components/EnrollCabinet";
+import EnrollCabinetSuper from "components/EnrollCabinetSuper";
 import SuperEnrollMembershipResult from "components/SuperEnrollMembershipResult";
-import { Element } from "react-scroll";
 
 const SuperEnrollMembership = props => {
   const {
@@ -109,22 +108,19 @@ const RenderSuperEnrollMembership = (props, context) => {
           </div>
         </div>
         <BranchChoice />
-        {sel_branch ? <StartChoice /> : ""}
+        {sel_branch ? <StartChoiceSuper /> : ""}
         {sel_cost_type ? (
           my_cabinets.length ? (
-            <Element name="cabinetChapter" className={styles.cabinetChapter}>
+            <div className={styles.cabinetChapter}>
               <SuperExtendCabinet
                 sel_branch={sel_branch}
                 onExtendNoCabinetClick={onExtendNoCabinetClick}
                 onExtendYesCabinetClick={onExtendYesCabinetClick}
               />
               {/* // 이용중인 사물함이 없으면 // 맴버쉽 기간을 정했고 // 이용중인 사물함이 있으면 */}
-            </Element>
+            </div>
           ) : (
-            <Element
-              name="cabinetQuestion"
-              className={styles.selectMemExtendContainer}
-            >
+            <div className={styles.selectMemExtendContainer}>
               <div className={styles.title}>
                 사물함을 추가로 등록하시겠습니까?
               </div>
@@ -154,8 +150,8 @@ const RenderSuperEnrollMembership = (props, context) => {
                   아니오<br />
                 </div>
               </div>
-              {is_enroll_cabinet ? <EnrollCabinet /> : ""}
-            </Element>
+              {is_enroll_cabinet ? <EnrollCabinetSuper /> : ""}
+            </div>
           )
         ) : (
           ""

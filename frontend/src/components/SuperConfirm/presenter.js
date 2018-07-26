@@ -3,9 +3,13 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 
 const SuperConfirm = (props, context) => {
+  const { onConfirmClick } = props;
+
   return (
     <ButtonContainer>
-      <Button color="#374bab">등록하기</Button>
+      <Button color="#374bab" onClick={onConfirmClick}>
+        등록하기
+      </Button>
     </ButtonContainer>
   );
 };

@@ -1,6 +1,7 @@
 import { connect } from "react-redux";
 import Container from "./container";
 import { actionCreators as paymentActions } from "redux/modules/payment";
+import { actionCreators as staffActions } from "redux/modules/staff";
 
 const mapStateToProps = (state, ownProps) => {
   const {
@@ -30,6 +31,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     enrollProcessing: () => {
       dispatch(paymentActions.enrollProcessing());
+    },
+    setSeeingRegistWindowFalse: () => {
+      dispatch(staffActions.setSeeingRegistWindowFalse());
     }
   };
 };

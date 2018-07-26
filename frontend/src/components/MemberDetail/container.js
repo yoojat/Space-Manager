@@ -25,7 +25,11 @@ class Container extends Component {
   }
 
   render() {
-    const { now_view_user, detail_view_loading } = this.props;
+    const {
+      now_view_user,
+      detail_view_loading,
+      seeing_regist_window
+    } = this.props;
     const now_view_user_memberships = now_view_user
       ? now_view_user.memberships.filter(
           membership =>
@@ -65,6 +69,7 @@ class Container extends Component {
         now_view_member_cabinets={now_view_member_cabinets}
         cabinet_historys={cabinet_historys}
         detail_view_loading={detail_view_loading}
+        seeing_regist_window={seeing_regist_window}
       />
     );
   }

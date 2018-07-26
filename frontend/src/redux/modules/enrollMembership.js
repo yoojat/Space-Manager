@@ -80,7 +80,7 @@ function registMembershipLog(membership_id) {
       user: { token }
     } = getState();
 
-    fetch(`membership/regist/log/${membership_id}/`, {
+    fetch(`/membership/regist/log/${membership_id}/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

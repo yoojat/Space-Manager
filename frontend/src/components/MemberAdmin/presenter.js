@@ -7,7 +7,7 @@ import SearchMember from "components/SearchMember";
 import MemberDetail from "components/MemberDetail";
 
 const MemberAdmin = (props, context) => {
-  const { loading, now_view_user, show_detail_view } = props;
+  const { loading, show_detail_view } = props;
   return (
     <div className={styles.memberAdminCon}>
       {loading ? (

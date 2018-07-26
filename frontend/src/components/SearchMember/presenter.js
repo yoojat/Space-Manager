@@ -88,12 +88,12 @@ const MemberList = (props, context) => {
       <EnrollTime>
         {found_user.memberships.length
           ? found_user.memberships[0].start_date
-          : ""}
+          : "멤버쉽 미등록"}
       </EnrollTime>
       <EndTime>
         {found_user.memberships.length
           ? found_user.memberships[0].end_date
-          : ""}
+          : "멤버쉽 미등록"}
       </EndTime>
     </Row>
   );

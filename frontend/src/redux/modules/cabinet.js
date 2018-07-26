@@ -24,6 +24,7 @@ function setMyCabinets(my_cabinets) {
 // API actions: api를 부를 때 사용
 
 //사용하고 있는 캐비넷 정보를 가지고 옴
+
 function fetchMyCabinets() {
   return function(dispatch, getState) {
     const {
@@ -76,6 +77,7 @@ function reducer(state = initialState, action) {
   switch (action.type) {
     case SET_USING_CABINETS:
       return applySetUsingCabinets(state, action);
+
     case SET_NOW_USING_CABINETS:
       return applySetNowUsingCabinets(state, action);
 

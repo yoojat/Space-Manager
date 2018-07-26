@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styles from "./styles.scss";
-import { Element } from "react-scroll";
 import moment from "moment";
 import SuperConfirm from "components/SuperConfirm";
 
@@ -13,7 +12,7 @@ const SuperEnrollMembershipResult = (props, context) => {
     now_datetime
   } = props;
   return (
-    <Element name="SuperEnrollMembershipResult">
+    <div>
       {enrollMembership.sel_cost_type ? (
         <MembershipResult
           user_id={enrollMembership.target_user.username}
@@ -51,7 +50,7 @@ const SuperEnrollMembershipResult = (props, context) => {
         ""
       )}
       <SuperConfirm />
-    </Element>
+    </div>
   );
 };
 

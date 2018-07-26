@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import Container from "./container";
-// import { actionCreators as branchActions } from "redux/modules/branch";
+import { actionCreators as staffActions } from "redux/modules/staff";
 // import { actionCreators as registActions } from "redux/modules/regist";
 
 const mapStateToProps = (state, ownProps) => {
@@ -13,9 +13,9 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    // getBranch: branchId => {
-    //   dispatch(registActions.getBranch(branchId));
-    // },
+    setSeeingRegistWindowTrue: () => {
+      dispatch(staffActions.setSeeingRegistWindowTrue());
+    }
   };
 };
 

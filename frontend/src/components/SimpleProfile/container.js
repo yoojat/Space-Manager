@@ -6,7 +6,7 @@ class Container extends Component {
   state = {};
 
   render() {
-    const { now_view_user } = this.props;
+    const { now_view_user, setSeeingRegistWindowTrue } = this.props;
     const now_day_value = moment().valueOf();
     const now_membership = now_view_user.memberships.find(membership => {
       return (
@@ -17,6 +17,7 @@ class Container extends Component {
     });
     return (
       <SimpleProfile
+        setSeeingRegistWindowTrue={setSeeingRegistWindowTrue}
         now_view_user={now_view_user}
         now_membership={now_membership}
         now_membership_end_date={

@@ -56,8 +56,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     fetchBranches: () => {
       dispatch(branchActions.fetchBranches());
     },
-    fetchMyCabinets: () => {
-      dispatch(cabinetActions.fetchMyCabinets());
+    getUsingCabinets: user_id => {
+      dispatch(cabinetActions.getUsingCabinets(user_id));
     },
     setIsEnrollCabinet: () => {
       dispatch(enrollCabinetActions.setIsEnrollCabinet());

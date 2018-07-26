@@ -2,10 +2,14 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import Ionicon from "react-ionicons";
-import { Link } from "react-router-dom";
 
 const SimpleProfile = (props, context) => {
-  const { now_view_user, now_membership_end_date, now_user_created_at } = props;
+  const {
+    now_view_user,
+    now_membership_end_date,
+    now_user_created_at,
+    setSeeingRegistWindowTrue
+  } = props;
 
   return (
     <ProfileContainer>
@@ -39,12 +43,14 @@ const SimpleProfile = (props, context) => {
         {now_membership_end_date ? now_membership_end_date : "미등록 상태"}
       </ExpiredContainer>
       <ButtonContainer>
-        <Link to="/super/membership">
-          <Button color="#3498db">멤버쉽 등록</Button>
-        </Link>
-        <Link to="/super/cabinet">
+        <div>
+          <Button onClick={setSeeingRegistWindowTrue} color="#3498db">
+            멤버쉽 등록
+          </Button>
+        </div>
+        <div>
           <Button color="#3498db">사물함 등록</Button>
-        </Link>
+        </div>
       </ButtonContainer>
     </ProfileContainer>
   );
