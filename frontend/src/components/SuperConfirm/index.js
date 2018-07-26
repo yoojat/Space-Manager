@@ -34,6 +34,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     setSeeingRegistWindowFalse: () => {
       dispatch(staffActions.setSeeingRegistWindowFalse());
+    },
+    setSeeingCabinetRegistWindowFalse: () => {
+      dispatch(staffActions.setSeeingCabinetRegistWindowFalse());
     }
   };
 };

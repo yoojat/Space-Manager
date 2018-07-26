@@ -58,21 +58,23 @@ function enrollProcessing() {
 
     let userid;
 
-    if (extendMembership.sel_cost_type) {
-      await dispatch(extendMembershipActions.extendMembership());
-    }
-    if (enrollMembership.sel_cost_type) {
-      userid = enrollMembership.target_user.id;
-      await dispatch(enrollMembershipActions.enrollMembership());
-    }
     if (extendCabinet.sel_cabinet_costtype) {
       //사물함 연장처리
+      userid = extendCabinet.target_user.id;
       await dispatch(extendCabinetActions.extendCabinet());
     }
     if (enrollCabinet.sel_cabinet_cost_type) {
       //사물함 등록 처리
       userid = enrollCabinet.target_user.id;
       await dispatch(enrollCabinetActions.enrollCabinet());
+    }
+
+    if (extendMembership.sel_cost_type) {
+      await dispatch(extendMembershipActions.extendMembership());
+    }
+    if (enrollMembership.sel_cost_type) {
+      userid = enrollMembership.target_user.id;
+      await dispatch(enrollMembershipActions.enrollMembership());
     }
     await dispatch(clearProcessing());
     if (!user.is_staff && !user.is_superuser) {

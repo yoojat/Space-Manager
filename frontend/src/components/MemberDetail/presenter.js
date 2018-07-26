@@ -10,6 +10,7 @@ import CabinetLogInfo from "components/CabinetLogInfo";
 import Loading from "components/Loading";
 import RegistWindow from "components/RegistWindow";
 import SuperMembership from "components/SuperMembership";
+import RegistCabinetSuper from "components/RegistCabinetSuper";
 
 const MemberDetail = (props, context) => {
   const {
@@ -19,7 +20,10 @@ const MemberDetail = (props, context) => {
     now_view_user_membership_logs,
     now_view_member_cabinets,
     cabinet_historys,
-    seeing_regist_window
+    seeing_regist_window,
+    seeing_cabinet_regist_window,
+    setSeeingRegistWindowFalse,
+    setSeeingCabinetRegistWindowFalse
   } = props;
 
   return loading ? (
@@ -67,7 +71,20 @@ const MemberDetail = (props, context) => {
         </ContentContainer>
       </BackGround>
       {seeing_regist_window ? (
-        <RegistWindow content={<SuperMembership />} />
+        <RegistWindow
+          content={<SuperMembership />}
+          title="멤버쉽 신청"
+          close_func={setSeeingRegistWindowFalse}
+        />
+      ) : (
+        ""
+      )}
+      {seeing_cabinet_regist_window ? (
+        <RegistWindow
+          content={<RegistCabinetSuper />}
+          title="사물함 신청"
+          close_func={setSeeingCabinetRegistWindowFalse}
+        />
       ) : (
         ""
       )}

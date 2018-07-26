@@ -15,6 +15,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     setSeeingRegistWindowTrue: () => {
       dispatch(staffActions.setSeeingRegistWindowTrue());
+    },
+    setSeeingCabinetRegistWindowTrue: () => {
+      dispatch(staffActions.setSeeingCabinetRegistWindowTrue());
     }
   };
 };

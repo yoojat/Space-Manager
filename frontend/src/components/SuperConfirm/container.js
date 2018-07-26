@@ -6,9 +6,14 @@ class Container extends Component {
   state = {};
 
   _onConfirmClick = async () => {
-    const { enrollProcessing, setSeeingRegistWindowFalse } = this.props;
+    const {
+      enrollProcessing,
+      setSeeingRegistWindowFalse,
+      setSeeingCabinetRegistWindowFalse
+    } = this.props;
     await enrollProcessing();
     await setSeeingRegistWindowFalse();
+    await setSeeingCabinetRegistWindowFalse();
   };
   render() {
     return (

@@ -28,7 +28,10 @@ class Container extends Component {
     const {
       now_view_user,
       detail_view_loading,
-      seeing_regist_window
+      seeing_regist_window,
+      seeing_cabinet_regist_window,
+      setSeeingRegistWindowFalse,
+      setSeeingCabinetRegistWindowFalse
     } = this.props;
     const now_view_user_memberships = now_view_user
       ? now_view_user.memberships.filter(
@@ -70,6 +73,9 @@ class Container extends Component {
         cabinet_historys={cabinet_historys}
         detail_view_loading={detail_view_loading}
         seeing_regist_window={seeing_regist_window}
+        seeing_cabinet_regist_window={seeing_cabinet_regist_window}
+        setSeeingRegistWindowFalse={setSeeingRegistWindowFalse}
+        setSeeingCabinetRegistWindowFalse={setSeeingCabinetRegistWindowFalse}
       />
     );
   }

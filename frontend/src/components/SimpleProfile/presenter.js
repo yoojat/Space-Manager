@@ -8,7 +8,8 @@ const SimpleProfile = (props, context) => {
     now_view_user,
     now_membership_end_date,
     now_user_created_at,
-    setSeeingRegistWindowTrue
+    setSeeingRegistWindowTrue,
+    setSeeingCabinetRegistWindowTrue
   } = props;
 
   return (
@@ -49,7 +50,9 @@ const SimpleProfile = (props, context) => {
           </Button>
         </div>
         <div>
-          <Button color="#3498db">사물함 등록</Button>
+          <Button onClick={setSeeingCabinetRegistWindowTrue} color="#3498db">
+            사물함 등록
+          </Button>
         </div>
       </ButtonContainer>
     </ProfileContainer>

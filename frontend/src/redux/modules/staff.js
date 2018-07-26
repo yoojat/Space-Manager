@@ -14,7 +14,23 @@ const SET_DETAIL_VIEW_LOADING_TRUE = "SET_DETAIL_VIEW_LOADING_TRUE";
 const SET_DETAIL_VIEW_LOADING_FALSE = "SET_DETAIL_VIEW_LOADING_FALSE";
 const SET_SEEING_REGIST_WINDOW_TRUE = "SET_SEEING_REGIST_WINDOW_TRUE";
 const SET_SEEING_REGIST_WINDOW_FALSE = "SET_SEEING_REGIST_WINDOW_FALSE";
+const SET_SEEING_CABINET_REGIST_WINDOW_TRUE =
+  "SET_SEEING_CABINET_REGIST_WINDOW_TRUE";
+const SET_SEEING_CABINET_REGIST_WINDOW_FALSE =
+  "SET_SEEING_CABINET_REGIST_WINDOW_FALSE";
 //action creators : 리덕스 state를 변경
+
+function setSeeingCabinetRegistWindowTrue() {
+  return {
+    type: SET_SEEING_CABINET_REGIST_WINDOW_TRUE
+  };
+}
+
+function setSeeingCabinetRegistWindowFalse() {
+  return {
+    type: SET_SEEING_CABINET_REGIST_WINDOW_FALSE
+  };
+}
 
 function setSeeingRegistWindowTrue() {
   return {
@@ -141,7 +157,6 @@ function fetchNowViewMember(user_id) {
         return response.json();
       })
       .then(json => {
-        console.log({ json });
         dispatch(setTrueShowDetailView());
         const now_view_user_memberships = json.memberships.filter(
           membership =>
@@ -276,7 +291,8 @@ const initialState = {
   detail_view_loading: true,
   now_view_member_memberships: null,
   now_view_member_cabinets: null,
-  seeing_regist_window: false
+  seeing_regist_window: false,
+  seeing_cabinet_regist_window: false
 };
 
 //reducer
@@ -315,11 +331,28 @@ function reducer(state = initialState, action) {
     case SET_SEEING_REGIST_WINDOW_FALSE:
       return applySetSeeingRegistWindowFalse(state, action);
 
+    case SET_SEEING_CABINET_REGIST_WINDOW_TRUE:
+      return applySetSeeingCabinetRegistWindowTrue(state, action);
+    case SET_SEEING_CABINET_REGIST_WINDOW_FALSE:
+      return applySetSeeingCabinetRegistWindowFalse(state, action);
     default:
       return state;
   }
 }
 //reducer functions
+function applySetSeeingCabinetRegistWindowTrue(state, action) {
+  return {
+    ...state,
+    seeing_cabinet_regist_window: true
+  };
+}
+function applySetSeeingCabinetRegistWindowFalse(state, action) {
+  return {
+    ...state,
+    seeing_cabinet_regist_window: false
+  };
+}
+
 function applySetSeeingRegistWindowTrue(state, action) {
   return {
     ...state,
@@ -408,7 +441,9 @@ const actionCreators = {
   clearMemberDetailInfo,
   fetchNowViewMember,
   setSeeingRegistWindowTrue,
-  setSeeingRegistWindowFalse
+  setSeeingRegistWindowFalse,
+  setSeeingCabinetRegistWindowTrue,
+  setSeeingCabinetRegistWindowFalse
 };
 
 export { actionCreators };

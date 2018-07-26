@@ -95,6 +95,7 @@ class MembershipSerializer(serializers.ModelSerializer):
     end_date = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
     membership_historys = MembershipHistorySerializer(many=True)
     branch = branch_serializers.BriefBranchSerializer()
+    user = UserSerializer()
 
     class Meta:
         model = membership_models.Membership
@@ -107,6 +108,7 @@ class MembershipSerializer(serializers.ModelSerializer):
             'created_at',
             'updated_at',
             'membership_historys',
+            'user',
         )
 
 

@@ -5,14 +5,14 @@ import Loading from "components/Loading";
 import Ionicon from "react-ionicons";
 
 const RegistWindow = props => {
-  const { content, loading, closeRegistWindow } = props;
+  const { content, loading, close_func, title } = props;
   return (
     <div className={styles.container}>
       <div className={styles.overlay}>
         <div className={styles.box}>
           <header className={styles.header}>
-            <h4 className={styles.headerName}>타이틀</h4>
-            <span className={styles.closeButton} onClick={closeRegistWindow}>
+            <h4 className={styles.headerName}>{title}</h4>
+            <span className={styles.closeButton} onClick={close_func}>
               <Ionicon icon="md-close" fontSize="20px" color="black" />
             </span>
           </header>
