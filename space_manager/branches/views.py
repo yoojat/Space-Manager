@@ -207,3 +207,17 @@ class BranchIpAddress(APIView):
         serializer = serializers.BranchIpSerializer(branchIpObj)
 
         return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+
+class ShowLounge(APIView):
+    def get(self, request, branch_id, format=None):
+
+        try:
+            branch = models.Branch.objects.get(id=branch_id)
+        except models.Branch.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        serializer = serializers.BranchShowLoungeSerializer(branch)
+        #serializer가 request를 받을 수 있음
+
+        return Response(data=serializer.data, status=status.HTTP_200_OK)

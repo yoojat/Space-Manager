@@ -79,7 +79,7 @@ class BriefBranchSerializer(serializers.ModelSerializer):
         model = models.Branch
         fields = ('id', 'branch_num', 'region', 'branch_name', 'address',
                   'detail_address', 'lat', 'lng', 'lounge_img',
-                  'lounge_img_cabinet')
+                  'lounge_img_cabinet', 'minimap_img')
 
 
 class BranchConfigSerializer(serializers.ModelSerializer):
@@ -95,4 +95,19 @@ class BranchForMembershipSerializer(serializers.ModelSerializer):
             'id',
             'branch_name',
             'branch_num',
+        )
+
+
+class BranchShowLoungeSerializer(serializers.ModelSerializer):
+
+    rooms = rooms_serializers.RoomBriefSerializer(many=True)
+
+    class Meta:
+        model = models.Branch
+        fields = (
+            'id',
+            'branch_name',
+            'lounge_img',
+            'minimap_img',
+            'rooms',
         )

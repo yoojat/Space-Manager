@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styles from "./styles.scss";
 import MemberAdmin from "components/MemberAdmin";
+import SeatAdmin from "components/SeatAdmin";
 
 const Staff = (props, context) => {
   const { onPageButtonClick, now_page } = props;
@@ -40,7 +41,7 @@ const Staff = (props, context) => {
         </div>
       </div>
       {now_page === "memberAdmin" ? <MemberAdmin /> : ""}
-      {now_page === "seatAdmin" ? "seatAdmin" : ""}
+      {now_page === "seatAdmin" ? <SeatAdmin /> : ""}
       {now_page === "cabinetAdmin" ? "cabinetAdmin" : ""}
       {now_page === "cablockAdmin" ? "cablockAdmin" : ""}
     </div>

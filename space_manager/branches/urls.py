@@ -19,4 +19,7 @@ urlpatterns = [
     url(regex=r'^brief/(?P<branch_id>[0-9]+)/$',
         view=views.BranchBrief.as_view(),
         name='branch_brief'),
+    url(regex=r'^lounge/(?P<branch_id>[0-9]+)/$',
+        view=views.ShowLounge.as_view(),
+        name='branch_brief'),
 ]
