@@ -22,7 +22,7 @@ const Staff = (props, context) => {
             data-value="seatAdmin"
             onClick={onPageButtonClick}
           >
-            좌석정리
+            좌석관리
           </div>
           <div
             className={styles.staffMenuItem}

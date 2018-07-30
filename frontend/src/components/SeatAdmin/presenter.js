@@ -68,6 +68,8 @@ const BranchRow = (props, context) => {
 
 const SeatAdminContainer = styled.div`
   width: 95vw;
+  margin-left: auto;
+  margin-right: auto;
 `;
 const SeatAdminContents = styled.div`
   display: flex;

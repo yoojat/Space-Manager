@@ -2,9 +2,17 @@ import React from "react";
 import PropTypes from "prop-types";
 import Loading from "components/Loading";
 import styled from "styled-components";
+import MiniMapSuper from "components/MiniMapSuper";
+import SeatsSuper from "components/SeatsSuper";
 
 const LoungeSeatAdmin = (props, context) => {
-  const { sel_branch_for_seat_man, loading } = props;
+  const {
+    sel_branch_for_seat_man,
+    loading,
+    onRoomAreaClick,
+    show_seat,
+    closeRoom
+  } = props;
   return loading ? (
     <Loading />
   ) : (
@@ -27,15 +35,29 @@ const LoungeSeatAdmin = (props, context) => {
                   height={room.height}
                   left={room.left}
                   top={room.top}
+                  key={room.id}
+                  onRoomAreaClick={onRoomAreaClick}
                 />
               );
             })}
           </Content>
+          <MiniMapContent>
+            <MiniMapSuper />
+          </MiniMapContent>
         </ContentContainer>
+        {show_seat ? (
+          <SeatsContainer>
+            <SeatsSuper closeRoom={closeRoom} />
+          </SeatsContainer>
+        ) : (
+          ""
+        )}
       </LoungeContainer>
     </div>
   );
 };
+
+const SeatsContainer = styled.div``;
 
 const LoungeContainer = styled.div`
   background-color: white;
@@ -62,6 +84,11 @@ const Content = styled.div`
   position: relative;
   width: 90vw;
 `;
+
+const MiniMapContent = styled.div`
+  max-width: 300px;
+  position: relative;
+`;
 const LoungeImg = styled.img`
   width: 100%;
 `;
@@ -76,13 +103,13 @@ const RoomArea = styled.div`
 `;
 
 const ClickableArea = (props, context) => {
-  const { id } = props;
+  const { id, onRoomAreaClick } = props;
   const width = `${props.width}%`;
   const height = `${props.height}%`;
   const left = `${props.left}%`;
   const top = `${props.top}%`;
   const onAreaClick = () => {
-    console.log(id);
+    onRoomAreaClick(id);
   };
 
   return (

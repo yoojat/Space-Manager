@@ -1,0 +1,10 @@
+.branch-area {
+  position: relative;
+  width: 15vw;
+  max-width: 100px;
+  min-width: 60px;
+  .room {
+    position: absolute;
+    // border: 1px solid cornflowerblue;
+  }
+}

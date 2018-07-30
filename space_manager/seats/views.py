@@ -11,6 +11,25 @@ from random import *
 from operator import eq
 
 
+class SeatDetail(APIView):
+    def find_seat(self, seat_id):
+        try:
+            seat = models.Seat.objects.get(id=seat_id)
+            return seat
+        except models.Seat.DoesNotExist:
+            return None
+
+    def get(self, request, seat_id, format=None):
+        seat = self.find_seat(seat_id)
+
+        if (seat is None):
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        serializer = serializers.SeatSerializerForAdmin(seat)
+
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+
 class SeatLog(APIView):
     def get(self, request, user_id, format=None):
         user = user_models.User.objects.get(id=user_id)
@@ -481,6 +500,16 @@ class Allocation(APIView):
         target_seat.save()
         serializer = serializers.SeatSerializer(target_seat)
 
+        action = target_action
+        user = target_user
+        seat = target_seat
+        reg_datetime = datetime.now()
+
+        new_seat_log = models.Log.objects.create(
+            action=action, user=user, seat=seat, reg_datetime=reg_datetime)
+
+        new_seat_log.save()
+
         return Response(data=serializer.data, status=status.HTTP_202_ACCEPTED)
 
 
@@ -494,6 +523,8 @@ class ReturnSeat(APIView):
             target_seat = models.Seat.objects.get(id=seat_id)
         except models.Seat.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
+
+        target_user = target_seat.now_user
 
         try:
             target_action = models.Action.objects.get(en_substance='return')
@@ -512,6 +543,16 @@ class ReturnSeat(APIView):
 
         target_seat.save()
         serializer = serializers.SeatSerializer(target_seat)
+
+        action = target_action
+        user = target_user
+        seat = target_seat
+        reg_datetime = datetime.now()
+
+        new_seat_log = models.Log.objects.create(
+            action=action, user=user, seat=seat, reg_datetime=reg_datetime)
+
+        new_seat_log.save()
 
         return Response(data=serializer.data, status=status.HTTP_202_ACCEPTED)
 

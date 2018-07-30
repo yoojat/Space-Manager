@@ -5,7 +5,7 @@ class Container extends Component {
   state = { loading: true, show_lounge: false };
 
   _onBranchRowClick = branch_id => {
-    const { getBranchInfo, sel_branch_for_seat_man } = this.props;
+    const { getBranchInfo } = this.props;
     getBranchInfo(branch_id);
   };
 

@@ -1,9 +1,50 @@
 from rest_framework import serializers
 from . import models
 from space_manager.rooms import models as room_models
+from space_manager.users import models as user_models
 
 import json
 from datetime import datetime, timedelta
+
+
+class UserSerializerForSeatAdmin(serializers.ModelSerializer):
+    class Meta:
+        model = user_models.User
+        fields = (
+            'name',
+            'username',
+            'id',
+        )
+
+
+class ActionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Action
+        fields = '__all__'
+
+
+class LogSerializerForAdmin(serializers.ModelSerializer):
+    user = UserSerializerForSeatAdmin()
+    action = ActionSerializer()
+
+    class Meta:
+        model = models.Log
+        fields = (
+            'action',
+            'user',
+            'seat',
+            'created_at',
+        )
+
+
+class SeatSerializerForAdmin(serializers.ModelSerializer):
+
+    logs = LogSerializerForAdmin(many=True)
+
+    class Meta:
+        model = models.Seat
+        fields = ('seat_number', 'usable', 'discard', 'room', 'branch',
+                  'now_user', 'end_datetime', 'logs')
 
 
 class SeatImageSerializer(serializers.ModelSerializer):
@@ -16,12 +57,6 @@ class SeatSerializerForUser(serializers.ModelSerializer):
     class Meta:
         model = models.Seat
         fields = ('room', )
-
-
-class ActionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Action
-        fields = '__all__'
 
 
 class LogSerializer(serializers.ModelSerializer):
@@ -65,6 +100,7 @@ class DetailLogSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Log
         fields = (
+            'id',
             'action',
             'user',
             'seat',

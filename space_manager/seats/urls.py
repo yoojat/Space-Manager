@@ -42,4 +42,9 @@ urlpatterns = [
         view=views.SeatLog.as_view(),
         name='SeatLog',
     ),
+    url(
+        regex=r'^detail/(?P<seat_id>[0-9]+)/$',
+        view=views.SeatDetail.as_view(),
+        name='SeatDetail',
+    ),
 ]

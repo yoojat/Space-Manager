@@ -1,7 +1,6 @@
 import { connect } from "react-redux";
 import Container from "./container";
-// import { actionCreators as branchActions } from "redux/modules/branch";
-// import { actionCreators as registActions } from "redux/modules/regist";
+import { actionCreators as staffSeatActions } from "redux/modules/staffSeat";
 
 const mapStateToProps = (state, ownProps) => {
   const {
@@ -13,9 +12,9 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    // getBranch: branchId => {
-    //   dispatch(registActions.getBranch(branchId));
-    // },
+    getRoomSeats: room_id => {
+      dispatch(staffSeatActions.getRoomSeats(room_id));
+    }
   };
 };
 
