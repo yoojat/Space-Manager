@@ -1,9 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styles from "./styles.scss";
+import moment from "moment";
 
 const MiniMapSuperSeat = props => {
-  const bgColor = props.now_using ? "red" : "#CBEEFB";
+  const bgColor =
+    props.now_using && moment(props.end_datetime).valueOf() > moment().valueOf()
+      ? "red"
+      : "#CBEEFB";
   return (
     <div
       className={styles.seat}

@@ -7,7 +7,38 @@ const SET_ROOM_FOR_SEAT_ADMIN = "SET_ROOM_FOR_SEAT_ADMIN";
 const SET_ROOM_NULL_FOR_SEAT_ADMIN = "SET_ROOM_NULL_FOR_SEAT_ADMIN";
 const SET_SEAT_FOR_SEAT_ADMIN = "SET_SEAT_FOR_SEAT_ADMIN";
 const SET_SEAT_NULL_FOR_SEAT_ADMIN = "SET_SEAT_NULL_FOR_SEAT_ADMIN";
+const SET_SERACHED_MEMBERS_NULL = "SET_SERACHED_MEMBERS_NULL";
+const SET_SEARCHED_MEMBERS = "SET_SEARCHED_MEMBERS";
+const SET_USER_FOR_SEAT_ADMIN = "SET_USER_FOR_SEAT_ADMIN";
+const SET_USER_NULL_FOR_SEAT_ADMIN = "SET_USER_NULL_FOR_SEAT_ADMIN";
+
 //action creators : 리덕스 state를 변경
+
+function setUserNullForSeatAdmin() {
+  return {
+    type: SET_USER_NULL_FOR_SEAT_ADMIN
+  };
+}
+
+function setUserForSeatAdmin(user) {
+  return {
+    type: SET_USER_FOR_SEAT_ADMIN,
+    user
+  };
+}
+
+function setSearchedMembers(members) {
+  return {
+    type: SET_SEARCHED_MEMBERS,
+    members
+  };
+}
+
+function setSearchedMembersNull() {
+  return {
+    type: SET_SERACHED_MEMBERS_NULL
+  };
+}
 
 function setSeatNullForSeatAdmin() {
   return {
@@ -67,6 +98,56 @@ function setBranchInfo(branch) {
 // API actions: api를 부를 때 사용
 
 // 오늘 가입한 사람, 오늘 등록한 사람 모두 불러옴
+function getUserForAllocate(user_id) {
+  return (dispatch, getState) => {
+    const {
+      user: { token }
+    } = getState();
+
+    dispatch(setUserNullForSeatAdmin());
+
+    fetch(`/users/id/${user_id}`, {
+      method: "GET",
+      headers: {
+        Authorization: `JWT ${token}`
+      }
+    })
+      .then(response => {
+        if (response.status !== 200) {
+          dispatch(userActions.logout());
+        }
+        return response.json();
+      })
+      .then(json => {
+        dispatch(setUserForSeatAdmin(json));
+      });
+  };
+}
+
+function getUsersBySearch(keyword) {
+  return (dispatch, getState) => {
+    const {
+      user: { token }
+    } = getState();
+
+    fetch(`/users/search/?keyword=${keyword}`, {
+      method: "GET",
+      headers: {
+        Authorization: `JWT ${token}`
+      }
+    })
+      .then(response => {
+        if (response.status !== 200) {
+          dispatch(userActions.logout());
+        }
+        return response.json();
+      })
+      .then(json => {
+        dispatch(setSearchedMembers(json));
+      });
+  };
+}
+
 function getSeatInfo(seat_id) {
   return (dispatch, getState) => {
     const {
@@ -145,7 +226,9 @@ function getRoomSeats(roomId) {
 const initialState = {
   sel_branch_for_seat_man: null,
   sel_room_for_seat_man: null,
-  sel_seat_for_seat_man: null
+  sel_seat_for_seat_man: null,
+  searched_members: null,
+  sel_user_for_seat_man: null
 };
 
 //reducer
@@ -166,11 +249,53 @@ function reducer(state = initialState, action) {
     case SET_SEAT_NULL_FOR_SEAT_ADMIN:
       return applySetSeatNullForSeatAdmin(state, action);
 
+    case SET_SERACHED_MEMBERS_NULL:
+      return applySetSearcehdMembersNull(state, action);
+
+    case SET_SEARCHED_MEMBERS:
+      return applySetSearcehdMembers(state, action);
+
+    case SET_USER_FOR_SEAT_ADMIN:
+      return applySetUserForSeatAdmin(state, action);
+
+    case SET_USER_NULL_FOR_SEAT_ADMIN:
+      return applySetUserNullForSeatAdmin(state, action);
+
     default:
       return state;
   }
 }
 //reducer functions
+
+function applySetUserNullForSeatAdmin(state, action) {
+  return {
+    ...state,
+    sel_user_for_seat_man: null
+  };
+}
+
+function applySetUserForSeatAdmin(state, action) {
+  const { user } = action;
+  return {
+    ...state,
+    sel_user_for_seat_man: user
+  };
+}
+
+function applySetSearcehdMembers(state, action) {
+  const { members } = action;
+  return {
+    ...state,
+    searched_members: members
+  };
+}
+
+function applySetSearcehdMembersNull(state, action) {
+  return {
+    ...state,
+    searched_members: null
+  };
+}
 
 function applySetSeatNullForSeatAdmin(state, action) {
   return {
@@ -215,7 +340,10 @@ function applySetBranchInfoForSeatAdmin(state, action) {
 const actionCreators = {
   getBranchInfo,
   getRoomSeats,
-  getSeatInfo
+  getSeatInfo,
+  getUsersBySearch,
+  setSearchedMembersNull,
+  getUserForAllocate
 };
 
 export { actionCreators };

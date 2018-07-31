@@ -10,11 +10,17 @@ class GetMembersByKeywords(APIView):
     def get(self, request, format=None):
 
         keyword = request.GET.get('keyword')
-        target_users = models.User.objects.filter(
-            name__contains=keyword) | models.User.objects.filter(
-                username__contains=keyword)
+        if (keyword is None) or (str(keyword).strip() == ''):
+            target_users = models.User.objects.none()
 
-        serializer = serializers.SearchedUserSerializer(target_users, many=True)
+        else:
+            target_users = models.User.objects.filter(
+                name__contains=keyword) | models.User.objects.filter(
+                    username__contains=keyword) | models.User.objects.filter(
+                        phone__contains=keyword)
+
+        serializer = serializers.SearchedUserSerializer(
+            target_users, many=True)
 
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 

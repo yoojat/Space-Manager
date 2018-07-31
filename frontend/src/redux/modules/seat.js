@@ -49,7 +49,6 @@ function getNowUsing() {
     const {
       user: { token }
     } = getState();
-    console.log("call get Now Using");
     fetch(`/seats/myseat/`, {
       headers: {
         Authorization: `JWT ${token}`

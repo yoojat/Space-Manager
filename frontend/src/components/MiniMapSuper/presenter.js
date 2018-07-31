@@ -44,6 +44,7 @@ const RoomArea = props => {
               key={seat.id}
               now_using={seat.now_using}
               seat_number={seat.seat_number}
+              end_datetime={seat.end_datetime}
             />
           );
         } else return null;

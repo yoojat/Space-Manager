@@ -94,6 +94,7 @@ const Seats = props => {
                       closeRoom={closeRoom}
                       is_processing={seat.is_processing}
                       showSeatInfo={showSeatInfo}
+                      end_datetime={seat.end_datetime}
                     />
                   ))}
                 </div>

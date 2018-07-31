@@ -4,13 +4,20 @@ import Loading from "components/Loading";
 import styled from "styled-components";
 import moment from "moment";
 import breakpoint from "styled-components-breakpoint";
+import SeatControl from "components/SeatControl";
+import AdminAllocate from "components/AdminAllocate";
 
 const SeatInfo = (props, context) => {
   const {
     loading,
     sel_branch_for_seat_man,
     sel_seat_for_seat_man,
-    sel_room_for_seat_man
+    sel_room_for_seat_man,
+    onReturnButtonClick,
+    onAllocateButtonClick,
+    show_assign,
+    show_return,
+    setShowAssignFalse
   } = props;
   return loading ? (
     <LoadingContainer>
@@ -36,7 +43,7 @@ const SeatInfo = (props, context) => {
             <LogTableBody>
               {sel_seat_for_seat_man.logs.length ? (
                 sel_seat_for_seat_man.logs.map(log => (
-                  <LogRow>
+                  <LogRow key={log.id}>
                     <LogCol>
                       {moment(log.created_at).format("YYYY-MM-DD HH:mm:ss")}
                     </LogCol>
@@ -56,9 +63,28 @@ const SeatInfo = (props, context) => {
         </SeatInfoTitleContainer>
       </SeatInfoContainer>
 
-      <SeatInfoContainer>
-        <ReturnButton>좌석 반납</ReturnButton>
-      </SeatInfoContainer>
+      {sel_room_for_seat_man.now_using &&
+      moment(sel_room_for_seat_man.end_datetime).valueOf() >
+        moment().valueOf() ? (
+        <SeatInfoContainer>
+          <SeatButton onClick={onReturnButtonClick}>좌석 반납</SeatButton>
+        </SeatInfoContainer>
+      ) : (
+        <SeatInfoContainer>
+          <SeatButton onClick={onAllocateButtonClick}>좌석 배정</SeatButton>
+        </SeatInfoContainer>
+      )}
+
+      {show_assign ? (
+        <SeatControl
+          content={<AdminAllocate />}
+          close_func={setShowAssignFalse}
+          title="좌석 배정"
+        />
+      ) : (
+        ""
+      )}
+      {show_return ? "반납창" : ""}
     </SeatInfoBack>
   );
 };
@@ -138,7 +164,7 @@ const LogCol = styled.div`
   }
 `;
 
-const ReturnButton = styled.button`
+const SeatButton = styled.button`
   background: #1b9cfc;
   color: #fff;
   border: none;

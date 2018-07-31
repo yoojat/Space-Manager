@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styles from "./styles.scss";
+import moment from "moment";
 
 const Seat = props => {
   //   const {id} = props;
@@ -16,7 +17,8 @@ const Seat = props => {
     now_using,
     loading,
     onSeatClick,
-    is_processing
+    is_processing,
+    end_datetime
   } = props;
 
   let seat_state_image;
@@ -29,7 +31,7 @@ const Seat = props => {
   } else if (discard || usable === false) {
     seat_state_image = require("images/prohibited_seat.png");
     clickEv = null;
-  } else if (now_using) {
+  } else if (now_using && moment(end_datetime).valueOf() > moment().valueOf()) {
     //현재 이용중인 좌석이면 DB에서 좌석이미지를 가지고 옴
     seat_state_image = seat_image.file;
     clickEv = null;
@@ -38,7 +40,10 @@ const Seat = props => {
     clickEv = onSeatClick;
   }
 
-  if (now_using || seat_number === 0) {
+  if (
+    (now_using && moment(end_datetime).valueOf() > moment().valueOf()) ||
+    seat_number === 0
+  ) {
     display_number = null;
   } else {
     display_number = seat_number;
@@ -61,7 +66,11 @@ const Seat = props => {
         <img
           className={is_processing ? styles.spinner : ""}
           src={seat_state_image}
-          alt={now_using ? "배정된 좌석" : "배정되지 않은 좌석"}
+          alt={
+            now_using && moment(end_datetime).valueOf() > moment().valueOf()
+              ? "배정된 좌석"
+              : "배정되지 않은 좌석"
+          }
         />
       </div>
       <div

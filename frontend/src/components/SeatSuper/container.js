@@ -27,7 +27,8 @@ class Container extends Component {
       now_using,
       roomId,
       is_processing,
-      closeRoom
+      closeRoom,
+      end_datetime
     } = this.props;
     return (
       <SeatSuper
@@ -47,6 +48,7 @@ class Container extends Component {
         loading={this.state.loading}
         onSeatClick={this._onSeatClick}
         closeRoom={closeRoom}
+        end_datetime={end_datetime}
       />
     );
   }

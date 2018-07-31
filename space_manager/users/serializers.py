@@ -123,6 +123,7 @@ class SearchedUserSerializer(serializers.ModelSerializer):
             'birth',
             'id',
             'phone',
+            'gender',
             'memberships',
             'updated_at',
         )

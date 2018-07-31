@@ -30,6 +30,7 @@ class LogSerializerForAdmin(serializers.ModelSerializer):
     class Meta:
         model = models.Log
         fields = (
+            'id',
             'action',
             'user',
             'seat',
@@ -38,13 +39,20 @@ class LogSerializerForAdmin(serializers.ModelSerializer):
 
 
 class SeatSerializerForAdmin(serializers.ModelSerializer):
-
     logs = LogSerializerForAdmin(many=True)
+    now_using = serializers.SerializerMethodField()
 
     class Meta:
         model = models.Seat
         fields = ('seat_number', 'usable', 'discard', 'room', 'branch',
-                  'now_user', 'end_datetime', 'logs')
+                  'now_user', 'end_datetime', 'logs', 'now_using')
+
+    def get_now_using(self, obj):
+        now = datetime.now()
+        if obj.end_datetime is None:
+            return False
+        else:
+            return obj.end_datetime > now
 
 
 class SeatImageSerializer(serializers.ModelSerializer):
@@ -67,6 +75,7 @@ class LogSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Log
         fields = (
+            'id',
             'action',
             'user',
             'seat',
@@ -170,8 +179,19 @@ class SeatSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Seat
-        fields = ('seat_number', 'xpos', 'ypos', 'rotate', 'usable', 'discard',
-                  'room', 'branch', 'logs', 'id')
+        fields = (
+            'seat_number',
+            'xpos',
+            'ypos',
+            'rotate',
+            'usable',
+            'discard',
+            'end_datetime',
+            'room',
+            'branch',
+            'logs',
+            'id',
+        )
 
 
 class InputSeatSerializer(serializers.ModelSerializer):
@@ -195,7 +215,7 @@ class ShowSeatSerializer(serializers.ModelSerializer):
         model = models.Seat
         fields = ('id', 'seat_number', 'xpos', 'ypos', 'rotate', 'usable',
                   'discard', 'seat_image', 'now_user', 'now_using',
-                  'view_left', 'view_top')
+                  'view_left', 'view_top', 'end_datetime')
 
     def get_now_using(self, obj):
         now = datetime.now()

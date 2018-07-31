@@ -15,7 +15,8 @@ class Container extends Component {
       my_now_using,
       seat_number,
       handleSeatClick,
-      changeSeat
+      changeSeat,
+      end_datetime
     } = this.props;
 
     //멤버쉽 확인
@@ -40,7 +41,7 @@ class Container extends Component {
     ///////////////////////////////////////
 
     //선택한 좌석 상태 확인
-    if (now_using) {
+    if (now_using && moment(end_datetime).valueOf() < moment().valueOf()) {
       alert("해당 좌석은 현재 이용중입니다!");
       return;
     }

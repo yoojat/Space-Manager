@@ -3,9 +3,31 @@ import SeatInfo from "./presenter";
 
 class Container extends Component {
   state = {
-    loading: true
+    loading: true,
+    show_assign: false,
+    show_return: false
   };
 
+  _setShowAssignFalse = () => {
+    this.setState({
+      ...this.state,
+      show_assign: false
+    });
+  };
+
+  _onReturnButtonClick = () => {
+    this.setState({
+      ...this.state,
+      show_return: true
+    });
+  };
+
+  _onAllocateButtonClick = () => {
+    this.setState({
+      ...this.state,
+      show_assign: true
+    });
+  };
   componentDidMount() {
     const { sel_seat_for_seat_man } = this.props;
     if (sel_seat_for_seat_man) {
@@ -43,6 +65,11 @@ class Container extends Component {
         sel_room_for_seat_man={sel_room_for_seat_man}
         sel_seat_for_seat_man={sel_seat_for_seat_man}
         sel_branch_for_seat_man={sel_branch_for_seat_man}
+        onReturnButtonClick={this._onReturnButtonClick}
+        onAllocateButtonClick={this._onAllocateButtonClick}
+        show_assign={this.state.show_assign}
+        show_return={this.state.show_return}
+        setShowAssignFalse={this._setShowAssignFalse}
       />
     );
   }
