@@ -44,7 +44,7 @@ class SeatSerializerForAdmin(serializers.ModelSerializer):
 
     class Meta:
         model = models.Seat
-        fields = ('seat_number', 'usable', 'discard', 'room', 'branch',
+        fields = ('id', 'seat_number', 'usable', 'discard', 'room', 'branch',
                   'now_user', 'end_datetime', 'logs', 'now_using')
 
     def get_now_using(self, obj):

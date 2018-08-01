@@ -5,16 +5,19 @@ import { actionCreators as seatStaffActions } from "redux/modules/staffSeat";
 
 const mapStateToProps = (state, ownProps) => {
   const {
-    staffSeat: { sel_user_for_seat_man, sel_seat_for_seat_man }
+    staffSeat: { sel_seat_for_seat_man, sel_user_for_seat_man }
   } = state;
 
-  return { sel_user_for_seat_man, sel_seat_for_seat_man };
+  return { sel_seat_for_seat_man, sel_user_for_seat_man };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    superAllocateSeat: (userId, seatId) => {
-      dispatch(seatStaffActions.superAllocateSeat(userId, seatId));
+    superReturnSeat: seatId => {
+      dispatch(seatStaffActions.superReturnSeat(seatId));
+    },
+    getUserForAllocate: user_id => {
+      dispatch(seatStaffActions.getUserForAllocate(user_id));
     }
   };
 };

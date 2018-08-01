@@ -3,12 +3,13 @@ import PropTypes from "prop-types";
 import Loading from "components/Loading";
 import styled from "styled-components";
 
-const AdminAllocateConfirm = (props, context) => {
+const AdminReturn = (props, context) => {
   const {
     sel_user_for_seat_man,
     sel_seat_for_seat_man,
     loading,
-    onAllocateYesClick
+    onYesClick,
+    onNoClick
   } = props;
   return loading ? (
     <Loading />
@@ -17,18 +18,21 @@ const AdminAllocateConfirm = (props, context) => {
       <ConfirmContent>
         <ConfirmTitle>
           <ConfirmTitleHeader>
-            <div>좌석 배정</div>
+            <div>좌석 반납</div>
           </ConfirmTitleHeader>
           <ConfirmTitleBody>
             <div>
               {sel_user_for_seat_man.name}님을{" "}
-              {sel_seat_for_seat_man.seat_number}번자리에 배정하시겠습니까?
+              {sel_seat_for_seat_man.seat_number}번자리에서 반납시키시겠습니까?
             </div>
           </ConfirmTitleBody>
         </ConfirmTitle>
         <ConfirmButtonContainer>
-          <ConfirmButton onClick={onAllocateYesClick}>
+          <ConfirmButton onClick={onYesClick}>
             <div>예</div>
+          </ConfirmButton>
+          <ConfirmButton onClick={onNoClick}>
+            <div>아니오</div>
           </ConfirmButton>
         </ConfirmButtonContainer>
       </ConfirmContent>
@@ -68,7 +72,8 @@ const ConfirmButtonContainer = styled.div`
   align-items: center;
 `;
 const ConfirmButton = styled.button`
-  width: 90%;
+  margin: 15px;
+  width: 100px;
   height: 100%;
   background: #1b9cfc;
   color: #fff;
@@ -109,10 +114,10 @@ const ConfirmButton = styled.button`
   }
 `;
 
-AdminAllocateConfirm.propTypes = {};
+AdminReturn.propTypes = {};
 
-AdminAllocateConfirm.contextTypes = {
+AdminReturn.contextTypes = {
   t: PropTypes.func.isRequired
 };
 
-export default AdminAllocateConfirm;
+export default AdminReturn;

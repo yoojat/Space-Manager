@@ -6,6 +6,7 @@ import moment from "moment";
 import breakpoint from "styled-components-breakpoint";
 import SeatControl from "components/SeatControl";
 import AdminAllocate from "components/AdminAllocate";
+import AdminReturn from "components/AdminReturn";
 
 const SeatInfo = (props, context) => {
   const {
@@ -17,7 +18,8 @@ const SeatInfo = (props, context) => {
     onAllocateButtonClick,
     show_assign,
     show_return,
-    setShowAssignFalse
+    setShowAssignFalse,
+    setShowReturnFalse
   } = props;
   return loading ? (
     <LoadingContainer>
@@ -63,8 +65,8 @@ const SeatInfo = (props, context) => {
         </SeatInfoTitleContainer>
       </SeatInfoContainer>
 
-      {sel_room_for_seat_man.now_using &&
-      moment(sel_room_for_seat_man.end_datetime).valueOf() >
+      {sel_seat_for_seat_man.now_using &&
+      moment(sel_seat_for_seat_man.end_datetime).valueOf() >
         moment().valueOf() ? (
         <SeatInfoContainer>
           <SeatButton onClick={onReturnButtonClick}>좌석 반납</SeatButton>
@@ -84,7 +86,15 @@ const SeatInfo = (props, context) => {
       ) : (
         ""
       )}
-      {show_return ? "반납창" : ""}
+      {show_return ? (
+        <SeatControl
+          content={<AdminReturn />}
+          close_func={setShowReturnFalse}
+          title="좌석 반납"
+        />
+      ) : (
+        ""
+      )}
     </SeatInfoBack>
   );
 };

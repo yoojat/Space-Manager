@@ -264,63 +264,6 @@ function allocateSeat(seatId) {
   };
 }
 
-// function allocateSeat(seatId, roomId) {
-//   return (dispatch, getState) => {
-//     const {
-//       user: { id, token }
-//     } = getState();
-//     const allocateFunc = roomId => {
-//       dispatch(getRoomSeats(roomId));
-//       dispatch(branchActions.getBranch());
-//       dispatch(getNowUsing());
-//     };
-
-//     //optimistic response
-//     dispatch(doAllocateSeat(seatId));
-
-//     fetch(`/seats/allocation/${seatId}/${id}/`, {
-//       method: "POST",
-//       headers: {
-//         Authorization: `JWT ${token}`
-//       }
-//     }).then(response => {
-//       if (response.status === 401 || response.status === 400) {
-//         dispatch(userActions.logout());
-//       } else if (!response.ok) {
-//         dispatch(doCancelAllocateSeat(seatId));
-//       } else {
-//         allocateFunc(roomId);
-//       }
-//     });
-//   };
-// }
-
-// function returnSeat(userId) {
-//   return (dispatch, getState) => {
-//     const {user: {token}} = getState();
-
-//     dispatch(doReturnSeat(userId));
-//     fetch(`/seats/${seatId}/${id}/`, {
-//       method: 'POST',
-//       headers: {
-//         Authorization: `JWT ${token}`,
-//       },
-//     }).then(response => {
-//       if (response.status === 401) {
-//         dispatch(userActions.logout());
-//       } else if (!response.ok) {
-//         dispatch(doAllocateSeat(seatId));
-//       }
-//     });
-//   };
-// }
-
-// function assignSeat(seatId) {
-//   return (dispatch, getState) => {
-//     dispatch(doAssignSeat(seatId));
-//   };
-// }
-
 // iniital state
 const initialState = {
   now_using: null,

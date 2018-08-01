@@ -15,6 +15,13 @@ class Container extends Component {
     });
   };
 
+  _setShowReturnFalse = () => {
+    this.setState({
+      ...this.state,
+      show_return: false
+    });
+  };
+
   _onReturnButtonClick = () => {
     this.setState({
       ...this.state,
@@ -70,6 +77,7 @@ class Container extends Component {
         show_assign={this.state.show_assign}
         show_return={this.state.show_return}
         setShowAssignFalse={this._setShowAssignFalse}
+        setShowReturnFalse={this._setShowReturnFalse}
       />
     );
   }

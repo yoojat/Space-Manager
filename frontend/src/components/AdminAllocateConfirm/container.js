@@ -32,17 +32,23 @@ class Container extends Component {
   }
 
   _onAllocateYesClick = () => {
-    //TODO: 여기서부터하기
+    const {
+      superAllocateSeat,
+      sel_user_for_seat_man,
+      sel_seat_for_seat_man
+    } = this.props;
+    superAllocateSeat(sel_user_for_seat_man.id, sel_seat_for_seat_man.id);
     console.log("배정하고 창닫고 업데이트하기");
   };
 
   render() {
-    const { sel_user_for_seat_man } = this.props;
+    const { sel_user_for_seat_man, sel_seat_for_seat_man } = this.props;
     return (
       <AdminAllocateConfirm
         sel_user_for_seat_man={sel_user_for_seat_man}
         loading={this.state.loading}
         onAllocateYesClick={this._onAllocateYesClick}
+        sel_seat_for_seat_man={sel_seat_for_seat_man}
       />
     );
   }

@@ -1,5 +1,6 @@
 //imports
 import { actionCreators as userActions } from "redux/modules/user";
+import { actionCreators as minimapActions } from "redux/modules/minimap";
 
 //actions
 const SET_BRANCH_INFO_FOR_SEAT_ADMIN = "SET_BRANCH_INFO_FOR_SEAT_ADMIN";
@@ -11,8 +12,16 @@ const SET_SERACHED_MEMBERS_NULL = "SET_SERACHED_MEMBERS_NULL";
 const SET_SEARCHED_MEMBERS = "SET_SEARCHED_MEMBERS";
 const SET_USER_FOR_SEAT_ADMIN = "SET_USER_FOR_SEAT_ADMIN";
 const SET_USER_NULL_FOR_SEAT_ADMIN = "SET_USER_NULL_FOR_SEAT_ADMIN";
+const STAFF_LOADING_SEAT = "STAFF_LOADING_SEAT";
 
 //action creators : 리덕스 state를 변경
+
+function loadingSeat(seatId) {
+  return {
+    type: STAFF_LOADING_SEAT,
+    seatId
+  };
+}
 
 function setUserNullForSeatAdmin() {
   return {
@@ -98,6 +107,7 @@ function setBranchInfo(branch) {
 // API actions: api를 부를 때 사용
 
 // 오늘 가입한 사람, 오늘 등록한 사람 모두 불러옴
+
 function getUserForAllocate(user_id) {
   return (dispatch, getState) => {
     const {
@@ -222,6 +232,81 @@ function getRoomSeats(roomId) {
   };
 }
 
+function superAllocateSeat(userId, seatId) {
+  return (dispatch, getState) => {
+    const {
+      user: { token },
+      staffSeat: {
+        sel_seat_for_seat_man: { room }
+      }
+    } = getState();
+    dispatch(loadingSeat(seatId));
+
+    //멤버쉽 검사
+    //시작일시가 오늘보다 작거나 같아야 되고
+    //종료일시가 오늘보다 크거나 같아야 됨
+
+    const moment = require("moment");
+
+    const target_end_datetime = moment()
+      .add(24, "h")
+      .format("YYYY-MM-DD HH:mm:ss");
+
+    //optimistic response
+    dispatch(loadingSeat(seatId));
+
+    fetch(`/seats/allocation/${seatId}/${userId}/`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `JWT ${token}`
+      },
+      body: JSON.stringify({
+        end_datetime: target_end_datetime
+      })
+    }).then(response => {
+      if (response.status === 404 || response.status === 400) {
+        dispatch(userActions.logout());
+      }
+      //멤버쉽이 등록되어있지 않은 경우
+      dispatch(getRoomSeats(room));
+      dispatch(minimapActions.getMinimapBranch());
+      dispatch(getSeatInfo(seatId));
+    });
+  };
+}
+
+function superReturnSeat(seatId) {
+  return (dispatch, getState) => {
+    const {
+      user: { token },
+      staffSeat: {
+        sel_seat_for_seat_man: { room }
+      }
+    } = getState();
+
+    //optimistic response
+    dispatch(loadingSeat(seatId));
+
+    fetch(`/seats/return/${seatId}/`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `JWT ${token}`
+      }
+    }).then(response => {
+      if (response.status === 404 || response.status === 400) {
+        dispatch(userActions.logout());
+      }
+      //멤버쉽이 등록되어있지 않은 경우
+
+      dispatch(getRoomSeats(room));
+      dispatch(minimapActions.getMinimapBranch());
+      dispatch(getSeatInfo(seatId));
+    });
+  };
+}
+
 // iniital state
 const initialState = {
   sel_branch_for_seat_man: null,
@@ -261,11 +346,40 @@ function reducer(state = initialState, action) {
     case SET_USER_NULL_FOR_SEAT_ADMIN:
       return applySetUserNullForSeatAdmin(state, action);
 
+    case STAFF_LOADING_SEAT:
+      return applyStaffLoadingSeat(state, action);
+
     default:
       return state;
   }
 }
 //reducer functions
+
+function applyStaffLoadingSeat(state, action) {
+  const { seatId } = action;
+  const {
+    sel_room_for_seat_man: { seats }
+  } = state;
+
+  const updatedSeats = seats.map(seat => {
+    if (seat.id === seatId) {
+      return {
+        ...seat,
+        seat_image: { file: require("images/loading2.png") }, //로딩 상태를 보여줌
+        now_using: true,
+        is_processing: true
+      };
+    }
+    return seat;
+  });
+  return {
+    ...state,
+    sel_room_for_seat_man: {
+      ...state.sel_room_for_seat_man,
+      seats: updatedSeats
+    }
+  };
+}
 
 function applySetUserNullForSeatAdmin(state, action) {
   return {
@@ -343,7 +457,9 @@ const actionCreators = {
   getSeatInfo,
   getUsersBySearch,
   setSearchedMembersNull,
-  getUserForAllocate
+  getUserForAllocate,
+  superAllocateSeat,
+  superReturnSeat
 };
 
 export { actionCreators };
