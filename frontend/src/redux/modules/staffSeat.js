@@ -134,13 +134,13 @@ function getUserForAllocate(user_id) {
   };
 }
 
-function getUsersBySearch(keyword) {
+function getUsersBySearch(keyword, scope) {
   return (dispatch, getState) => {
     const {
       user: { token }
     } = getState();
 
-    fetch(`/users/search/?keyword=${keyword}`, {
+    fetch(`/users/search/?keyword=${keyword}&scope=${scope}`, {
       method: "GET",
       headers: {
         Authorization: `JWT ${token}`

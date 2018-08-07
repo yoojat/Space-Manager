@@ -10,7 +10,9 @@ const SearchMember = (props, context) => {
     onSearchButtonClick,
     handleOnKeyUp,
     keyword,
-    onMemberClick
+    onMemberClick,
+    ohHandleSelectChange,
+    scope
   } = props;
   return (
     <MemberBackContainer>
@@ -21,6 +23,11 @@ const SearchMember = (props, context) => {
             onKeyUp={handleOnKeyUp}
             value={keyword}
           />{" "}
+          <ScopeSelect value={scope} onChange={ohHandleSelectChange}>
+            <option value="name">이름</option>
+            <option value="userid">아이디</option>
+            <option value="phone">전화번호</option>
+          </ScopeSelect>
           <Button onClick={onSearchButtonClick}>검색</Button>
         </TitleTag>
       </TitleTagCon>
@@ -245,6 +252,15 @@ const EnrollTime = styled.div`
 
 const EndTime = styled.div`
   flex-basis: 160px;
+`;
+
+const ScopeSelect = styled.select`
+  margin-left: 10px;
+  height: 100%;
+  background-color: white;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  cursor: text;
+  border: 1px solid #cccccc;
 `;
 
 SearchMember.propTypes = {};

@@ -11,6 +11,8 @@ import Loading from "components/Loading";
 import RegistWindow from "components/RegistWindow";
 import SuperMembership from "components/SuperMembership";
 import RegistCabinetSuper from "components/RegistCabinetSuper";
+import SeatLogInfo from "components/SeatLogInfo";
+import NowSeatInfo from "components/NowSeatInfo";
 
 const MemberDetail = (props, context) => {
   const {
@@ -23,7 +25,8 @@ const MemberDetail = (props, context) => {
     seeing_regist_window,
     seeing_cabinet_regist_window,
     setSeeingRegistWindowFalse,
-    setSeeingCabinetRegistWindowFalse
+    setSeeingCabinetRegistWindowFalse,
+    now_view_member_seat_logs
   } = props;
 
   return loading ? (
@@ -40,7 +43,7 @@ const MemberDetail = (props, context) => {
           </LeftSection>
           <RightSection>
             <MembershipInfoContainer>
-              <div style={{ marginBottom: "10px" }}>[ 멤버쉽 정보 ]</div>
+              <DataColTitle>[ 멤버쉽 정보 ]</DataColTitle>
               <MembershipInfoContent>
                 <LeftMembershipInfo>
                   <MembershipInfo
@@ -55,7 +58,7 @@ const MemberDetail = (props, context) => {
                   />
                 </RightMembershipInfo>
               </MembershipInfoContent>
-              <div style={{ marginBottom: "10px" }}>[ 사물함 정보 ]</div>
+              <DataColTitle>[ 사물함 정보 ]</DataColTitle>
               <MembershipInfoContent>
                 <LeftMembershipInfo>
                   <CabinetInfo
@@ -64,6 +67,20 @@ const MemberDetail = (props, context) => {
                 </LeftMembershipInfo>
                 <RightMembershipInfo>
                   <CabinetLogInfo cabinet_historys={cabinet_historys} />
+                </RightMembershipInfo>
+              </MembershipInfoContent>
+
+              <DataColTitle>[ 좌석 정보 ]</DataColTitle>
+              <MembershipInfoContent>
+                <LeftMembershipInfo>
+                  <NowSeatInfo
+                    now_view_member_seat_logs={now_view_member_seat_logs}
+                  />
+                </LeftMembershipInfo>
+                <RightMembershipInfo>
+                  <SeatLogInfo
+                    now_view_member_seat_logs={now_view_member_seat_logs}
+                  />
                 </RightMembershipInfo>
               </MembershipInfoContent>
             </MembershipInfoContainer>
@@ -99,6 +116,10 @@ MemberDetail.contextTypes = {
 };
 
 export default MemberDetail;
+
+const DataColTitle = styled.div`
+  margin-top: 30px;
+`;
 
 const background_image = require("images/royal_back.jpg");
 
@@ -152,16 +173,16 @@ const RightSection = styled.div`
 const MembershipInfoContainer = styled.div``;
 
 const LeftMembershipInfo = styled.div`
-  min-width: 300px;
+  min-width: 270px;
   margin: 15px;
 `;
 const RightMembershipInfo = styled.div`
-  min-width: 300px;
+  min-width: 270px;
   margin: 15px;
 `;
 
 const MembershipInfoContent = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   flex-wrap: wrap;
 `;

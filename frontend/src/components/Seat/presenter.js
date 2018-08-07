@@ -35,6 +35,9 @@ const Seat = props => {
     //현재 이용중인 좌석이면 DB에서 좌석이미지를 가지고 옴
     seat_state_image = seat_image.file;
     clickEv = null;
+  } else if (is_processing) {
+    seat_state_image = seat_image.file;
+    clickEv = null;
   } else {
     seat_state_image = require("images/empty_seat.png");
     clickEv = onSeatClick;
@@ -42,7 +45,8 @@ const Seat = props => {
 
   if (
     (now_using && moment(end_datetime).valueOf() > moment().valueOf()) ||
-    seat_number === 0
+    seat_number === 0 ||
+    is_processing
   ) {
     display_number = null;
   } else {

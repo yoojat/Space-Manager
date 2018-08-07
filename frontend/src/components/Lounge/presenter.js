@@ -19,15 +19,25 @@ const Lounge = (props, context) => {
     name
   } = props;
 
+  const default_profile_img = require("images/profile.jpg");
+
   return (
     <div className={styles.backWhite}>
       <div className={styles.profileCon}>
-        {" "}
-        <img
-          src={`${profile_image}`}
-          className={styles.profileImg}
-          alt={context.t("profile")}
-        />
+        {profile_image ? (
+          <img
+            src={`${profile_image}`}
+            className={styles.profileImg}
+            alt={context.t("profile")}
+          />
+        ) : (
+          <img
+            src={default_profile_img}
+            className={styles.profileImg}
+            alt={context.t("profile")}
+          />
+        )}
+
         <div className={styles.profileTitle}>
           {username} / {name}님
         </div>

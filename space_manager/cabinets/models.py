@@ -10,8 +10,8 @@ from space_manager.payment import models as payment_models
 @python_2_unicode_compatible
 class TimeStampedModel(models.Model):
 
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
 
     class Meta:
         abstract = True
@@ -41,7 +41,7 @@ class CabinetSet(models.Model):
 
 
 @python_2_unicode_compatible
-class Cabinet(models.Model):
+class Cabinet(TimeStampedModel):
     """ Cabinet Model """
 
     cabinet_number = models.IntegerField(null=True)
@@ -76,6 +76,7 @@ class CabinetAction(models.Model):
     """ Cabinet Action Model """
 
     substance = models.CharField(max_length=45, null=True)
+    kr_substance = models.CharField(max_length=45, null=True)
 
     def __str__(self):
         return self.substance

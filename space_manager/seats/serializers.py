@@ -2,6 +2,7 @@ from rest_framework import serializers
 from . import models
 from space_manager.rooms import models as room_models
 from space_manager.users import models as user_models
+from space_manager.branches import models as branches_models
 
 import json
 from datetime import datetime, timedelta
@@ -61,10 +62,54 @@ class SeatImageSerializer(serializers.ModelSerializer):
         fields = ('file', 'gender')
 
 
+class RoomTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = room_models.RoomType
+        fields = ('id', 'en_substance', 'kr_substance')
+
+
+class RoomSerializerForSeat(serializers.ModelSerializer):
+
+    room_type = RoomTypeSerializer()
+
+    class Meta:
+        model = room_models.Room()
+        fields = (
+            'id',
+            'room_number',
+            'width',
+            'height',
+            'left',
+            'top',
+            'usable',
+            'desk_size',
+            'view_width',
+            'view_height',
+            'branch',
+            'room_type',
+        )
+
+
+class BrancheSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = branches_models.Branch()
+        fields = '__all__'
+
+
 class SeatSerializerForUser(serializers.ModelSerializer):
+
+    room = RoomSerializerForSeat()
+    branch = BrancheSerializer()
+
     class Meta:
         model = models.Seat
-        fields = ('room', )
+        fields = (
+            'room',
+            'seat_number',
+            'branch',
+            'now_user',
+            'end_datetime',
+        )
 
 
 class LogSerializer(serializers.ModelSerializer):

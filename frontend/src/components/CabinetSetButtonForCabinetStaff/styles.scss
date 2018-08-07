@@ -1,0 +1,23 @@
+.cabinetset-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 120px;
+  @include whiteButton();
+  margin: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+
+  .content {
+    word-break: keep-all;
+  }
+
+  &.temp-selected {
+    background-color: orange;
+    color: black;
+  }
+  &.selected {
+    background-color: #374bab;
+    color: white;
+  }
+}

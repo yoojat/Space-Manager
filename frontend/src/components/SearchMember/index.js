@@ -12,12 +12,15 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    fetchSearchedMembers: keyword => {
-      dispatch(staffActions.fetchSearchedMembers(keyword));
+    fetchSearchedMembers: (keyword, scope) => {
+      dispatch(staffActions.fetchSearchedMembers(keyword, scope));
     },
     fetchNowViewMember: user_id => {
       dispatch(staffActions.fetchNowViewMember(user_id));
-    }
+    },
+    fetchNowViewMemberSeatHistory: user_id => [
+      dispatch(staffActions.fetchNowViewMemberSeatHistory(user_id))
+    ]
   };
 };
 

@@ -27,7 +27,7 @@ class Container extends Component {
     const { now_using, returnSeat, getBranch, getRoomSeats, room } = this.props;
     returnSeat(now_using.id);
     getBranch();
-    getRoomSeats(room.id);
+    // getRoomSeats(room.id);
   };
 
   render() {

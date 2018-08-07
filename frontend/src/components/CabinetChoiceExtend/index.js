@@ -5,12 +5,12 @@ import Container from "./container";
 const mapStateToProps = (state, ownProps) => {
   const {
     extendCabinet: { is_extend_cabinet },
-    staff: { now_view_member_cabinets }
+    cabinet: { my_cabinets }
   } = state;
 
   return {
     is_extend_cabinet,
-    my_cabinets: now_view_member_cabinets
+    my_cabinets: my_cabinets
   };
 };
 

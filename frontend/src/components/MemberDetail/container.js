@@ -6,21 +6,37 @@ class Container extends Component {
   state = { loading: true };
 
   componentDidMount() {
-    const { now_view_user } = this.props;
+    const {
+      now_view_user,
+      fetchNowViewMemberSeatHistory,
+      now_view_member_seat_logs
+    } = this.props;
     if (now_view_user) {
-      this.setState({
-        ...this.state,
-        loading: false
-      });
+      if (now_view_member_seat_logs) {
+        this.setState({
+          ...this.state,
+          loading: false
+        });
+      } else {
+        fetchNowViewMemberSeatHistory(now_view_user.id);
+      }
     }
   }
   componentWillReceiveProps() {
-    const { now_view_user } = this.props;
+    const {
+      now_view_user,
+      now_view_member_seat_logs,
+      fetchNowViewMemberSeatHistory
+    } = this.props;
     if (now_view_user) {
-      this.setState({
-        ...this.state,
-        loading: false
-      });
+      if (now_view_member_seat_logs) {
+        this.setState({
+          ...this.state,
+          loading: false
+        });
+      } else {
+        fetchNowViewMemberSeatHistory(now_view_user.id);
+      }
     }
   }
 
@@ -31,7 +47,8 @@ class Container extends Component {
       seeing_regist_window,
       seeing_cabinet_regist_window,
       setSeeingRegistWindowFalse,
-      setSeeingCabinetRegistWindowFalse
+      setSeeingCabinetRegistWindowFalse,
+      now_view_member_seat_logs
     } = this.props;
     const now_view_user_memberships = now_view_user
       ? now_view_user.memberships.filter(
@@ -76,6 +93,7 @@ class Container extends Component {
         seeing_cabinet_regist_window={seeing_cabinet_regist_window}
         setSeeingRegistWindowFalse={setSeeingRegistWindowFalse}
         setSeeingCabinetRegistWindowFalse={setSeeingCabinetRegistWindowFalse}
+        now_view_member_seat_logs={now_view_member_seat_logs}
       />
     );
   }

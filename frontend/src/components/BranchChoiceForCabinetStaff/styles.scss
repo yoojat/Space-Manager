@@ -1,0 +1,41 @@
+.message {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: 13px;
+  text-align: center;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  .button {
+    text-align: center;
+    width: 32%;
+    max-width: 150px;
+    margin-left: 5px;
+    margin-right: 5px;
+    @include whiteButton();
+    &.selected {
+      background-color: #374bab;
+      color: white;
+    }
+  }
+  // border-bottom: 1.2px solid #e4e4e4;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+}
+
+.map-button-container {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @include fullWhiteButton();
+  font-size: 15px;
+  &.selected {
+    background-color: #374bab;
+    color: white;
+  }
+}

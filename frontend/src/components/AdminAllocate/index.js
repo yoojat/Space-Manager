@@ -12,8 +12,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    getUsersBySearch: keyword => {
-      dispatch(staffSeatActions.getUsersBySearch(keyword));
+    getUsersBySearch: (keyword, scope) => {
+      dispatch(staffSeatActions.getUsersBySearch(keyword, scope));
     },
     setSearchedMembersNull: () => {
       dispatch(staffSeatActions.setSearchedMembersNull());

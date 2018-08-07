@@ -2,6 +2,8 @@
 
 import { actionCreators as userActions } from "redux/modules/user";
 import { actionCreators as minimapActions } from "redux/modules/minimap";
+import { isMoment } from "../../../node_modules/moment";
+import moment from "moment";
 
 //actions
 const SET_ROOM_SEATS = "SET_ROOM_SEATS";
@@ -180,10 +182,10 @@ function returnSeat(seatId) {
         dispatch(userActions.logout());
       }
       //멤버쉽이 등록되어있지 않은 경우
-
-      dispatch(getRoomSeats(room.id));
       dispatch(getNowUsing());
       dispatch(minimapActions.getMinimapBranch());
+
+      dispatch(getRoomSeats(room.id));
     });
   };
 }
@@ -195,7 +197,6 @@ function allocateSeat(seatId) {
       seat: { room }
     } = getState();
     dispatch(loadingSeat(seatId));
-
     //멤버쉽 검사
     //시작일시가 오늘보다 작거나 같아야 되고
     //종료일시가 오늘보다 크거나 같아야 됨
@@ -314,8 +315,7 @@ function applySetRoomSeats(state, action) {
   const { room } = action;
   return {
     ...state,
-    room,
-    onAssignment: false
+    room
   };
 }
 
@@ -329,7 +329,7 @@ function applyReturnSeat(state, action) {
     if (seat.id === seatId) {
       return {
         ...seat,
-        // seat_image: { file: require("images/loading_seat.png") }, //로딩 상태를 보여줌
+        seat_image: { file: require("images/loading_seat.png") }, //로딩 상태를 보여줌
         now_using: false
       };
     }
@@ -337,7 +337,6 @@ function applyReturnSeat(state, action) {
   });
   return {
     ...state,
-    onAssignment: true,
     room: { ...state.room, seats: updatedSeats }
   };
 }

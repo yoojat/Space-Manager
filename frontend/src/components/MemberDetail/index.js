@@ -8,7 +8,8 @@ const mapStateToProps = (state, ownProps) => {
       now_view_user,
       detail_view_loading,
       seeing_regist_window,
-      seeing_cabinet_regist_window
+      seeing_cabinet_regist_window,
+      now_view_member_seat_logs
     }
   } = state;
 
@@ -16,7 +17,8 @@ const mapStateToProps = (state, ownProps) => {
     now_view_user,
     detail_view_loading,
     seeing_regist_window,
-    seeing_cabinet_regist_window
+    seeing_cabinet_regist_window,
+    now_view_member_seat_logs
   };
 };
 
@@ -27,6 +29,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     setSeeingCabinetRegistWindowFalse: () => {
       dispatch(staffActions.setSeeingCabinetRegistWindowFalse());
+    },
+    fetchNowViewMemberSeatHistory: user_id => {
+      dispatch(staffActions.fetchNowViewMemberSeatHistory(user_id));
     }
   };
 };

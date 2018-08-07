@@ -11,15 +11,8 @@ class CabinetAdmin(admin.ModelAdmin):
 
     list_filter = ('cabinet_set__branch', )
 
-    list_display = (
-        'id',
-        'cabinet_number',
-        'cabinet_set',
-        'xpos',
-        'ypos',
-        'is_clean',
-        'user'
-    )
+    list_display = ('id', 'cabinet_number', 'cabinet_set', 'xpos', 'ypos',
+                    'is_clean', 'user')
     list_per_page = 10
 
 
@@ -63,9 +56,15 @@ class CabinetSetAdmin(admin.ModelAdmin):
 @admin.register(models.CabinetAction)
 class CabinetActionAdmin(admin.ModelAdmin):
 
-    list_display_links = ('substance', )
+    list_display_links = (
+        'substance',
+        'kr_substance',
+    )
 
-    list_display = ('substance', )
+    list_display = (
+        'substance',
+        'kr_substance',
+    )
 
 
 @admin.register(models.CabinetHistory)

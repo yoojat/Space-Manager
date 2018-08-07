@@ -10,6 +10,28 @@ from django.utils.datastructures import MultiValueDictKeyError
 from datetime import datetime, timedelta
 
 
+class CabinetDetail(APIView):
+    def find_cabinet(self, cabinet_id):
+        try:
+            cabinet = models.Cabinet.objects.get(id=cabinet_id)
+            return cabinet
+        except models.Cabinet.DoesNotExist:
+            return None
+
+    def get(self, request, cabinet_id, format=None):
+        """ get cabinet """
+        # 사물함 단일 정보 불러오기
+        # cabinet_number cabinet_set xpos ypos
+
+        cabinet = self.find_cabinet(cabinet_id)
+        if cabinet is None:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        serializer = serializers.CabinetDetailSerializer(cabinet)
+
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+
 class CabinetLog(APIView):
     def get(self, request, user_id, format=None):
         user = user_models.User.objects.get(id=user_id)

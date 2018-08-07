@@ -12,7 +12,9 @@ const AdminAllocate = (props, context) => {
     keyword,
     searched_members,
     onMemberClick,
-    confirm_show
+    confirm_show,
+    handleSelectChange,
+    scope
   } = props;
 
   return (
@@ -22,7 +24,9 @@ const AdminAllocate = (props, context) => {
           <SearchFormSet
             handleChange={handleChange}
             handleSubmit={handleSubmit}
+            handleSelectChange={handleSelectChange}
             keyword={keyword}
+            scope={scope}
           />
         </AllocateContent>
         <AllocateContent>
@@ -91,10 +95,21 @@ const MemberList = (props, context) => {
 };
 
 const SearchFormSet = (props, context) => {
-  const { handleChange, handleSubmit, keyword } = props;
+  const {
+    handleChange,
+    handleSubmit,
+    keyword,
+    handleSelectChange,
+    scope
+  } = props;
 
   return (
     <form onSubmit={handleSubmit}>
+      <ScopeSelect value={scope} onChange={handleSelectChange}>
+        <option value="name">이름</option>
+        <option value="userid">아이디</option>
+        <option value="phone">전화번호</option>
+      </ScopeSelect>
       <SearchForm type="text" onChange={handleChange} value={keyword} />
       <SearchButton type="submit" value="검색" />
     </form>
@@ -218,6 +233,15 @@ const SearchButton = styled.input`
     width: 100%;
     transition: 800ms ease all;
   }
+`;
+
+const ScopeSelect = styled.select`
+  margin-left: 10px;
+  height: 100%;
+  background-color: white;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  cursor: text;
+  border: 1px solid #cccccc;
 `;
 
 AdminAllocate.propTypes = {};

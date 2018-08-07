@@ -4,7 +4,15 @@ import AdminAllocate from "./presenter";
 class Container extends Component {
   state = {
     keyword: "",
+    scope: "name",
     confirm_show: false
+  };
+
+  _handleSelectChange = e => {
+    this.setState({
+      ...this.state,
+      scope: e.target.value
+    });
   };
 
   _handleChange = event => {
@@ -16,7 +24,7 @@ class Container extends Component {
 
   _handleSubmit = event => {
     const { getUsersBySearch } = this.props;
-    getUsersBySearch(this.state.keyword);
+    getUsersBySearch(this.state.keyword, this.state.scope);
     event.preventDefault();
   };
 
@@ -44,6 +52,8 @@ class Container extends Component {
         searched_members={searched_members}
         onMemberClick={this._onMemberClick}
         confirm_show={this.state.confirm_show}
+        handleSelectChange={this._handleSelectChange}
+        scope={this.state.scope}
       />
     );
   }

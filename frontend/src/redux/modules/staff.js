@@ -205,13 +205,13 @@ function fetchNowViewMemberSeatHistory(user_id) {
   };
 }
 
-function fetchSearchedMembers(keyword) {
+function fetchSearchedMembers(keyword, scope) {
   return function(dispatch, getState) {
     const {
       user: { token }
     } = getState();
 
-    fetch(`/users/search/?keyword=${keyword}`, {
+    fetch(`/users/search/?keyword=${keyword}&scope=${scope}`, {
       method: "GET",
       headers: {
         Authorization: `JWT ${token}`

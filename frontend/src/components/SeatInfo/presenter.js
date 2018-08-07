@@ -49,7 +49,7 @@ const SeatInfo = (props, context) => {
                     <LogCol>
                       {moment(log.created_at).format("YYYY-MM-DD HH:mm:ss")}
                     </LogCol>
-                    <LogCol>{log.user.name}</LogCol>
+                    {/* <LogCol>{log.user.name}</LogCol> */}
                     <LogCol>{log.action.kr_substance}</LogCol>
                   </LogRow>
                 ))

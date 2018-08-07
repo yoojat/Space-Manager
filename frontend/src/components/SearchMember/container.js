@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import SearchMember from "./presenter";
 
 class Container extends Component {
-  state = { keyword: "" };
+  state = { keyword: "", scope: "name" };
 
   _onInputChange = e => {
     this.setState({
@@ -11,11 +11,18 @@ class Container extends Component {
     });
   };
 
+  _ohHandleSelectChange = e => {
+    this.setState({
+      ...this.state,
+      scope: e.target.value
+    });
+  };
+
   _doSearch = () => {
-    const { keyword } = this.state;
+    const { keyword, scope } = this.state;
     const { fetchSearchedMembers } = this.props;
     if (keyword) {
-      fetchSearchedMembers(keyword);
+      fetchSearchedMembers(keyword, scope);
       this.setState({ ...this.state, keyword: "" });
     }
   };
@@ -32,8 +39,9 @@ class Container extends Component {
   };
 
   _onMemberClick = userid => {
-    const { fetchNowViewMember } = this.props;
+    const { fetchNowViewMember, fetchNowViewMemberSeatHistory } = this.props;
     fetchNowViewMember(userid);
+    fetchNowViewMemberSeatHistory(userid);
   };
 
   render() {
@@ -46,6 +54,8 @@ class Container extends Component {
         found_users={found_users}
         handleOnKeyUp={this._handleOnKeyUp}
         onMemberClick={this._onMemberClick}
+        ohHandleSelectChange={this._ohHandleSelectChange}
+        scope={this.state.scope}
       />
     );
   }

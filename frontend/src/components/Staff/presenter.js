@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import styles from "./styles.scss";
 import MemberAdmin from "components/MemberAdmin";
 import SeatAdmin from "components/SeatAdmin";
+import CabinetAdmin from "components/CabinetAdmin";
 
 const Staff = (props, context) => {
   const { onPageButtonClick, now_page } = props;
@@ -29,7 +30,7 @@ const Staff = (props, context) => {
             data-value="cabinetAdmin"
             onClick={onPageButtonClick}
           >
-            사물함 정리
+            사물함 관리
           </div>
           <div
             className={styles.staffMenuItem}
@@ -42,7 +43,7 @@ const Staff = (props, context) => {
       </div>
       {now_page === "memberAdmin" ? <MemberAdmin /> : ""}
       {now_page === "seatAdmin" ? <SeatAdmin /> : ""}
-      {now_page === "cabinetAdmin" ? "cabinetAdmin" : ""}
+      {now_page === "cabinetAdmin" ? <CabinetAdmin /> : ""}
       {now_page === "cablockAdmin" ? "cablockAdmin" : ""}
     </div>
   );

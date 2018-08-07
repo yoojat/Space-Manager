@@ -103,17 +103,12 @@ class InputCabinetSerializer(serializers.ModelSerializer):
 class HistorySerializer(serializers.ModelSerializer):
     cabinet = CabinetSerializerForSelect()
     cabinet_action = CabinetActionSerializer()
+    user = user_serializers.UserSerializer()
 
     class Meta:
         model = models.CabinetHistory
-        fields = (
-            'id',
-            'user',
-            'cabinet',
-            'start_date',
-            'end_date',
-            'cabinet_action',
-        )
+        fields = ('id', 'user', 'cabinet', 'start_date', 'end_date',
+                  'cabinet_action', 'created_at')
 
 
 class InputCabLockSerializer(serializers.ModelSerializer):
@@ -135,3 +130,12 @@ class CabLockSerializer(serializers.ModelSerializer):
             'lock_password',
             'cabinet',
         )
+
+
+class CabinetDetailSerializer(serializers.ModelSerializer):
+    cabinet_historys = HistorySerializer(many=True)
+
+    class Meta:
+        model = models.Cabinet
+        fields = ('cabinet_number', 'cabinet_set', 'xpos', 'ypos',
+                  'updated_at', 'start_date', 'end_date', 'cabinet_historys')

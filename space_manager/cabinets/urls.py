@@ -43,4 +43,7 @@ urlpatterns = [
     url(regex=r'^log/(?P<user_id>[0-9]+)/$',
         view=views.CabinetLog.as_view(),
         name='CabinetLog'),
+    url(regex=r'^detail/(?P<cabinet_id>[0-9]+)/$',
+        view=views.CabinetDetail.as_view(),
+        name='CabinetDetail'),
 ]
