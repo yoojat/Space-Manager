@@ -7,7 +7,6 @@ const SET_SEL_CABINET_SET_STAFF_CABINET = "SET_SEL_CABINET_SET_STAFF_CABINET";
 const SET_TEMP_CABINET_SET_STAFF_CABINET = "SET_TEMP_CABINET_SET_STAFF_CABINET";
 const RESET_TEMP_CABINET_SET_STAFF_CABINET =
   "RESET_TEMP_CABINET_SET_STAFF_CABINET";
-
 const CLEAR_CABINET_SET_STAFF_CABINET = "CLEAR_CABINET_SET_STAFF_CABINET";
 const SET_SEL_CABINET_STAFF_CABINET = "SET_SEL_CABINET_STAFF_CABINET";
 const SET_SCROLL_FIRST_FALSE_STAFF_CABINET =
@@ -15,15 +14,73 @@ const SET_SCROLL_FIRST_FALSE_STAFF_CABINET =
 const SET_CABINET_DETAIL_STAFF_CABINET = "SET_CABINET_DETAIL_STAFF_CABINET";
 const SET_CABINET_DETAIL_NULL_STAFF_CABINET =
   "SET_CABINET_DETAIL_NULL_STAFF_CABINET";
-
 const SET_SEARCHED_MEMBERS_STAFF_CABINET = "SET_SEARCHED_MEMBERS_STAFF_CABINET";
+const SET_SEARCHED_MEMBERS_NULL_STAFF_CABINET =
+  "SET_SEARCHED_MEMBERS_NULL_STAFF_CABINET";
+const SET_SEL_USER_STAFF_CABINET = "SET_SEL_USER_STAFF_CABINET";
+const SET_SEL_USER_NULL_STAFF_CABINET = "SET_SEL_USER_NULL_STAFF_CABINET";
+const SET_START_DATETIME_STAFF_CABINET = "SET_START_DATETIME_STAFF_CABINET";
+const SET_END_DATETIME_STAFF_CABINET = "SET_END_DATETIME_STAFF_CABINET";
+const SET_INIT_AFTER_REGIST = "SET_INIT_AFTER_REGIST";
+const SET_WINDOW_SHOW_TRUE = "SET_WINDOW_SHOW_TRUE";
+const SET_WINDOW_SHOW_FALSE = "SET_WINDOW_SHOW_FALSE";
 
 //action creators : 리덕스 state를 변경
+function setWindowShowTrue() {
+  return {
+    type: SET_WINDOW_SHOW_TRUE
+  };
+}
 
-function setSearchedMembersStaffCabinet(user) {
+function setWindowShowFalse() {
+  return {
+    type: SET_WINDOW_SHOW_FALSE
+  };
+}
+
+function setInitAfterRegist() {
+  return {
+    type: SET_INIT_AFTER_REGIST
+  };
+}
+
+function setStartDatetimeStaffCabinet(start_datetime) {
+  return {
+    type: SET_START_DATETIME_STAFF_CABINET,
+    start_datetime
+  };
+}
+
+function setEndDatetimeStaffCabinet(end_datetime) {
+  return {
+    type: SET_END_DATETIME_STAFF_CABINET,
+    end_datetime
+  };
+}
+
+function setSelUserNullStaffCabinet() {
+  return {
+    type: SET_SEL_USER_NULL_STAFF_CABINET
+  };
+}
+
+function setSelUserStaffCabinet(user) {
+  return {
+    type: SET_SEL_USER_STAFF_CABINET,
+    user
+  };
+}
+
+function setSearchMembersNullStaffCabinet() {
+  return {
+    type: SET_SEARCHED_MEMBERS_NULL_STAFF_CABINET
+  };
+}
+
+function setSearchedMembersStaffCabinet(users) {
   return {
     type: SET_SEARCHED_MEMBERS_STAFF_CABINET,
-    user
+    users
   };
 }
 
@@ -86,32 +143,31 @@ function setScrollFirstFalseStaffCabinet() {
   };
 }
 
-// function applySetTodaytoday_memberships(user) {
-//   const {
-//     is_staff,
-//     is_superuser,
-//     id,
-//     name,
-//     username,
-//     profile_image,
-//     phone
-//   } = user;
-//   return {
-//     type: SAVE_AUTHORITY,
-//     is_staff,
-//     is_superuser,
-//     id,
-//     name,
-//     username,
-//     profile_image,
-//     phone
-//   };
-// }
-
 // API actions: api를 부를 때 사용
 
-// 오늘 가입한 사람, 오늘 등록한 사람 모두 불러옴
+function fetchSelCabinet(cabinet_id) {
+  return function(dispatch, getState) {
+    const {
+      user: { token }
+    } = getState();
 
+    fetch(`/cabinets/detail/${cabinet_id}/`, {
+      method: "GET",
+      headers: {
+        Authorization: `JWT ${token}`
+      }
+    })
+      .then(response => {
+        if (response.status !== 200) {
+          dispatch(userActions.logout());
+        }
+        return response.json();
+      })
+      .then(json => {
+        dispatch(setSelCabinetStaffCabinet(json));
+      });
+  };
+}
 function fetchSearchedMembers(keyword, scope) {
   return function(dispatch, getState) {
     const {
@@ -155,6 +211,7 @@ function getCabinetDetail(cabinet_id) {
         return response.json();
       })
       .then(json => {
+        console.log(json);
         dispatch(setCabinetDetailStaffCabinet(json));
       });
   };
@@ -186,6 +243,8 @@ function getSelBranch(branchId) {
 
 function fetchSelCabinetSet(cabinet_set_id) {
   return function(dispatch, getState) {
+    dispatch(clearCabinetSet());
+
     const {
       user: { token, isLoggedIn }
     } = getState();
@@ -199,8 +258,89 @@ function fetchSelCabinetSet(cabinet_set_id) {
         .then(response => response.json())
         .then(json => {
           dispatch(setSelCabinetSet(json));
+          console.log(json);
         });
     }
+  };
+}
+
+function getUserForAllocate(user_id) {
+  return (dispatch, getState) => {
+    const {
+      user: { token }
+    } = getState();
+
+    dispatch(setSelUserNullStaffCabinet());
+
+    fetch(`/users/id/${user_id}`, {
+      method: "GET",
+      headers: {
+        Authorization: `JWT ${token}`
+      }
+    })
+      .then(response => {
+        if (response.status !== 200) {
+          dispatch(userActions.logout());
+        }
+        return response.json();
+      })
+      .then(json => {
+        dispatch(setSelUserStaffCabinet(json));
+      });
+  };
+}
+
+function registCabinetLog(cabinet_id) {
+  return (dispatch, getState) => {
+    const {
+      user: { token }
+    } = getState();
+
+    fetch(`/cabinets/regist/log/${cabinet_id}/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `JWT ${token}`
+      }
+    }).then(response => {
+      if (response.status === 201) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+  };
+}
+
+function enrollCabinet(cabinets, start_date, end_date, user) {
+  return async function(dispatch, getState) {
+    const {
+      user: { token }
+    } = getState();
+
+    await fetch(`/cabinets/enrollCabinets/`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `JWT ${token}`
+      },
+      body: JSON.stringify({
+        is_clean: false,
+        cabinets,
+        start_date,
+        end_date,
+        user
+      })
+    })
+      .then(response => {
+        if (response.status !== 202) {
+          dispatch(userActions.logout());
+        }
+        return response.json();
+      })
+      .then(json => {
+        dispatch(registCabinetLog(json.id));
+      });
   };
 }
 
@@ -209,10 +349,14 @@ const initialState = {
   sel_branch: null,
   sel_cabinet_set: null,
   sel_cabinet: null,
+  sel_user: null,
   temp_cabinet_set: null,
   scroll_first: true,
   sel_cabinet_detail: null,
-  searched_members: null
+  searched_members: null,
+  sel_start_datetime: null,
+  sel_end_datetime: null,
+  window_show: false
 };
 
 //reducer
@@ -248,17 +392,99 @@ function reducer(state = initialState, action) {
     case SET_SEARCHED_MEMBERS_STAFF_CABINET:
       return applySetSearchedMembersStaffCabinet(state, action);
 
+    case SET_SEARCHED_MEMBERS_NULL_STAFF_CABINET:
+      return applySetSearchedMembersNullStaffCabinet(state, action);
+
+    case SET_SEL_USER_STAFF_CABINET:
+      return applySetSelUserStaffCabinet(state, action);
+
+    case SET_SEL_USER_NULL_STAFF_CABINET:
+      return applySetSelUserNullStaffCabinet(state, action);
+
+    case SET_START_DATETIME_STAFF_CABINET:
+      return applySetStartDatetimeStaffCabinet(state, action);
+
+    case SET_END_DATETIME_STAFF_CABINET:
+      return applySetEndDatetimeStaffCabinet(state, action);
+
+    case SET_INIT_AFTER_REGIST:
+      return applySetInitAfterRegist(state, action);
+
+    case SET_WINDOW_SHOW_TRUE:
+      return applysetWindowShowTrue(state, action);
+
+    case SET_WINDOW_SHOW_FALSE:
+      return applysetWindowShowFalse(state, action);
     default:
       return state;
   }
 }
 //reducer functions
 
-function applySetSearchedMembersStaffCabinet(state, action) {
+function applysetWindowShowTrue(state, action) {
+  return {
+    ...state,
+    window_show: true
+  };
+}
+function applysetWindowShowFalse(state, action) {
+  return {
+    ...state,
+    window_show: false
+  };
+}
+
+function applySetInitAfterRegist(state, action) {
+  return {
+    ...state,
+    searched_members: initialState.searched_members,
+    sel_start_datetime: initialState.sel_start_datetime,
+    sel_end_datetime: initialState.sel_end_datetime
+  };
+}
+
+function applySetStartDatetimeStaffCabinet(state, action) {
+  const { start_datetime } = action;
+  return {
+    ...state,
+    sel_start_datetime: start_datetime
+  };
+}
+function applySetEndDatetimeStaffCabinet(state, action) {
+  const { end_datetime } = action;
+  return {
+    ...state,
+    sel_end_datetime: end_datetime
+  };
+}
+
+function applySetSelUserNullStaffCabinet(state, action) {
+  return {
+    ...state,
+    sel_user: null
+  };
+}
+
+function applySetSelUserStaffCabinet(state, action) {
   const { user } = action;
   return {
     ...state,
-    searched_members: user
+    sel_user: user
+  };
+}
+
+function applySetSearchedMembersNullStaffCabinet(state, action) {
+  return {
+    ...state,
+    searched_members: null
+  };
+}
+
+function applySetSearchedMembersStaffCabinet(state, action) {
+  const { users } = action;
+  return {
+    ...state,
+    searched_members: users
   };
 }
 
@@ -271,6 +497,7 @@ function applySetCabinetDetailNullStaffCabinet(state, action) {
 
 function applySetCabinetDetailStaffCabinet(state, action) {
   const { cabinet_detail } = action;
+
   return {
     ...state,
     sel_cabinet_detail: cabinet_detail
@@ -324,6 +551,7 @@ function applySetBranchForStaffCabinet(state, action) {
 
 function applySetSelCabinetSetStaffCabinet(state, action) {
   const { cabinet_set } = action;
+
   return {
     ...state,
     sel_cabinet_set: cabinet_set
@@ -341,7 +569,16 @@ const actionCreators = {
   setSelCabinetStaffCabinet,
   setScrollFirstFalseStaffCabinet,
   getCabinetDetail,
-  fetchSearchedMembers
+  fetchSearchedMembers,
+  setSearchMembersNullStaffCabinet,
+  getUserForAllocate,
+  setStartDatetimeStaffCabinet,
+  setEndDatetimeStaffCabinet,
+  enrollCabinet,
+  setInitAfterRegist,
+  setWindowShowTrue,
+  setWindowShowFalse,
+  fetchSelCabinet
 };
 
 export { actionCreators };

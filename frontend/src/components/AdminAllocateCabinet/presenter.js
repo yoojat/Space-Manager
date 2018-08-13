@@ -3,7 +3,10 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import breakpoint from "styled-components-breakpoint";
 import moment from "moment";
-import AdminAllocateConfirm from "components/AdminAllocateConfirm";
+import Datetime from "react-datetime";
+import datetime_styles from "react-datetime/css/react-datetime.css";
+import { Element } from "react-scroll";
+import styles from "./styles.scss";
 
 const AdminAllocateCabinet = (props, context) => {
   const {
@@ -12,8 +15,21 @@ const AdminAllocateCabinet = (props, context) => {
     keyword,
     searched_members,
     onMemberClick,
-    confirm_show
+    confirm_show,
+    handleSelectChange,
+    scope,
+    set_datetime_show,
+    onStartDatetimeChange,
+    onEndDatetimeChange,
+    sel_start_datetime,
+    sel_end_datetime,
+    setEndDatetimeStaffCabinet,
+    onConfirmButtonClick,
+    setStartDatetimeStaffCabinet
   } = props;
+
+  // let moment = require("moment");
+  require("moment/locale/ko");
 
   return (
     <AllocateBack>
@@ -22,7 +38,9 @@ const AdminAllocateCabinet = (props, context) => {
           <SearchFormSet
             handleChange={handleChange}
             handleSubmit={handleSubmit}
+            handleSelectChange={handleSelectChange}
             keyword={keyword}
+            scope={scope}
           />
         </AllocateContent>
         <AllocateContent>
@@ -63,10 +81,92 @@ const AdminAllocateCabinet = (props, context) => {
             </ContentContainer>
           </SearchedTable>
         </AllocateContent>
+        {set_datetime_show ? (
+          <React.Fragment>
+            <AllocateContent>
+              <Element name="startChoice">
+                <SelWhenTitle>
+                  {context.t("이용시작 일시를 선택해 주세요!")}
+                </SelWhenTitle>
+                <Datetime
+                  className={`${datetime_styles.rdt} ${styles.datetime}`}
+                  value={sel_start_datetime}
+                  dateFormat="YYYY MMMM Do"
+                  timeFormat="A hh:mm"
+                  onChange={onStartDatetimeChange}
+                  closeOnSelect={true}
+                />
+                <ButtonContainer>
+                  <DesingedCalButton
+                    onClick={() => {
+                      setStartDatetimeStaffCabinet(
+                        moment().format("YYYY-MM-DD HH:mm:ss")
+                      );
+                    }}
+                  >
+                    현재 시각
+                  </DesingedCalButton>
+                </ButtonContainer>
+              </Element>
+            </AllocateContent>
+            <AllocateContent>
+              <Element name="endChoice">
+                <SelWhenTitle>
+                  {context.t("이용종료 일시를 선택해 주세요!")}
+                </SelWhenTitle>
+                <Datetime
+                  className={`${datetime_styles.rdt} ${styles.datetime}`}
+                  value={sel_end_datetime}
+                  dateFormat="YYYY MMMM Do"
+                  timeFormat="A hh:mm"
+                  onChange={onEndDatetimeChange}
+                  closeOnSelect={true}
+                />
+              </Element>
+              <ButtonContainer>
+                <CalHourButton
+                  addValues={30}
+                  setFunc={setEndDatetimeStaffCabinet}
+                  targetDatetime={sel_end_datetime}
+                  name="+30일"
+                />
+                <CalHourButton
+                  addValues={15}
+                  setFunc={setEndDatetimeStaffCabinet}
+                  targetDatetime={sel_end_datetime}
+                  name="+15일"
+                />
+                <CalHourButton
+                  addValues={1}
+                  setFunc={setEndDatetimeStaffCabinet}
+                  targetDatetime={sel_end_datetime}
+                  name="+1일"
+                />
+                <CalHourButton
+                  addValues={0.666666666666667}
+                  setFunc={setEndDatetimeStaffCabinet}
+                  targetDatetime={sel_end_datetime}
+                  name="+16시간"
+                />
+                <DesingedCalButton
+                  onClick={() => {
+                    setEndDatetimeStaffCabinet(sel_start_datetime);
+                  }}
+                >
+                  현재 시각
+                </DesingedCalButton>
+              </ButtonContainer>
+            </AllocateContent>
+          </React.Fragment>
+        ) : (
+          ""
+        )}
         {confirm_show ? (
-          <AllocateContent>
-            <AdminAllocateConfirm />
-          </AllocateContent>
+          <ConfirmButtonContainer>
+            <ConfrimButton onClick={onConfirmButtonClick} color="#273c75">
+              등록
+            </ConfrimButton>
+          </ConfirmButtonContainer>
         ) : (
           ""
         )}
@@ -74,6 +174,40 @@ const AdminAllocateCabinet = (props, context) => {
     </AllocateBack>
   );
 };
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const CalHourButton = (props, context) => {
+  const { addValues, setFunc, targetDatetime, name } = props;
+  const onButtonClick = () => {
+    const resultValue = moment(targetDatetime)
+      .add(addValues * 24, "h")
+      .format("YYYY-MM-DD HH:mm:ss");
+    setFunc(resultValue);
+  };
+  return <DesingedCalButton onClick={onButtonClick}>{name}</DesingedCalButton>;
+};
+
+const DesingedCalButton = styled.button`
+  border: none;
+  color: #ffffff;
+  padding: 4px 8px;
+  text-align: center;
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+  margin: 3px 1px !important;
+  text-decoration: none;
+  font-size: 11px;
+  cursor: pointer;
+  background-color: #00a8ff;
+  border-radius: 3px;
+  &:hover {
+    background-color: #273c75;
+  }
+`;
 
 const MemberList = (props, context) => {
   const { id, gender, username, birth, name, onMemberClick } = props;
@@ -91,15 +225,55 @@ const MemberList = (props, context) => {
 };
 
 const SearchFormSet = (props, context) => {
-  const { handleChange, handleSubmit, keyword } = props;
+  const {
+    handleChange,
+    handleSubmit,
+    keyword,
+    handleSelectChange,
+    scope
+  } = props;
 
   return (
     <form onSubmit={handleSubmit}>
+      <ScopeSelect value={scope} onChange={handleSelectChange}>
+        <option value="name">이름</option>
+        <option value="userid">아이디</option>
+        <option value="phone">전화번호</option>
+      </ScopeSelect>
       <SearchForm type="text" onChange={handleChange} value={keyword} />
       <SearchButton type="submit" value="검색" />
     </form>
   );
 };
+
+const ConfirmButtonContainer = styled.div`
+  display: flex;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  justify-content: center;
+`;
+const ConfrimButton = styled.button`
+  border-radius: 5px;
+  border: none;
+  padding: 5px 15px;
+  margin: 5px;
+  color: white;
+  background-color: ${props => props.color};
+  cursor: pointer;
+  font-size: 13px;
+  &:hover {
+    background-color: #2980b9;
+  }
+`;
+
+const SelWhenTitle = styled.div`
+  border-top: 1px solid #e4e4e4;
+  padding-top: 15px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 13px;
+`;
 
 const SearchedTable = styled.div`
   margin-top: 25px;
@@ -121,8 +295,8 @@ const ContentContainer = styled.div`
   overflow-y: auto;
 `;
 const Row = styled.div`
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding-top: 15px;
+  padding-bottom: 15px;
   justify-content: space-around;
   display: flex;
   &:nth-child(2n) {
@@ -164,6 +338,14 @@ const Col = styled.div`
 const AllocateBack = styled.div`
   width: 100%;
   padding: 10px 10px;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: 1px solid #dedede;
+  border-radius: 10px;
+  box-shadow: 5px 10px 8px #888888;
 `;
 
 const AllocateContainer = styled.div`
@@ -178,6 +360,7 @@ const SearchForm = styled.input`
   border-right: none;
   border-bottom: 2px solid #1b9cfc;
   margin-right: 10px;
+  margin-left: 15px;
 `;
 
 const SearchButton = styled.input`
@@ -218,6 +401,15 @@ const SearchButton = styled.input`
     width: 100%;
     transition: 800ms ease all;
   }
+`;
+
+const ScopeSelect = styled.select`
+  margin-left: 10px;
+  height: 100%;
+  background-color: white;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  cursor: text;
+  border: 1px solid #cccccc;
 `;
 
 AdminAllocateCabinet.propTypes = {};

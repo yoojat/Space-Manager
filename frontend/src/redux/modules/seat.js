@@ -2,8 +2,6 @@
 
 import { actionCreators as userActions } from "redux/modules/user";
 import { actionCreators as minimapActions } from "redux/modules/minimap";
-import { isMoment } from "../../../node_modules/moment";
-import moment from "moment";
 
 //actions
 const SET_ROOM_SEATS = "SET_ROOM_SEATS";

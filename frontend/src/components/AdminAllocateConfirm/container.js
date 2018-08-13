@@ -38,7 +38,6 @@ class Container extends Component {
       sel_seat_for_seat_man
     } = this.props;
     superAllocateSeat(sel_user_for_seat_man.id, sel_seat_for_seat_man.id);
-    console.log("배정하고 창닫고 업데이트하기");
   };
 
   render() {

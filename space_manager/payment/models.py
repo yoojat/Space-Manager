@@ -45,7 +45,8 @@ class CostType(models.Model):
     days = models.FloatField(null=True, blank=True)
     cost = models.IntegerField(null=True, blank=True)
     enroll_type = models.ForeignKey(EnrollType, null=True)
-    cabinet_cost_type = models.ForeignKey(CabinetCostType, null=True)
+    cabinet_cost_type = models.ForeignKey(
+        CabinetCostType, null=True, blank=True)
     cost_type = models.CharField(max_length=45, null=True)
 
     def __str__(self):

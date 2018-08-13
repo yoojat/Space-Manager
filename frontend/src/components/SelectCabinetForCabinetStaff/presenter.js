@@ -4,9 +4,7 @@ import styles from "./styles.scss";
 import CabinetSetForCabinetStaff from "components/CabinetSetForCabinetStaff";
 import Loading from "components/Loading";
 import CabinetChoiceForStaffCabinet from "components/CabinetChoiceForStaffCabinet";
-import StartChoiceForEnrollCabinet from "../StartChoiceForEnrollCabinet";
 import CabinetSetButtonForCabinetStaff from "components/CabinetSetButtonForCabinetStaff";
-import CabinetListForEnrollCabinet from "components/CabinetListForEnrollCabinet";
 import { Element } from "react-scroll";
 
 const SelectCabinetForCabinetStaff = (props, context) => {

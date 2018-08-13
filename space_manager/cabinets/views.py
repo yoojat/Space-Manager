@@ -10,6 +10,45 @@ from django.utils.datastructures import MultiValueDictKeyError
 from datetime import datetime, timedelta
 
 
+class StaffExtendCabinet(APIView):
+    def put(self, request, cabinet_id, format=None):
+
+        end_datetime = request.data['end_datetime']
+
+        try:
+
+            target_cabinet_obj = models.Cabinet.objects.get(id=cabinet_id)
+            target_cabinet_obj.end_date = end_datetime
+            target_cabinet_obj.save()
+
+            serializer = serializers.CabinetSerializerForSelect(
+                target_cabinet_obj)
+        except models.Cabinet.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        try:
+            cabinet = models.Cabinet.objects.get(id=cabinet_id)
+            user = cabinet.user
+            start_date = cabinet.start_date
+            end_date = cabinet.end_date
+            cabinet_action = models.CabinetAction.objects.get(
+                substance='extend')
+
+            new_cabinet_log = models.CabinetHistory.objects.create(
+                user=user,
+                cabinet=cabinet,
+                start_date=start_date,
+                end_date=end_date,
+                cabinet_action=cabinet_action)
+
+            new_cabinet_log.save()
+
+        except models.Cabinet.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        return Response(data=serializer.data, status=status.HTTP_202_ACCEPTED)
+
+
 class CabinetDetail(APIView):
     def find_cabinet(self, cabinet_id):
         try:

@@ -30,7 +30,14 @@ class Container extends Component {
   };
 
   render() {
-    return <CabinetAdminWindow closeWindow={this._closeWindow} />;
+    const { content, title } = this.props;
+    return (
+      <CabinetAdminWindow
+        closeWindow={this._closeWindow}
+        content={content}
+        title={title}
+      />
+    );
   }
 }
 export default Container;

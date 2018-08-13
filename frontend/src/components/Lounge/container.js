@@ -24,10 +24,9 @@ class Container extends Component {
   }
 
   _onReturnBtnClick = () => {
-    const { now_using, returnSeat, getBranch, getRoomSeats, room } = this.props;
+    const { now_using, returnSeat, getBranch } = this.props;
     returnSeat(now_using.id);
     getBranch();
-    // getRoomSeats(room.id);
   };
 
   render() {

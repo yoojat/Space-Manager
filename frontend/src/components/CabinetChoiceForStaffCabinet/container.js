@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import CabinetChoiceForStaffCabinet from "./presenter";
-import moment from "moment";
 import { scroller } from "react-scroll";
 
 class Container extends Component {

@@ -15,10 +15,12 @@ const CabinetDetailInfo = (props, context) => {
     onExtendBtnClick,
     onExpireBtnClick,
     onCleanBtnClick,
-    onMoveBtnClick,
     onModifyBtnClick,
+    onShiftBtnClick,
     window_show,
-    setWindowShowFalse
+    close_func,
+    window_content,
+    window_title
   } = props;
   return loading ? (
     <div
@@ -41,11 +43,15 @@ const CabinetDetailInfo = (props, context) => {
         onExtendBtnClick={onExtendBtnClick}
         onExpireBtnClick={onExpireBtnClick}
         onCleanBtnClick={onCleanBtnClick}
-        onMoveBtnClick={onMoveBtnClick}
+        onShiftBtnClick={onShiftBtnClick}
         onModifyBtnClick={onModifyBtnClick}
       />
       {window_show ? (
-        <CabinetAdminWindow close_func={setWindowShowFalse} />
+        <CabinetAdminWindow
+          title={window_title}
+          close_func={close_func}
+          content={window_content}
+        />
       ) : (
         ""
       )}
@@ -61,7 +67,7 @@ const RenderCabinetDetailInfo = (props, context) => {
     onExtendBtnClick,
     onExpireBtnClick,
     onCleanBtnClick,
-    onMoveBtnClick,
+    onShiftBtnClick,
     onModifyBtnClick
   } = props;
   return (
@@ -131,7 +137,7 @@ const RenderCabinetDetailInfo = (props, context) => {
                   <CabinetButton
                     action="extend"
                     fontColor="white"
-                    onClick={onEnrollBtnClick}
+                    onClick={onExtendBtnClick}
                   >
                     사물함 연장
                   </CabinetButton>
@@ -145,7 +151,7 @@ const RenderCabinetDetailInfo = (props, context) => {
                   <CabinetButton
                     action="shift"
                     fontColor="white"
-                    onClick={onMoveBtnClick}
+                    onClick={onShiftBtnClick}
                   >
                     사물함 이동
                   </CabinetButton>

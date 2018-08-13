@@ -199,10 +199,8 @@ function registCabinetLog(cabinet_id) {
       }
     }).then(response => {
       if (response.status === 201) {
-        console.log("사물함 로그 성공");
         return true;
       } else {
-        console.log("사물함 로그 실패");
         return false;
       }
     });
@@ -210,13 +208,13 @@ function registCabinetLog(cabinet_id) {
 }
 
 function enrollCabinet() {
-  return function(dispatch, getState) {
+  return async function(dispatch, getState) {
     const {
       user: { token },
       enrollCabinet
     } = getState();
 
-    fetch(`/cabinets/enrollCabinets/`, {
+    await fetch(`/cabinets/enrollCabinets/`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

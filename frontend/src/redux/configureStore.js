@@ -20,6 +20,7 @@ import minimap from "redux/modules/minimap";
 import staff from "redux/modules/staff";
 import staffSeat from "redux/modules/staffSeat";
 import staffCabinet from "redux/modules/staffCabinet";
+import staffCabinetExtend from "redux/modules/staffCabinetExtend";
 
 // 스토어는 여러개의 리듀서를 합칠수 있음
 
@@ -63,7 +64,8 @@ const reducer = combineReducers({
   minimap,
   staff,
   staffSeat,
-  staffCabinet
+  staffCabinet,
+  staffCabinetExtend
 });
 // combineReducer(redux 모듈)을 통해 리듀서를 모두 통합
 //combineReducers는 각 리듀서들을 합쳐주어 global state로 만들어줌

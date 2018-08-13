@@ -6,7 +6,6 @@ import styled from "styled-components";
 
 const CabinetAdminWindow = (props, context) => {
   const { loading, title, closeWindow, content } = props;
-
   return (
     <Container>
       <Overlay>
@@ -68,6 +67,9 @@ const Content = styled.div`
   min-height: 200px;
   overflow: scroll;
   scroll-behavior: smooth;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 `;
 CabinetAdminWindow.propTypes = {};
 
