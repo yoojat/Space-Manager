@@ -7,6 +7,7 @@ import Datetime from "react-datetime";
 import datetime_styles from "react-datetime/css/react-datetime.css";
 import { Element } from "react-scroll";
 import styles from "./styles.scss";
+import Loading from "components/Loading";
 
 const AdminAllocateCabinet = (props, context) => {
   const {
@@ -25,7 +26,8 @@ const AdminAllocateCabinet = (props, context) => {
     sel_end_datetime,
     setEndDatetimeStaffCabinet,
     onConfirmButtonClick,
-    setStartDatetimeStaffCabinet
+    setStartDatetimeStaffCabinet,
+    sel_user
   } = props;
 
   // let moment = require("moment");
@@ -82,82 +84,86 @@ const AdminAllocateCabinet = (props, context) => {
           </SearchedTable>
         </AllocateContent>
         {set_datetime_show ? (
-          <React.Fragment>
-            <AllocateContent>
-              <Element name="startChoice">
-                <SelWhenTitle>
-                  {context.t("이용시작 일시를 선택해 주세요!")}
-                </SelWhenTitle>
-                <Datetime
-                  className={`${datetime_styles.rdt} ${styles.datetime}`}
-                  value={sel_start_datetime}
-                  dateFormat="YYYY MMMM Do"
-                  timeFormat="A hh:mm"
-                  onChange={onStartDatetimeChange}
-                  closeOnSelect={true}
-                />
+          sel_user ? (
+            <React.Fragment>
+              <AllocateContent>
+                <Element name="startChoice">
+                  <SelWhenTitle>
+                    {context.t("이용시작 일시를 선택해 주세요!")}
+                  </SelWhenTitle>
+                  <Datetime
+                    className={`${datetime_styles.rdt} ${styles.datetime}`}
+                    value={sel_start_datetime}
+                    dateFormat="YYYY MMMM Do"
+                    timeFormat="A hh:mm"
+                    onChange={onStartDatetimeChange}
+                    closeOnSelect={true}
+                  />
+                  <ButtonContainer>
+                    <DesingedCalButton
+                      onClick={() => {
+                        setStartDatetimeStaffCabinet(
+                          moment().format("YYYY-MM-DD HH:mm:ss")
+                        );
+                      }}
+                    >
+                      현재 시각
+                    </DesingedCalButton>
+                  </ButtonContainer>
+                </Element>
+              </AllocateContent>
+              <AllocateContent>
+                <Element name="endChoice">
+                  <SelWhenTitle>
+                    {context.t("이용종료 일시를 선택해 주세요!")}
+                  </SelWhenTitle>
+                  <Datetime
+                    className={`${datetime_styles.rdt} ${styles.datetime}`}
+                    value={sel_end_datetime}
+                    dateFormat="YYYY MMMM Do"
+                    timeFormat="A hh:mm"
+                    onChange={onEndDatetimeChange}
+                    closeOnSelect={true}
+                  />
+                </Element>
                 <ButtonContainer>
+                  <CalHourButton
+                    addValues={30}
+                    setFunc={setEndDatetimeStaffCabinet}
+                    targetDatetime={sel_end_datetime}
+                    name="+30일"
+                  />
+                  <CalHourButton
+                    addValues={15}
+                    setFunc={setEndDatetimeStaffCabinet}
+                    targetDatetime={sel_end_datetime}
+                    name="+15일"
+                  />
+                  <CalHourButton
+                    addValues={1}
+                    setFunc={setEndDatetimeStaffCabinet}
+                    targetDatetime={sel_end_datetime}
+                    name="+1일"
+                  />
+                  <CalHourButton
+                    addValues={0.666666666666667}
+                    setFunc={setEndDatetimeStaffCabinet}
+                    targetDatetime={sel_end_datetime}
+                    name="+16시간"
+                  />
                   <DesingedCalButton
                     onClick={() => {
-                      setStartDatetimeStaffCabinet(
-                        moment().format("YYYY-MM-DD HH:mm:ss")
-                      );
+                      setEndDatetimeStaffCabinet(sel_start_datetime);
                     }}
                   >
                     현재 시각
                   </DesingedCalButton>
                 </ButtonContainer>
-              </Element>
-            </AllocateContent>
-            <AllocateContent>
-              <Element name="endChoice">
-                <SelWhenTitle>
-                  {context.t("이용종료 일시를 선택해 주세요!")}
-                </SelWhenTitle>
-                <Datetime
-                  className={`${datetime_styles.rdt} ${styles.datetime}`}
-                  value={sel_end_datetime}
-                  dateFormat="YYYY MMMM Do"
-                  timeFormat="A hh:mm"
-                  onChange={onEndDatetimeChange}
-                  closeOnSelect={true}
-                />
-              </Element>
-              <ButtonContainer>
-                <CalHourButton
-                  addValues={30}
-                  setFunc={setEndDatetimeStaffCabinet}
-                  targetDatetime={sel_end_datetime}
-                  name="+30일"
-                />
-                <CalHourButton
-                  addValues={15}
-                  setFunc={setEndDatetimeStaffCabinet}
-                  targetDatetime={sel_end_datetime}
-                  name="+15일"
-                />
-                <CalHourButton
-                  addValues={1}
-                  setFunc={setEndDatetimeStaffCabinet}
-                  targetDatetime={sel_end_datetime}
-                  name="+1일"
-                />
-                <CalHourButton
-                  addValues={0.666666666666667}
-                  setFunc={setEndDatetimeStaffCabinet}
-                  targetDatetime={sel_end_datetime}
-                  name="+16시간"
-                />
-                <DesingedCalButton
-                  onClick={() => {
-                    setEndDatetimeStaffCabinet(sel_start_datetime);
-                  }}
-                >
-                  현재 시각
-                </DesingedCalButton>
-              </ButtonContainer>
-            </AllocateContent>
-          </React.Fragment>
+              </AllocateContent>
+            </React.Fragment>
+          ) : (
+            <Loading />
+          )
         ) : (
           ""
         )}

@@ -92,6 +92,7 @@ class Container extends Component {
       getCabinetDetail
     } = this.props;
     const cabinets = [sel_cabinet];
+    console.log(sel_user);
 
     //사물함 등록(로그 기록까지))
     await enrollCabinet(
@@ -120,7 +121,8 @@ class Container extends Component {
       sel_start_datetime,
       sel_end_datetime,
       setEndDatetimeStaffCabinet,
-      setStartDatetimeStaffCabinet
+      setStartDatetimeStaffCabinet,
+      sel_user
     } = this.props;
     return (
       <AdminAllocateCabinet
@@ -140,6 +142,7 @@ class Container extends Component {
         setEndDatetimeStaffCabinet={setEndDatetimeStaffCabinet}
         setStartDatetimeStaffCabinet={setStartDatetimeStaffCabinet}
         onConfirmButtonClick={this._onConfirmButtonClick}
+        sel_user={sel_user}
       />
     );
   }

@@ -49,4 +49,7 @@ urlpatterns = [
     url(regex=r'^staff/extend/(?P<cabinet_id>[0-9]+)/$',
         view=views.StaffExtendCabinet.as_view(),
         name='StaffExtendCabinet'),
+    url(regex=r'^staff/expire/(?P<cabinet_id>[0-9]+)/$',
+        view=views.StaffExpireCabinet.as_view(),
+        name='StaffExpireCabinet'),
 ]

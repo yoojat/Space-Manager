@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import CabinetDetailInfo from "./presenter";
 import AdminAllocateCabinet from "components/AdminAllocateCabinet";
 import AdminExtendCabinet from "components/AdminExtendCabinet";
+import AdminExpireCabinet from "components/AdminExpireCabinet";
 
 class Container extends Component {
   state = {
@@ -66,7 +67,13 @@ class Container extends Component {
     await this._setWindowShowTrue();
   };
 
-  _onExpireBtnClick = () => {
+  _onExpireBtnClick = async () => {
+    const { sel_cabinet } = this.props;
+    await this.setState({
+      ...this.state,
+      window_content: <AdminExpireCabinet sel_cabinet={sel_cabinet} />,
+      window_title: "사물함 만료"
+    });
     this._setWindowShowTrue();
 
     console.log("onExpireBtnClick");
