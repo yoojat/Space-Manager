@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import CabinetSetButtonForShiftCabinet from "./presenter";
+import CabinetSetButtonForCabinetStaff from "./presenter";
 
 class Container extends Component {
   state = {};
@@ -23,7 +23,7 @@ class Container extends Component {
   render() {
     const { cabinet_set, temp_cabinet_set, sel_cabinet_set } = this.props;
     return (
-      <CabinetSetButtonForShiftCabinet
+      <CabinetSetButtonForCabinetStaff
         cabinet_set={cabinet_set}
         sel_cabinet_set={sel_cabinet_set}
         temp_cabinet_set={temp_cabinet_set}

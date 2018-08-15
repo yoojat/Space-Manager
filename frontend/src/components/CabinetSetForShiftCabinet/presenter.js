@@ -2,17 +2,23 @@ import React from "react";
 import PropTypes from "prop-types";
 import styles from "./styles.scss";
 
-const CabinetSetButtonForShiftCabinet = (props, context) => {
+const CabinetSetForShiftCabinet = (props, context) => {
   const {
     cabinet_set,
-    temp_cabinet_set,
+    cabinetSetClickHandler,
     sel_cabinet_set,
+    temp_cabinet_set,
     onMouseEnterCabinetSetButton,
-    onMouseLeaveCabinetSetButton,
-    onClickCabinetSetButton
+    onMouseLeaveCabinetSetButton
   } = props;
+  const css = {
+    width: `${cabinet_set.width}%`,
+    height: `${cabinet_set.height}%`,
+    left: `${cabinet_set.xpos}%`,
+    top: `${cabinet_set.ypos}%`
+  };
 
-  let classes = styles.cabinetsetButton;
+  let classes = styles.cabinetSet;
 
   if (temp_cabinet_set) {
     classes =
@@ -28,20 +34,19 @@ const CabinetSetButtonForShiftCabinet = (props, context) => {
 
   return (
     <div
+      style={css}
       className={classes}
+      onClick={cabinetSetClickHandler}
       onMouseEnter={onMouseEnterCabinetSetButton}
       onMouseLeave={onMouseLeaveCabinetSetButton}
-      onClick={onClickCabinetSetButton}
-    >
-      <div className={styles.content}>{cabinet_set.desc}</div>
-    </div>
+    />
   );
 };
 
-CabinetSetButtonForShiftCabinet.propTypes = {};
+CabinetSetForShiftCabinet.propTypes = {};
 
-CabinetSetButtonForShiftCabinet.contextTypes = {
+CabinetSetForShiftCabinet.contextTypes = {
   t: PropTypes.func.isRequired
 };
 
-export default CabinetSetButtonForShiftCabinet;
+export default CabinetSetForShiftCabinet;

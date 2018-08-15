@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import SelectCabinetForCabinetStaff from "./presenter";
+import SelectCabinetForShiftCabinet from "./presenter";
 import { scroller } from "react-scroll";
 
 class Container extends Component {
@@ -12,7 +12,7 @@ class Container extends Component {
   componentDidMount() {
     const { sel_branch } = this.props;
     if (!this.state.loading) {
-      scroller.scrollTo("SelectCabinetForCabinetStaff", {
+      scroller.scrollTo("SelectCabinetForShiftCabinet", {
         duration: 1500,
         delay: 100,
         smooth: true,
@@ -48,7 +48,7 @@ class Container extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (!this.state.loading && this.state.scroll_first) {
-      scroller.scrollTo("SelectCabinetForCabinetStaff", {
+      scroller.scrollTo("SelectCabinetForShiftCabinet", {
         duraeion: 1500,
         delay: 100,
         smooth: true,
@@ -59,14 +59,13 @@ class Container extends Component {
   }
 
   render() {
-    const { sel_branch, sel_cabinet_set, show_cabinets } = this.props;
+    const { sel_branch, sel_cabinet_set } = this.props;
     return (
-      <SelectCabinetForCabinetStaff
+      <SelectCabinetForShiftCabinet
         sel_branch={sel_branch}
         loading={this.state.loading}
         sel_cabinet_set={sel_cabinet_set}
         cabinet_list_is_first={this.state.cabinet_list_is_first}
-        show_cabinets={show_cabinets}
       />
     );
   }

@@ -3,6 +3,8 @@ import CabinetDetailInfo from "./presenter";
 import AdminAllocateCabinet from "components/AdminAllocateCabinet";
 import AdminExtendCabinet from "components/AdminExtendCabinet";
 import AdminExpireCabinet from "components/AdminExpireCabinet";
+import AdminCleanCabinet from "components/AdminCleanCabinet";
+import AdminShiftCabinet from "components/AdminShiftCabinet";
 
 class Container extends Component {
   state = {
@@ -75,17 +77,25 @@ class Container extends Component {
       window_title: "사물함 만료"
     });
     this._setWindowShowTrue();
-
-    console.log("onExpireBtnClick");
   };
 
-  _onCleanBtnClick = () => {
+  _onCleanBtnClick = async () => {
+    const { sel_cabinet } = this.props;
+    await this.setState({
+      ...this.state,
+      window_content: <AdminCleanCabinet sel_cabinet={sel_cabinet} />,
+      window_title: "사물함 정리"
+    });
     this._setWindowShowTrue();
-
-    console.log("onCleanBtnClick");
   };
 
-  _onShiftBtnClick = () => {
+  _onShiftBtnClick = async () => {
+    const { sel_cabinet } = this.props;
+    await this.setState({
+      ...this.state,
+      window_content: <AdminShiftCabinet sel_cabinet={sel_cabinet} />,
+      window_title: "사물함 이동"
+    });
     this._setWindowShowTrue();
 
     console.log("onMoveClick");

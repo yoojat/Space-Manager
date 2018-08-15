@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styles from "./styles.scss";
 
-const CabinetSetButtonForShiftCabinet = (props, context) => {
+const CabinetSetButtonForCabinetStaff = (props, context) => {
   const {
     cabinet_set,
     temp_cabinet_set,
@@ -38,10 +38,10 @@ const CabinetSetButtonForShiftCabinet = (props, context) => {
   );
 };
 
-CabinetSetButtonForShiftCabinet.propTypes = {};
+CabinetSetButtonForCabinetStaff.propTypes = {};
 
-CabinetSetButtonForShiftCabinet.contextTypes = {
+CabinetSetButtonForCabinetStaff.contextTypes = {
   t: PropTypes.func.isRequired
 };
 
-export default CabinetSetButtonForShiftCabinet;
+export default CabinetSetButtonForCabinetStaff;

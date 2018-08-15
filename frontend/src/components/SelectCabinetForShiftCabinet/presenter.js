@@ -1,24 +1,18 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import styles from "./styles.scss";
-import CabinetSetForCabinetStaff from "components/CabinetSetForCabinetStaff";
+import CabinetSetForShiftCabinet from "components/CabinetSetForShiftCabinet";
 import Loading from "components/Loading";
-import CabinetChoiceForStaffCabinet from "components/CabinetChoiceForStaffCabinet";
-import CabinetSetButtonForCabinetStaff from "components/CabinetSetButtonForCabinetStaff";
+import CabinetChoiceForCabinetShift from "components/CabinetChoiceForCabinetShift";
+import CabinetSetButtonShiftCabinet from "components/CabinetSetButtonShiftCabinet";
 import { Element } from "react-scroll";
 
-const SelectCabinetForCabinetStaff = (props, context) => {
-  const {
-    sel_branch,
-    loading,
-    sel_cabinet_set,
-    cabinet_list_is_first,
-    show_cabinets
-  } = props;
+const SelectCabinetForShiftCabinet = (props, context) => {
+  const { sel_branch, loading, sel_cabinet_set, cabinet_list_is_first } = props;
   return loading ? (
     <Loading />
   ) : (
-    <Element name="SelectCabinetForCabinetStaff">
+    <Element name="SelectCabinetForShiftCabinet">
       <div className={styles.selectCabinetContainer}>
         <div>
           <div className={styles.cabinetSelectTitle}>
@@ -32,7 +26,7 @@ const SelectCabinetForCabinetStaff = (props, context) => {
               alt="사물함 위치도"
             />
             {sel_branch.cabinet_sets.map(cabinet_set => (
-              <CabinetSetForCabinetStaff
+              <CabinetSetForShiftCabinet
                 cabinet_set={cabinet_set}
                 key={cabinet_set.id}
                 id={cabinet_set.id}
@@ -41,35 +35,23 @@ const SelectCabinetForCabinetStaff = (props, context) => {
           </div>
           <div className={styles.buttonContainer}>
             {sel_branch.cabinet_sets.map(cabinet_set => (
-              <CabinetSetButtonForCabinetStaff
+              <CabinetSetButtonShiftCabinet
                 cabinet_set={cabinet_set}
                 key={cabinet_set.id}
               />
             ))}
           </div>
-          {/* {show_cabinets ? (
-            sel_cabinet_set ? (
-              <Fragment>
-                <CabinetChoiceForStaffCabinet />
-              </Fragment>
-            ) : cabinet_list_is_first ? (
-              ""
-            ) : (
-              <div className={styles.loadingContainer}>
-                <Loading />
-              </div>
-            )
-          ) : (
-            <Loading />
-          )} */}
-          {show_cabinets ? (
+
+          {sel_cabinet_set ? (
             <Fragment>
-              <CabinetChoiceForStaffCabinet />
+              <CabinetChoiceForCabinetShift />
             </Fragment>
           ) : cabinet_list_is_first ? (
             ""
           ) : (
-            <div className={styles.loadingContainer}>loading</div>
+            <div className={styles.loadingContainer}>
+              <Loading />
+            </div>
           )}
         </div>
       </div>
@@ -77,10 +59,10 @@ const SelectCabinetForCabinetStaff = (props, context) => {
   );
 };
 
-SelectCabinetForCabinetStaff.propTypes = {};
+SelectCabinetForShiftCabinet.propTypes = {};
 
-SelectCabinetForCabinetStaff.contextTypes = {
+SelectCabinetForShiftCabinet.contextTypes = {
   t: PropTypes.func.isRequired
 };
 
-export default SelectCabinetForCabinetStaff;
+export default SelectCabinetForShiftCabinet;

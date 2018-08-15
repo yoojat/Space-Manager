@@ -1,0 +1,17 @@
+.cabinet-set {
+  position: absolute;
+  cursor: pointer;
+  background-color: #374bab;
+  transition: all 0.3s;
+  &:hover {
+    background-color: pink;
+  }
+  &.temp-selected {
+    background-color: orange;
+    color: black;
+  }
+  &.selected {
+    background-color: #57b209;
+    color: white;
+  }
+}

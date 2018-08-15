@@ -65,6 +65,7 @@ const CloseButton = styled.span`
 
 const Content = styled.div`
   min-height: 200px;
+  max-height: 500px;
   overflow: scroll;
   scroll-behavior: smooth;
   max-width: 600px;

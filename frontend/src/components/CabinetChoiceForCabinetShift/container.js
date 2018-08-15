@@ -1,30 +1,25 @@
 import React, { Component } from "react";
-import CabinetChoiceForStaffCabinet from "./presenter";
+import CabinetChoiceForCabinetShift from "./presenter";
 import { scroller } from "react-scroll";
 
 class Container extends Component {
   state = { loading: true, is_first: true };
 
-  _onCabinetClick = sel_cabinet => {
-    const { setSelCabinetStaffCabinet } = this.props;
-    setSelCabinetStaffCabinet(sel_cabinet);
+  _onCabinetClick = target_cabinet => {
+    const { setTargetCabinetForStaffShiftCabinet } = this.props;
+    setTargetCabinetForStaffShiftCabinet(target_cabinet);
   };
 
   componentWillReceiveProps(nextProps) {
-    const { sel_cabinet_set } = nextProps;
+    const { my_cabinets, sel_cabinet_set } = nextProps;
 
-    if (sel_cabinet_set) {
+    if (sel_cabinet_set && my_cabinets) {
       if (this.state.loading) {
         this.setState({
           ...this.state,
           loading: false
         });
       }
-    } else {
-      this.setState({
-        ...this.state,
-        loading: true
-      });
     }
   }
 
@@ -39,14 +34,9 @@ class Container extends Component {
         ...this.state,
         loading: false
       });
-    } else {
-      this.setState({
-        ...this.state,
-        loading: true
-      });
     }
     if (scroll_first) {
-      scroller.scrollTo("CabinetChoiceForStaffCabinet", {
+      scroller.scrollTo("CabinetChoiceForCabinetShift", {
         duration: 1500,
         delay: 100,
         smooth: true,
@@ -57,13 +47,13 @@ class Container extends Component {
   }
 
   render() {
-    const { sel_cabinet_set, sel_cabinet } = this.props;
+    const { sel_cabinet_set, target_cabinet } = this.props;
     return (
-      <CabinetChoiceForStaffCabinet
+      <CabinetChoiceForCabinetShift
         sel_cabinet_set={sel_cabinet_set}
         loading={this.state.loading}
         onCabinetClick={this._onCabinetClick}
-        sel_cabinet={sel_cabinet}
+        target_cabinet={target_cabinet}
       />
     );
   }

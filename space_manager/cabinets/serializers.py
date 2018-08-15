@@ -11,7 +11,10 @@ class BriefCabinetSetSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.CabinetSet
-        fields = ('branch', )
+        fields = (
+            'branch',
+            'id',
+        )
 
 
 class CabinetSerializerForSelect(serializers.ModelSerializer):

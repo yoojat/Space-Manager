@@ -9,6 +9,100 @@ from space_manager.payment import serializers as payment_serializers
 from django.utils.datastructures import MultiValueDictKeyError
 from datetime import datetime, timedelta
 
+class StaffShiftCabinet(APIView):
+    def post(self, request, format=None):
+        target_cabinet_id = request.data['target_cabinet_id']
+        before_cabinet_id = request.data['before_cabinet_id']
+
+        # 기존 사물함 정리 완료로 변경
+        try:
+            before_cabinet_obj = models.Cabinet.objects.get(id=before_cabinet_id)
+            target_cabinet_obj = models.Cabinet.objects.get(id=target_cabinet_id)
+
+        except models.Cabinet.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        target_cabinet_obj.start_date = datetime.now()
+        target_cabinet_obj.end_date = before_cabinet_obj.end_date
+        target_cabinet_obj.user = before_cabinet_obj.user
+        target_cabinet_obj.is_clean = False
+
+        before_cabinet_obj.is_clean = True
+        before_cabinet_obj.end_date = datetime.now()
+
+        before_cabinet_obj.save()
+        target_cabinet_obj.save()
+
+
+        serializer = serializers.CabinetSerializerForSelect(target_cabinet_obj)
+
+        try:
+            before_cabinet_action = models.CabinetAction.objects.get(substance='clean')
+            target_cabinet_action = models.CabinetAction.objects.get(substance='shift')
+        
+        except models.CabinetAction.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        before_cabinet_log = models.CabinetHistory.objects.create(
+            user=before_cabinet_obj.user,
+            cabinet=before_cabinet_obj,
+            start_date=before_cabinet_obj.start_date,
+            end_date=before_cabinet_obj.end_date,
+            cabinet_action=before_cabinet_action)    
+
+
+        target_cabinet_log = models.CabinetHistory.objects.create(
+            user=target_cabinet_obj.user,
+            cabinet=target_cabinet_obj,
+            start_date=target_cabinet_obj.start_date,
+            end_date=target_cabinet_obj.end_date,
+            cabinet_action=target_cabinet_action            
+        )
+
+        before_cabinet_log.save()
+        target_cabinet_log.save()
+
+        return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+
+
+
+
+class StaffCleanCabinet(APIView):
+    def put(self, request, cabinet_id, format=None):
+
+        try:
+            target_cabinet_obj = models.Cabinet.objects.get(id=cabinet_id)
+            target_cabinet_obj.is_clean = True
+            target_cabinet_obj.save()
+
+            serializer = serializers.CabinetSerializerForSelect(
+                target_cabinet_obj)
+
+        except models.Cabinet.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        try:
+            cabinet = models.Cabinet.objects.get(id=cabinet_id)
+            user = cabinet.user
+            start_date = cabinet.start_date
+            end_date = cabinet.end_date
+            cabinet_action = models.CabinetAction.objects.get(
+                substance='clean')
+
+            new_cabinet_log = models.CabinetHistory.objects.create(
+                user=user,
+                cabinet=cabinet,
+                start_date=start_date,
+                end_date=end_date,
+                cabinet_action=cabinet_action)
+
+            new_cabinet_log.save()
+
+        except models.Cabinet.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        return Response(data=serializer.data, status=status.HTTP_202_ACCEPTED)
+
 
 class StaffExpireCabinet(APIView):
     def put(self, request, cabinet_id, format=None):
@@ -45,6 +139,7 @@ class StaffExpireCabinet(APIView):
             return Response(status=status.HTTP_404_NOT_FOUND)
 
         return Response(data=serializer.data, status=status.HTTP_202_ACCEPTED)
+
 
 class StaffExtendCabinet(APIView):
     def put(self, request, cabinet_id, format=None):

@@ -24,8 +24,17 @@ const SET_END_DATETIME_STAFF_CABINET = "SET_END_DATETIME_STAFF_CABINET";
 const SET_INIT_AFTER_REGIST = "SET_INIT_AFTER_REGIST";
 const SET_WINDOW_SHOW_TRUE = "SET_WINDOW_SHOW_TRUE";
 const SET_WINDOW_SHOW_FALSE = "SET_WINDOW_SHOW_FALSE";
+const SET_CABINET_SHOW_TRUE_STAFF_CABINET =
+  "SET_CABINET_SHOW_TRUE_STAFF_CABINET";
 
 //action creators : 리덕스 state를 변경
+
+function setCabinetShowTrueStaffCabinet() {
+  return {
+    type: SET_CABINET_SHOW_TRUE_STAFF_CABINET
+  };
+}
+
 function setWindowShowTrue() {
   return {
     type: SET_WINDOW_SHOW_TRUE
@@ -244,6 +253,7 @@ function getSelBranch(branchId) {
 function fetchSelCabinetSet(cabinet_set_id) {
   return function(dispatch, getState) {
     dispatch(clearCabinetSet());
+    dispatch(setCabinetShowTrueStaffCabinet());
 
     const {
       user: { token, isLoggedIn }
@@ -258,7 +268,6 @@ function fetchSelCabinetSet(cabinet_set_id) {
         .then(response => response.json())
         .then(json => {
           dispatch(setSelCabinetSet(json));
-          console.log(json);
         });
     }
   };
@@ -356,7 +365,8 @@ const initialState = {
   searched_members: null,
   sel_start_datetime: null,
   sel_end_datetime: null,
-  window_show: false
+  window_show: false,
+  show_cabinets: false
 };
 
 //reducer
@@ -415,11 +425,21 @@ function reducer(state = initialState, action) {
 
     case SET_WINDOW_SHOW_FALSE:
       return applysetWindowShowFalse(state, action);
+
+    case SET_CABINET_SHOW_TRUE_STAFF_CABINET:
+      return applySetCabinetShowTrueStaffCabinet(state, action);
     default:
       return state;
   }
 }
 //reducer functions
+
+function applySetCabinetShowTrueStaffCabinet(state, action) {
+  return {
+    ...state,
+    show_cabinets: true
+  };
+}
 
 function applysetWindowShowTrue(state, action) {
   return {
@@ -578,7 +598,8 @@ const actionCreators = {
   setInitAfterRegist,
   setWindowShowTrue,
   setWindowShowFalse,
-  fetchSelCabinet
+  fetchSelCabinet,
+  setCabinetShowTrueStaffCabinet
 };
 
 export { actionCreators };

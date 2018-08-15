@@ -52,4 +52,10 @@ urlpatterns = [
     url(regex=r'^staff/expire/(?P<cabinet_id>[0-9]+)/$',
         view=views.StaffExpireCabinet.as_view(),
         name='StaffExpireCabinet'),
+    url(regex=r'^staff/clean/(?P<cabinet_id>[0-9]+)/$',
+        view=views.StaffCleanCabinet.as_view(),
+        name='StaffCleanCabinet'),
+    url(regex=r'^staff/shift/$',
+        view=views.StaffShiftCabinet.as_view(),
+        name='StaffShiftCabinet'),
 ]
