@@ -108,7 +108,8 @@ class CabinetLock(models.Model):
         branch_models.Branch, null=True, related_name='cabinet_locks')
     lock_number = models.IntegerField(null=True)
     lock_password = models.CharField(max_length=45, null=True)
-    cabinet = models.ForeignKey(Cabinet, null=True, blank=True)
+    cabinet = models.OneToOneField(
+        Cabinet, null=True, blank=True, related_name='cabinet_lock')
 
     def __str__(self):
         return '{}({}) - {}번 자물쇠'.format(

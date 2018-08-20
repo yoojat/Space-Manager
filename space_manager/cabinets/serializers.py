@@ -138,9 +138,10 @@ class CabLockSerializer(serializers.ModelSerializer):
 class CabinetDetailSerializer(serializers.ModelSerializer):
     cabinet_historys = HistorySerializer(many=True)
     user = user_serializers.UserSerializer()
+    cabinet_lock = CabLockSerializer()
 
     class Meta:
         model = models.Cabinet
         fields = ('id', 'cabinet_number', 'cabinet_set', 'xpos', 'ypos',
                   'updated_at', 'start_date', 'end_date', 'cabinet_historys',
-                  'user')
+                  'user', 'cabinet_lock')

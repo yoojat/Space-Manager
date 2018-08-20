@@ -58,4 +58,7 @@ urlpatterns = [
     url(regex=r'^staff/shift/$',
         view=views.StaffShiftCabinet.as_view(),
         name='StaffShiftCabinet'),
+    url(regex=r'^staff/modify/$',
+        view=views.ModifyCabinet.as_view(),
+        name='ModifyCabinet'),
 ]

@@ -5,6 +5,7 @@ import AdminExtendCabinet from "components/AdminExtendCabinet";
 import AdminExpireCabinet from "components/AdminExpireCabinet";
 import AdminCleanCabinet from "components/AdminCleanCabinet";
 import AdminShiftCabinet from "components/AdminShiftCabinet";
+import AdminModifyCabinet from "components/AdminModifyCabinet";
 
 class Container extends Component {
   state = {
@@ -97,14 +98,17 @@ class Container extends Component {
       window_title: "사물함 이동"
     });
     this._setWindowShowTrue();
-
-    console.log("onMoveClick");
   };
 
-  _onModifyBtnClick = () => {
-    this._setWindowShowTrue();
+  _onModifyBtnClick = async () => {
+    const { sel_cabinet } = this.props;
 
-    console.log("onModifyClick");
+    await this.setState({
+      ...this.state,
+      window_content: <AdminModifyCabinet sel_cabinet={sel_cabinet} />,
+      window_title: "사물함 기간 수정"
+    });
+    this._setWindowShowTrue();
   };
 
   _close_func = () => {

@@ -24,6 +24,7 @@ import staffCabinetExtend from "redux/modules/staffCabinetExtend";
 import staffCabinetExpire from "redux/modules/staffCabinetExpire";
 import staffCabinetClean from "redux/modules/staffCabinetClean";
 import staffCabinetShift from "redux/modules/staffCabinetShift";
+import staffCabinetModify from "redux/modules/staffCabinetModify";
 
 // 스토어는 여러개의 리듀서를 합칠수 있음
 
@@ -71,7 +72,8 @@ const reducer = combineReducers({
   staffCabinetExtend,
   staffCabinetExpire,
   staffCabinetClean,
-  staffCabinetShift
+  staffCabinetShift,
+  staffCabinetModify
 });
 // combineReducer(redux 모듈)을 통해 리듀서를 모두 통합
 //combineReducers는 각 리듀서들을 합쳐주어 global state로 만들어줌

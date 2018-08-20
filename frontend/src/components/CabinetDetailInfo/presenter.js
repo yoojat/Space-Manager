@@ -74,7 +74,18 @@ const RenderCabinetDetailInfo = (props, context) => {
     <React.Fragment>
       <CabinetDetailInfoContainer>
         <NowUserInfoContainer>
-          <CabinetDetailInfoTitle>현재 이용자 정보</CabinetDetailInfoTitle>
+          <CabinetDetailInfoTitle>
+            현재 이용자 정보
+            <CabinetLockInfo>
+              {sel_cabinet_detail.cabinet_lock
+                ? `자물쇠 번호 : ${
+                    sel_cabinet_detail.cabinet_lock.lock_number
+                  } / 비밀번호 : ${
+                    sel_cabinet_detail.cabinet_lock.lock_password
+                  }`
+                : "자물쇠 정보가 없습니다"}
+            </CabinetLockInfo>
+          </CabinetDetailInfoTitle>
 
           {!sel_cabinet.is_clean ? (
             <React.Fragment>
@@ -255,6 +266,12 @@ const LogDataList = (props, context) => (
     </LogRightCol>
   </LogRow>
 );
+
+const CabinetLockInfo = styled.div`
+  color: #1e90ff;
+  font-size: 11px;
+  padding-top: 10px;
+`;
 
 const CabinetDetailInfoTitle = styled.div`
   ${breakpoint("mobile")`

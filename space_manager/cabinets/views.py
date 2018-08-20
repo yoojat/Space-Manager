@@ -9,6 +9,46 @@ from space_manager.payment import serializers as payment_serializers
 from django.utils.datastructures import MultiValueDictKeyError
 from datetime import datetime, timedelta
 
+
+class ModifyCabinet(APIView):
+    def put(self, request, format=None):
+        target_cabinet_id = request.data['target_cabinet_id']
+        sel_start_datetime = datetime.strptime(request.data['start_datetime'], '%Y-%m-%d %H:%M:%S')
+        sel_end_datetime = datetime.strptime(request.data['end_datetime'], '%Y-%m-%d %H:%M:%S')
+
+        try:
+            target_cabinet_obj = models.Cabinet.objects.get(id=target_cabinet_id)
+
+        except models.Cabinet.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        target_cabinet_obj.start_date = sel_start_datetime
+        target_cabinet_obj.end_date = sel_end_datetime
+
+        target_cabinet_obj.save()
+
+        serializer = serializers.CabinetSerializerForSelect(target_cabinet_obj)
+
+        try:
+            target_cabinet_action = models.CabinetAction.objects.get(substance='modify')
+        
+        except models.CabinetAction.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        target_cabinet_log = models.CabinetHistory.objects.create(
+            user=target_cabinet_obj.user,
+            cabinet=target_cabinet_obj,
+            start_date=target_cabinet_obj.start_date,
+            end_date=target_cabinet_obj.end_date,
+            cabinet_action=target_cabinet_action            
+        )
+
+        target_cabinet_log.save()
+
+        return Response(data=serializer.data, status=status.HTTP_202_ACCEPTED)
+
+
+
 class StaffShiftCabinet(APIView):
     def post(self, request, format=None):
         target_cabinet_id = request.data['target_cabinet_id']
