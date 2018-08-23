@@ -4,6 +4,7 @@ import styles from "./styles.scss";
 import MemberAdmin from "components/MemberAdmin";
 import SeatAdmin from "components/SeatAdmin";
 import CabinetAdmin from "components/CabinetAdmin";
+import CabLockAdmin from "components/CabLockAdmin";
 
 const Staff = (props, context) => {
   const { onPageButtonClick, now_page } = props;
@@ -44,7 +45,7 @@ const Staff = (props, context) => {
       {now_page === "memberAdmin" ? <MemberAdmin /> : ""}
       {now_page === "seatAdmin" ? <SeatAdmin /> : ""}
       {now_page === "cabinetAdmin" ? <CabinetAdmin /> : ""}
-      {now_page === "cablockAdmin" ? "cablockAdmin" : ""}
+      {now_page === "cablockAdmin" ? <CabLockAdmin /> : ""}
     </div>
   );
 };

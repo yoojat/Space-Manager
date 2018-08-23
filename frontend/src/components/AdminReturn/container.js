@@ -39,12 +39,9 @@ class Container extends Component {
   _onYesClick = () => {
     const { superReturnSeat, sel_seat_for_seat_man } = this.props;
     superReturnSeat(sel_seat_for_seat_man.id);
-    console.log("yes");
   };
 
-  _onNoClick = () => {
-    console.log("no");
-  };
+  _onNoClick = () => {};
 
   render() {
     const { sel_seat_for_seat_man, sel_user_for_seat_man } = this.props;

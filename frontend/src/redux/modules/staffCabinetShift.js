@@ -133,7 +133,6 @@ function shiftCabinet() {
         dispatch(staffCabinetActions.fetchSelCabinetSet(json.cabinet_set.id));
         dispatch(staffCabinetActions.fetchSelCabinet(json.id));
         dispatch(staffCabinetActions.getCabinetDetail(json.id));
-        console.log("성공", json);
       });
   };
 }

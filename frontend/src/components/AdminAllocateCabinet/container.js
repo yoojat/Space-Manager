@@ -92,7 +92,6 @@ class Container extends Component {
       getCabinetDetail
     } = this.props;
     const cabinets = [sel_cabinet];
-    console.log(sel_user);
 
     //사물함 등록(로그 기록까지))
     await enrollCabinet(

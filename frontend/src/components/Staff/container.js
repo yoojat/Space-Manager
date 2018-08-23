@@ -8,9 +8,7 @@ class Container extends Component {
 
   _onPageButtonClick = e => {
     const children = e.target.parentElement.childNodes;
-    console.log(children);
     children.forEach(child => {
-      console.log(child);
       child.style.color = "inherit";
     });
     e.target.style.color = "#007fff";

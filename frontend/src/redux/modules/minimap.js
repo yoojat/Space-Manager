@@ -28,7 +28,6 @@ function getMinimapBranch() {
     })
       .then(response => {
         if (response.status === 401) {
-          console.log(1);
           dispatch(userActions.logout());
         }
         return response.json();
