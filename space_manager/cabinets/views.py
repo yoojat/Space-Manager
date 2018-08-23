@@ -9,6 +9,67 @@ from space_manager.payment import serializers as payment_serializers
 from django.utils.datastructures import MultiValueDictKeyError
 from datetime import datetime, timedelta
 
+class GetCabinetLockByID(APIView):
+    def get(self, request, lock_id, format=None):
+        found_cab_lock = models.CabinetLock.objects.get(id=lock_id)
+        
+        if found_cab_lock is None:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = serializers.CabLockSerializer(found_cab_lock)
+        
+        return Response(data=serializer.data, status=status.HTTP_200_OK)       
+
+class DeleteCabinetLock(APIView):
+    def delete(self, request, lock_id, format=None):
+        found_cab_lock = models.CabinetLock.objects.get(id=lock_id)
+        
+        if found_cab_lock is None:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        found_cab_lock.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class GetCabinetLock(APIView):
+    def get(self, request, cabinet_id, format=None):
+
+        found_cablock =models.CabinetLock.objects.filter(cabinet__id=cabinet_id)
+        serialzier = serializers.CabLockSerializer(found_cablock, many=True)
+        return Response(data=serialzier.data, status=status.HTTP_200_OK)
+
+class CabinetsByBranch(APIView):
+    def get(self, request, branch_id,format=None):
+        cabinets = models.Cabinet.objects.filter(cabinet_set__branch__id=branch_id)
+        serializer = serializers.SimpleCabinetSerilaizer(cabinets, many=True)
+
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+        
+
+class AddCabinetLock(APIView):
+    def post(self, request, format=None):
+        branch_id = request.data['branch_id']
+        cabinet_id =request.data['cabinet_id']
+
+        lock_number = request.data['lock_number']
+        password = request.data['password']
+        branch = branch_models.Branch.objects.get(id=branch_id)
+        cabinet = models.Cabinet.objects.get(id=cabinet_id)
+
+
+
+        new_cabinet_lock = models.CabinetLock.objects.create(
+            branch = branch,
+            lock_number = lock_number,
+            lock_password=password,
+            cabinet=cabinet
+        )
+        new_cabinet_lock.save()
+        serializer = serializers.CabLockSerializer(new_cabinet_lock)
+        
+        return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+
 
 class ModifyCabinet(APIView):
     def put(self, request, format=None):

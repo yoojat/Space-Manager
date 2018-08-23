@@ -6,6 +6,12 @@ from space_manager.branches import models as branch_models
 from space_manager.users import serializers as user_serializers
 
 
+class SimpleCabinetSerilaizer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Cabinet
+        fields = ('cabinet_number', 'id')
+
+
 class BriefCabinetSetSerializer(serializers.ModelSerializer):
     branch = branch_serializers.BranchForMembershipSerializer()
 
@@ -124,10 +130,20 @@ class InputCabLockSerializer(serializers.ModelSerializer):
         )
 
 
+class CabinetSerializerForCablock(serializers.ModelSerializer):
+    class Meta:
+        model = models.Cabinet
+        fields = ('cabinet_number', )
+
+
 class CabLockSerializer(serializers.ModelSerializer):
+
+    cabinet = CabinetSerializerForCablock()
+
     class Meta:
         model = models.CabinetLock
         fields = (
+            'id',
             'branch',
             'lock_number',
             'lock_password',
