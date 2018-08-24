@@ -59,7 +59,7 @@ X_FRAME_OPTIONS = 'DENY'
 # See https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = env.list(
     'DJANGO_ALLOWED_HOSTS', default=[
-        'space.co',
+        'spacemanager.ap-northeast-2.elasticbeanstalk.com',
     ])
 # END SITE CONFIGURATION
 
