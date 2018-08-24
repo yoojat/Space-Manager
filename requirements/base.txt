@@ -48,3 +48,7 @@ redis>=2.10.5
 
 
 # Your custom requirements go here
+djangorestframework-jwt==1.11.0
+djangorestframework==3.8.2
+django-rest-auth==0.9.3
+django-cors-headers==2.3.0
