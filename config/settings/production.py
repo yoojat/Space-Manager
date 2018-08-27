@@ -57,7 +57,9 @@ X_FRAME_OPTIONS = 'DENY'
 # ------------------------------------------------------------------------------
 # Hosts/domain names that are valid for this site
 # See https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=['13.125.29.218'])
+ALLOWED_HOSTS = env.list(
+    'DJANGO_ALLOWED_HOSTS',
+    default=['spacemanager.ap-northeast-2.elasticbeanstalk.com'])
 # END SITE CONFIGURATION
 
 INSTALLED_APPS += [
