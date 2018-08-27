@@ -148,7 +148,7 @@ TEMPLATES[0]['OPTIONS']['loaders'] = [
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psy',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': env('RDS_DB_NAME'),
         'USER': env('RDS_DB_USERNAME'),
         'PASSWORD': env('RDS_DB_PASSWORD'),
