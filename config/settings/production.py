@@ -57,10 +57,7 @@ X_FRAME_OPTIONS = 'DENY'
 # ------------------------------------------------------------------------------
 # Hosts/domain names that are valid for this site
 # See https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = env.list(
-    'DJANGO_ALLOWED_HOSTS', default=[
-        'spacemanager.ap-northeast-2.elasticbeanstalk.com','13.125.29.218'
-    ])
+ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=['13.125.29.218'])
 # END SITE CONFIGURATION
 
 INSTALLED_APPS += [
@@ -156,7 +153,7 @@ REDIS_LOCATION = '{0}/{1}'.format(
     env('REDIS_URL', default='redis://127.0.0.1:6379'), 0)
 # Heroku URL does not pass the DB number, so we parse it in
 CACHES = {
-    'default': { 87898790
+    'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
         'LOCATION': REDIS_LOCATION,
         'OPTIONS': {
