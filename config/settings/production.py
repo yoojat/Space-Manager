@@ -59,7 +59,7 @@ MIDDLEWARE = RAVEN_MIDDLEWARE + MIDDLEWARE
 # See https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = env.list(
     'DJANGO_ALLOWED_HOSTS',
-    default=['spacemanager.ap-northeast-2.elasticbeanstalk.com'])
+    default=['spacemanager.ap-northeast-2.elasticbeanstalk.com', 'localhost'])
 # END SITE CONFIGURATION
 
 INSTALLED_APPS += [
